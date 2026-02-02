@@ -33,7 +33,7 @@ const ContactSection = () => {
   const whatsappMessage = encodeURIComponent(
     `Olá! Meu nome é ${formData.name}. Empresa: ${formData.company}. Tenho interesse em: ${formData.service}. ${formData.message}`
   );
-  const whatsappLink = `https://wa.me/5511999999999?text=${whatsappMessage}`;
+  const whatsappLink = `https://wa.me/554732096098?text=${whatsappMessage}`;
 
   return (
     <section id="contato" className="section-padding relative overflow-hidden">
@@ -58,7 +58,7 @@ const ContactSection = () => {
 
             {/* WhatsApp shortcut */}
             <a
-              href="https://wa.me/5511999999999?text=Olá! Gostaria de saber mais sobre os serviços da Racun."
+              href="https://wa.me/554732096098?text=Olá! Gostaria de saber mais sobre os serviços da Racun."
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-3 p-4 rounded-xl bg-[#25D366]/10 border border-[#25D366]/20 text-[#25D366] hover:bg-[#25D366]/20 transition-colors"
@@ -66,7 +66,7 @@ const ContactSection = () => {
               <MessageCircle className="w-6 h-6" />
               <div>
                 <p className="font-medium">Falar pelo WhatsApp</p>
-                <p className="text-sm opacity-80">(11) 99999 9999</p>
+                <p className="text-sm opacity-80">(47) 3209-6098</p>
               </div>
             </a>
           </div>
