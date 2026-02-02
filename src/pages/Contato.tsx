@@ -38,7 +38,7 @@ const Contato = () => {
   const whatsappMessage = encodeURIComponent(
     `Olá! Meu nome é ${formData.name}. Empresa: ${formData.company}. Tenho interesse em: ${formData.service}. ${formData.message}`
   );
-  const whatsappLink = `https://wa.me/5511999999999?text=${whatsappMessage}`;
+  const whatsappLink = `https://wa.me/554732096098?text=${whatsappMessage}`;
 
   return (
     <div className="min-h-screen bg-background">
@@ -83,7 +83,7 @@ const Contato = () => {
                   </a>
 
                   <a
-                    href="tel:+5511999999999"
+                    href="tel:+554732096098"
                     className="flex items-center gap-4 p-4 rounded-xl bg-white/5 border border-white/10 hover:border-primary/30 transition-colors"
                   >
                     <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
@@ -91,7 +91,7 @@ const Contato = () => {
                     </div>
                     <div>
                       <p className="text-sm text-muted-foreground">Telefone</p>
-                      <p className="font-medium">(11) 99999 9999</p>
+                      <p className="font-medium">(47) 3209-6098</p>
                     </div>
                   </a>
 
@@ -108,7 +108,7 @@ const Contato = () => {
 
                 {/* WhatsApp CTA */}
                 <a
-                  href="https://wa.me/5511999999999?text=Olá! Gostaria de saber mais sobre os serviços da Racun."
+                  href="https://wa.me/554732096098?text=Olá! Gostaria de saber mais sobre os serviços da Racun."
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-4 p-6 rounded-2xl bg-[#25D366]/10 border border-[#25D366]/20 hover:bg-[#25D366]/20 transition-colors"
