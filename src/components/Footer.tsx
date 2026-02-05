@@ -7,7 +7,6 @@ const Footer = () => {
   const services = [
     { name: 'Marketing Digital', path: '/marketing' },
     { name: 'Produtora Audiovisual', path: '/produtora' },
-    { name: 'Marketing para Restaurantes', path: '/restaurantes' },
     { name: 'Cases', path: '/cases' },
   ];
 
@@ -124,12 +123,18 @@ const Footer = () => {
           <p className="text-muted-foreground text-sm">
             © {currentYear} Agência Racun. Todos os direitos reservados.
           </p>
-          <div className="flex gap-6">
+          <div className="flex items-center gap-6">
             <Link to="/privacidade" className="text-muted-foreground text-sm hover:text-primary transition-colors">
               Privacidade
             </Link>
             <Link to="/termos" className="text-muted-foreground text-sm hover:text-primary transition-colors">
               Termos
+            </Link>
+            <Link 
+              to="/admin/login" 
+              className="text-muted-foreground/50 text-xs hover:text-muted-foreground transition-colors"
+            >
+              Admin
             </Link>
           </div>
         </div>
