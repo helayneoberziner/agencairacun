@@ -5,7 +5,6 @@ import HeroSection from '@/components/home/HeroSection';
 import ServicesSection from '@/components/home/ServicesSection';
 import SocialProofSection from '@/components/home/SocialProofSection';
 import ProdutoraTeaser from '@/components/home/ProdutoraTeaser';
-import RestaurantesTeaser from '@/components/home/RestaurantesTeaser';
 import CasesPreview from '@/components/home/CasesPreview';
 import ProcessSection from '@/components/home/ProcessSection';
 import ContactSection from '@/components/home/ContactSection';
@@ -19,7 +18,6 @@ const Index = () => {
         <ServicesSection />
         <SocialProofSection />
         <ProdutoraTeaser />
-        <RestaurantesTeaser />
         <CasesPreview />
         <ProcessSection />
         <ContactSection />
