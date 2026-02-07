@@ -14,7 +14,6 @@ const ContactSection = () => {
   const services = [
     'Marketing Digital',
     'Produtora Audiovisual',
-    'Marketing para Restaurantes',
     'Todos os serviços',
   ];
 
@@ -41,13 +40,13 @@ const ContactSection = () => {
       <div className="absolute top-1/4 right-0 w-96 h-96 bg-primary/10 rounded-full blur-[128px]" />
       
       <div className="container-custom relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16">
           {/* Left - Content */}
           <div>
             <span className="text-primary text-sm font-medium uppercase tracking-wider mb-4 block">
               Contato
             </span>
-            <h2 className="text-3xl md:text-5xl font-display font-bold mb-6">
+            <h2 className="text-2xl md:text-5xl font-display font-bold mb-4 md:mb-6">
               Vamos conversar sobre o{' '}
               <span className="text-gradient-neon">seu projeto?</span>
             </h2>
@@ -72,7 +71,7 @@ const ContactSection = () => {
           </div>
 
           {/* Right - Form */}
-          <div className="glass-card p-8">
+          <div className="glass-card p-5 md:p-8">
             {isSubmitted ? (
               <div className="h-full flex flex-col items-center justify-center text-center py-12">
                 <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mb-6 neon-glow">
