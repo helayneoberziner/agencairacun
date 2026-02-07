@@ -5,9 +5,9 @@ const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   const services = [
-    { name: 'Marketing Digital', path: '/marketing' },
-    { name: 'Produtora Audiovisual', path: '/produtora' },
-    { name: 'Cases', path: '/cases' },
+    { name: 'Marketing Digital', path: '/marketing', external: false },
+    { name: 'Produtora Audiovisual', path: 'https://racunfilmes.lovable.app', external: true },
+    { name: 'Cases', path: '/cases', external: false },
   ];
 
   const company = [
@@ -58,12 +58,23 @@ const Footer = () => {
             <ul className="space-y-3">
               {services.map((service) => (
                 <li key={service.name}>
-                  <Link
-                    to={service.path}
-                    className="text-muted-foreground text-sm hover:text-primary transition-colors duration-300"
-                  >
-                    {service.name}
-                  </Link>
+                  {service.external ? (
+                    <a
+                      href={service.path}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-muted-foreground text-sm hover:text-primary transition-colors duration-300"
+                    >
+                      {service.name}
+                    </a>
+                  ) : (
+                    <Link
+                      to={service.path}
+                      className="text-muted-foreground text-sm hover:text-primary transition-colors duration-300"
+                    >
+                      {service.name}
+                    </Link>
+                  )}
                 </li>
               ))}
             </ul>

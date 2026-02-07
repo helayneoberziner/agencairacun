@@ -16,12 +16,12 @@ const Header = () => {
   }, []);
 
   const navLinks = [
-    { name: 'Início', path: '/' },
-    { name: 'Marketing', path: '/marketing' },
-    { name: 'Produtora', path: '/produtora' },
-    { name: 'Cases', path: '/cases' },
-    { name: 'Sobre', path: '/sobre' },
-    { name: 'Contato', path: '/contato' },
+    { name: 'Início', path: '/', external: false },
+    { name: 'Marketing', path: '/marketing', external: false },
+    { name: 'Produtora', path: 'https://racunfilmes.lovable.app', external: true },
+    { name: 'Cases', path: '/cases', external: false },
+    { name: 'Sobre', path: '/sobre', external: false },
+    { name: 'Contato', path: '/contato', external: false },
   ];
 
   const whatsappLink = "https://wa.me/554732096098?text=Olá! Gostaria de saber mais sobre os serviços da Racun.";
@@ -46,17 +46,29 @@ const Header = () => {
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center gap-8">
             {navLinks.map((link) => (
-              <Link
-                key={link.path}
-                to={link.path}
-                className={`text-sm font-medium transition-all duration-300 hover:text-primary ${
-                  location.pathname === link.path
-                    ? 'text-primary'
-                    : 'text-muted-foreground'
-                }`}
-              >
-                {link.name}
-              </Link>
+              link.external ? (
+                <a
+                  key={link.path}
+                  href={link.path}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm font-medium transition-all duration-300 hover:text-primary text-muted-foreground"
+                >
+                  {link.name}
+                </a>
+              ) : (
+                <Link
+                  key={link.path}
+                  to={link.path}
+                  className={`text-sm font-medium transition-all duration-300 hover:text-primary ${
+                    location.pathname === link.path
+                      ? 'text-primary'
+                      : 'text-muted-foreground'
+                  }`}
+                >
+                  {link.name}
+                </Link>
+              )
             ))}
           </div>
 
@@ -91,18 +103,31 @@ const Header = () => {
           <div className="lg:hidden absolute top-20 left-0 right-0 bg-background/95 backdrop-blur-xl border-b border-white/5 animate-fade-in">
             <div className="container-custom py-6 flex flex-col gap-4">
               {navLinks.map((link) => (
-                <Link
-                  key={link.path}
-                  to={link.path}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className={`text-lg font-medium py-2 transition-all duration-300 ${
-                    location.pathname === link.path
-                      ? 'text-primary'
-                      : 'text-muted-foreground'
-                  }`}
-                >
-                  {link.name}
-                </Link>
+                link.external ? (
+                  <a
+                    key={link.path}
+                    href={link.path}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="text-lg font-medium py-2 transition-all duration-300 text-muted-foreground"
+                  >
+                    {link.name}
+                  </a>
+                ) : (
+                  <Link
+                    key={link.path}
+                    to={link.path}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className={`text-lg font-medium py-2 transition-all duration-300 ${
+                      location.pathname === link.path
+                        ? 'text-primary'
+                        : 'text-muted-foreground'
+                    }`}
+                  >
+                    {link.name}
+                  </Link>
+                )
               ))}
               <div className="flex flex-col gap-3 pt-4 border-t border-white/10">
                 <a
