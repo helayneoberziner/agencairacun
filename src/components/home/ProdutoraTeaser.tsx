@@ -58,10 +58,15 @@ const ProdutoraTeaser = () => {
               ))}
             </div>
 
-            <Link to="/produtora" className="btn-primary inline-flex items-center gap-2">
+            <a 
+              href="https://racunfilmes.lovable.app" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="btn-primary inline-flex items-center gap-2"
+            >
               Ver Produtora
               <ArrowRight className="w-4 h-4" />
-            </Link>
+            </a>
           </div>
         </div>
       </div>
