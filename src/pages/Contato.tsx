@@ -3,32 +3,40 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import WhatsAppButton from '@/components/WhatsAppButton';
 import { Send, MessageCircle, CheckCircle, Mail, Phone, MapPin } from 'lucide-react';
+import { useContactForm } from '@/hooks/useContactForm';
 
 const Contato = () => {
   const [formData, setFormData] = useState({
     name: '',
+    email: '',
     whatsapp: '',
     company: '',
     service: '',
     message: '',
   });
-  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const { submit, isSubmitting, isSubmitted, errors } = useContactForm({
+    onSuccess: () => {
+      setFormData({ name: '', email: '', whatsapp: '', company: '', service: '', message: '' });
+    },
+  });
 
   const services = [
     'Marketing Digital',
     'Produtora Audiovisual',
-    'Marketing para Restaurantes',
     'Todos os serviços',
   ];
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
-    setIsSubmitted(true);
-    setTimeout(() => {
-      setIsSubmitted(false);
-      setFormData({ name: '', whatsapp: '', company: '', service: '', message: '' });
-    }, 5000);
+    await submit({
+      name: formData.name,
+      email: formData.email,
+      phone: formData.whatsapp,
+      company: formData.company,
+      service: formData.service,
+      message: formData.message,
+    });
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -151,11 +159,29 @@ const Contato = () => {
                         className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/50 transition-colors"
                         placeholder="Seu nome completo"
                       />
+                      {errors.name && <p className="text-destructive text-sm mt-1">{errors.name}</p>}
+                    </div>
+
+                    <div>
+                      <label htmlFor="email" className="block text-sm font-medium mb-2">
+                        E-mail *
+                      </label>
+                      <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        required
+                        className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/50 transition-colors"
+                        placeholder="seu@email.com"
+                      />
+                      {errors.email && <p className="text-destructive text-sm mt-1">{errors.email}</p>}
                     </div>
 
                     <div>
                       <label htmlFor="whatsapp" className="block text-sm font-medium mb-2">
-                        WhatsApp *
+                        WhatsApp
                       </label>
                       <input
                         type="tel"
@@ -163,7 +189,6 @@ const Contato = () => {
                         name="whatsapp"
                         value={formData.whatsapp}
                         onChange={handleChange}
-                        required
                         className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/50 transition-colors"
                         placeholder="(11) 99999 9999"
                       />
@@ -207,23 +232,29 @@ const Contato = () => {
 
                     <div>
                       <label htmlFor="message" className="block text-sm font-medium mb-2">
-                        Mensagem
+                        Mensagem *
                       </label>
                       <textarea
                         id="message"
                         name="message"
                         value={formData.message}
                         onChange={handleChange}
+                        required
                         rows={4}
                         className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/50 transition-colors resize-none"
                         placeholder="Conte um pouco sobre seu projeto ou necessidade..."
                       />
+                      {errors.message && <p className="text-destructive text-sm mt-1">{errors.message}</p>}
                     </div>
 
                     <div className="flex flex-col sm:flex-row gap-4">
-                      <button type="submit" className="btn-primary flex-1 flex items-center justify-center gap-2">
+                      <button
+                        type="submit"
+                        disabled={isSubmitting}
+                        className="btn-primary flex-1 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                      >
                         <Send className="w-4 h-4" />
-                        Enviar mensagem
+                        {isSubmitting ? 'Enviando...' : 'Enviar mensagem'}
                       </button>
                       <a
                         href={whatsappLink}

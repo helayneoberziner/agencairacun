@@ -1,15 +1,22 @@
 import { useState } from 'react';
 import { Send, MessageCircle, CheckCircle } from 'lucide-react';
+import { useContactForm } from '@/hooks/useContactForm';
 
 const ContactSection = () => {
   const [formData, setFormData] = useState({
     name: '',
+    email: '',
     whatsapp: '',
     company: '',
     service: '',
     message: '',
   });
-  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const { submit, isSubmitting, isSubmitted, errors } = useContactForm({
+    onSuccess: () => {
+      setFormData({ name: '', email: '', whatsapp: '', company: '', service: '', message: '' });
+    },
+  });
 
   const services = [
     'Marketing Digital',
@@ -17,12 +24,16 @@ const ContactSection = () => {
     'Todos os serviços',
   ];
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Here you would handle the form submission
-    console.log('Form submitted:', formData);
-    setIsSubmitted(true);
-    setTimeout(() => setIsSubmitted(false), 5000);
+    await submit({
+      name: formData.name,
+      email: formData.email,
+      phone: formData.whatsapp,
+      company: formData.company,
+      service: formData.service,
+      message: formData.message,
+    });
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -85,12 +96,12 @@ const ContactSection = () => {
             ) : (
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
-                  <label htmlFor="name" className="block text-sm font-medium mb-2">
-                    Nome
+                  <label htmlFor="home-name" className="block text-sm font-medium mb-2">
+                    Nome *
                   </label>
                   <input
                     type="text"
-                    id="name"
+                    id="home-name"
                     name="name"
                     value={formData.name}
                     onChange={handleChange}
@@ -98,45 +109,47 @@ const ContactSection = () => {
                     className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/50 transition-colors"
                     placeholder="Seu nome completo"
                   />
+                  {errors.name && <p className="text-destructive text-sm mt-1">{errors.name}</p>}
                 </div>
 
                 <div>
-                  <label htmlFor="whatsapp" className="block text-sm font-medium mb-2">
+                  <label htmlFor="home-email" className="block text-sm font-medium mb-2">
+                    E-mail *
+                  </label>
+                  <input
+                    type="email"
+                    id="home-email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
+                    className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/50 transition-colors"
+                    placeholder="seu@email.com"
+                  />
+                  {errors.email && <p className="text-destructive text-sm mt-1">{errors.email}</p>}
+                </div>
+
+                <div>
+                  <label htmlFor="home-whatsapp" className="block text-sm font-medium mb-2">
                     WhatsApp
                   </label>
                   <input
                     type="tel"
-                    id="whatsapp"
+                    id="home-whatsapp"
                     name="whatsapp"
                     value={formData.whatsapp}
                     onChange={handleChange}
-                    required
                     className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/50 transition-colors"
                     placeholder="(11) 99999 9999"
                   />
                 </div>
 
                 <div>
-                  <label htmlFor="company" className="block text-sm font-medium mb-2">
-                    Empresa
-                  </label>
-                  <input
-                    type="text"
-                    id="company"
-                    name="company"
-                    value={formData.company}
-                    onChange={handleChange}
-                    className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/50 transition-colors"
-                    placeholder="Nome da sua empresa"
-                  />
-                </div>
-
-                <div>
-                  <label htmlFor="service" className="block text-sm font-medium mb-2">
-                    Qual serviço tem interesse?
+                  <label htmlFor="home-service" className="block text-sm font-medium mb-2">
+                    Qual serviço tem interesse? *
                   </label>
                   <select
-                    id="service"
+                    id="home-service"
                     name="service"
                     value={formData.service}
                     onChange={handleChange}
@@ -153,24 +166,30 @@ const ContactSection = () => {
                 </div>
 
                 <div>
-                  <label htmlFor="message" className="block text-sm font-medium mb-2">
-                    Mensagem
+                  <label htmlFor="home-message" className="block text-sm font-medium mb-2">
+                    Mensagem *
                   </label>
                   <textarea
-                    id="message"
+                    id="home-message"
                     name="message"
                     value={formData.message}
                     onChange={handleChange}
+                    required
                     rows={4}
                     className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/50 transition-colors resize-none"
                     placeholder="Conte um pouco sobre seu projeto..."
                   />
+                  {errors.message && <p className="text-destructive text-sm mt-1">{errors.message}</p>}
                 </div>
 
                 <div className="flex flex-col sm:flex-row gap-4">
-                  <button type="submit" className="btn-primary flex-1 flex items-center justify-center gap-2">
+                  <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="btn-primary flex-1 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
                     <Send className="w-4 h-4" />
-                    Enviar mensagem
+                    {isSubmitting ? 'Enviando...' : 'Enviar mensagem'}
                   </button>
                   <a
                     href={whatsappLink}
