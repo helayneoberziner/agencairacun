@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { Send, MessageCircle, CheckCircle } from 'lucide-react';
 import { useContactForm } from '@/hooks/useContactForm';
+import { useSiteSettings } from '@/hooks/useSiteSettings';
 
 const ContactSection = () => {
+  const { settings } = useSiteSettings();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -43,7 +45,8 @@ const ContactSection = () => {
   const whatsappMessage = encodeURIComponent(
     `Olá! Meu nome é ${formData.name}. Empresa: ${formData.company}. Tenho interesse em: ${formData.service}. ${formData.message}`
   );
-  const whatsappLink = `https://wa.me/554732096098?text=${whatsappMessage}`;
+  const whatsappLink = `https://wa.me/${settings.whatsapp}?text=${whatsappMessage}`;
+  const whatsappGenericLink = `https://wa.me/${settings.whatsapp}?text=${encodeURIComponent('Olá! Gostaria de saber mais sobre os serviços da Racun.')}`;
 
   return (
     <section id="contato" className="section-padding relative overflow-hidden">
@@ -68,7 +71,7 @@ const ContactSection = () => {
 
             {/* WhatsApp shortcut */}
             <a
-              href="https://wa.me/554732096098?text=Olá! Gostaria de saber mais sobre os serviços da Racun."
+              href={whatsappGenericLink}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-3 p-4 rounded-xl bg-[#25D366]/10 border border-[#25D366]/20 text-[#25D366] hover:bg-[#25D366]/20 transition-colors"
@@ -76,7 +79,7 @@ const ContactSection = () => {
               <MessageCircle className="w-6 h-6" />
               <div>
                 <p className="font-medium">Falar pelo WhatsApp</p>
-                <p className="text-sm opacity-80">(47) 3209-6098</p>
+                <p className="text-sm opacity-80">{settings.phone}</p>
               </div>
             </a>
           </div>
