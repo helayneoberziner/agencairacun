@@ -109,7 +109,7 @@ const Contato = () => {
                     </div>
                     <div>
                       <p className="text-sm text-muted-foreground">Localização</p>
-                      <p className="font-medium">São Paulo, SP</p>
+                      <p className="font-medium">Rua Pontes de Miranda, 22 – Blumenau, SC</p>
                     </div>
                   </div>
                 </div>
