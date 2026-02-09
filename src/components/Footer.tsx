@@ -122,7 +122,7 @@ const Footer = () => {
               <li>
                 <span className="flex items-center gap-3 text-muted-foreground text-sm">
                   <MapPin className="w-4 h-4" />
-                  São Paulo, SP
+                  Rua Pontes de Miranda, 22 – Blumenau, SC
                 </span>
               </li>
             </ul>
