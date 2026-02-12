@@ -20,7 +20,6 @@ const Footer = () => {
 
   const socials = [
     { name: 'Instagram', icon: Instagram, url: settings.instagram },
-    { name: 'LinkedIn', icon: Linkedin, url: settings.linkedin },
     { name: 'YouTube', icon: Youtube, url: settings.youtube },
   ];
 
