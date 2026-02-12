@@ -7,18 +7,16 @@ export interface SiteSettings {
   email: string;
   address: string;
   instagram: string;
-  linkedin: string;
   youtube: string;
 }
 
 const defaultSettings: SiteSettings = {
   phone: '(47) 3209-6098',
   whatsapp: '554732096098',
-  email: 'contato@racun.com.br',
+  email: 'contato@agenciaracun.com',
   address: 'Rua Pontes de Miranda, 22 – Blumenau, SC',
-  instagram: 'https://instagram.com/racunagency',
-  linkedin: 'https://linkedin.com/company/racun',
-  youtube: 'https://youtube.com/@racun',
+  instagram: 'https://instagram.com/agenciaracun',
+  youtube: 'https://youtube.com/@agenciaracun',
 };
 
 export function useSiteSettings() {
