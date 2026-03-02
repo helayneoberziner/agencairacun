@@ -7,11 +7,13 @@ import { toast } from 'sonner';
 import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/integrations/supabase/client';
 import { useSiteSettings } from '@/hooks/useSiteSettings';
-import { Lock, User, Shield, Globe, Phone, MapPin, Instagram, Linkedin, Youtube, Mail, MessageCircle } from 'lucide-react';
+import { Lock, User, Shield, Globe, Phone, MapPin, Instagram, Youtube, Mail, MessageCircle, Image, Trash2, Upload } from 'lucide-react';
+import { useClientLogos, ClientLogo } from '@/hooks/useClientLogos';
 
 const AdminSettings = () => {
   const { user } = useAuth();
   const { settings, isLoading, updateSettings, isUpdating } = useSiteSettings();
+  const { logos, uploadLogo, deleteLogo, updateLogos, isUpdating: isLogosUpdating } = useClientLogos();
 
   const [siteData, setSiteData] = useState(settings);
   const [passwordData, setPasswordData] = useState({
@@ -19,6 +21,9 @@ const AdminSettings = () => {
     confirmPassword: '',
   });
   const [isPasswordUpdating, setIsPasswordUpdating] = useState(false);
+  const [logoName, setLogoName] = useState('');
+  const [logoFile, setLogoFile] = useState<File | null>(null);
+  const [isUploading, setIsUploading] = useState(false);
 
   useEffect(() => {
     setSiteData(settings);
@@ -116,13 +121,6 @@ const AdminSettings = () => {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="linkedin" className="flex items-center gap-2">
-                <Linkedin className="w-4 h-4 text-muted-foreground" /> LinkedIn
-              </Label>
-              <Input id="linkedin" value={siteData.linkedin} onChange={e => handleSiteChange('linkedin', e.target.value)} placeholder="https://linkedin.com/company/..." />
-            </div>
-
-            <div className="space-y-2">
               <Label htmlFor="youtube" className="flex items-center gap-2">
                 <Youtube className="w-4 h-4 text-muted-foreground" /> YouTube
               </Label>
@@ -134,6 +132,66 @@ const AdminSettings = () => {
             </Button>
           </div>
         </form>
+
+        {/* Client Logos */}
+        <div className="glass-card p-6">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="p-2 rounded-lg bg-primary/10">
+              <Image className="w-5 h-5 text-primary" />
+            </div>
+            <h2 className="text-lg font-display font-semibold">Logos de clientes</h2>
+          </div>
+
+          {/* Current logos */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-6">
+            {logos.map((logo) => (
+              <div key={logo.id} className="relative group rounded-lg border border-white/10 bg-white/5 p-3 flex flex-col items-center gap-2">
+                <img src={logo.image_url} alt={logo.name} className="h-12 object-contain" />
+                <span className="text-xs text-muted-foreground truncate w-full text-center">{logo.name}</span>
+                <button
+                  onClick={() => deleteLogo(logo, logos)}
+                  className="absolute top-1 right-1 opacity-0 group-hover:opacity-100 transition-opacity p-1 rounded bg-destructive/80 text-destructive-foreground"
+                >
+                  <Trash2 className="w-3 h-3" />
+                </button>
+              </div>
+            ))}
+          </div>
+
+          {/* Upload new logo */}
+          <div className="space-y-3">
+            <div className="space-y-2">
+              <Label htmlFor="logoName">Nome do cliente</Label>
+              <Input id="logoName" value={logoName} onChange={e => setLogoName(e.target.value)} placeholder="Nome do cliente" />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="logoFile">Imagem da logo</Label>
+              <Input id="logoFile" type="file" accept="image/*" onChange={e => setLogoFile(e.target.files?.[0] || null)} />
+            </div>
+            <Button
+              disabled={!logoName || !logoFile || isUploading}
+              onClick={async () => {
+                if (!logoFile || !logoName) return;
+                setIsUploading(true);
+                try {
+                  const newLogo = await uploadLogo(logoFile, logoName);
+                  await updateLogos([...logos, newLogo]);
+                  setLogoName('');
+                  setLogoFile(null);
+                  toast.success('Logo adicionada!');
+                } catch (err) {
+                  console.error(err);
+                  toast.error('Erro ao fazer upload da logo');
+                } finally {
+                  setIsUploading(false);
+                }
+              }}
+            >
+              <Upload className="w-4 h-4 mr-2" />
+              {isUploading ? 'Enviando...' : 'Adicionar logo'}
+            </Button>
+          </div>
+        </div>
 
         {/* Account Info */}
         <div className="glass-card p-6">

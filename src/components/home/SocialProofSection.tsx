@@ -1,7 +1,9 @@
 import { Link } from 'react-router-dom';
 import { CheckCircle2, ArrowRight, Quote } from 'lucide-react';
+import { useClientLogos } from '@/hooks/useClientLogos';
 
 const SocialProofSection = () => {
+  const { logos } = useClientLogos();
   const proofs = [
     'Resultados acompanhados semanalmente',
     'Criativos feitos para performance',
@@ -51,20 +53,21 @@ const SocialProofSection = () => {
               ))}
             </div>
 
-            {/* Client Logos Placeholder */}
-            <div className="mb-8">
-              <p className="text-sm text-muted-foreground mb-4">Clientes que confiam na Racun:</p>
-              <div className="flex flex-wrap gap-4">
-                {[1, 2, 3, 4].map((i) => (
-                  <div
-                    key={i}
-                    className="w-24 h-12 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-muted-foreground text-xs"
-                  >
-                    Logo {i}
-                  </div>
-                ))}
+            {logos.length > 0 && (
+              <div className="mb-8">
+                <p className="text-sm text-muted-foreground mb-4">Clientes que confiam na Racun:</p>
+                <div className="flex flex-wrap gap-4">
+                  {logos.map((logo) => (
+                    <div
+                      key={logo.id}
+                      className="w-24 h-12 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center p-2"
+                    >
+                      <img src={logo.image_url} alt={logo.name} className="max-h-full max-w-full object-contain" />
+                    </div>
+                  ))}
+                </div>
               </div>
-            </div>
+            )}
 
             <Link to="/contato" className="btn-primary inline-flex items-center gap-2">
               Quero um diagnóstico
