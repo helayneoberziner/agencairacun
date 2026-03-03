@@ -1,32 +1,16 @@
 import { Link } from 'react-router-dom';
 import { CheckCircle2, ArrowRight, Quote } from 'lucide-react';
 import { useClientLogos } from '@/hooks/useClientLogos';
+import { useTestimonials } from '@/hooks/useTestimonials';
 
 const SocialProofSection = () => {
   const { logos } = useClientLogos();
+  const { testimonials } = useTestimonials();
   const proofs = [
     'Resultados acompanhados semanalmente',
     'Criativos feitos para performance',
     'Rotina de otimização e testes',
     'Relatórios transparentes e claros',
-  ];
-
-  const testimonials = [
-    {
-      quote: 'A Racun transformou nossa presença digital. Em poucos meses, triplicamos o engajamento e as vendas cresceram junto.',
-      name: 'Cliente do segmento de moda',
-      role: 'E-commerce',
-    },
-    {
-      quote: 'Profissionalismo e resultados. A equipe entende de verdade o que funciona para restaurantes.',
-      name: 'Cliente do segmento gastronômico',
-      role: 'Restaurante',
-    },
-    {
-      quote: 'O filme institucional superou todas as expectativas. Qualidade de cinema com entendimento de marca.',
-      name: 'Cliente do segmento corporativo',
-      role: 'Indústria',
-    },
   ];
 
   return (
@@ -77,9 +61,9 @@ const SocialProofSection = () => {
 
           {/* Right - Testimonials */}
           <div className="space-y-6">
-            {testimonials.map((testimonial, index) => (
+            {testimonials.length > 0 ? testimonials.map((testimonial) => (
               <div
-                key={index}
+                key={testimonial.id}
                 className="glass-card p-6 relative"
               >
                 <Quote className="absolute top-4 right-4 w-8 h-8 text-primary/20" />
@@ -91,7 +75,12 @@ const SocialProofSection = () => {
                   <p className="text-sm text-muted-foreground">{testimonial.role}</p>
                 </div>
               </div>
-            ))}
+            )) : (
+              <div className="glass-card p-6 text-center text-muted-foreground">
+                <Quote className="w-8 h-8 mx-auto mb-3 opacity-30" />
+                <p>Depoimentos em breve.</p>
+              </div>
+            )}
           </div>
         </div>
       </div>

@@ -1,15 +1,16 @@
  import { Link, useLocation, useNavigate } from 'react-router-dom';
  import { useAuth } from '@/hooks/useAuth';
- import { 
-   LayoutDashboard, 
-   FolderOpen, 
-   Mail, 
-   Image, 
-   Settings, 
-   LogOut,
-   Menu,
-   X
- } from 'lucide-react';
+import { 
+  LayoutDashboard, 
+  FolderOpen, 
+  Mail, 
+  Image, 
+  Settings, 
+  LogOut,
+  Menu,
+  X,
+  Quote
+} from 'lucide-react';
  import { useState } from 'react';
  
  interface AdminLayoutProps {
@@ -23,13 +24,14 @@
    const navigate = useNavigate();
    const [sidebarOpen, setSidebarOpen] = useState(false);
  
-   const navItems = [
-     { name: 'Dashboard', path: '/admin', icon: LayoutDashboard },
-     { name: 'Projetos', path: '/admin/projects', icon: FolderOpen },
-     { name: 'Mensagens', path: '/admin/messages', icon: Mail },
-     { name: 'Mídia', path: '/admin/media', icon: Image },
-     { name: 'Configurações', path: '/admin/settings', icon: Settings },
-   ];
+    const navItems = [
+      { name: 'Dashboard', path: '/admin', icon: LayoutDashboard },
+      { name: 'Projetos', path: '/admin/projects', icon: FolderOpen },
+      { name: 'Depoimentos', path: '/admin/testimonials', icon: Quote },
+      { name: 'Mensagens', path: '/admin/messages', icon: Mail },
+      { name: 'Mídia', path: '/admin/media', icon: Image },
+      { name: 'Configurações', path: '/admin/settings', icon: Settings },
+    ];
  
    const handleSignOut = async () => {
      await signOut();
