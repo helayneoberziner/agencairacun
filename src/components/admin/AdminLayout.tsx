@@ -9,7 +9,9 @@ import {
   LogOut,
   Menu,
   X,
-  Quote
+  Quote,
+  Film,
+  UtensilsCrossed
 } from 'lucide-react';
  import { useState } from 'react';
  
@@ -28,6 +30,8 @@ import {
       { name: 'Dashboard', path: '/admin', icon: LayoutDashboard },
       { name: 'Projetos', path: '/admin/projects', icon: FolderOpen },
       { name: 'Depoimentos', path: '/admin/testimonials', icon: Quote },
+      { name: 'Produtora', path: '/admin/produtora', icon: Film },
+      { name: 'Restaurantes', path: '/admin/restaurantes', icon: UtensilsCrossed },
       { name: 'Mensagens', path: '/admin/messages', icon: Mail },
       { name: 'Mídia', path: '/admin/media', icon: Image },
       { name: 'Configurações', path: '/admin/settings', icon: Settings },
