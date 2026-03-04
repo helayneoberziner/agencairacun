@@ -9,6 +9,8 @@ import Marketing from "./pages/Marketing";
 import Cases from "./pages/Cases";
 import Sobre from "./pages/Sobre";
 import Contato from "./pages/Contato";
+import Produtora from "./pages/Produtora";
+import Restaurantes from "./pages/Restaurantes";
 import NotFound from "./pages/NotFound";
 import AdminLogin from "./pages/admin/AdminLogin";
 import AdminDashboard from "./pages/admin/AdminDashboard";
@@ -37,6 +39,8 @@ const App = () => (
             <Route path="/cases/:id" element={<Cases />} />
             <Route path="/sobre" element={<Sobre />} />
             <Route path="/contato" element={<Contato />} />
+            <Route path="/produtora" element={<Produtora />} />
+            <Route path="/restaurantes" element={<Restaurantes />} />
             
             {/* Admin Routes */}
             <Route path="/admin/login" element={<AdminLogin />} />
