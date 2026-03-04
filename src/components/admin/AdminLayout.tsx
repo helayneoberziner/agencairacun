@@ -12,7 +12,8 @@ import {
   Quote,
   Film,
   UtensilsCrossed,
-  Info
+  Info,
+  Megaphone
 } from 'lucide-react';
  import { useState } from 'react';
  
@@ -29,6 +30,7 @@ import {
  
     const navItems = [
       { name: 'Dashboard', path: '/admin', icon: LayoutDashboard },
+      { name: 'Marketing', path: '/admin/marketing', icon: Megaphone },
       { name: 'Projetos', path: '/admin/projects', icon: FolderOpen },
       { name: 'Depoimentos', path: '/admin/testimonials', icon: Quote },
       { name: 'Produtora', path: '/admin/produtora', icon: Film },
