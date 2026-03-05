@@ -1,25 +1,13 @@
 import { Link } from 'react-router-dom';
 import { ArrowRight, Target, Sparkles, TrendingUp } from 'lucide-react';
 import ParticlesBackground from '../ParticlesBackground';
+import { useHomeContent } from '@/hooks/useHomeContent';
+
+const iconMap = [Target, Sparkles, TrendingUp];
 
 const HeroSection = () => {
-  const pillars = [
-    {
-      icon: Target,
-      title: 'Estratégia e posicionamento',
-      description: 'Posicionamos sua marca para dominar o mercado',
-    },
-    {
-      icon: Sparkles,
-      title: 'Conteúdo que conecta',
-      description: 'Criamos narrativas que engajam e convertem',
-    },
-    {
-      icon: TrendingUp,
-      title: 'Tráfego pago que escala',
-      description: 'Campanhas otimizadas para máximo retorno',
-    },
-  ];
+  const { content } = useHomeContent();
+  const h = content.hero;
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
@@ -37,48 +25,51 @@ const HeroSection = () => {
           {/* Badge */}
           <div className="inline-flex items-center gap-2 px-3 md:px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs md:text-sm mb-6 md:mb-8 animate-fade-in">
             <Sparkles className="w-3 h-3 md:w-4 md:h-4" />
-            Marketing • Produtora
+            {h.badge}
           </div>
 
           {/* Main headline */}
           <h1 className="text-3xl md:text-6xl lg:text-7xl font-display font-bold leading-tight mb-4 md:mb-6 animate-fade-in delay-100">
-            Crescimento real com{' '}
-            <span className="text-gradient-neon">estratégia, conteúdo</span>
-            {' '}e <span className="text-gradient-neon">performance</span>
+            {h.headline1}{' '}
+            <span className="text-gradient-neon">{h.headlineHighlight}</span>
+            {' '}{h.headline2}
           </h1>
 
           {/* Subtitle */}
           <p className="text-base md:text-2xl text-muted-foreground max-w-3xl mx-auto mb-8 md:mb-10 animate-fade-in delay-200">
-            Somos uma agência de marketing digital e produtora audiovisual. Transformamos atenção em vendas.
+            {h.subtitle}
           </p>
 
           {/* CTAs */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 md:gap-4 animate-fade-in delay-300">
             <Link to="/contato" className="btn-primary flex items-center gap-2 text-base md:text-lg px-6 md:px-8 py-3 md:py-4 w-full sm:w-auto justify-center">
-              Solicitar proposta
+              {h.ctaPrimary}
               <ArrowRight className="w-5 h-5" />
             </Link>
             <Link to="/cases" className="btn-outline flex items-center gap-2 text-base md:text-lg px-6 md:px-8 py-3 md:py-4 w-full sm:w-auto justify-center">
-              Ver cases
+              {h.ctaSecondary}
             </Link>
           </div>
         </div>
 
         {/* Pillars */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 mt-10 md:mt-16 animate-fade-in delay-400">
-          {pillars.map((pillar, index) => (
-            <div
-              key={pillar.title}
-              className="glass-card-hover p-6 md:p-8 text-center group"
-              style={{ animationDelay: `${(index + 4) * 100}ms` }}
-            >
-              <div className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-primary/10 flex items-center justify-center group-hover:neon-glow transition-all duration-500">
-                <pillar.icon className="w-8 h-8 text-primary" />
+          {h.pillars.map((pillar, index) => {
+            const Icon = iconMap[index % iconMap.length];
+            return (
+              <div
+                key={index}
+                className="glass-card-hover p-6 md:p-8 text-center group"
+                style={{ animationDelay: `${(index + 4) * 100}ms` }}
+              >
+                <div className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-primary/10 flex items-center justify-center group-hover:neon-glow transition-all duration-500">
+                  <Icon className="w-8 h-8 text-primary" />
+                </div>
+                <h3 className="font-display font-semibold text-xl mb-3">{pillar.title}</h3>
+                <p className="text-muted-foreground">{pillar.description}</p>
               </div>
-              <h3 className="font-display font-semibold text-xl mb-3">{pillar.title}</h3>
-              <p className="text-muted-foreground">{pillar.description}</p>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
 
