@@ -12,8 +12,17 @@ const HeroSection = () => {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background Effects */}
-      <div className="absolute inset-0 gradient-mesh" />
-      <div className="absolute inset-0 grid-overlay opacity-30" />
+      {h.backgroundImage ? (
+        <>
+          <img src={h.backgroundImage} alt="" className="absolute inset-0 w-full h-full object-cover opacity-30" />
+          <div className="absolute inset-0 bg-background/60" />
+        </>
+      ) : (
+        <>
+          <div className="absolute inset-0 gradient-mesh" />
+          <div className="absolute inset-0 grid-overlay opacity-30" />
+        </>
+      )}
       <ParticlesBackground />
 
       {/* Glow orbs */}

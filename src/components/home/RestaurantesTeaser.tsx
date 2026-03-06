@@ -55,10 +55,15 @@ const RestaurantesTeaser = () => {
           <div className="order-1 lg:order-2">
             <div className="relative">
               <div className="aspect-[4/3] rounded-2xl overflow-hidden bg-secondary/50 border border-white/10 relative">
-                <div className="absolute inset-0 bg-gradient-to-br from-orange-500/20 via-red-500/10 to-yellow-500/10" />
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <UtensilsCrossed className="w-24 h-24 text-white/10" />
-                </div>
+                {r.image && <img src={r.image} alt="Restaurantes" className="absolute inset-0 w-full h-full object-cover" />}
+                {!r.image && (
+                  <>
+                    <div className="absolute inset-0 bg-gradient-to-br from-orange-500/20 via-red-500/10 to-yellow-500/10" />
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <UtensilsCrossed className="w-24 h-24 text-white/10" />
+                    </div>
+                  </>
+                )}
                 <div className="absolute bottom-4 left-4 px-4 py-2 rounded-full bg-background/80 backdrop-blur-sm border border-white/10 text-sm">
                   {r.badgeText}
                 </div>
