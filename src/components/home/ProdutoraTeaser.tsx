@@ -15,6 +15,7 @@ const ProdutoraTeaser = () => {
           {/* Video Placeholder */}
           <div className="relative group">
             <div className="aspect-video rounded-2xl overflow-hidden bg-secondary/50 border border-white/10 relative">
+              {p.image && <img src={p.image} alt="Produtora" className="absolute inset-0 w-full h-full object-cover" />}
               <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-accent/10 to-transparent" />
               <button className="absolute inset-0 flex items-center justify-center group-hover:scale-105 transition-transform duration-500">
                 <div className="w-20 h-20 rounded-full bg-primary/90 flex items-center justify-center neon-glow">

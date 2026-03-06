@@ -11,6 +11,7 @@ export interface HomeContent {
     ctaPrimary: string;
     ctaSecondary: string;
     pillars: { title: string; description: string }[];
+    backgroundImage: string;
   };
   services: {
     badge: string;
@@ -36,6 +37,7 @@ export interface HomeContent {
     showreelLabel: string;
     cta: string;
     ctaLink: string;
+    image: string;
   };
   restaurantesTeaser: {
     badge: string;
@@ -47,6 +49,7 @@ export interface HomeContent {
     floatingStat: string;
     floatingLabel: string;
     badgeText: string;
+    image: string;
   };
   casesPreview: {
     badge: string;
@@ -84,6 +87,7 @@ const defaultContent: HomeContent = {
       { title: 'Conteúdo que conecta', description: 'Criamos narrativas que engajam e convertem' },
       { title: 'Tráfego pago que escala', description: 'Campanhas otimizadas para máximo retorno' },
     ],
+    backgroundImage: '',
   },
   services: {
     badge: 'O que fazemos',
@@ -119,6 +123,7 @@ const defaultContent: HomeContent = {
     showreelLabel: 'Showreel Racun',
     cta: 'Ver Produtora',
     ctaLink: 'https://racunfilmes.lovable.app',
+    image: '',
   },
   restaurantesTeaser: {
     badge: 'Marketing para Restaurantes',
@@ -134,6 +139,7 @@ const defaultContent: HomeContent = {
     floatingStat: '+180%',
     floatingLabel: 'Engajamento',
     badgeText: '📍 Alcance local + Delivery',
+    image: '',
   },
   casesPreview: {
     badge: 'Cases',

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import AdminLayout from '@/components/admin/AdminLayout';
 import { useHomeContent, HomeContent } from '@/hooks/useHomeContent';
 import { Field, ListEditor, StringListEditor, SectionCard } from '@/components/admin/ContentEditorFields';
+import ImageUpload from '@/components/admin/ImageUpload';
 import { Button } from '@/components/ui/button';
 import { Save, Loader2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
@@ -46,6 +47,7 @@ const AdminHome = () => {
           <Field label="Subtítulo" value={form.hero.subtitle} onChange={v => setForm({ ...form, hero: { ...form.hero, subtitle: v } })} multiline />
           <Field label="CTA Primário" value={form.hero.ctaPrimary} onChange={v => setForm({ ...form, hero: { ...form.hero, ctaPrimary: v } })} />
           <Field label="CTA Secundário" value={form.hero.ctaSecondary} onChange={v => setForm({ ...form, hero: { ...form.hero, ctaSecondary: v } })} />
+          <ImageUpload label="Imagem de fundo (Hero)" value={form.hero.backgroundImage} onChange={v => setForm({ ...form, hero: { ...form.hero, backgroundImage: v } })} folder="home/hero" />
           <ListEditor
             label="Pilares"
             items={form.hero.pillars}
@@ -112,6 +114,7 @@ const AdminHome = () => {
           <Field label="Label do Showreel" value={form.produtoraTeaser.showreelLabel} onChange={v => setForm({ ...form, produtoraTeaser: { ...form.produtoraTeaser, showreelLabel: v } })} />
           <Field label="CTA" value={form.produtoraTeaser.cta} onChange={v => setForm({ ...form, produtoraTeaser: { ...form.produtoraTeaser, cta: v } })} />
           <Field label="Link do CTA" value={form.produtoraTeaser.ctaLink} onChange={v => setForm({ ...form, produtoraTeaser: { ...form.produtoraTeaser, ctaLink: v } })} />
+          <ImageUpload label="Imagem / Thumbnail do vídeo" value={form.produtoraTeaser.image} onChange={v => setForm({ ...form, produtoraTeaser: { ...form.produtoraTeaser, image: v } })} folder="home/produtora" />
           <StringListEditor
             label="Tags"
             items={form.produtoraTeaser.tags}
@@ -129,6 +132,7 @@ const AdminHome = () => {
           <Field label="Stat flutuante" value={form.restaurantesTeaser.floatingStat} onChange={v => setForm({ ...form, restaurantesTeaser: { ...form.restaurantesTeaser, floatingStat: v } })} />
           <Field label="Label do stat" value={form.restaurantesTeaser.floatingLabel} onChange={v => setForm({ ...form, restaurantesTeaser: { ...form.restaurantesTeaser, floatingLabel: v } })} />
           <Field label="Badge da imagem" value={form.restaurantesTeaser.badgeText} onChange={v => setForm({ ...form, restaurantesTeaser: { ...form.restaurantesTeaser, badgeText: v } })} />
+          <ImageUpload label="Imagem da seção" value={form.restaurantesTeaser.image} onChange={v => setForm({ ...form, restaurantesTeaser: { ...form.restaurantesTeaser, image: v } })} folder="home/restaurantes" />
           <ListEditor
             label="Features"
             items={form.restaurantesTeaser.features}
