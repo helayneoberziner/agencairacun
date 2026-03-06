@@ -11,6 +11,7 @@ export interface HomeContent {
     ctaPrimary: string;
     ctaSecondary: string;
     pillars: { title: string; description: string }[];
+    backgroundImage: string;
   };
   services: {
     badge: string;
@@ -36,6 +37,7 @@ export interface HomeContent {
     showreelLabel: string;
     cta: string;
     ctaLink: string;
+    image: string;
   };
   restaurantesTeaser: {
     badge: string;
@@ -47,6 +49,7 @@ export interface HomeContent {
     floatingStat: string;
     floatingLabel: string;
     badgeText: string;
+    image: string;
   };
   casesPreview: {
     badge: string;
