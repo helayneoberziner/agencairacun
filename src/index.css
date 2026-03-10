@@ -9,65 +9,65 @@
 @layer base {
   :root {
     /* Dark futuristic palette */
-    --background: 240 29% 8%;
-    --foreground: 0 0% 100%;
+    --background: 222 47% 6%;
+    --foreground: 210 40% 98%;
 
-    --card: 234 100% 98%;
-    --card-foreground: 240 29% 8%;
+    --card: 222 47% 8%;
+    --card-foreground: 210 40% 98%;
 
-    --popover: 240 29% 8%;
-    --popover-foreground: 0 0% 100%;
+    --popover: 222 47% 8%;
+    --popover-foreground: 210 40% 98%;
 
-    /* Brand primary #1800AD */
-    --primary: 252 100% 34%;
-    --primary-foreground: 0 0% 100%;
+    /* Neon cyan primary */
+    --primary: 180 100% 50%;
+    --primary-foreground: 222 47% 6%;
 
-    /* Secondary #3B2BFF area */
-    --secondary: 244 100% 58%;
-    --secondary-foreground: 0 0% 100%;
+    /* Glass/muted surfaces */
+    --secondary: 220 30% 12%;
+    --secondary-foreground: 210 40% 98%;
 
-    --muted: 240 20% 16%;
-    --muted-foreground: 234 30% 70%;
+    --muted: 220 20% 15%;
+    --muted-foreground: 215 20% 65%;
 
-    /* Accent #6A5CFF */
-    --accent: 245 100% 68%;
-    --accent-foreground: 0 0% 100%;
+    /* Neon magenta accent */
+    --accent: 280 100% 60%;
+    --accent-foreground: 210 40% 98%;
 
     --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 100%;
+    --destructive-foreground: 210 40% 98%;
 
-    --border: 240 20% 20%;
-    --input: 240 20% 20%;
-    --ring: 252 100% 34%;
+    --border: 220 20% 18%;
+    --input: 220 20% 18%;
+    --ring: 180 100% 50%;
 
     --radius: 0.75rem;
 
     /* Custom tokens */
-    --neon-cyan: 244 100% 58%;
-    --neon-magenta: 245 100% 68%;
-    --neon-purple: 252 100% 34%;
-    --glass-bg: 240 25% 12%;
-    --glass-border: 240 20% 25%;
+    --neon-cyan: 180 100% 50%;
+    --neon-magenta: 280 100% 60%;
+    --neon-purple: 260 100% 65%;
+    --glass-bg: 220 30% 12%;
+    --glass-border: 220 20% 25%;
     
     /* Gradients */
-    --gradient-neon: linear-gradient(135deg, hsl(252 100% 34%) 0%, hsl(245 100% 68%) 100%);
-    --gradient-dark: linear-gradient(180deg, hsl(240 29% 8%) 0%, hsl(240 29% 5%) 100%);
-    --gradient-glass: linear-gradient(135deg, hsl(240 25% 15% / 0.8) 0%, hsl(240 25% 10% / 0.6) 100%);
-    --gradient-glow: radial-gradient(ellipse at center, hsl(252 100% 34% / 0.15) 0%, transparent 70%);
+    --gradient-neon: linear-gradient(135deg, hsl(180 100% 50%) 0%, hsl(280 100% 60%) 100%);
+    --gradient-dark: linear-gradient(180deg, hsl(222 47% 6%) 0%, hsl(222 47% 4%) 100%);
+    --gradient-glass: linear-gradient(135deg, hsl(220 30% 15% / 0.8) 0%, hsl(220 30% 10% / 0.6) 100%);
+    --gradient-glow: radial-gradient(ellipse at center, hsl(180 100% 50% / 0.15) 0%, transparent 70%);
 
     /* Shadows */
-    --shadow-neon: 0 0 30px hsl(252 100% 34% / 0.3);
-    --shadow-neon-strong: 0 0 50px hsl(244 100% 58% / 0.5);
+    --shadow-neon: 0 0 30px hsl(180 100% 50% / 0.3);
+    --shadow-neon-strong: 0 0 50px hsl(180 100% 50% / 0.5);
     --shadow-card: 0 8px 32px hsl(0 0% 0% / 0.3);
 
-    --sidebar-background: 240 25% 10%;
-    --sidebar-foreground: 0 0% 100%;
-    --sidebar-primary: 252 100% 34%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 25% 16%;
-    --sidebar-accent-foreground: 0 0% 100%;
-    --sidebar-border: 240 20% 20%;
-    --sidebar-ring: 252 100% 34%;
+    --sidebar-background: 220 30% 8%;
+    --sidebar-foreground: 210 40% 98%;
+    --sidebar-primary: 180 100% 50%;
+    --sidebar-primary-foreground: 222 47% 6%;
+    --sidebar-accent: 220 30% 15%;
+    --sidebar-accent-foreground: 210 40% 98%;
+    --sidebar-border: 220 20% 18%;
+    --sidebar-ring: 180 100% 50%;
   }
 }
 
@@ -103,23 +103,23 @@
 
   .glass-card-hover:hover {
     @apply border-primary/30;
-    box-shadow: 0 8px 32px hsl(252 100% 34% / 0.15);
+    box-shadow: 0 8px 32px hsl(180 100% 50% / 0.15);
     transform: translateY(-4px);
   }
 
   /* Neon text gradient */
   .text-gradient-neon {
     @apply bg-clip-text text-transparent;
-    background-image: linear-gradient(135deg, hsl(252 100% 34%) 0%, hsl(245 100% 68%) 100%);
+    background-image: linear-gradient(135deg, hsl(180 100% 50%) 0%, hsl(280 100% 60%) 100%);
   }
 
   /* Neon glow effect */
   .neon-glow {
-    box-shadow: 0 0 20px hsl(252 100% 34% / 0.4), 0 0 40px hsl(252 100% 34% / 0.2);
+    box-shadow: 0 0 20px hsl(180 100% 50% / 0.4), 0 0 40px hsl(180 100% 50% / 0.2);
   }
 
   .neon-glow-strong {
-    box-shadow: 0 0 30px hsl(252 100% 34% / 0.5), 0 0 60px hsl(244 100% 58% / 0.3), 0 0 90px hsl(245 100% 68% / 0.1);
+    box-shadow: 0 0 30px hsl(180 100% 50% / 0.5), 0 0 60px hsl(180 100% 50% / 0.3), 0 0 90px hsl(180 100% 50% / 0.1);
   }
 
   /* Button variants */
@@ -168,7 +168,7 @@
     inset: 0;
     border-radius: inherit;
     padding: 1px;
-    background: linear-gradient(135deg, hsl(252 100% 34%), hsl(245 100% 68%));
+    background: linear-gradient(135deg, hsl(180 100% 50%), hsl(280 100% 60%));
     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
@@ -197,25 +197,25 @@
   }
 
   @keyframes pulseGlow {
-    0%, 100% { box-shadow: 0 0 20px hsl(252 100% 34% / 0.3); }
-    50% { box-shadow: 0 0 40px hsl(252 100% 34% / 0.5); }
+    0%, 100% { box-shadow: 0 0 20px hsl(180 100% 50% / 0.3); }
+    50% { box-shadow: 0 0 40px hsl(180 100% 50% / 0.5); }
   }
 
   /* Gradient background mesh */
   .gradient-mesh {
     background-image: 
-      radial-gradient(at 40% 20%, hsl(252 100% 34% / 0.15) 0px, transparent 50%),
-      radial-gradient(at 80% 0%, hsl(244 100% 58% / 0.1) 0px, transparent 50%),
-      radial-gradient(at 0% 50%, hsl(245 100% 68% / 0.1) 0px, transparent 50%),
-      radial-gradient(at 80% 50%, hsl(252 100% 34% / 0.1) 0px, transparent 50%),
-      radial-gradient(at 0% 100%, hsl(244 100% 58% / 0.15) 0px, transparent 50%);
+      radial-gradient(at 40% 20%, hsl(180 100% 50% / 0.15) 0px, transparent 50%),
+      radial-gradient(at 80% 0%, hsl(280 100% 60% / 0.1) 0px, transparent 50%),
+      radial-gradient(at 0% 50%, hsl(260 100% 65% / 0.1) 0px, transparent 50%),
+      radial-gradient(at 80% 50%, hsl(180 100% 50% / 0.1) 0px, transparent 50%),
+      radial-gradient(at 0% 100%, hsl(280 100% 60% / 0.15) 0px, transparent 50%);
   }
 
   /* Grid lines overlay */
   .grid-overlay {
     background-image: 
-      linear-gradient(hsl(240 20% 20% / 0.3) 1px, transparent 1px),
-      linear-gradient(90deg, hsl(240 20% 20% / 0.3) 1px, transparent 1px);
+      linear-gradient(hsl(220 20% 18% / 0.3) 1px, transparent 1px),
+      linear-gradient(90deg, hsl(220 20% 18% / 0.3) 1px, transparent 1px);
     background-size: 60px 60px;
   }
 }
