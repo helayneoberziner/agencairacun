@@ -31,7 +31,11 @@ const Header = () => {
       <div className="container-custom">
         <nav className="flex items-center justify-between h-20">
           <Link to="/" className="flex items-center gap-2 group">
-            <span className="text-2xl font-display font-bold text-gradient-neon">RACUN</span>
+            {settings.logoUrl ? (
+              <img src={settings.logoUrl} alt="Racun" className="h-10 w-auto object-contain" />
+            ) : (
+              <span className="text-2xl font-display font-bold text-gradient-neon">RACUN</span>
+            )}
           </Link>
 
           <div className="hidden lg:flex items-center gap-8">

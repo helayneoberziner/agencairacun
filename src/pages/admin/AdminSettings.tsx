@@ -9,6 +9,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { useSiteSettings } from '@/hooks/useSiteSettings';
 import { Lock, User, Shield, Globe, Phone, MapPin, Instagram, Youtube, Mail, MessageCircle, Image, Trash2, Upload } from 'lucide-react';
 import { useClientLogos, ClientLogo } from '@/hooks/useClientLogos';
+import ImageUpload from '@/components/admin/ImageUpload';
 
 const AdminSettings = () => {
   const { user } = useAuth();
@@ -81,6 +82,12 @@ const AdminSettings = () => {
           </div>
 
           <div className="space-y-4">
+            <ImageUpload
+              label="Logo do site (exibida no header)"
+              value={siteData.logoUrl}
+              onChange={(url) => handleSiteChange('logoUrl', url)}
+              folder="branding"
+            />
             <div className="space-y-2">
               <Label htmlFor="email" className="flex items-center gap-2">
                 <Mail className="w-4 h-4 text-muted-foreground" /> E-mail

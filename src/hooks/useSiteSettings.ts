@@ -8,6 +8,7 @@ export interface SiteSettings {
   address: string;
   instagram: string;
   youtube: string;
+  logoUrl: string;
 }
 
 const defaultSettings: SiteSettings = {
@@ -17,6 +18,7 @@ const defaultSettings: SiteSettings = {
   address: 'Rua Pontes de Miranda, 22 – Blumenau, SC',
   instagram: 'https://instagram.com/agenciaracun',
   youtube: 'https://youtube.com/@agenciaracun',
+  logoUrl: '',
 };
 
 export function useSiteSettings() {
