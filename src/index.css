@@ -214,8 +214,8 @@
   /* Grid lines overlay */
   .grid-overlay {
     background-image: 
-      linear-gradient(hsl(220 20% 18% / 0.3) 1px, transparent 1px),
-      linear-gradient(90deg, hsl(220 20% 18% / 0.3) 1px, transparent 1px);
+      linear-gradient(hsl(240 20% 20% / 0.3) 1px, transparent 1px),
+      linear-gradient(90deg, hsl(240 20% 20% / 0.3) 1px, transparent 1px);
     background-size: 60px 60px;
   }
 }

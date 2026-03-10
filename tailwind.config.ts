@@ -107,7 +107,7 @@ export default {
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'gradient-neon': 'linear-gradient(135deg, hsl(180 100% 50%) 0%, hsl(280 100% 60%) 100%)',
+        'gradient-neon': 'linear-gradient(135deg, hsl(252 100% 34%) 0%, hsl(245 100% 68%) 100%)',
       },
     },
   },
