@@ -110,7 +110,7 @@
   /* Neon text gradient */
   .text-gradient-neon {
     @apply bg-clip-text text-transparent;
-    background-image: linear-gradient(135deg, hsl(180 100% 50%) 0%, hsl(280 100% 60%) 100%);
+    background-image: linear-gradient(135deg, hsl(252 100% 34%) 0%, hsl(245 100% 68%) 100%);
   }
 
   /* Neon glow effect */
