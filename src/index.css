@@ -18,9 +18,9 @@
     --popover: 222 47% 8%;
     --popover-foreground: 210 40% 98%;
 
-    /* Neon cyan primary */
-    --primary: 180 100% 50%;
-    --primary-foreground: 222 47% 6%;
+    /* Magenta primary - cor principal da Racun */
+    --primary: 312 100% 60%;
+    --primary-foreground: 0 0% 100%;
 
     /* Glass/muted surfaces */
     --secondary: 220 30% 12%;
@@ -29,23 +29,23 @@
     --muted: 220 20% 15%;
     --muted-foreground: 215 20% 65%;
 
-    /* Neon magenta accent */
-    --accent: 280 100% 60%;
-    --accent-foreground: 210 40% 98%;
+    /* Accent - magenta mais claro */
+    --accent: 312 80% 50%;
+    --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 210 40% 98%;
 
     --border: 220 20% 18%;
     --input: 220 20% 18%;
-    --ring: 180 100% 50%;
+    --ring: 312 100% 60%;
 
     --radius: 0.75rem;
 
     /* Custom tokens */
-    --neon-cyan: 180 100% 50%;
-    --neon-magenta: 280 100% 60%;
-    --neon-purple: 260 100% 65%;
+    --neon-cyan: 312 100% 60%;
+    --neon-magenta: 312 80% 50%;
+    --neon-purple: 280 100% 65%;
     --glass-bg: 220 30% 12%;
     --glass-border: 220 20% 25%;
     
