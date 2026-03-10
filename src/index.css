@@ -204,11 +204,11 @@
   /* Gradient background mesh */
   .gradient-mesh {
     background-image: 
-      radial-gradient(at 40% 20%, hsl(180 100% 50% / 0.15) 0px, transparent 50%),
-      radial-gradient(at 80% 0%, hsl(280 100% 60% / 0.1) 0px, transparent 50%),
-      radial-gradient(at 0% 50%, hsl(260 100% 65% / 0.1) 0px, transparent 50%),
-      radial-gradient(at 80% 50%, hsl(180 100% 50% / 0.1) 0px, transparent 50%),
-      radial-gradient(at 0% 100%, hsl(280 100% 60% / 0.15) 0px, transparent 50%);
+      radial-gradient(at 40% 20%, hsl(312 100% 60% / 0.15) 0px, transparent 50%),
+      radial-gradient(at 80% 0%, hsl(280 100% 65% / 0.1) 0px, transparent 50%),
+      radial-gradient(at 0% 50%, hsl(312 80% 50% / 0.1) 0px, transparent 50%),
+      radial-gradient(at 80% 50%, hsl(312 100% 60% / 0.1) 0px, transparent 50%),
+      radial-gradient(at 0% 100%, hsl(280 100% 65% / 0.15) 0px, transparent 50%);
   }
 
   /* Grid lines overlay */
