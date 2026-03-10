@@ -115,11 +115,11 @@
 
   /* Neon glow effect */
   .neon-glow {
-    box-shadow: 0 0 20px hsl(180 100% 50% / 0.4), 0 0 40px hsl(180 100% 50% / 0.2);
+    box-shadow: 0 0 20px hsl(312 100% 60% / 0.4), 0 0 40px hsl(312 100% 60% / 0.2);
   }
 
   .neon-glow-strong {
-    box-shadow: 0 0 30px hsl(180 100% 50% / 0.5), 0 0 60px hsl(180 100% 50% / 0.3), 0 0 90px hsl(180 100% 50% / 0.1);
+    box-shadow: 0 0 30px hsl(312 100% 60% / 0.5), 0 0 60px hsl(312 100% 60% / 0.3), 0 0 90px hsl(312 100% 60% / 0.1);
   }
 
   /* Button variants */
