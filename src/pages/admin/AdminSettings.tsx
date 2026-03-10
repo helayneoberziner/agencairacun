@@ -82,6 +82,12 @@ const AdminSettings = () => {
           </div>
 
           <div className="space-y-4">
+            <ImageUpload
+              label="Logo do site (exibida no header)"
+              value={siteData.logoUrl}
+              onChange={(url) => handleSiteChange('logoUrl', url)}
+              folder="branding"
+            />
             <div className="space-y-2">
               <Label htmlFor="email" className="flex items-center gap-2">
                 <Mail className="w-4 h-4 text-muted-foreground" /> E-mail
