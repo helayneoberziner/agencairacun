@@ -29,8 +29,8 @@
     --muted: 220 20% 15%;
     --muted-foreground: 215 20% 65%;
 
-    /* Accent - magenta mais claro */
-    --accent: 312 80% 50%;
+    /* Roxo intenso Racun #1800ad → hsl(253 100% 34%) */
+    --accent: 253 100% 34%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84% 60%;
@@ -44,8 +44,8 @@
 
     /* Custom tokens */
     --neon-cyan: 312 100% 60%;
-    --neon-magenta: 312 80% 50%;
-    --neon-purple: 280 100% 65%;
+    --neon-magenta: 253 100% 34%;
+    --neon-purple: 253 100% 45%;
     --glass-bg: 220 30% 12%;
     --glass-border: 220 20% 25%;
     
