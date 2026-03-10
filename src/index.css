@@ -103,7 +103,7 @@
 
   .glass-card-hover:hover {
     @apply border-primary/30;
-    box-shadow: 0 8px 32px hsl(180 100% 50% / 0.15);
+    box-shadow: 0 8px 32px hsl(252 100% 34% / 0.15);
     transform: translateY(-4px);
   }
 
