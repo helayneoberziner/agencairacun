@@ -168,7 +168,7 @@
     inset: 0;
     border-radius: inherit;
     padding: 1px;
-    background: linear-gradient(135deg, hsl(312 100% 60%), hsl(280 100% 65%));
+    background: linear-gradient(135deg, hsl(312 100% 60%), hsl(253 100% 34%));
     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
