@@ -1,84 +1,89 @@
 import { Link } from 'react-router-dom';
-import { ArrowRight } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { ArrowRight, Target, Sparkles, TrendingUp } from 'lucide-react';
+import ParticlesBackground from '../ParticlesBackground';
 import { useHomeContent } from '@/hooks/useHomeContent';
-import RevealSection from '../RevealSection';
+
+const iconMap = [Target, Sparkles, TrendingUp];
 
 const HeroSection = () => {
   const { content } = useHomeContent();
   const h = content.hero;
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden" style={{ background: '#040d28' }}>
-      <div className="container-custom relative z-10 pt-32 pb-20">
-        <div className="text-center max-w-5xl mx-auto">
-          {/* Headline with staggered lines */}
-          <div className="mb-8">
-            <motion.div
-              initial={{ opacity: 0, y: 40 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, ease: 'easeOut' }}
-            >
-              <h1 className="font-display mb-0">
-                {h.headline1}{' '}
-                <em className="text-gradient-neon">{h.headlineHighlight}</em>
-              </h1>
-            </motion.div>
-            {h.headline2 && (
-              <motion.div
-                initial={{ opacity: 0, y: 40 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, ease: 'easeOut', delay: 0.15 }}
-              >
-                <h1 className="font-display">{h.headline2}</h1>
-              </motion.div>
-            )}
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      {/* Background Effects */}
+      {h.backgroundImage ? (
+        <>
+          <img src={h.backgroundImage} alt="" className="absolute inset-0 w-full h-full object-cover opacity-30" />
+          <div className="absolute inset-0 bg-background/60" />
+        </>
+      ) : (
+        <>
+          <div className="absolute inset-0 gradient-mesh" />
+          <div className="absolute inset-0 grid-overlay opacity-30" />
+        </>
+      )}
+      <ParticlesBackground />
+
+      {/* Glow orbs */}
+      <div className="hidden md:block absolute top-1/4 left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-[128px] animate-float" />
+      <div className="hidden md:block absolute bottom-1/4 right-1/4 w-80 h-80 bg-accent/20 rounded-full blur-[128px] animate-float delay-300" />
+
+      <div className="container-custom relative z-10 pt-24 md:pt-32 pb-12 md:pb-20">
+        <div className="text-center max-w-5xl mx-auto mb-16">
+          {/* Badge */}
+          <div className="inline-flex items-center gap-2 px-3 md:px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs md:text-sm mb-6 md:mb-8 animate-fade-in">
+            <Sparkles className="w-3 h-3 md:w-4 md:h-4" />
+            {h.badge}
           </div>
 
-          <motion.p
-            className="text-muted-foreground max-w-3xl mx-auto mb-10"
-            style={{ fontSize: '18px' }}
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.3 }}
-          >
-            {h.subtitle}
-          </motion.p>
+          {/* Main headline */}
+          <h1 className="text-3xl md:text-6xl lg:text-7xl font-display font-bold leading-tight mb-4 md:mb-6 animate-fade-in delay-100">
+            {h.headline1}{' '}
+            <span className="text-gradient-neon">{h.headlineHighlight}</span>
+            {' '}{h.headline2}
+          </h1>
 
-          <motion.div
-            className="flex flex-col sm:flex-row items-center justify-center gap-4"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.45 }}
-          >
-            <Link to="/contato" className="btn-primary text-lg w-full sm:w-auto justify-center">
+          {/* Subtitle */}
+          <p className="text-base md:text-2xl text-muted-foreground max-w-3xl mx-auto mb-8 md:mb-10 animate-fade-in delay-200">
+            {h.subtitle}
+          </p>
+
+          {/* CTAs */}
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 md:gap-4 animate-fade-in delay-300">
+            <Link to="/contato" className="btn-primary flex items-center gap-2 text-base md:text-lg px-6 md:px-8 py-3 md:py-4 w-full sm:w-auto justify-center">
               {h.ctaPrimary}
               <ArrowRight className="w-5 h-5" />
             </Link>
-            <Link to="/cases" className="btn-outline text-lg w-full sm:w-auto justify-center">
+            <Link to="/cases" className="btn-outline flex items-center gap-2 text-base md:text-lg px-6 md:px-8 py-3 md:py-4 w-full sm:w-auto justify-center">
               {h.ctaSecondary}
             </Link>
-          </motion.div>
+          </div>
         </div>
 
-        {/* Pillars as numbered items */}
-        <RevealSection className="mt-20">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-0 border-t border-border">
-            {h.pillars.map((pillar, index) => (
+        {/* Pillars */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 mt-10 md:mt-16 animate-fade-in delay-400">
+          {h.pillars.map((pillar, index) => {
+            const Icon = iconMap[index % iconMap.length];
+            return (
               <div
                 key={index}
-                className="p-8 border-b md:border-b-0 md:border-r border-border last:border-r-0 last:border-b-0"
+                className="glass-card-hover p-6 md:p-8 text-center group"
+                style={{ animationDelay: `${(index + 4) * 100}ms` }}
               >
-                <span className="font-display text-4xl" style={{ color: '#FF00CC' }}>
-                  {String(index + 1).padStart(2, '0')}
-                </span>
-                <h3 className="font-display mt-4 mb-3">{pillar.title}</h3>
+                <div className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-primary/10 flex items-center justify-center group-hover:neon-glow transition-all duration-500">
+                  <Icon className="w-8 h-8 text-primary" />
+                </div>
+                <h3 className="font-display font-semibold text-xl mb-3">{pillar.title}</h3>
                 <p className="text-muted-foreground">{pillar.description}</p>
               </div>
-            ))}
-          </div>
-        </RevealSection>
+            );
+          })}
+        </div>
       </div>
+
+      {/* Bottom gradient fade */}
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent" />
     </section>
   );
 };

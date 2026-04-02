@@ -1,38 +1,41 @@
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
-import RevealSection from '../RevealSection';
 
 const ProdutoraTeaser = () => {
   return (
-    <section className="section-padding">
-      <div className="container-custom">
-        <RevealSection>
-          <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 items-center">
-            {/* Image placeholder — 40% */}
-            <div className="lg:col-span-2">
-              <div className="aspect-[4/3] rounded-sm overflow-hidden border border-border" style={{ background: '#0d1540' }}>
-                {/* Placeholder: substitua por imagem/vídeo real */}
-              </div>
-            </div>
-
-            {/* Content — 60% */}
-            <div className="lg:col-span-3">
-              <span className="text-sm uppercase tracking-widest font-medium mb-4 block" style={{ color: '#FF00CC' }}>
-                Racun Filmes
-              </span>
-              <h2 className="font-display mb-6">
-                Histórias com estética de <em className="text-gradient-neon">cinema.</em>
-              </h2>
-              <p className="text-muted-foreground mb-8" style={{ fontSize: '18px' }}>
-                Vídeos com propósito que conectam, emocionam e convertem. Do roteiro à entrega, sua marca merece produção de alto nível.
-              </p>
-              <Link to="/produtora" className="btn-primary">
-                Ver Produtora
-                <ArrowRight className="w-4 h-4" />
-              </Link>
+    <section className="section-padding relative overflow-hidden">
+      <div className="absolute inset-0 gradient-mesh opacity-50" />
+      
+      <div className="container-custom relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 items-center">
+          {/* Imagem/vídeo placeholder — 40% */}
+          <div className="lg:col-span-2 relative group">
+            <div className="aspect-[4/3] rounded-2xl overflow-hidden bg-secondary/50 border border-white/10 relative">
+              {/* Placeholder: substitua por <img> ou <video> da produtora */}
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-accent/10 to-transparent" />
             </div>
           </div>
-        </RevealSection>
+
+          {/* Conteúdo — 60% */}
+          <div className="lg:col-span-3">
+            <span className="text-sm uppercase tracking-widest text-primary font-medium mb-4 block">
+              Racun Filmes
+            </span>
+            
+            <h2 className="text-3xl md:text-4xl font-display font-bold mb-6">
+              Histórias com estética de <span className="text-gradient-neon">cinema.</span>
+            </h2>
+            
+            <p className="text-muted-foreground text-lg mb-8 leading-relaxed">
+              Vídeos com propósito que conectam, emocionam e convertem. Do roteiro à entrega, sua marca merece produção de alto nível.
+            </p>
+
+            <Link to="/produtora" className="btn-primary inline-flex items-center gap-2">
+              Ver Produtora
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+        </div>
       </div>
     </section>
   );

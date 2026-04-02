@@ -1,7 +1,6 @@
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import WhatsAppButton from '@/components/WhatsAppButton';
-import CustomCursor from '@/components/CustomCursor';
 import HeroSection from '@/components/home/HeroSection';
 import ServicesSection from '@/components/home/ServicesSection';
 import SocialProofSection from '@/components/home/SocialProofSection';
@@ -12,8 +11,7 @@ import ContactSection from '@/components/home/ContactSection';
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-background grain">
-      <CustomCursor />
+    <div className="min-h-screen bg-background">
       <Header />
       <main>
         <HeroSection />

@@ -3,10 +3,11 @@ import { Link } from 'react-router-dom';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import WhatsAppButton from '@/components/WhatsAppButton';
-import CustomCursor from '@/components/CustomCursor';
-import RevealSection from '@/components/RevealSection';
 import { ArrowRight, Play, X, ChevronDown } from 'lucide-react';
-import { motion } from 'framer-motion';
+
+/* ──────────────────────────────────────────────
+   Dados estáticos — substitua placeholders aqui
+   ────────────────────────────────────────────── */
 
 const services = [
   { num: '01', title: 'Vídeos Institucionais', desc: 'Apresente a essência da sua empresa com narrativa envolvente e produção cinematográfica.' },
@@ -27,6 +28,7 @@ const segments = [
 
 const processSteps = ['Briefing', 'Roteiro', 'Captação', 'Direção', 'Pós-produção', 'Entrega'];
 
+/* Placeholder: substitua por URLs reais */
 const portfolioItems = [
   { title: 'Campanha Verão 2024', client: 'Cliente' },
   { title: 'Institucional Corporativo', client: 'Cliente' },
@@ -44,6 +46,7 @@ const faqItems = [
   { q: 'Vocês trabalham com contrato?', a: 'Sim, todos os projetos são formalizados com contrato para segurança de ambas as partes.' },
 ];
 
+/* Placeholder: substitua por URLs reais de bastidores */
 const bastidoresCount = 6;
 
 const Produtora = () => {
@@ -53,189 +56,205 @@ const Produtora = () => {
   const [portfolioModal, setPortfolioModal] = useState<number | null>(null);
 
   return (
-    <div className="min-h-screen bg-background grain">
-      <CustomCursor />
+    <div className="min-h-screen bg-background">
       <Header />
 
       <main>
-        {/* Hero */}
-        <section className="relative min-h-screen flex items-center justify-center overflow-hidden" style={{ background: '#040d28' }}>
+        {/* ═══ HERO — vídeo fullscreen ═══ */}
+        <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+          {/* Placeholder: substitua pelo <video> com src do showreel */}
+          <div className="absolute inset-0 bg-secondary/60" />
+          <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-background/20 to-background" />
+
           <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
-            <motion.h1 className="font-display mb-6" initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
-              Vídeo com <em className="text-gradient-neon">propósito.</em>
-            </motion.h1>
-            <motion.p className="text-muted-foreground mb-10 max-w-2xl mx-auto" style={{ fontSize: '18px' }}
-              initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.15 }}>
+            <h1 className="text-5xl md:text-7xl font-display font-bold mb-6">
+              Vídeo com <span className="text-gradient-neon">propósito.</span>
+            </h1>
+            <p className="text-xl md:text-2xl text-muted-foreground mb-10 max-w-2xl mx-auto">
               Não é só vídeo bonito. É vídeo que trabalha pela sua marca.
-            </motion.p>
-            <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.3 }}>
-              <button onClick={() => setShowreelOpen(true)} className="btn-primary text-lg px-8 py-4">
-                <Play className="w-5 h-5" /> Ver showreel
-              </button>
-            </motion.div>
+            </p>
+            <button
+              onClick={() => setShowreelOpen(true)}
+              className="btn-primary inline-flex items-center gap-3 text-lg px-8 py-4"
+            >
+              <Play className="w-5 h-5" />
+              Ver showreel
+            </button>
           </div>
         </section>
 
-        {/* Services accordion */}
+        {/* ═══ SERVIÇOS — accordion numerado ═══ */}
         <section className="section-padding">
           <div className="container-custom max-w-4xl">
-            <RevealSection>
-              <h2 className="font-display mb-4">
-                O que a gente <em className="text-gradient-neon">faz.</em>
-              </h2>
-              <p className="text-muted-foreground mb-12" style={{ fontSize: '18px' }}>
-                Cada projeto é único. Aqui estão as especialidades que dominamos.
-              </p>
-              <div className="divide-y divide-border">
-                {services.map((s, i) => (
-                  <div key={i}>
-                    <button onClick={() => setOpenService(openService === i ? null : i)} className="w-full flex items-center justify-between py-6 text-left group">
-                      <div className="flex items-center gap-6">
-                        <span className="font-display text-sm" style={{ color: '#FF00CC' }}>{s.num}</span>
-                        <span className="font-display group-hover:text-primary transition-colors" style={{ fontSize: 'clamp(20px, 2.5vw, 28px)' }}>{s.title}</span>
-                      </div>
-                      <ChevronDown className={`w-5 h-5 text-muted-foreground transition-transform duration-300 ${openService === i ? 'rotate-180' : ''}`} style={openService === i ? { color: '#FF00CC' } : {}} />
-                    </button>
-                    <div className={`overflow-hidden transition-all duration-300 ${openService === i ? 'max-h-40 pb-6' : 'max-h-0'}`}>
-                      <p className="text-muted-foreground pl-14 pr-8">{s.desc}</p>
+            <h2 className="text-3xl md:text-5xl font-display font-bold mb-4">
+              O que a gente <span className="text-gradient-neon">faz.</span>
+            </h2>
+            <p className="text-muted-foreground text-lg mb-12">
+              Cada projeto é único. Aqui estão as especialidades que dominamos.
+            </p>
+
+            <div className="divide-y divide-white/10">
+              {services.map((s, i) => (
+                <div key={i}>
+                  <button
+                    onClick={() => setOpenService(openService === i ? null : i)}
+                    className="w-full flex items-center justify-between py-6 text-left group"
+                  >
+                    <div className="flex items-center gap-6">
+                      <span className="text-sm font-mono text-primary">{s.num}</span>
+                      <span className="text-xl md:text-2xl font-display font-semibold group-hover:text-primary transition-colors">
+                        {s.title}
+                      </span>
                     </div>
+                    <ChevronDown className={`w-5 h-5 text-muted-foreground transition-transform duration-300 ${openService === i ? 'rotate-180 text-primary' : ''}`} />
+                  </button>
+                  <div className={`overflow-hidden transition-all duration-300 ${openService === i ? 'max-h-40 pb-6' : 'max-h-0'}`}>
+                    <p className="text-muted-foreground pl-14 pr-8">{s.desc}</p>
                   </div>
-                ))}
-              </div>
-            </RevealSection>
+                </div>
+              ))}
+            </div>
           </div>
         </section>
 
-        {/* Portfolio */}
-        <section className="section-padding" style={{ background: '#080f2e' }}>
+        {/* ═══ PORTFÓLIO — grid grayscale → color ═══ */}
+        <section className="section-padding bg-secondary/20">
           <div className="container-custom">
-            <RevealSection>
-              <h2 className="font-display mb-4 text-center">
-                Nosso <em className="text-gradient-neon">trabalho.</em>
-              </h2>
-              <p className="text-muted-foreground mb-12 text-center max-w-2xl mx-auto" style={{ fontSize: '18px' }}>
-                Projetos que unem estética cinematográfica e estratégia de marca.
-              </p>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {portfolioItems.map((item, i) => (
-                  <div key={i} onClick={() => setPortfolioModal(i)} className="group cursor-pointer border border-border rounded-sm overflow-hidden">
-                    <div className="aspect-video relative overflow-hidden" style={{ background: '#0d1540' }}>
-                      {/* Placeholder: substitua por thumbnail real */}
-                      <div className="absolute inset-0 grayscale group-hover:grayscale-0 transition-all duration-400" />
-                      <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-background/40">
-                        <div className="w-14 h-14 rounded-full flex items-center justify-center" style={{ background: '#FF00CC' }}>
-                          <Play className="w-6 h-6 ml-0.5" style={{ color: '#040d28' }} />
-                        </div>
+            <h2 className="text-3xl md:text-5xl font-display font-bold mb-4 text-center">
+              <span className="text-gradient-neon">Nosso trabalho.</span>
+            </h2>
+            <p className="text-muted-foreground text-lg mb-12 text-center max-w-2xl mx-auto">
+              Projetos que unem estética cinematográfica e estratégia de marca.
+            </p>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {portfolioItems.map((item, i) => (
+                <div
+                  key={i}
+                  onClick={() => setPortfolioModal(i)}
+                  className="group cursor-pointer glass-card overflow-hidden"
+                >
+                  <div className="aspect-video relative overflow-hidden">
+                    {/* Placeholder: substitua por <img> com thumbnail real */}
+                    <div className="absolute inset-0 bg-gradient-to-br from-muted/40 to-secondary grayscale group-hover:grayscale-0 transition-all duration-500" />
+                    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-background/40 backdrop-blur-sm">
+                      <div className="w-14 h-14 rounded-full bg-primary flex items-center justify-center">
+                        <Play className="w-6 h-6 text-primary-foreground ml-0.5" />
                       </div>
                     </div>
-                    <div className="p-4">
-                      <h4 className="font-display group-hover:text-primary transition-colors" style={{ fontSize: '18px' }}>{item.title}</h4>
-                      <p className="text-sm text-muted-foreground">{item.client}</p>
-                    </div>
                   </div>
-                ))}
-              </div>
-            </RevealSection>
+                  <div className="p-4">
+                    <h4 className="font-display font-medium group-hover:text-primary transition-colors">{item.title}</h4>
+                    <p className="text-sm text-muted-foreground">{item.client}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </section>
 
-        {/* Segments */}
+        {/* ═══ SEGMENTOS ═══ */}
         <section className="section-padding">
           <div className="container-custom">
-            <RevealSection>
-              <h2 className="font-display mb-12 text-center">
-                Segmentos que <em className="text-gradient-neon">atendemos.</em>
-              </h2>
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-0 border-t border-l border-border">
-                {segments.map((seg, i) => (
-                  <div key={i} className="p-6 text-center border-b border-r border-border">
-                    <h4 className="font-display mb-2" style={{ fontSize: '18px' }}>{seg.title}</h4>
-                    <p className="text-sm text-muted-foreground">{seg.desc}</p>
-                  </div>
-                ))}
-              </div>
-            </RevealSection>
+            <h2 className="text-3xl md:text-5xl font-display font-bold mb-12 text-center">
+              Segmentos que <span className="text-gradient-neon">atendemos.</span>
+            </h2>
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+              {segments.map((seg, i) => (
+                <div key={i} className="glass-card p-6 text-center hover:border-primary/30 transition-colors">
+                  <h4 className="font-display font-semibold text-lg mb-2">{seg.title}</h4>
+                  <p className="text-sm text-muted-foreground">{seg.desc}</p>
+                </div>
+              ))}
+            </div>
           </div>
         </section>
 
-        {/* Process */}
-        <section className="section-padding" style={{ background: '#080f2e' }}>
+        {/* ═══ PROCESSO — timeline ═══ */}
+        <section className="section-padding bg-secondary/20">
           <div className="container-custom">
-            <RevealSection>
-              <h2 className="font-display mb-12 text-center">
-                Nosso <em className="text-gradient-neon">processo.</em>
-              </h2>
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-0 border-t border-border">
+            <h2 className="text-3xl md:text-5xl font-display font-bold mb-12 text-center">
+              Nosso <span className="text-gradient-neon">processo.</span>
+            </h2>
+            <div className="relative">
+              {/* Linha horizontal desktop */}
+              <div className="hidden md:block absolute top-6 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8">
                 {processSteps.map((step, i) => (
-                  <div key={i} className="p-6 text-center border-b lg:border-b-0 lg:border-r border-border last:border-r-0 last:border-b-0">
-                    <span className="font-display text-3xl block mb-3" style={{ color: '#FF00CC', opacity: 0.4 }}>{i + 1}</span>
-                    <span className="font-display text-sm">{step}</span>
-                  </div>
-                ))}
-              </div>
-            </RevealSection>
-          </div>
-        </section>
-
-        {/* Bastidores */}
-        <section className="section-padding">
-          <div className="container-custom">
-            <RevealSection>
-              <h2 className="font-display mb-12 text-center">
-                <em className="text-gradient-neon">Bastidores.</em>
-              </h2>
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                {Array.from({ length: bastidoresCount }).map((_, i) => (
-                  <div key={i} className="aspect-square rounded-sm overflow-hidden border border-border grayscale hover:grayscale-0 transition-all duration-400" style={{ background: '#0d1540' }}>
-                    {/* Placeholder: substitua por foto de bastidores */}
-                  </div>
-                ))}
-              </div>
-            </RevealSection>
-          </div>
-        </section>
-
-        {/* FAQ */}
-        <section className="section-padding" style={{ background: '#080f2e' }}>
-          <div className="container-custom max-w-3xl">
-            <RevealSection>
-              <h2 className="font-display mb-12 text-center">
-                Perguntas <em className="text-gradient-neon">frequentes.</em>
-              </h2>
-              <div>
-                {faqItems.map((faq, i) => (
-                  <div key={i} className="border-b border-border">
-                    <button onClick={() => setOpenFaq(openFaq === i ? null : i)} className="w-full flex items-center justify-between py-5 text-left group">
-                      <span className="font-medium group-hover:text-primary transition-colors pr-4" style={{ fontSize: '18px' }}>{faq.q}</span>
-                      <ChevronDown className={`w-5 h-5 text-muted-foreground flex-shrink-0 transition-transform duration-300 ${openFaq === i ? 'rotate-180' : ''}`} style={openFaq === i ? { color: '#FF00CC' } : {}} />
-                    </button>
-                    <div className={`overflow-hidden transition-all duration-300 ${openFaq === i ? 'max-h-40 pb-5' : 'max-h-0'}`}>
-                      <p className="text-muted-foreground">{faq.a}</p>
+                  <div key={i} className="flex flex-col items-center text-center">
+                    <div className="w-12 h-12 rounded-full bg-primary/10 border-2 border-primary flex items-center justify-center mb-4 relative z-10">
+                      <span className="text-sm font-bold text-primary">{i + 1}</span>
                     </div>
+                    <span className="font-display font-medium text-sm">{step}</span>
                   </div>
                 ))}
               </div>
-            </RevealSection>
+            </div>
           </div>
         </section>
 
-        {/* CTA */}
+        {/* ═══ BASTIDORES — grid grayscale ═══ */}
         <section className="section-padding">
           <div className="container-custom">
-            <RevealSection>
-              <div className="border border-border rounded-sm p-12 md:p-16 text-center" style={{ background: '#080f2e' }}>
-                <h2 className="font-display mb-6">
-                  Vamos criar algo <em className="text-gradient-neon">incrível?</em>
+            <h2 className="text-3xl md:text-5xl font-display font-bold mb-12 text-center">
+              <span className="text-gradient-neon">Bastidores.</span>
+            </h2>
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+              {Array.from({ length: bastidoresCount }).map((_, i) => (
+                <div key={i} className="aspect-square rounded-xl overflow-hidden bg-secondary/40 border border-white/5 grayscale hover:grayscale-0 transition-all duration-500">
+                  {/* Placeholder: substitua por <img> com foto de bastidores */}
+                  <div className="w-full h-full bg-gradient-to-br from-muted/30 to-secondary/60" />
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ═══ FAQ — accordion clean ═══ */}
+        <section className="section-padding bg-secondary/20">
+          <div className="container-custom max-w-3xl">
+            <h2 className="text-3xl md:text-5xl font-display font-bold mb-12 text-center">
+              Perguntas <span className="text-gradient-neon">frequentes.</span>
+            </h2>
+            <div>
+              {faqItems.map((faq, i) => (
+                <div key={i} className="border-b border-white/10">
+                  <button
+                    onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                    className="w-full flex items-center justify-between py-5 text-left group"
+                  >
+                    <span className="text-lg font-medium group-hover:text-primary transition-colors pr-4">
+                      {faq.q}
+                    </span>
+                    <ChevronDown className={`w-5 h-5 text-muted-foreground flex-shrink-0 transition-transform duration-300 ${openFaq === i ? 'rotate-180 text-primary' : ''}`} />
+                  </button>
+                  <div className={`overflow-hidden transition-all duration-300 ${openFaq === i ? 'max-h-40 pb-5' : 'max-h-0'}`}>
+                    <p className="text-muted-foreground">{faq.a}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ═══ CTA FINAL ═══ */}
+        <section className="section-padding">
+          <div className="container-custom">
+            <div className="glass-card p-12 md:p-16 text-center relative overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-r from-accent/10 via-primary/10 to-accent/10" />
+              <div className="relative z-10">
+                <h2 className="text-3xl md:text-5xl font-display font-bold mb-6">
+                  Vamos criar algo <span className="text-gradient-neon">incrível?</span>
                 </h2>
-                <p className="text-muted-foreground mb-8 max-w-2xl mx-auto" style={{ fontSize: '18px' }}>
+                <p className="text-muted-foreground text-lg mb-8 max-w-2xl mx-auto">
                   Conte com a Racun Filmes para transformar a comunicação da sua marca com vídeos de alto impacto.
                 </p>
-                <Link to="/contato" className="btn-primary text-lg px-8 py-4">
+                <Link to="/contato" className="btn-primary inline-flex items-center gap-2 text-lg px-8 py-4">
                   Orçar um projeto audiovisual
                   <ArrowRight className="w-5 h-5" />
                 </Link>
               </div>
-            </RevealSection>
+            </div>
           </div>
         </section>
       </main>
@@ -243,14 +262,14 @@ const Produtora = () => {
       <Footer />
       <WhatsAppButton />
 
-      {/* Showreel Modal */}
+      {/* ═══ MODAL SHOWREEL ═══ */}
       {showreelOpen && (
-        <div className="fixed inset-0 z-[100] bg-background/90 flex items-center justify-center p-4" onClick={() => setShowreelOpen(false)}>
-          <div className="relative w-full max-w-5xl aspect-video rounded-sm overflow-hidden border border-border" style={{ background: '#040d28' }} onClick={(e) => e.stopPropagation()}>
-            <button onClick={() => setShowreelOpen(false)} className="absolute top-4 right-4 z-10 w-10 h-10 rounded-sm flex items-center justify-center text-foreground hover:bg-white/10 transition-colors" style={{ background: '#040d28cc' }}>
+        <div className="fixed inset-0 z-[100] bg-background/90 backdrop-blur-md flex items-center justify-center p-4" onClick={() => setShowreelOpen(false)}>
+          <div className="relative w-full max-w-5xl aspect-video bg-secondary rounded-2xl overflow-hidden" onClick={(e) => e.stopPropagation()}>
+            <button onClick={() => setShowreelOpen(false)} className="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-background/50 flex items-center justify-center text-foreground hover:bg-background/80 transition-colors">
               <X className="w-5 h-5" />
             </button>
-            {/* Placeholder: substitua por player de vídeo */}
+            {/* Placeholder: substitua por <iframe> ou <video> com o showreel real */}
             <div className="w-full h-full flex items-center justify-center text-muted-foreground">
               <Play className="w-16 h-16" />
             </div>
@@ -258,13 +277,14 @@ const Produtora = () => {
         </div>
       )}
 
-      {/* Portfolio Modal */}
+      {/* ═══ MODAL PORTFÓLIO ═══ */}
       {portfolioModal !== null && (
-        <div className="fixed inset-0 z-[100] bg-background/90 flex items-center justify-center p-4" onClick={() => setPortfolioModal(null)}>
-          <div className="relative w-full max-w-4xl aspect-video rounded-sm overflow-hidden border border-border" style={{ background: '#040d28' }} onClick={(e) => e.stopPropagation()}>
-            <button onClick={() => setPortfolioModal(null)} className="absolute top-4 right-4 z-10 w-10 h-10 rounded-sm flex items-center justify-center text-foreground hover:bg-white/10 transition-colors" style={{ background: '#040d28cc' }}>
+        <div className="fixed inset-0 z-[100] bg-background/90 backdrop-blur-md flex items-center justify-center p-4" onClick={() => setPortfolioModal(null)}>
+          <div className="relative w-full max-w-4xl aspect-video bg-secondary rounded-2xl overflow-hidden" onClick={(e) => e.stopPropagation()}>
+            <button onClick={() => setPortfolioModal(null)} className="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-background/50 flex items-center justify-center text-foreground hover:bg-background/80 transition-colors">
               <X className="w-5 h-5" />
             </button>
+            {/* Placeholder: substitua por player de vídeo real */}
             <div className="w-full h-full flex items-center justify-center text-muted-foreground flex-col gap-2">
               <Play className="w-12 h-12" />
               <span className="text-sm">{portfolioItems[portfolioModal]?.title}</span>
