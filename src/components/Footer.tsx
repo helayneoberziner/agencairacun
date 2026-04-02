@@ -7,15 +7,16 @@ const Footer = () => {
   const { settings } = useSiteSettings();
 
   const services = [
-    { name: 'Marketing Digital', path: '/marketing', external: false },
-    { name: 'Produtora Audiovisual', path: 'https://racunfilmes.lovable.app', external: true },
-    { name: 'Cases', path: '/cases', external: false },
+    { name: 'Marketing Digital', path: '/marketing' },
+    { name: 'Produtora Audiovisual', path: '/produtora' },
+    { name: 'Cases', path: '/cases' },
   ];
 
   const company = [
     { name: 'Sobre nós', path: '/sobre' },
     { name: 'Contato', path: '/contato' },
-    { name: 'Cases', path: '/cases' },
+    { name: 'Produtora', path: '/produtora' },
+    { name: 'Área do Cliente', path: 'https://app.racun.com.br', external: true },
   ];
 
   const socials = [
@@ -30,7 +31,11 @@ const Footer = () => {
           {/* Brand */}
           <div className="space-y-6">
             <Link to="/" className="inline-block">
-              <span className="text-3xl font-display font-bold text-gradient-neon">RACUN</span>
+              {settings.logoUrl ? (
+                <img src={settings.logoUrl} alt="Racun" className="h-10 w-auto object-contain" />
+              ) : (
+                <span className="text-3xl font-display font-bold text-gradient-neon">RACUN</span>
+              )}
             </Link>
             <p className="text-muted-foreground text-sm leading-relaxed">
               Agência de marketing, produtora audiovisual e especialistas em restaurantes. 
@@ -52,16 +57,9 @@ const Footer = () => {
             <ul className="space-y-3">
               {services.map((service) => (
                 <li key={service.name}>
-                  {service.external ? (
-                    <a href={service.path} target="_blank" rel="noopener noreferrer"
-                      className="text-muted-foreground text-sm hover:text-primary transition-colors duration-300">
-                      {service.name}
-                    </a>
-                  ) : (
-                    <Link to={service.path} className="text-muted-foreground text-sm hover:text-primary transition-colors duration-300">
-                      {service.name}
-                    </Link>
-                  )}
+                  <Link to={service.path} className="text-muted-foreground text-sm hover:text-primary transition-colors duration-300">
+                    {service.name}
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -73,9 +71,15 @@ const Footer = () => {
             <ul className="space-y-3">
               {company.map((item) => (
                 <li key={item.name}>
-                  <Link to={item.path} className="text-muted-foreground text-sm hover:text-primary transition-colors duration-300">
-                    {item.name}
-                  </Link>
+                  {'external' in item && item.external ? (
+                    <a href={item.path} target="_blank" rel="noopener noreferrer" className="text-muted-foreground text-sm hover:text-primary transition-colors duration-300">
+                      {item.name}
+                    </a>
+                  ) : (
+                    <Link to={item.path} className="text-muted-foreground text-sm hover:text-primary transition-colors duration-300">
+                      {item.name}
+                    </Link>
+                  )}
                 </li>
               ))}
             </ul>

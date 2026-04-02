@@ -11,6 +11,7 @@ import Sobre from "./pages/Sobre";
 import Contato from "./pages/Contato";
 import Produtora from "./pages/Produtora";
 import Restaurantes from "./pages/Restaurantes";
+import Proposta from "./pages/Proposta";
 import NotFound from "./pages/NotFound";
 import AdminLogin from "./pages/admin/AdminLogin";
 import AdminDashboard from "./pages/admin/AdminDashboard";
@@ -44,6 +45,7 @@ const App = () => (
             <Route path="/contato" element={<Contato />} />
             <Route path="/produtora" element={<Produtora />} />
             <Route path="/restaurantes" element={<Restaurantes />} />
+            <Route path="/proposta" element={<Proposta />} />
             
             {/* Admin Routes */}
             <Route path="/admin/login" element={<AdminLogin />} />
