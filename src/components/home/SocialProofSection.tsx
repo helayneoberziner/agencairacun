@@ -1,75 +1,103 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { CheckCircle2, ArrowRight, Quote } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { useClientLogos } from '@/hooks/useClientLogos';
 import { useTestimonials } from '@/hooks/useTestimonials';
 import { useHomeContent } from '@/hooks/useHomeContent';
+import RevealSection from '../RevealSection';
 
 const SocialProofSection = () => {
   const { logos } = useClientLogos();
   const { testimonials } = useTestimonials();
   const { content } = useHomeContent();
   const sp = content.socialProof;
+  const [currentTestimonial, setCurrentTestimonial] = useState(0);
+
+  const goNext = () => {
+    if (testimonials.length > 0) {
+      setCurrentTestimonial((prev) => (prev + 1) % testimonials.length);
+    }
+  };
+
+  const goPrev = () => {
+    if (testimonials.length > 0) {
+      setCurrentTestimonial((prev) => (prev - 1 + testimonials.length) % testimonials.length);
+    }
+  };
 
   return (
-    <section className="section-padding relative overflow-hidden bg-secondary/20">
-      <div className="absolute bottom-0 left-0 w-80 h-80 bg-accent/10 rounded-full blur-[128px]" />
-      
-      <div className="container-custom relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-          <div>
-            <span className="text-primary text-sm font-medium uppercase tracking-wider mb-4 block">
-              {sp.badge}
-            </span>
-            <h2 className="text-3xl md:text-4xl font-display font-bold mb-8">
-              {sp.title} <span className="text-gradient-neon">{sp.titleHighlight}</span>
-            </h2>
-            
-            <div className="space-y-4 mb-8">
-              {sp.proofs.map((proof) => (
-                <div key={proof} className="flex items-center gap-3">
-                  <CheckCircle2 className="w-5 h-5 text-primary flex-shrink-0" />
-                  <span className="text-foreground">{proof}</span>
+    <section className="section-padding" style={{ background: '#080f2e' }}>
+      <div className="container-custom">
+        <RevealSection>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+            {/* Left */}
+            <div>
+              <span className="text-sm font-medium uppercase tracking-wider mb-4 block" style={{ color: '#FF00CC' }}>
+                {sp.badge}
+              </span>
+              <h2 className="font-display mb-8">
+                {sp.title} <em className="text-gradient-neon">{sp.titleHighlight}</em>
+              </h2>
+
+              <div className="space-y-4 mb-8">
+                {sp.proofs.map((proof) => (
+                  <p key={proof} className="text-muted-foreground">{proof}</p>
+                ))}
+              </div>
+
+              {logos.length > 0 && (
+                <div className="mb-8">
+                  <p className="text-sm text-muted-foreground mb-4">Clientes que confiam na Racun:</p>
+                  <div className="flex flex-wrap gap-4">
+                    {logos.map((logo) => (
+                      <div key={logo.id} className="w-24 h-12 rounded-sm border border-border flex items-center justify-center p-2 bg-secondary/30">
+                        <img src={logo.image_url} alt={logo.name} className="max-h-full max-w-full object-contain" />
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              ))}
+              )}
+
+              <Link to="/contato" className="btn-primary">
+                {sp.cta}
+                <ArrowRight className="w-4 h-4" />
+              </Link>
             </div>
 
-            {logos.length > 0 && (
-              <div className="mb-8">
-                <p className="text-sm text-muted-foreground mb-4">Clientes que confiam na Racun:</p>
-                <div className="flex flex-wrap gap-4">
-                  {logos.map((logo) => (
-                    <div key={logo.id} className="w-24 h-12 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center p-2">
-                      <img src={logo.image_url} alt={logo.name} className="max-h-full max-w-full object-contain" />
+            {/* Right — Testimonials */}
+            <div>
+              {testimonials.length > 0 ? (
+                <div className="relative">
+                  {/* Typographic quote mark */}
+                  <span className="font-display absolute -top-8 left-0 select-none" style={{ fontSize: '120px', color: '#FF00CC', opacity: 0.4, lineHeight: 1 }}>
+                    &ldquo;
+                  </span>
+
+                  <div className="pt-16">
+                    <p className="font-display text-foreground mb-6" style={{ fontSize: 'clamp(20px, 2.5vw, 28px)', lineHeight: 1.3, fontStyle: 'normal' }}>
+                      {testimonials[currentTestimonial]?.quote}
+                    </p>
+                    <p className="text-sm text-muted-foreground">
+                      {testimonials[currentTestimonial]?.name}
+                      {testimonials[currentTestimonial]?.role && ` · ${testimonials[currentTestimonial].role}`}
+                    </p>
+                  </div>
+
+                  {testimonials.length > 1 && (
+                    <div className="flex gap-6 mt-8">
+                      <button onClick={goPrev} className="text-foreground text-2xl hover:opacity-70 transition-opacity">&larr;</button>
+                      <button onClick={goNext} className="text-foreground text-2xl hover:opacity-70 transition-opacity">&rarr;</button>
                     </div>
-                  ))}
+                  )}
                 </div>
-              </div>
-            )}
-
-            <Link to="/contato" className="btn-primary inline-flex items-center gap-2">
-              {sp.cta}
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-          </div>
-
-          <div className="space-y-6">
-            {testimonials.length > 0 ? testimonials.map((testimonial) => (
-              <div key={testimonial.id} className="glass-card p-6 relative">
-                <Quote className="absolute top-4 right-4 w-8 h-8 text-primary/20" />
-                <p className="text-foreground mb-4 leading-relaxed">"{testimonial.quote}"</p>
-                <div>
-                  <p className="font-medium text-foreground">{testimonial.name}</p>
-                  <p className="text-sm text-muted-foreground">{testimonial.role}</p>
+              ) : (
+                <div className="py-12 text-center text-muted-foreground">
+                  <p>Depoimentos em breve.</p>
                 </div>
-              </div>
-            )) : (
-              <div className="glass-card p-6 text-center text-muted-foreground">
-                <Quote className="w-8 h-8 mx-auto mb-3 opacity-30" />
-                <p>Depoimentos em breve.</p>
-              </div>
-            )}
+              )}
+            </div>
           </div>
-        </div>
+        </RevealSection>
       </div>
     </section>
   );

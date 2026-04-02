@@ -1,60 +1,60 @@
 import { Link } from 'react-router-dom';
-import { Megaphone, Video, Palette, BarChart3, ArrowRight } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { useHomeContent } from '@/hooks/useHomeContent';
-
-const iconMap = [Megaphone, Video, BarChart3, Palette];
+import RevealSection from '../RevealSection';
 
 const ServicesSection = () => {
   const { content } = useHomeContent();
   const s = content.services;
 
   return (
-    <section className="section-padding relative overflow-hidden">
-      <div className="absolute top-0 right-0 w-96 h-96 bg-primary/10 rounded-full blur-[128px]" />
-      
-      <div className="container-custom relative z-10">
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <span className="text-primary text-sm font-medium uppercase tracking-wider mb-4 block">
-            {s.badge}
-          </span>
-          <h2 className="text-3xl md:text-5xl font-display font-bold mb-6">
-            {s.title} <span className="text-gradient-neon">{s.titleHighlight}</span>
-          </h2>
-          <p className="text-muted-foreground text-lg">{s.subtitle}</p>
-        </div>
+    <section className="section-padding">
+      <div className="container-custom">
+        <RevealSection>
+          <div className="max-w-3xl mb-16">
+            <span className="text-sm font-medium uppercase tracking-wider mb-4 block" style={{ color: '#FF00CC' }}>
+              {s.badge}
+            </span>
+            <h2 className="font-display mb-6">
+              {s.title} <em className="text-gradient-neon">{s.titleHighlight}</em>
+            </h2>
+            <p className="text-muted-foreground" style={{ fontSize: '18px' }}>{s.subtitle}</p>
+          </div>
+        </RevealSection>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {s.items.map((service, index) => {
-            const Icon = iconMap[index % iconMap.length];
-            return (
-              <div key={index} className="glass-card-hover p-8 group">
-                <div className="flex items-start gap-6">
-                  <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0 group-hover:neon-glow transition-all duration-500">
-                    <Icon className="w-7 h-7 text-primary" />
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="font-display font-semibold text-xl mb-3">{service.title}</h3>
-                    <p className="text-muted-foreground mb-4">{service.description}</p>
-                    <div className="flex flex-wrap gap-2 mb-4">
-                      {service.features.map((feature) => (
-                        <span key={feature} className="px-3 py-1 text-xs rounded-full bg-white/5 text-muted-foreground border border-white/10">
-                          {feature}
-                        </span>
-                      ))}
-                    </div>
+        <RevealSection>
+          <div className="divide-y divide-border">
+            {s.items.map((service, index) => (
+              <div
+                key={index}
+                className="group py-8 flex items-start gap-8 transition-colors duration-200 hover:bg-secondary/40 px-4 -mx-4 rounded-sm"
+              >
+                <span className="font-display text-4xl flex-shrink-0" style={{ color: '#FF00CC' }}>
+                  {String(index + 1).padStart(2, '0')}
+                </span>
+                <div className="flex-1 min-w-0">
+                  <h3 className="font-display mb-2">{service.title}</h3>
+                  <p className="text-muted-foreground mb-4 line-clamp-2">{service.description}</p>
+                  <div className="flex flex-wrap gap-2">
+                    {service.features.map((feature) => (
+                      <span key={feature} className="text-xs text-muted-foreground border border-border px-3 py-1 rounded-sm">
+                        {feature}
+                      </span>
+                    ))}
                   </div>
                 </div>
+                <ArrowRight className="w-5 h-5 text-muted-foreground flex-shrink-0 mt-2 transition-transform duration-200 group-hover:translate-x-1.5 group-hover:text-primary" />
               </div>
-            );
-          })}
-        </div>
+            ))}
+          </div>
+        </RevealSection>
 
-        <div className="text-center mt-12">
-          <Link to="/marketing" className="btn-outline inline-flex items-center gap-2">
+        <RevealSection className="text-center mt-12">
+          <Link to="/marketing" className="btn-outline">
             {s.cta}
             <ArrowRight className="w-4 h-4" />
           </Link>
-        </div>
+        </RevealSection>
       </div>
     </section>
   );
