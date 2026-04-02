@@ -11,6 +11,7 @@ import Sobre from "./pages/Sobre";
 import Contato from "./pages/Contato";
 import Produtora from "./pages/Produtora";
 import Restaurantes from "./pages/Restaurantes";
+import Proposta from "./pages/Proposta";
 import NotFound from "./pages/NotFound";
 import AdminLogin from "./pages/admin/AdminLogin";
 import AdminDashboard from "./pages/admin/AdminDashboard";
