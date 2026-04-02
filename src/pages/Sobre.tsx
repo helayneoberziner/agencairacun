@@ -2,10 +2,11 @@ import { Link } from 'react-router-dom';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import WhatsAppButton from '@/components/WhatsAppButton';
-import { ArrowRight, Target, Heart, Zap, Users } from 'lucide-react';
+import CustomCursor from '@/components/CustomCursor';
+import RevealSection from '@/components/RevealSection';
+import { ArrowRight } from 'lucide-react';
 import { useSobreContent } from '@/hooks/useSobreContent';
-
-const iconMap = [Target, Heart, Zap, Users];
+import { motion } from 'framer-motion';
 
 const Sobre = () => {
   const { content, isLoading } = useSobreContent();
@@ -13,19 +14,22 @@ const Sobre = () => {
   if (isLoading) return <div className="min-h-screen bg-background"><Header /><div className="flex items-center justify-center h-96"><p className="text-muted-foreground">Carregando...</p></div><Footer /></div>;
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background grain">
+      <CustomCursor />
       <Header />
-      
+
       <main>
         {/* Hero */}
-        <section className="pt-32 pb-20 relative overflow-hidden">
-          <div className="absolute inset-0 gradient-mesh opacity-30" />
-          <div className="container-custom relative z-10">
-            <div className="max-w-4xl mx-auto text-center">
-              <h1 className="text-4xl md:text-6xl font-display font-bold mb-6">
-                {content.hero.title} <span className="text-gradient-neon">{content.hero.titleHighlight}</span>
-              </h1>
-              <p className="text-xl text-muted-foreground">{content.hero.subtitle}</p>
+        <section className="pt-32 pb-20" style={{ background: '#040d28' }}>
+          <div className="container-custom">
+            <div className="max-w-4xl">
+              <motion.h1 className="font-display mb-6" initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
+                {content.hero.title} <em className="text-gradient-neon">{content.hero.titleHighlight}</em>
+              </motion.h1>
+              <motion.p className="text-muted-foreground" style={{ fontSize: '18px' }}
+                initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.15 }}>
+                {content.hero.subtitle}
+              </motion.p>
             </div>
           </div>
         </section>
@@ -33,84 +37,80 @@ const Sobre = () => {
         {/* Story */}
         <section className="section-padding">
           <div className="container-custom">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-              <div>
-                <span className="text-primary text-sm font-medium uppercase tracking-wider mb-4 block">
-                  {content.story.label}
-                </span>
-                <h2 className="text-3xl md:text-4xl font-display font-bold mb-6">
-                  {content.story.title}{' '}
-                  <span className="text-gradient-neon">{content.story.titleHighlight}</span>
-                </h2>
-                <div className="space-y-4 text-muted-foreground">
-                  {content.story.paragraphs.map((p, i) => (
-                    <p key={i}>{p}</p>
-                  ))}
-                </div>
-              </div>
-
-              <div className="glass-card p-8 relative overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-accent/5 to-transparent" />
-                <div className="relative z-10">
-                  <div className="grid grid-cols-2 gap-6">
-                    {content.story.stats.map((stat, i) => (
-                      <div key={i} className="text-center p-6 rounded-xl bg-white/5">
-                        <div className="text-4xl font-display font-bold text-primary">{stat.value}</div>
-                        <div className="text-sm text-muted-foreground mt-1">{stat.label}</div>
-                      </div>
+            <RevealSection>
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+                <div>
+                  <span className="text-sm font-medium uppercase tracking-wider mb-4 block" style={{ color: '#FF00CC' }}>
+                    {content.story.label}
+                  </span>
+                  <h2 className="font-display mb-6">
+                    {content.story.title}{' '}
+                    <em className="text-gradient-neon">{content.story.titleHighlight}</em>
+                  </h2>
+                  <div className="space-y-4 text-muted-foreground">
+                    {content.story.paragraphs.map((p, i) => (
+                      <p key={i}>{p}</p>
                     ))}
                   </div>
                 </div>
+
+                <div className="grid grid-cols-2 gap-6">
+                  {content.story.stats.map((stat, i) => (
+                    <div key={i} className="p-6 border border-border rounded-sm text-center">
+                      <div className="font-display text-4xl" style={{ color: '#FF00CC' }}>{stat.value}</div>
+                      <div className="text-sm text-muted-foreground mt-1">{stat.label}</div>
+                    </div>
+                  ))}
+                </div>
               </div>
-            </div>
+            </RevealSection>
           </div>
         </section>
 
         {/* Values */}
-        <section className="section-padding bg-secondary/20">
+        <section className="section-padding" style={{ background: '#080f2e' }}>
           <div className="container-custom">
-            <div className="text-center max-w-3xl mx-auto mb-16">
-              <h2 className="text-3xl md:text-4xl font-display font-bold mb-6">
-                {content.values.title} <span className="text-gradient-neon">{content.values.titleHighlight}</span>
-              </h2>
-              <p className="text-muted-foreground text-lg">{content.values.subtitle}</p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {content.values.items.map((value, i) => {
-                const Icon = iconMap[i % iconMap.length];
-                return (
-                  <div key={i} className="glass-card-hover p-8 flex items-start gap-6">
-                    <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
-                      <Icon className="w-7 h-7 text-primary" />
-                    </div>
+            <RevealSection>
+              <div className="max-w-3xl mb-16">
+                <h2 className="font-display mb-6">
+                  {content.values.title} <em className="text-gradient-neon">{content.values.titleHighlight}</em>
+                </h2>
+                <p className="text-muted-foreground" style={{ fontSize: '18px' }}>{content.values.subtitle}</p>
+              </div>
+            </RevealSection>
+            <RevealSection>
+              <div className="divide-y divide-border">
+                {content.values.items.map((value, i) => (
+                  <div key={i} className="py-8 flex items-start gap-8 group transition-colors duration-200 hover:bg-secondary/30 px-4 -mx-4 rounded-sm">
+                    <span className="font-display text-4xl flex-shrink-0" style={{ color: '#FF00CC' }}>
+                      {String(i + 1).padStart(2, '0')}
+                    </span>
                     <div>
-                      <h3 className="font-display font-semibold text-xl mb-3">{value.title}</h3>
+                      <h3 className="font-display mb-3">{value.title}</h3>
                       <p className="text-muted-foreground">{value.description}</p>
                     </div>
                   </div>
-                );
-              })}
-            </div>
+                ))}
+              </div>
+            </RevealSection>
           </div>
         </section>
 
         {/* CTA */}
         <section className="section-padding">
           <div className="container-custom">
-            <div className="glass-card p-12 text-center relative overflow-hidden">
-              <div className="absolute inset-0 gradient-mesh opacity-50" />
-              <div className="relative z-10">
-                <h2 className="text-3xl md:text-4xl font-display font-bold mb-6">
-                  {content.cta.title} <span className="text-gradient-neon">{content.cta.titleHighlight}</span>
+            <RevealSection>
+              <div className="border border-border rounded-sm p-12 text-center" style={{ background: '#080f2e' }}>
+                <h2 className="font-display mb-6">
+                  {content.cta.title} <em className="text-gradient-neon">{content.cta.titleHighlight}</em>
                 </h2>
-                <p className="text-muted-foreground text-lg mb-8 max-w-2xl mx-auto">{content.cta.subtitle}</p>
-                <Link to="/contato" className="btn-primary inline-flex items-center gap-2">
+                <p className="text-muted-foreground mb-8 max-w-2xl mx-auto" style={{ fontSize: '18px' }}>{content.cta.subtitle}</p>
+                <Link to="/contato" className="btn-primary">
                   {content.cta.ctaText}
                   <ArrowRight className="w-4 h-4" />
                 </Link>
               </div>
-            </div>
+            </RevealSection>
           </div>
         </section>
       </main>
