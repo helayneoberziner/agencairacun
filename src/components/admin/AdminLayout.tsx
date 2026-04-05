@@ -14,7 +14,8 @@ import {
   UtensilsCrossed,
   Info,
   Megaphone,
-  Home
+  Home,
+  FileText
 } from 'lucide-react';
  import { useState } from 'react';
  
