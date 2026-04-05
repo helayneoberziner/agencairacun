@@ -14,7 +14,8 @@ import {
   UtensilsCrossed,
   Info,
   Megaphone,
-  Home
+  Home,
+  FileText
 } from 'lucide-react';
  import { useState } from 'react';
  
@@ -38,6 +39,7 @@ import {
       { name: 'Produtora', path: '/admin/produtora', icon: Film },
       { name: 'Restaurantes', path: '/admin/restaurantes', icon: UtensilsCrossed },
       { name: 'Sobre', path: '/admin/sobre', icon: Info },
+      { name: 'Propostas', path: '/admin/proposals', icon: FileText },
       { name: 'Mensagens', path: '/admin/messages', icon: Mail },
       { name: 'Mídia', path: '/admin/media', icon: Image },
       { name: 'Configurações', path: '/admin/settings', icon: Settings },
