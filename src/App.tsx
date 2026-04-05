@@ -25,6 +25,7 @@ import AdminRestaurantes from "./pages/admin/AdminRestaurantes";
 import AdminSobre from "./pages/admin/AdminSobre";
 import AdminMarketing from "./pages/admin/AdminMarketing";
 import AdminHome from "./pages/admin/AdminHome";
+import AdminProposals from "./pages/admin/AdminProposals";
 import ProtectedRoute from "./components/admin/ProtectedRoute";
 
 const queryClient = new QueryClient();
