@@ -128,6 +128,75 @@ export type Database = {
         }
         Relationships: []
       }
+      proposals: {
+        Row: {
+          audiovisual_bonus: string[]
+          audiovisual_differentials: string[]
+          audiovisual_includes: string[]
+          audiovisual_price: string
+          client_name: string
+          complete_bonus: string[]
+          complete_differentials: string[]
+          complete_includes: string[]
+          complete_price: string
+          created_at: string
+          id: string
+          is_active: boolean
+          marketing_bonus: string[]
+          marketing_differentials: string[]
+          marketing_includes: string[]
+          marketing_price: string
+          slug: string
+          updated_at: string
+          validity_days: number
+          whatsapp_number: string
+        }
+        Insert: {
+          audiovisual_bonus?: string[]
+          audiovisual_differentials?: string[]
+          audiovisual_includes?: string[]
+          audiovisual_price?: string
+          client_name?: string
+          complete_bonus?: string[]
+          complete_differentials?: string[]
+          complete_includes?: string[]
+          complete_price?: string
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          marketing_bonus?: string[]
+          marketing_differentials?: string[]
+          marketing_includes?: string[]
+          marketing_price?: string
+          slug: string
+          updated_at?: string
+          validity_days?: number
+          whatsapp_number?: string
+        }
+        Update: {
+          audiovisual_bonus?: string[]
+          audiovisual_differentials?: string[]
+          audiovisual_includes?: string[]
+          audiovisual_price?: string
+          client_name?: string
+          complete_bonus?: string[]
+          complete_differentials?: string[]
+          complete_includes?: string[]
+          complete_price?: string
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          marketing_bonus?: string[]
+          marketing_differentials?: string[]
+          marketing_includes?: string[]
+          marketing_price?: string
+          slug?: string
+          updated_at?: string
+          validity_days?: number
+          whatsapp_number?: string
+        }
+        Relationships: []
+      }
       site_content: {
         Row: {
           content: Json
