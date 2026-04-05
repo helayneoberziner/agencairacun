@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import { Check, MessageCircle, HelpCircle, Printer } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
 
-const proposalConfig = {
+const defaultConfig = {
   clientName: '[Nome do Cliente]',
   validityDays: 7,
-  generatedDate: new Date().toLocaleDateString('pt-BR'),
   whatsappNumber: '5547999999999',
   marketing: {
     price: '[VALOR]',
@@ -18,9 +19,9 @@ const proposalConfig = {
     differentials: [
       'Estratégia personalizada baseada em dados reais da sua marca.',
       'Equipe dedicada com reuniões quinzenais de alinhamento.',
-      'Acesso a ferramentas premium de análise e automação.',
+      'Acesso a relatórios transparentes e métricas reais.',
     ],
-    bonus: ['Auditoria de presença digital gratuita', 'Setup inicial de campanhas incluso'],
+    bonus: ['Consultoria inicial de posicionamento', 'Análise de concorrência'],
   },
   audiovisual: {
     price: '[VALOR]',
@@ -41,18 +42,18 @@ const proposalConfig = {
   complete: {
     price: '[VALOR]',
     includes: [
-      'Tudo do pacote Marketing Digital',
-      'Tudo do pacote Audiovisual',
-      'Integração estratégica entre conteúdo e vídeo',
-      'Calendário unificado de publicações',
-      'Prioridade no agendamento de captações',
+      'Tudo do plano Marketing Digital',
+      'Tudo do plano Audiovisual',
+      'Estratégia integrada de conteúdo',
+      'Planejamento de campanhas completas',
+      'Suporte prioritário',
     ],
     differentials: [
-      'Solução 360° que une marketing e produção audiovisual.',
+      'Solução 360° que une marketing e audiovisual.',
       'Um único ponto de contato para toda a comunicação.',
-      'Desconto exclusivo por contratar a solução integrada.',
+      'Resultados mensuráveis com relatórios integrados.',
     ],
-    bonus: ['Sessão de fotos de branding inclusa', 'Consultoria trimestral de posicionamento'],
+    bonus: ['Sessão fotográfica trimestral', 'Vídeo institucional incluso no primeiro mês'],
   },
 };
 
@@ -65,14 +66,82 @@ const tabs: { key: TabKey; label: string }[] = [
 ];
 
 const Proposta = () => {
+  const { slug } = useParams<{ slug?: string }>();
   const [activeTab, setActiveTab] = useState<TabKey>('marketing');
-  const data = proposalConfig[activeTab];
+  const [config, setConfig] = useState(defaultConfig);
+  const [loading, setLoading] = useState(!!slug);
+  const [notFound, setNotFound] = useState(false);
 
-  const whatsAccept = `https://wa.me/${proposalConfig.whatsappNumber}?text=${encodeURIComponent(`Olá! Gostaria de aceitar a proposta de ${tabs.find(t => t.key === activeTab)?.label}.`)}`;
-  const whatsQuestion = `https://wa.me/${proposalConfig.whatsappNumber}?text=${encodeURIComponent('Olá! Tenho dúvidas sobre a proposta enviada.')}`;
+  useEffect(() => {
+    if (!slug) return;
 
+    const fetchProposal = async () => {
+      const { data, error } = await supabase
+        .from('proposals')
+        .select('*')
+        .eq('slug', slug)
+        .eq('is_active', true)
+        .maybeSingle();
+
+      if (error || !data) {
+        setNotFound(true);
+        setLoading(false);
+        return;
+      }
+
+      setConfig({
+        clientName: data.client_name,
+        validityDays: data.validity_days,
+        whatsappNumber: data.whatsapp_number,
+        marketing: {
+          price: data.marketing_price,
+          includes: data.marketing_includes,
+          differentials: data.marketing_differentials,
+          bonus: data.marketing_bonus,
+        },
+        audiovisual: {
+          price: data.audiovisual_price,
+          includes: data.audiovisual_includes,
+          differentials: data.audiovisual_differentials,
+          bonus: data.audiovisual_bonus,
+        },
+        complete: {
+          price: data.complete_price,
+          includes: data.complete_includes,
+          differentials: data.complete_differentials,
+          bonus: data.complete_bonus,
+        },
+      });
+      setLoading(false);
+    };
+
+    fetchProposal();
+  }, [slug]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <p className="text-gray-400">Carregando proposta...</p>
+      </div>
+    );
+  }
+
+  if (notFound) {
+    return (
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-2xl font-bold text-gray-900 mb-2">Proposta não encontrada</p>
+          <p className="text-gray-500">Verifique o link e tente novamente.</p>
+        </div>
+      </div>
+    );
+  }
+
+  const data = config[activeTab];
+  const whatsAccept = `https://wa.me/${config.whatsappNumber}?text=${encodeURIComponent(`Olá! Gostaria de aceitar a proposta de ${tabs.find(t => t.key === activeTab)?.label}.`)}`;
+  const whatsQuestion = `https://wa.me/${config.whatsappNumber}?text=${encodeURIComponent('Olá! Tenho dúvidas sobre a proposta enviada.')}`;
   const validUntil = new Date();
-  validUntil.setDate(validUntil.getDate() + proposalConfig.validityDays);
+  validUntil.setDate(validUntil.getDate() + config.validityDays);
 
   return (
     <div className="min-h-screen bg-white text-gray-900 print:bg-white">
@@ -81,8 +150,8 @@ const Proposta = () => {
         <div className="max-w-4xl mx-auto px-6 py-6 flex items-center justify-between">
           <span className="text-2xl font-bold tracking-tight" style={{ color: '#e600ac' }}>RACUN</span>
           <div className="text-right text-sm text-gray-500">
-            <p>{proposalConfig.generatedDate}</p>
-            <p>Válida por {proposalConfig.validityDays} dias</p>
+            <p>{new Date().toLocaleDateString('pt-BR')}</p>
+            <p>Válida por {config.validityDays} dias</p>
           </div>
         </div>
       </header>
@@ -108,7 +177,7 @@ const Proposta = () => {
           {tabs.find(t => t.key === activeTab)?.label}
         </h1>
         <p className="text-gray-500 mb-10">
-          Preparada para <strong className="text-gray-900">{proposalConfig.clientName}</strong>
+          Preparada para <strong className="text-gray-900">{config.clientName}</strong>
         </p>
 
         {/* Incluso */}
