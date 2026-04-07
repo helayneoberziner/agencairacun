@@ -6,7 +6,7 @@ import WhatsAppButton from '@/components/WhatsAppButton';
 import { ArrowRight, Play, X, ChevronDown } from 'lucide-react';
 
 /* ──────────────────────────────────────────────
-   Dados estáticos — substitua placeholders aqui
+   Dados estáticos — editáveis pelo admin
    ────────────────────────────────────────────── */
 
 const services = [
@@ -28,14 +28,27 @@ const segments = [
 
 const processSteps = ['Briefing', 'Roteiro', 'Captação', 'Direção', 'Pós-produção', 'Entrega'];
 
-/* Placeholder: substitua por URLs reais */
+/* Portfólio com vídeos do YouTube (substitua os IDs pelo admin) */
 const portfolioItems = [
-  { title: 'Campanha Verão 2024', client: 'Cliente' },
-  { title: 'Institucional Corporativo', client: 'Cliente' },
-  { title: 'Tour Imobiliário', client: 'Cliente' },
-  { title: 'Conteúdo Social', client: 'Cliente' },
-  { title: 'Cobertura de Evento', client: 'Cliente' },
-  { title: 'Campanha Digital', client: 'Cliente' },
+  { title: 'Campanha Verão 2024', client: 'Cliente', youtubeId: 'dQw4w9WgXcQ' },
+  { title: 'Institucional Corporativo', client: 'Cliente', youtubeId: 'jNQXAC9IVRw' },
+  { title: 'Tour Imobiliário', client: 'Cliente', youtubeId: 'M7lc1UVf-VE' },
+  { title: 'Conteúdo Social', client: 'Cliente', youtubeId: '9bZkp7q19f0' },
+  { title: 'Cobertura de Evento', client: 'Cliente', youtubeId: 'kJQP7kiw5Fk' },
+  { title: 'Campanha Digital', client: 'Cliente', youtubeId: 'RgKAFK5djSk' },
+];
+
+/* ID do showreel no YouTube (substitua pelo real) */
+const showreelYoutubeId = 'dQw4w9WgXcQ';
+
+/* Imagens de bastidores (substitua por URLs reais ou gerencie pelo admin) */
+const bastidoresImages = [
+  'https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=600&h=600&fit=crop',
+  'https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=600&h=600&fit=crop',
+  'https://images.unsplash.com/photo-1535016120720-40c646be5580?w=600&h=600&fit=crop',
+  'https://images.unsplash.com/photo-1579762715118-a6f1d789a5b5?w=600&h=600&fit=crop',
+  'https://images.unsplash.com/photo-1485846234645-a62644f84728?w=600&h=600&fit=crop',
+  'https://images.unsplash.com/photo-1598899134739-24c46f58b8c0?w=600&h=600&fit=crop',
 ];
 
 const faqItems = [
@@ -45,9 +58,6 @@ const faqItems = [
   { q: 'Vocês atendem fora de Blumenau?', a: 'Sim, atendemos em todo o Brasil. Já produzimos em diversas cidades e estados.' },
   { q: 'Vocês trabalham com contrato?', a: 'Sim, todos os projetos são formalizados com contrato para segurança de ambas as partes.' },
 ];
-
-/* Placeholder: substitua por URLs reais de bastidores */
-const bastidoresCount = 6;
 
 const Produtora = () => {
   const [showreelOpen, setShowreelOpen] = useState(false);
@@ -60,11 +70,20 @@ const Produtora = () => {
       <Header />
 
       <main>
-        {/* ═══ HERO — vídeo fullscreen ═══ */}
+        {/* ═══ HERO — vídeo fullscreen com YouTube de fundo ═══ */}
         <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-          {/* Placeholder: substitua pelo <video> com src do showreel */}
-          <div className="absolute inset-0 bg-secondary/60" />
-          <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-background/20 to-background" />
+          {/* Vídeo de fundo via YouTube (muted, autoplay, loop) */}
+          <div className="absolute inset-0">
+            <iframe
+              src={`https://www.youtube.com/embed/${showreelYoutubeId}?autoplay=1&mute=1&loop=1&playlist=${showreelYoutubeId}&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1`}
+              className="w-full h-full object-cover pointer-events-none"
+              style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: '177.78vh', height: '100vh', minWidth: '100%', minHeight: '100%' }}
+              allow="autoplay; encrypted-media"
+              frameBorder="0"
+              title="Showreel Background"
+            />
+          </div>
+          <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/50 to-background" />
 
           <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
             <h1 className="text-5xl md:text-7xl font-display font-bold mb-6">
@@ -117,7 +136,7 @@ const Produtora = () => {
           </div>
         </section>
 
-        {/* ═══ PORTFÓLIO — grid grayscale → color ═══ */}
+        {/* ═══ PORTFÓLIO — grid com thumbnails do YouTube ═══ */}
         <section className="section-padding bg-secondary/20">
           <div className="container-custom">
             <h2 className="text-3xl md:text-5xl font-display font-bold mb-4 text-center">
@@ -135,8 +154,12 @@ const Produtora = () => {
                   className="group cursor-pointer glass-card overflow-hidden"
                 >
                   <div className="aspect-video relative overflow-hidden">
-                    {/* Placeholder: substitua por <img> com thumbnail real */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-muted/40 to-secondary grayscale group-hover:grayscale-0 transition-all duration-500" />
+                    <img
+                      src={`https://img.youtube.com/vi/${item.youtubeId}/hqdefault.jpg`}
+                      alt={item.title}
+                      className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500"
+                      loading="lazy"
+                    />
                     <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-background/40 backdrop-blur-sm">
                       <div className="w-14 h-14 rounded-full bg-primary flex items-center justify-center">
                         <Play className="w-6 h-6 text-primary-foreground ml-0.5" />
@@ -177,7 +200,6 @@ const Produtora = () => {
               Nosso <span className="text-gradient-neon">processo.</span>
             </h2>
             <div className="relative">
-              {/* Linha horizontal desktop */}
               <div className="hidden md:block absolute top-6 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8">
                 {processSteps.map((step, i) => (
@@ -193,17 +215,21 @@ const Produtora = () => {
           </div>
         </section>
 
-        {/* ═══ BASTIDORES — grid grayscale ═══ */}
+        {/* ═══ BASTIDORES — grid com imagens reais ═══ */}
         <section className="section-padding">
           <div className="container-custom">
             <h2 className="text-3xl md:text-5xl font-display font-bold mb-12 text-center">
               <span className="text-gradient-neon">Bastidores.</span>
             </h2>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-              {Array.from({ length: bastidoresCount }).map((_, i) => (
-                <div key={i} className="aspect-square rounded-xl overflow-hidden bg-secondary/40 border border-white/5 grayscale hover:grayscale-0 transition-all duration-500">
-                  {/* Placeholder: substitua por <img> com foto de bastidores */}
-                  <div className="w-full h-full bg-gradient-to-br from-muted/30 to-secondary/60" />
+              {bastidoresImages.map((src, i) => (
+                <div key={i} className="aspect-square rounded-xl overflow-hidden border border-white/5 grayscale hover:grayscale-0 transition-all duration-500">
+                  <img
+                    src={src}
+                    alt={`Bastidores ${i + 1}`}
+                    className="w-full h-full object-cover"
+                    loading="lazy"
+                  />
                 </div>
               ))}
             </div>
@@ -262,33 +288,40 @@ const Produtora = () => {
       <Footer />
       <WhatsAppButton />
 
-      {/* ═══ MODAL SHOWREEL ═══ */}
+      {/* ═══ MODAL SHOWREEL — YouTube embed ═══ */}
       {showreelOpen && (
         <div className="fixed inset-0 z-[100] bg-background/90 backdrop-blur-md flex items-center justify-center p-4" onClick={() => setShowreelOpen(false)}>
           <div className="relative w-full max-w-5xl aspect-video bg-secondary rounded-2xl overflow-hidden" onClick={(e) => e.stopPropagation()}>
             <button onClick={() => setShowreelOpen(false)} className="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-background/50 flex items-center justify-center text-foreground hover:bg-background/80 transition-colors">
               <X className="w-5 h-5" />
             </button>
-            {/* Placeholder: substitua por <iframe> ou <video> com o showreel real */}
-            <div className="w-full h-full flex items-center justify-center text-muted-foreground">
-              <Play className="w-16 h-16" />
-            </div>
+            <iframe
+              src={`https://www.youtube.com/embed/${showreelYoutubeId}?autoplay=1&rel=0&modestbranding=1`}
+              className="w-full h-full"
+              allow="autoplay; encrypted-media; fullscreen"
+              allowFullScreen
+              frameBorder="0"
+              title="Showreel Racun Filmes"
+            />
           </div>
         </div>
       )}
 
-      {/* ═══ MODAL PORTFÓLIO ═══ */}
+      {/* ═══ MODAL PORTFÓLIO — YouTube embed ═══ */}
       {portfolioModal !== null && (
         <div className="fixed inset-0 z-[100] bg-background/90 backdrop-blur-md flex items-center justify-center p-4" onClick={() => setPortfolioModal(null)}>
           <div className="relative w-full max-w-4xl aspect-video bg-secondary rounded-2xl overflow-hidden" onClick={(e) => e.stopPropagation()}>
             <button onClick={() => setPortfolioModal(null)} className="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-background/50 flex items-center justify-center text-foreground hover:bg-background/80 transition-colors">
               <X className="w-5 h-5" />
             </button>
-            {/* Placeholder: substitua por player de vídeo real */}
-            <div className="w-full h-full flex items-center justify-center text-muted-foreground flex-col gap-2">
-              <Play className="w-12 h-12" />
-              <span className="text-sm">{portfolioItems[portfolioModal]?.title}</span>
-            </div>
+            <iframe
+              src={`https://www.youtube.com/embed/${portfolioItems[portfolioModal]?.youtubeId}?autoplay=1&rel=0&modestbranding=1`}
+              className="w-full h-full"
+              allow="autoplay; encrypted-media; fullscreen"
+              allowFullScreen
+              frameBorder="0"
+              title={portfolioItems[portfolioModal]?.title}
+            />
           </div>
         </div>
       )}
