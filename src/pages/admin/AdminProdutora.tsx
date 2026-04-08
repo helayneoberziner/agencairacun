@@ -3,7 +3,8 @@ import AdminLayout from '@/components/admin/AdminLayout';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 import { useProdutoraContent, ProdutoraContent } from '@/hooks/useProdutoraContent';
-import { Field, ListEditor, SectionCard } from '@/components/admin/ContentEditorFields';
+import { Field, ListEditor, SectionCard, StringListEditor } from '@/components/admin/ContentEditorFields';
+import ImageUpload from '@/components/admin/ImageUpload';
 import { Save } from 'lucide-react';
 
 const AdminProdutora = () => {
@@ -31,15 +32,18 @@ const AdminProdutora = () => {
   return (
     <AdminLayout title="Produtora">
       <form onSubmit={handleSave} className="max-w-2xl space-y-6">
+
+        {/* HERO */}
         <SectionCard title="Hero">
-          <Field label="Badge" value={data.hero.badge} onChange={v => update('hero', 'badge', v)} />
           <Field label="Título" value={data.hero.title} onChange={v => update('hero', 'title', v)} />
           <Field label="Título (destaque)" value={data.hero.titleHighlight} onChange={v => update('hero', 'titleHighlight', v)} />
           <Field label="Subtítulo" value={data.hero.subtitle} onChange={v => update('hero', 'subtitle', v)} multiline />
           <Field label="Texto do botão" value={data.hero.ctaText} onChange={v => update('hero', 'ctaText', v)} />
-          <Field label="Label do showreel" value={data.hero.showreelLabel} onChange={v => update('hero', 'showreelLabel', v)} />
+          <Field label="YouTube ID do vídeo de fundo (Hero)" value={data.hero.heroYoutubeId} onChange={v => update('hero', 'heroYoutubeId', v)} placeholder="ex: dQw4w9WgXcQ" />
+          <Field label="YouTube ID do Showreel" value={data.hero.showreelYoutubeId} onChange={v => update('hero', 'showreelYoutubeId', v)} placeholder="ex: dQw4w9WgXcQ" />
         </SectionCard>
 
+        {/* SERVIÇOS */}
         <SectionCard title="Serviços">
           <Field label="Título" value={data.services.sectionTitle} onChange={v => update('services', 'sectionTitle', v)} />
           <Field label="Título (destaque)" value={data.services.sectionTitleHighlight} onChange={v => update('services', 'sectionTitleHighlight', v)} />
@@ -48,9 +52,10 @@ const AdminProdutora = () => {
             label="Itens de serviço"
             items={data.services.items}
             onChange={items => update('services', 'items', items)}
-            createItem={() => ({ title: '', description: '' })}
+            createItem={() => ({ num: String(data.services.items.length + 1).padStart(2, '0'), title: '', description: '' })}
             renderItem={(item, _i, upd) => (
               <>
+                <Field label="Número" value={item.num} onChange={v => upd('num', v)} />
                 <Field label="Título" value={item.title} onChange={v => upd('title', v)} />
                 <Field label="Descrição" value={item.description} onChange={v => upd('description', v)} multiline />
               </>
@@ -58,6 +63,7 @@ const AdminProdutora = () => {
           />
         </SectionCard>
 
+        {/* PORTFÓLIO */}
         <SectionCard title="Portfólio">
           <Field label="Título" value={data.portfolio.sectionTitle} onChange={v => update('portfolio', 'sectionTitle', v)} />
           <Field label="Subtítulo" value={data.portfolio.sectionSubtitle} onChange={v => update('portfolio', 'sectionSubtitle', v)} multiline />
@@ -65,16 +71,82 @@ const AdminProdutora = () => {
             label="Itens do portfólio"
             items={data.portfolio.items}
             onChange={items => update('portfolio', 'items', items)}
-            createItem={() => ({ title: '', client: '' })}
+            createItem={() => ({ title: '', client: '', youtubeId: '' })}
             renderItem={(item, _i, upd) => (
               <>
                 <Field label="Título" value={item.title} onChange={v => upd('title', v)} />
                 <Field label="Cliente" value={item.client} onChange={v => upd('client', v)} />
+                <Field label="YouTube ID" value={item.youtubeId} onChange={v => upd('youtubeId', v)} placeholder="ex: dQw4w9WgXcQ" />
               </>
             )}
           />
         </SectionCard>
 
+        {/* SEGMENTOS */}
+        <SectionCard title="Segmentos">
+          <Field label="Título" value={data.segments.sectionTitle} onChange={v => update('segments', 'sectionTitle', v)} />
+          <Field label="Título (destaque)" value={data.segments.sectionTitleHighlight} onChange={v => update('segments', 'sectionTitleHighlight', v)} />
+          <ListEditor
+            label="Segmentos"
+            items={data.segments.items}
+            onChange={items => update('segments', 'items', items)}
+            createItem={() => ({ title: '', description: '' })}
+            renderItem={(item, _i, upd) => (
+              <>
+                <Field label="Título" value={item.title} onChange={v => upd('title', v)} />
+                <Field label="Descrição" value={item.description} onChange={v => upd('description', v)} />
+              </>
+            )}
+          />
+        </SectionCard>
+
+        {/* BASTIDORES */}
+        <SectionCard title="Bastidores (Imagens)">
+          <Field label="Título da seção" value={data.bastidores.sectionTitle} onChange={v => update('bastidores', 'sectionTitle', v)} />
+          {data.bastidores.images.map((img, i) => (
+            <ImageUpload
+              key={i}
+              label={`Imagem ${i + 1}`}
+              value={img}
+              onChange={url => {
+                const updated = [...data.bastidores.images];
+                updated[i] = url;
+                update('bastidores', 'images', updated);
+              }}
+              folder="produtora"
+            />
+          ))}
+          <div className="flex gap-2">
+            <Button type="button" variant="outline" size="sm" onClick={() => update('bastidores', 'images', [...data.bastidores.images, ''])}>
+              Adicionar imagem
+            </Button>
+            {data.bastidores.images.length > 1 && (
+              <Button type="button" variant="outline" size="sm" onClick={() => update('bastidores', 'images', data.bastidores.images.slice(0, -1))}>
+                Remover última
+              </Button>
+            )}
+          </div>
+        </SectionCard>
+
+        {/* FAQ */}
+        <SectionCard title="FAQ">
+          <Field label="Título" value={data.faq.sectionTitle} onChange={v => update('faq', 'sectionTitle', v)} />
+          <Field label="Título (destaque)" value={data.faq.sectionTitleHighlight} onChange={v => update('faq', 'sectionTitleHighlight', v)} />
+          <ListEditor
+            label="Perguntas"
+            items={data.faq.items}
+            onChange={items => update('faq', 'items', items)}
+            createItem={() => ({ question: '', answer: '' })}
+            renderItem={(item, _i, upd) => (
+              <>
+                <Field label="Pergunta" value={item.question} onChange={v => upd('question', v)} />
+                <Field label="Resposta" value={item.answer} onChange={v => upd('answer', v)} multiline />
+              </>
+            )}
+          />
+        </SectionCard>
+
+        {/* CTA */}
         <SectionCard title="CTA Final">
           <Field label="Título" value={data.cta.title} onChange={v => update('cta', 'title', v)} />
           <Field label="Título (destaque)" value={data.cta.titleHighlight} onChange={v => update('cta', 'titleHighlight', v)} />
