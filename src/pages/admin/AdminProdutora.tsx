@@ -100,7 +100,28 @@ const AdminProdutora = () => {
           />
         </SectionCard>
 
-        {/* BASTIDORES */}
+        {/* FOTOS */}
+        <SectionCard title="Fotografia">
+          <Field label="Título da seção" value={data.fotos.sectionTitle} onChange={v => update('fotos', 'sectionTitle', v)} />
+          <Field label="Subtítulo" value={data.fotos.sectionSubtitle} onChange={v => update('fotos', 'sectionSubtitle', v)} multiline />
+          <ListEditor
+            label="Fotos do portfólio"
+            items={data.fotos.items}
+            onChange={items => update('fotos', 'items', items)}
+            createItem={() => ({ title: '', image: '' })}
+            renderItem={(item, _i, upd) => (
+              <>
+                <Field label="Título" value={item.title} onChange={v => upd('title', v)} />
+                <ImageUpload
+                  label="Imagem"
+                  value={item.image}
+                  onChange={url => upd('image', url)}
+                  folder="produtora/fotos"
+                />
+              </>
+            )}
+          />
+        </SectionCard>
         <SectionCard title="Bastidores (Imagens)">
           <Field label="Título da seção" value={data.bastidores.sectionTitle} onChange={v => update('bastidores', 'sectionTitle', v)} />
           {data.bastidores.images.map((img, i) => (

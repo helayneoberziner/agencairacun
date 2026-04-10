@@ -280,6 +280,25 @@ const Produtora = () => {
           </div>
         </div>
       )}
+
+      {/* ═══ MODAL FOTO ═══ */}
+      {fotoModal !== null && fotos.items[fotoModal] && (
+        <div className="fixed inset-0 z-[100] bg-background/90 backdrop-blur-md flex items-center justify-center p-4" onClick={() => setFotoModal(null)}>
+          <div className="relative w-full max-w-5xl bg-secondary rounded-2xl overflow-hidden" onClick={(e) => e.stopPropagation()}>
+            <button onClick={() => setFotoModal(null)} className="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-background/50 flex items-center justify-center text-foreground hover:bg-background/80 transition-colors">
+              <X className="w-5 h-5" />
+            </button>
+            <img
+              src={fotos.items[fotoModal].image}
+              alt={fotos.items[fotoModal].title}
+              className="w-full max-h-[85vh] object-contain"
+            />
+            <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-background/80 to-transparent">
+              <h3 className="font-display font-semibold text-lg">{fotos.items[fotoModal].title}</h3>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
