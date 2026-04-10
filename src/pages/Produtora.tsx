@@ -141,7 +141,10 @@ const Produtora = () => {
               ))}
             </div>
           </div>
-        <section className="section-padding">
+        </section>
+
+        {/* ═══ SEGMENTOS ═══ */}
+        <section className="section-padding bg-secondary/20">
           <div className="container-custom">
             <h2 className="text-3xl md:text-5xl font-display font-bold mb-12 text-center">
               {segments.sectionTitle} <span className="text-gradient-neon">{segments.sectionTitleHighlight}</span>
