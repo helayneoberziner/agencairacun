@@ -24,6 +24,7 @@ export interface MarketingContent {
     items: string[];
     dashboardTitle: string;
     dashboardSubtitle: string;
+    dashboardImage: string;
   };
   modalities: {
     sectionTitle: string;
@@ -78,6 +79,7 @@ export const defaultMarketingContent: MarketingContent = {
     ],
     dashboardTitle: 'Dashboard em tempo real',
     dashboardSubtitle: 'Acesso 24/7 aos seus dados',
+    dashboardImage: '',
   },
   modalities: {
     sectionTitle: 'Formatos de',

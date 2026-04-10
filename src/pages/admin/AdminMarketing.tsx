@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 import { useMarketingContent, MarketingContent } from '@/hooks/useMarketingContent';
 import { Field, ListEditor, StringListEditor, SectionCard } from '@/components/admin/ContentEditorFields';
+import ImageUpload from '@/components/admin/ImageUpload';
 import { Save } from 'lucide-react';
 
 const AdminMarketing = () => {
@@ -79,6 +80,7 @@ const AdminMarketing = () => {
           />
           <Field label="Título do dashboard" value={data.results.dashboardTitle} onChange={v => update('results', 'dashboardTitle', v)} />
           <Field label="Subtítulo do dashboard" value={data.results.dashboardSubtitle} onChange={v => update('results', 'dashboardSubtitle', v)} />
+          <ImageUpload label="Imagem do dashboard" value={data.results.dashboardImage || ''} onChange={v => update('results', 'dashboardImage', v)} folder="marketing" />
         </SectionCard>
 
         <SectionCard title="Formatos de trabalho">

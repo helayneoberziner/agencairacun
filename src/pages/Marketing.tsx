@@ -129,8 +129,12 @@ const Marketing = () => {
                     <p className="text-sm text-muted-foreground">{content.results.dashboardSubtitle}</p>
                   </div>
                 </div>
-                <div className="aspect-video rounded-xl bg-white/5 border border-white/10 flex items-center justify-center">
-                  <span className="text-muted-foreground">Preview do painel</span>
+                <div className="aspect-video rounded-xl bg-white/5 border border-white/10 flex items-center justify-center overflow-hidden">
+                  {content.results.dashboardImage ? (
+                    <img src={content.results.dashboardImage} alt={content.results.dashboardTitle} className="w-full h-full object-cover" />
+                  ) : (
+                    <span className="text-muted-foreground">Preview do painel</span>
+                  )}
                 </div>
               </div>
             </div>
