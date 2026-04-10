@@ -109,7 +109,38 @@ const Produtora = () => {
           </div>
         </section>
 
-        {/* ═══ SEGMENTOS ═══ */}
+        {/* ═══ FOTOS ═══ */}
+        <section className="section-padding">
+          <div className="container-custom">
+            <div className="text-center mb-12">
+              <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm mb-6">
+                <Camera className="w-4 h-4" />
+                Fotografia
+              </span>
+              <h2 className="text-3xl md:text-5xl font-display font-bold mb-4">
+                <span className="text-gradient-neon">{fotos.sectionTitle}</span>
+              </h2>
+              <p className="text-muted-foreground text-lg max-w-2xl mx-auto">{fotos.sectionSubtitle}</p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {fotos.items.filter(item => item.image).map((item, i) => (
+                <div key={i} onClick={() => setFotoModal(i)} className="group cursor-pointer glass-card overflow-hidden">
+                  <div className="aspect-[4/3] relative overflow-hidden">
+                    <img
+                      src={item.image}
+                      alt={item.title}
+                      className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-500"
+                      loading="lazy"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  </div>
+                  <div className="p-4">
+                    <h4 className="font-display font-medium group-hover:text-primary transition-colors">{item.title}</h4>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
         <section className="section-padding">
           <div className="container-custom">
             <h2 className="text-3xl md:text-5xl font-display font-bold mb-12 text-center">
