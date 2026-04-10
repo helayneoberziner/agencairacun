@@ -28,6 +28,11 @@ export interface ProdutoraContent {
     sectionTitleHighlight: string;
     items: { title: string; description: string }[];
   };
+  fotos: {
+    sectionTitle: string;
+    sectionSubtitle: string;
+    items: { title: string; image: string }[];
+  };
   bastidores: {
     sectionTitle: string;
     images: string[];
