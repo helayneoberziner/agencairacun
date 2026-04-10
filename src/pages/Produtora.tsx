@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import WhatsAppButton from '@/components/WhatsAppButton';
-import { ArrowRight, Play, X, ChevronDown } from 'lucide-react';
+import { ArrowRight, Play, X, ChevronDown, Camera } from 'lucide-react';
 import { useProdutoraContent } from '@/hooks/useProdutoraContent';
 
 const processSteps = ['Briefing', 'Roteiro', 'Captação', 'Direção', 'Pós-produção', 'Entrega'];
@@ -14,10 +14,11 @@ const Produtora = () => {
   const [openService, setOpenService] = useState<number | null>(null);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [portfolioModal, setPortfolioModal] = useState<number | null>(null);
+  const [fotoModal, setFotoModal] = useState<number | null>(null);
 
   if (isLoading) return null;
 
-  const { hero, services, portfolio, segments, bastidores, faq, cta } = content;
+  const { hero, services, portfolio, fotos, segments, bastidores, faq, cta } = content;
 
   return (
     <div className="min-h-screen bg-background">
