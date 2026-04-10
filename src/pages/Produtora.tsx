@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import WhatsAppButton from '@/components/WhatsAppButton';
-import { ArrowRight, Play, X, ChevronDown } from 'lucide-react';
+import { ArrowRight, Play, X, ChevronDown, Camera } from 'lucide-react';
 import { useProdutoraContent } from '@/hooks/useProdutoraContent';
 
 const processSteps = ['Briefing', 'Roteiro', 'Captação', 'Direção', 'Pós-produção', 'Entrega'];
@@ -14,10 +14,11 @@ const Produtora = () => {
   const [openService, setOpenService] = useState<number | null>(null);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [portfolioModal, setPortfolioModal] = useState<number | null>(null);
+  const [fotoModal, setFotoModal] = useState<number | null>(null);
 
   if (isLoading) return null;
 
-  const { hero, services, portfolio, segments, bastidores, faq, cta } = content;
+  const { hero, services, portfolio, fotos, segments, bastidores, faq, cta } = content;
 
   return (
     <div className="min-h-screen bg-background">
@@ -108,8 +109,42 @@ const Produtora = () => {
           </div>
         </section>
 
-        {/* ═══ SEGMENTOS ═══ */}
+        {/* ═══ FOTOS ═══ */}
         <section className="section-padding">
+          <div className="container-custom">
+            <div className="text-center mb-12">
+              <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm mb-6">
+                <Camera className="w-4 h-4" />
+                Fotografia
+              </span>
+              <h2 className="text-3xl md:text-5xl font-display font-bold mb-4">
+                <span className="text-gradient-neon">{fotos.sectionTitle}</span>
+              </h2>
+              <p className="text-muted-foreground text-lg max-w-2xl mx-auto">{fotos.sectionSubtitle}</p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {fotos.items.filter(item => item.image).map((item, i) => (
+                <div key={i} onClick={() => setFotoModal(i)} className="group cursor-pointer glass-card overflow-hidden">
+                  <div className="aspect-[4/3] relative overflow-hidden">
+                    <img
+                      src={item.image}
+                      alt={item.title}
+                      className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-500"
+                      loading="lazy"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  </div>
+                  <div className="p-4">
+                    <h4 className="font-display font-medium group-hover:text-primary transition-colors">{item.title}</h4>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ═══ SEGMENTOS ═══ */}
+        <section className="section-padding bg-secondary/20">
           <div className="container-custom">
             <h2 className="text-3xl md:text-5xl font-display font-bold mb-12 text-center">
               {segments.sectionTitle} <span className="text-gradient-neon">{segments.sectionTitleHighlight}</span>
@@ -242,6 +277,25 @@ const Produtora = () => {
               frameBorder="0"
               title={portfolio.items[portfolioModal]?.title}
             />
+          </div>
+        </div>
+      )}
+
+      {/* ═══ MODAL FOTO ═══ */}
+      {fotoModal !== null && fotos.items[fotoModal] && (
+        <div className="fixed inset-0 z-[100] bg-background/90 backdrop-blur-md flex items-center justify-center p-4" onClick={() => setFotoModal(null)}>
+          <div className="relative w-full max-w-5xl bg-secondary rounded-2xl overflow-hidden" onClick={(e) => e.stopPropagation()}>
+            <button onClick={() => setFotoModal(null)} className="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-background/50 flex items-center justify-center text-foreground hover:bg-background/80 transition-colors">
+              <X className="w-5 h-5" />
+            </button>
+            <img
+              src={fotos.items[fotoModal].image}
+              alt={fotos.items[fotoModal].title}
+              className="w-full max-h-[85vh] object-contain"
+            />
+            <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-background/80 to-transparent">
+              <h3 className="font-display font-semibold text-lg">{fotos.items[fotoModal].title}</h3>
+            </div>
           </div>
         </div>
       )}

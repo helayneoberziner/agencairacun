@@ -28,6 +28,11 @@ export interface ProdutoraContent {
     sectionTitleHighlight: string;
     items: { title: string; description: string }[];
   };
+  fotos: {
+    sectionTitle: string;
+    sectionSubtitle: string;
+    items: { title: string; image: string }[];
+  };
   bastidores: {
     sectionTitle: string;
     images: string[];
@@ -92,6 +97,18 @@ export const defaultProdutoraContent: ProdutoraContent = {
       { title: 'Marcas', description: 'Posicionamento visual premium.' },
     ],
   },
+  fotos: {
+    sectionTitle: 'Fotografia.',
+    sectionSubtitle: 'Imagens que contam histórias e valorizam sua marca.',
+    items: [
+      { title: 'Ensaio Corporativo', image: 'https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=600&h=400&fit=crop' },
+      { title: 'Produto Premium', image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600&h=400&fit=crop' },
+      { title: 'Gastronomia', image: 'https://images.unsplash.com/photo-1476224203421-9ac39bcb3327?w=600&h=400&fit=crop' },
+      { title: 'Arquitetura', image: 'https://images.unsplash.com/photo-1487958449943-2429e8be8625?w=600&h=400&fit=crop' },
+      { title: 'Evento', image: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=600&h=400&fit=crop' },
+      { title: 'Retrato', image: 'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=600&h=400&fit=crop' },
+    ],
+  },
   bastidores: {
     sectionTitle: 'Bastidores.',
     images: [
@@ -143,6 +160,7 @@ export const useProdutoraContent = () => {
         services: { ...defaultProdutoraContent.services, ...saved.services },
         portfolio: { ...defaultProdutoraContent.portfolio, ...saved.portfolio },
         segments: { ...defaultProdutoraContent.segments, ...saved.segments },
+        fotos: { ...defaultProdutoraContent.fotos, ...saved.fotos },
         bastidores: { ...defaultProdutoraContent.bastidores, ...saved.bastidores },
         faq: { ...defaultProdutoraContent.faq, ...saved.faq },
         cta: { ...defaultProdutoraContent.cta, ...saved.cta },

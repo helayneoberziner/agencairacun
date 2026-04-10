@@ -6,7 +6,8 @@
  import { Label } from '@/components/ui/label';
  import { Textarea } from '@/components/ui/textarea';
  import { toast } from 'sonner';
- import { Plus, Pencil, Trash2, X, Youtube, Image, Star, GripVertical } from 'lucide-react';
+import { Plus, Pencil, Trash2, X, Youtube, Image, Star, GripVertical } from 'lucide-react';
+import ImageUpload from '@/components/admin/ImageUpload';
  
  interface Project {
    id: string;
@@ -42,7 +43,7 @@
      is_featured: false,
    });
  
-   const categories = ['Conteúdo', 'Tráfego', 'Filme', 'Branding', 'Social Media'];
+   const categories = ['Conteúdo', 'Tráfego', 'Filme', 'Fotografia', 'Branding', 'Social Media'];
  
    useEffect(() => {
      fetchProjects();
@@ -377,28 +378,24 @@
                  />
                </div>
  
-               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                 <div className="space-y-2">
-                   <Label htmlFor="image_url">URL da imagem</Label>
-                   <Input
-                     id="image_url"
-                     type="url"
-                     value={formData.image_url}
-                     onChange={(e) => setFormData(prev => ({ ...prev, image_url: e.target.value }))}
-                     placeholder="https://..."
-                   />
-                 </div>
-                 <div className="space-y-2">
-                   <Label htmlFor="video_url">URL do vídeo (YouTube)</Label>
-                   <Input
-                     id="video_url"
-                     type="url"
-                     value={formData.video_url}
-                     onChange={(e) => setFormData(prev => ({ ...prev, video_url: e.target.value }))}
-                     placeholder="https://youtube.com/..."
-                   />
-                 </div>
-               </div>
+              <div className="space-y-4">
+                  <ImageUpload
+                    label="Imagem de capa"
+                    value={formData.image_url}
+                    onChange={url => setFormData(prev => ({ ...prev, image_url: url }))}
+                    folder="projects"
+                  />
+                  <div className="space-y-2">
+                    <Label htmlFor="video_url">URL do vídeo (YouTube)</Label>
+                    <Input
+                      id="video_url"
+                      type="url"
+                      value={formData.video_url}
+                      onChange={(e) => setFormData(prev => ({ ...prev, video_url: e.target.value }))}
+                      placeholder="https://youtube.com/..."
+                    />
+                  </div>
+                </div>
  
                <div className="flex items-center gap-2">
                  <input
