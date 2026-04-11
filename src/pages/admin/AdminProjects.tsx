@@ -331,8 +331,22 @@ import ImageUpload from '@/components/admin/ImageUpload';
                        <option key={cat} value={cat}>{cat}</option>
                      ))}
                    </select>
-                 </div>
-               </div>
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="subcategory">Subcategoria (filtro público)</Label>
+                    <select
+                      id="subcategory"
+                      value={formData.subcategory}
+                      onChange={(e) => setFormData(prev => ({ ...prev, subcategory: e.target.value }))}
+                      className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                    >
+                      <option value="">Selecione...</option>
+                      {subcategories.map(sub => (
+                        <option key={sub} value={sub}>{sub}</option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
  
                <div className="space-y-2">
                  <Label htmlFor="description">Descrição breve</Label>
