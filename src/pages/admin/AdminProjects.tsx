@@ -9,41 +9,44 @@
 import { Plus, Pencil, Trash2, X, Youtube, Image, Star, GripVertical } from 'lucide-react';
 import ImageUpload from '@/components/admin/ImageUpload';
  
- interface Project {
-   id: string;
-   title: string;
-   category: string;
-   description: string | null;
-   context: string | null;
-   actions: string | null;
-   results: string | null;
-   deliveries: string[] | null;
-   image_url: string | null;
-   video_url: string | null;
-   is_featured: boolean;
-   display_order: number;
-   created_at: string;
- }
+  interface Project {
+    id: string;
+    title: string;
+    category: string;
+    subcategory: string | null;
+    description: string | null;
+    context: string | null;
+    actions: string | null;
+    results: string | null;
+    deliveries: string[] | null;
+    image_url: string | null;
+    video_url: string | null;
+    is_featured: boolean;
+    display_order: number;
+    created_at: string;
+  }
  
  const AdminProjects = () => {
    const [projects, setProjects] = useState<Project[]>([]);
    const [isLoading, setIsLoading] = useState(true);
    const [isModalOpen, setIsModalOpen] = useState(false);
    const [editingProject, setEditingProject] = useState<Project | null>(null);
-   const [formData, setFormData] = useState({
-     title: '',
-     category: '',
-     description: '',
-     context: '',
-     actions: '',
-     results: '',
-     deliveries: '',
-     image_url: '',
-     video_url: '',
-     is_featured: false,
-   });
- 
-   const categories = ['Conteúdo', 'Tráfego', 'Filme', 'Fotografia', 'Branding', 'Social Media'];
+    const [formData, setFormData] = useState({
+      title: '',
+      category: '',
+      subcategory: '',
+      description: '',
+      context: '',
+      actions: '',
+      results: '',
+      deliveries: '',
+      image_url: '',
+      video_url: '',
+      is_featured: false,
+    });
+  
+    const categories = ['Vídeo', 'Fotografia', 'Marketing', 'Branding'];
+    const subcategories = ['Institucionais', 'Comerciais', 'Imobiliário', 'Redes Sociais', 'Eventos', 'Campanhas Eleitorais', 'Gastronomia'];
  
    useEffect(() => {
      fetchProjects();
