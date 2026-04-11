@@ -90,6 +90,7 @@ export type Database = {
           image_url: string | null
           is_featured: boolean | null
           results: string | null
+          subcategory: string | null
           title: string
           updated_at: string
           video_url: string | null
@@ -106,6 +107,7 @@ export type Database = {
           image_url?: string | null
           is_featured?: boolean | null
           results?: string | null
+          subcategory?: string | null
           title: string
           updated_at?: string
           video_url?: string | null
@@ -122,6 +124,7 @@ export type Database = {
           image_url?: string | null
           is_featured?: boolean | null
           results?: string | null
+          subcategory?: string | null
           title?: string
           updated_at?: string
           video_url?: string | null

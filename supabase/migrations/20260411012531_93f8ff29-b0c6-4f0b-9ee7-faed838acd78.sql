@@ -1,0 +1,1 @@
+ALTER TABLE public.projects ADD COLUMN subcategory text DEFAULT NULL;

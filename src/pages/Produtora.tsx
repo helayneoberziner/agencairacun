@@ -3,17 +3,18 @@ import { Link } from 'react-router-dom';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import WhatsAppButton from '@/components/WhatsAppButton';
+import PortfolioGrid from '@/components/PortfolioGrid';
 import { ArrowRight, Play, X, ChevronDown, Camera } from 'lucide-react';
 import { useProdutoraContent } from '@/hooks/useProdutoraContent';
+import { Video, Megaphone, Building2, CalendarDays, Clapperboard, Target } from 'lucide-react';
 
 const processSteps = ['Briefing', 'Roteiro', 'Captação', 'Direção', 'Pós-produção', 'Entrega'];
+const serviceIcons = [Video, Megaphone, Target, Building2, CalendarDays, Clapperboard];
 
 const Produtora = () => {
   const { content, isLoading } = useProdutoraContent();
   const [showreelOpen, setShowreelOpen] = useState(false);
-  const [openService, setOpenService] = useState<number | null>(null);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
-  const [portfolioModal, setPortfolioModal] = useState<number | null>(null);
   const [fotoModal, setFotoModal] = useState<number | null>(null);
 
   if (isLoading) return null;
@@ -50,59 +51,63 @@ const Produtora = () => {
           </div>
         </section>
 
-        {/* ═══ SERVIÇOS ═══ */}
+        {/* ═══ PORTFÓLIO (from DB) ═══ */}
+        <PortfolioGrid
+          filterCategory={['Vídeo', 'Filme']}
+          showFilters
+          badge="PORTFÓLIO"
+          title={portfolio.sectionTitle}
+          titleHighlight=""
+          subtitle={portfolio.sectionSubtitle}
+        />
+
+        {/* ═══ SERVIÇOS (cards like reference) ═══ */}
         <section className="section-padding">
-          <div className="container-custom max-w-4xl">
-            <h2 className="text-3xl md:text-5xl font-display font-bold mb-4">
-              {services.sectionTitle} <span className="text-gradient-neon">{services.sectionTitleHighlight}</span>
-            </h2>
-            <p className="text-muted-foreground text-lg mb-12">{services.sectionSubtitle}</p>
-            <div className="divide-y divide-white/10">
-              {services.items.map((s, i) => (
-                <div key={i}>
-                  <button onClick={() => setOpenService(openService === i ? null : i)} className="w-full flex items-center justify-between py-6 text-left group">
-                    <div className="flex items-center gap-6">
-                      <span className="text-sm font-mono text-primary">{s.num}</span>
-                      <span className="text-xl md:text-2xl font-display font-semibold group-hover:text-primary transition-colors">{s.title}</span>
+          <div className="container-custom">
+            <div className="text-center mb-12">
+              <span className="text-primary text-sm font-medium uppercase tracking-wider mb-4 block">Serviços</span>
+              <h2 className="text-3xl md:text-5xl font-display font-bold mb-4">
+                {services.sectionTitle} <span className="text-gradient-neon">{services.sectionTitleHighlight}</span>
+              </h2>
+              <p className="text-muted-foreground text-lg max-w-2xl mx-auto">{services.sectionSubtitle}</p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {services.items.map((s, i) => {
+                const Icon = serviceIcons[i % serviceIcons.length];
+                return (
+                  <div key={i} className="glass-card p-6 hover:border-primary/30 transition-all duration-300 group">
+                    <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4 group-hover:neon-glow transition-all duration-500">
+                      <Icon className="w-6 h-6 text-primary" />
                     </div>
-                    <ChevronDown className={`w-5 h-5 text-muted-foreground transition-transform duration-300 ${openService === i ? 'rotate-180 text-primary' : ''}`} />
-                  </button>
-                  <div className={`overflow-hidden transition-all duration-300 ${openService === i ? 'max-h-40 pb-6' : 'max-h-0'}`}>
-                    <p className="text-muted-foreground pl-14 pr-8">{s.description}</p>
+                    <h3 className="font-display font-semibold text-lg mb-2">{s.title}</h3>
+                    <p className="text-sm text-muted-foreground">{s.description}</p>
                   </div>
-                </div>
-              ))}
+                );
+              })}
+            </div>
+            <div className="text-center mt-10">
+              <Link to="/contato" className="btn-primary inline-flex items-center gap-2">
+                Solicitar Orçamento
+                <ArrowRight className="w-4 h-4" />
+              </Link>
             </div>
           </div>
         </section>
 
-        {/* ═══ PORTFÓLIO ═══ */}
+        {/* ═══ SEGMENTOS ═══ */}
         <section className="section-padding bg-secondary/20">
           <div className="container-custom">
-            <h2 className="text-3xl md:text-5xl font-display font-bold mb-4 text-center">
-              <span className="text-gradient-neon">{portfolio.sectionTitle}</span>
-            </h2>
-            <p className="text-muted-foreground text-lg mb-12 text-center max-w-2xl mx-auto">{portfolio.sectionSubtitle}</p>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {portfolio.items.map((item, i) => (
-                <div key={i} onClick={() => setPortfolioModal(i)} className="group cursor-pointer glass-card overflow-hidden">
-                  <div className="aspect-video relative overflow-hidden">
-                    <img
-                      src={`https://img.youtube.com/vi/${item.youtubeId}/hqdefault.jpg`}
-                      alt={item.title}
-                      className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500"
-                      loading="lazy"
-                    />
-                    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-background/40 backdrop-blur-sm">
-                      <div className="w-14 h-14 rounded-full bg-primary flex items-center justify-center">
-                        <Play className="w-6 h-6 text-primary-foreground ml-0.5" />
-                      </div>
-                    </div>
-                  </div>
-                  <div className="p-4">
-                    <h4 className="font-display font-medium group-hover:text-primary transition-colors">{item.title}</h4>
-                    <p className="text-sm text-muted-foreground">{item.client}</p>
-                  </div>
+            <div className="text-center mb-12">
+              <span className="text-primary text-sm font-medium uppercase tracking-wider mb-4 block">Mercados</span>
+              <h2 className="text-3xl md:text-5xl font-display font-bold mb-4">
+                {segments.sectionTitle} <span className="text-gradient-neon">{segments.sectionTitleHighlight}</span>
+              </h2>
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+              {segments.items.map((seg, i) => (
+                <div key={i} className="glass-card p-6 text-center hover:border-primary/30 transition-colors">
+                  <h4 className="font-display font-semibold text-lg mb-2">{seg.title}</h4>
+                  <p className="text-sm text-muted-foreground">{seg.description}</p>
                 </div>
               ))}
             </div>
@@ -113,47 +118,25 @@ const Produtora = () => {
         <section className="section-padding">
           <div className="container-custom">
             <div className="text-center mb-12">
-              <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm mb-6">
-                <Camera className="w-4 h-4" />
-                Fotografia
-              </span>
+              <span className="text-primary text-sm font-medium uppercase tracking-wider mb-4 block">Fotografia</span>
               <h2 className="text-3xl md:text-5xl font-display font-bold mb-4">
-                <span className="text-gradient-neon">{fotos.sectionTitle}</span>
+                Imagens que <span className="text-gradient-neon">contam histórias</span>
               </h2>
               <p className="text-muted-foreground text-lg max-w-2xl mx-auto">{fotos.sectionSubtitle}</p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {fotos.items.filter(item => item.image).map((item, i) => (
-                <div key={i} onClick={() => setFotoModal(i)} className="group cursor-pointer glass-card overflow-hidden">
-                  <div className="aspect-[4/3] relative overflow-hidden">
-                    <img
-                      src={item.image}
-                      alt={item.title}
-                      className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-500"
-                      loading="lazy"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <div key={i} onClick={() => setFotoModal(i)} className="group cursor-pointer rounded-xl overflow-hidden aspect-[4/3] relative">
+                  <img
+                    src={item.image}
+                    alt={item.title}
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    loading="lazy"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  <div className="absolute bottom-3 left-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <h4 className="font-display font-semibold text-white text-sm">{item.title}</h4>
                   </div>
-                  <div className="p-4">
-                    <h4 className="font-display font-medium group-hover:text-primary transition-colors">{item.title}</h4>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* ═══ SEGMENTOS ═══ */}
-        <section className="section-padding bg-secondary/20">
-          <div className="container-custom">
-            <h2 className="text-3xl md:text-5xl font-display font-bold mb-12 text-center">
-              {segments.sectionTitle} <span className="text-gradient-neon">{segments.sectionTitleHighlight}</span>
-            </h2>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
-              {segments.items.map((seg, i) => (
-                <div key={i} className="glass-card p-6 text-center hover:border-primary/30 transition-colors">
-                  <h4 className="font-display font-semibold text-lg mb-2">{seg.title}</h4>
-                  <p className="text-sm text-muted-foreground">{seg.description}</p>
                 </div>
               ))}
             </div>
@@ -257,25 +240,6 @@ const Produtora = () => {
               allowFullScreen
               frameBorder="0"
               title="Showreel"
-            />
-          </div>
-        </div>
-      )}
-
-      {/* ═══ MODAL PORTFÓLIO ═══ */}
-      {portfolioModal !== null && (
-        <div className="fixed inset-0 z-[100] bg-background/90 backdrop-blur-md flex items-center justify-center p-4" onClick={() => setPortfolioModal(null)}>
-          <div className="relative w-full max-w-4xl aspect-video bg-secondary rounded-2xl overflow-hidden" onClick={(e) => e.stopPropagation()}>
-            <button onClick={() => setPortfolioModal(null)} className="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-background/50 flex items-center justify-center text-foreground hover:bg-background/80 transition-colors">
-              <X className="w-5 h-5" />
-            </button>
-            <iframe
-              src={`https://www.youtube.com/embed/${portfolio.items[portfolioModal]?.youtubeId}?autoplay=1&rel=0&modestbranding=1`}
-              className="w-full h-full"
-              allow="autoplay; encrypted-media; fullscreen"
-              allowFullScreen
-              frameBorder="0"
-              title={portfolio.items[portfolioModal]?.title}
             />
           </div>
         </div>

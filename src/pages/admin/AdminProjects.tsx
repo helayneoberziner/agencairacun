@@ -9,41 +9,44 @@
 import { Plus, Pencil, Trash2, X, Youtube, Image, Star, GripVertical } from 'lucide-react';
 import ImageUpload from '@/components/admin/ImageUpload';
  
- interface Project {
-   id: string;
-   title: string;
-   category: string;
-   description: string | null;
-   context: string | null;
-   actions: string | null;
-   results: string | null;
-   deliveries: string[] | null;
-   image_url: string | null;
-   video_url: string | null;
-   is_featured: boolean;
-   display_order: number;
-   created_at: string;
- }
+  interface Project {
+    id: string;
+    title: string;
+    category: string;
+    subcategory: string | null;
+    description: string | null;
+    context: string | null;
+    actions: string | null;
+    results: string | null;
+    deliveries: string[] | null;
+    image_url: string | null;
+    video_url: string | null;
+    is_featured: boolean;
+    display_order: number;
+    created_at: string;
+  }
  
  const AdminProjects = () => {
    const [projects, setProjects] = useState<Project[]>([]);
    const [isLoading, setIsLoading] = useState(true);
    const [isModalOpen, setIsModalOpen] = useState(false);
    const [editingProject, setEditingProject] = useState<Project | null>(null);
-   const [formData, setFormData] = useState({
-     title: '',
-     category: '',
-     description: '',
-     context: '',
-     actions: '',
-     results: '',
-     deliveries: '',
-     image_url: '',
-     video_url: '',
-     is_featured: false,
-   });
- 
-   const categories = ['Conteúdo', 'Tráfego', 'Filme', 'Fotografia', 'Branding', 'Social Media'];
+    const [formData, setFormData] = useState({
+      title: '',
+      category: '',
+      subcategory: '',
+      description: '',
+      context: '',
+      actions: '',
+      results: '',
+      deliveries: '',
+      image_url: '',
+      video_url: '',
+      is_featured: false,
+    });
+  
+    const categories = ['Vídeo', 'Fotografia', 'Marketing', 'Branding'];
+    const subcategories = ['Institucionais', 'Comerciais', 'Imobiliário', 'Redes Sociais', 'Eventos', 'Campanhas Eleitorais', 'Gastronomia'];
  
    useEffect(() => {
      fetchProjects();
@@ -69,32 +72,34 @@ import ImageUpload from '@/components/admin/ImageUpload';
    const openModal = (project?: Project) => {
      if (project) {
        setEditingProject(project);
-       setFormData({
-         title: project.title,
-         category: project.category,
-         description: project.description ?? '',
-         context: project.context ?? '',
-         actions: project.actions ?? '',
-         results: project.results ?? '',
-         deliveries: project.deliveries?.join('\n') ?? '',
-         image_url: project.image_url ?? '',
-         video_url: project.video_url ?? '',
-         is_featured: project.is_featured,
-       });
+        setFormData({
+          title: project.title,
+          category: project.category,
+          subcategory: project.subcategory ?? '',
+          description: project.description ?? '',
+          context: project.context ?? '',
+          actions: project.actions ?? '',
+          results: project.results ?? '',
+          deliveries: project.deliveries?.join('\n') ?? '',
+          image_url: project.image_url ?? '',
+          video_url: project.video_url ?? '',
+          is_featured: project.is_featured,
+        });
      } else {
        setEditingProject(null);
-       setFormData({
-         title: '',
-         category: '',
-         description: '',
-         context: '',
-         actions: '',
-         results: '',
-         deliveries: '',
-         image_url: '',
-         video_url: '',
-         is_featured: false,
-       });
+        setFormData({
+          title: '',
+          category: '',
+          subcategory: '',
+          description: '',
+          context: '',
+          actions: '',
+          results: '',
+          deliveries: '',
+          image_url: '',
+          video_url: '',
+          is_featured: false,
+        });
      }
      setIsModalOpen(true);
    };
@@ -112,18 +117,19 @@ import ImageUpload from '@/components/admin/ImageUpload';
        .map(d => d.trim())
        .filter(d => d.length > 0);
  
-     const projectData = {
-       title: formData.title,
-       category: formData.category,
-       description: formData.description || null,
-       context: formData.context || null,
-       actions: formData.actions || null,
-       results: formData.results || null,
-       deliveries: deliveriesArray.length > 0 ? deliveriesArray : null,
-       image_url: formData.image_url || null,
-       video_url: formData.video_url || null,
-       is_featured: formData.is_featured,
-     };
+      const projectData = {
+        title: formData.title,
+        category: formData.category,
+        subcategory: formData.subcategory || null,
+        description: formData.description || null,
+        context: formData.context || null,
+        actions: formData.actions || null,
+        results: formData.results || null,
+        deliveries: deliveriesArray.length > 0 ? deliveriesArray : null,
+        image_url: formData.image_url || null,
+        video_url: formData.video_url || null,
+        is_featured: formData.is_featured,
+      };
  
      try {
        if (editingProject) {
@@ -325,8 +331,22 @@ import ImageUpload from '@/components/admin/ImageUpload';
                        <option key={cat} value={cat}>{cat}</option>
                      ))}
                    </select>
-                 </div>
-               </div>
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="subcategory">Subcategoria (filtro público)</Label>
+                    <select
+                      id="subcategory"
+                      value={formData.subcategory}
+                      onChange={(e) => setFormData(prev => ({ ...prev, subcategory: e.target.value }))}
+                      className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                    >
+                      <option value="">Selecione...</option>
+                      {subcategories.map(sub => (
+                        <option key={sub} value={sub}>{sub}</option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
  
                <div className="space-y-2">
                  <Label htmlFor="description">Descrição breve</Label>
