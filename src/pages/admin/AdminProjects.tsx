@@ -117,18 +117,19 @@ import ImageUpload from '@/components/admin/ImageUpload';
        .map(d => d.trim())
        .filter(d => d.length > 0);
  
-     const projectData = {
-       title: formData.title,
-       category: formData.category,
-       description: formData.description || null,
-       context: formData.context || null,
-       actions: formData.actions || null,
-       results: formData.results || null,
-       deliveries: deliveriesArray.length > 0 ? deliveriesArray : null,
-       image_url: formData.image_url || null,
-       video_url: formData.video_url || null,
-       is_featured: formData.is_featured,
-     };
+      const projectData = {
+        title: formData.title,
+        category: formData.category,
+        subcategory: formData.subcategory || null,
+        description: formData.description || null,
+        context: formData.context || null,
+        actions: formData.actions || null,
+        results: formData.results || null,
+        deliveries: deliveriesArray.length > 0 ? deliveriesArray : null,
+        image_url: formData.image_url || null,
+        video_url: formData.video_url || null,
+        is_featured: formData.is_featured,
+      };
  
      try {
        if (editingProject) {
