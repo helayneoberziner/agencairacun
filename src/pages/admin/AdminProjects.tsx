@@ -72,32 +72,34 @@ import ImageUpload from '@/components/admin/ImageUpload';
    const openModal = (project?: Project) => {
      if (project) {
        setEditingProject(project);
-       setFormData({
-         title: project.title,
-         category: project.category,
-         description: project.description ?? '',
-         context: project.context ?? '',
-         actions: project.actions ?? '',
-         results: project.results ?? '',
-         deliveries: project.deliveries?.join('\n') ?? '',
-         image_url: project.image_url ?? '',
-         video_url: project.video_url ?? '',
-         is_featured: project.is_featured,
-       });
+        setFormData({
+          title: project.title,
+          category: project.category,
+          subcategory: project.subcategory ?? '',
+          description: project.description ?? '',
+          context: project.context ?? '',
+          actions: project.actions ?? '',
+          results: project.results ?? '',
+          deliveries: project.deliveries?.join('\n') ?? '',
+          image_url: project.image_url ?? '',
+          video_url: project.video_url ?? '',
+          is_featured: project.is_featured,
+        });
      } else {
        setEditingProject(null);
-       setFormData({
-         title: '',
-         category: '',
-         description: '',
-         context: '',
-         actions: '',
-         results: '',
-         deliveries: '',
-         image_url: '',
-         video_url: '',
-         is_featured: false,
-       });
+        setFormData({
+          title: '',
+          category: '',
+          subcategory: '',
+          description: '',
+          context: '',
+          actions: '',
+          results: '',
+          deliveries: '',
+          image_url: '',
+          video_url: '',
+          is_featured: false,
+        });
      }
      setIsModalOpen(true);
    };
