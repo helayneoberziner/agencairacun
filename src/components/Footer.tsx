@@ -16,7 +16,7 @@ const Footer = () => {
     { name: 'Sobre nós', path: '/sobre' },
     { name: 'Contato', path: '/contato' },
     { name: 'Produtora', path: '/produtora' },
-    { name: 'Área do Cliente', path: 'https://app.racun.com.br', external: true },
+    { name: 'Área do Cliente', path: settings.clientAreaUrl || 'https://app.racun.com.br', external: true },
   ];
 
   const socials = [
@@ -102,8 +102,8 @@ const Footer = () => {
             © {currentYear} Agência Racun. Todos os direitos reservados.
           </p>
           <div className="flex items-center gap-4">
-            <Link to="/privacidade" className="text-muted-foreground text-xs hover:text-primary transition-colors">Privacidade</Link>
-            <Link to="/termos" className="text-muted-foreground text-xs hover:text-primary transition-colors">Termos</Link>
+            <Link to="/politica-de-privacidade" className="text-muted-foreground text-xs hover:text-primary transition-colors">Privacidade</Link>
+            <Link to="/termos-de-uso" className="text-muted-foreground text-xs hover:text-primary transition-colors">Termos</Link>
             <Link to="/admin/login" className="text-muted-foreground/50 text-[10px] hover:text-muted-foreground transition-colors">Admin</Link>
           </div>
         </div>
