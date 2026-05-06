@@ -7,7 +7,7 @@ import { toast } from 'sonner';
 import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/integrations/supabase/client';
 import { useSiteSettings } from '@/hooks/useSiteSettings';
-import { Lock, User, Shield, Globe, Phone, MapPin, Instagram, Youtube, Mail, MessageCircle, Image, Trash2, Upload } from 'lucide-react';
+import { Lock, User, Shield, Globe, Phone, MapPin, Instagram, Youtube, Mail, MessageCircle, Image, Trash2, Upload, ExternalLink } from 'lucide-react';
 import { useClientLogos, ClientLogo } from '@/hooks/useClientLogos';
 import ImageUpload from '@/components/admin/ImageUpload';
 
@@ -114,6 +114,14 @@ const AdminSettings = () => {
                 <MapPin className="w-4 h-4 text-muted-foreground" /> Endereço
               </Label>
               <Input id="address" value={siteData.address} onChange={e => handleSiteChange('address', e.target.value)} />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="clientAreaUrl" className="flex items-center gap-2">
+                <ExternalLink className="w-4 h-4 text-muted-foreground" /> Link da Área do Cliente
+              </Label>
+              <Input id="clientAreaUrl" value={siteData.clientAreaUrl} onChange={e => handleSiteChange('clientAreaUrl', e.target.value)} placeholder="https://app.racun.com.br" />
+              <p className="text-xs text-muted-foreground">Esse link é usado no botão "Área do Cliente" do site.</p>
             </div>
 
             <div className="border-t border-white/10 pt-4 mt-4">
