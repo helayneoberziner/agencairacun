@@ -1,7 +1,7 @@
-import { Building2, Utensils, CalendarDays, Tag, Camera, Landmark } from 'lucide-react';
+import { Building2, Utensils, CalendarDays, Tag, Camera, Landmark, Vote } from 'lucide-react';
 import { useProdutoraContent } from '@/hooks/useProdutoraContent';
 
-const iconMap = [Landmark, Building2, Utensils, CalendarDays, Tag, Camera];
+const iconMap = [Landmark, Building2, Utensils, CalendarDays, Tag, Vote, Camera];
 
 const MarketsSection = () => {
   const { content } = useProdutoraContent();
