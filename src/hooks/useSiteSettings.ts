@@ -9,6 +9,7 @@ export interface SiteSettings {
   instagram: string;
   youtube: string;
   logoUrl: string;
+  clientAreaUrl: string;
 }
 
 const defaultSettings: SiteSettings = {
@@ -19,6 +20,7 @@ const defaultSettings: SiteSettings = {
   instagram: 'https://instagram.com/agenciaracun',
   youtube: 'https://youtube.com/@agenciaracun',
   logoUrl: '',
+  clientAreaUrl: 'https://app.racun.com.br',
 };
 
 export function useSiteSettings() {
