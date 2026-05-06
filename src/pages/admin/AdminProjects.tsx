@@ -46,7 +46,7 @@ import ImageUpload from '@/components/admin/ImageUpload';
     });
   
     const categories = ['Vídeo', 'Fotografia', 'Marketing', 'Branding'];
-    const subcategories = ['Institucionais', 'Comerciais', 'Imobiliário', 'Redes Sociais', 'Eventos', 'Campanhas Eleitorais', 'Gastronomia'];
+    const subcategories = ['Institucionais', 'Comerciais', 'Imobiliário', 'Redes Sociais', 'Eventos', 'Política e Eleição', 'Gastronomia'];
  
    useEffect(() => {
      fetchProjects();
