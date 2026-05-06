@@ -95,6 +95,7 @@ export const defaultProdutoraContent: ProdutoraContent = {
       { title: 'Restaurantes', description: 'Gastronomia em alta definição.' },
       { title: 'Eventos', description: 'Momentos que merecem ser vistos.' },
       { title: 'Marcas', description: 'Posicionamento visual premium.' },
+      { title: 'Política e Eleição', description: 'Comunicação estratégica para campanhas.' },
     ],
   },
   fotos: {
