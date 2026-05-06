@@ -1,4 +1,4 @@
- import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
  import { useAuth } from '@/hooks/useAuth';
 import { 
   LayoutDashboard, 
@@ -15,7 +15,9 @@ import {
   Info,
   Megaphone,
   Home,
-  FileText
+  FileText,
+  Shield,
+  ChevronDown
 } from 'lucide-react';
  import { useState } from 'react';
  
@@ -30,20 +32,53 @@ import {
    const navigate = useNavigate();
    const [sidebarOpen, setSidebarOpen] = useState(false);
  
-    const navItems = [
-      { name: 'Dashboard', path: '/admin', icon: LayoutDashboard },
-      { name: 'Página Inicial', path: '/admin/home', icon: Home },
-      { name: 'Marketing', path: '/admin/marketing', icon: Megaphone },
-      { name: 'Projetos', path: '/admin/projects', icon: FolderOpen },
-      { name: 'Depoimentos', path: '/admin/testimonials', icon: Quote },
-      { name: 'Produtora', path: '/admin/produtora', icon: Film },
-      { name: 'Restaurantes', path: '/admin/restaurantes', icon: UtensilsCrossed },
-      { name: 'Sobre', path: '/admin/sobre', icon: Info },
-      { name: 'Propostas', path: '/admin/proposals', icon: FileText },
-      { name: 'Mensagens', path: '/admin/messages', icon: Mail },
-      { name: 'Mídia', path: '/admin/media', icon: Image },
-      { name: 'Configurações', path: '/admin/settings', icon: Settings },
+    const navGroups: { label: string; items: { name: string; path: string; icon: any }[] }[] = [
+      {
+        label: 'Principal',
+        items: [
+          { name: 'Dashboard', path: '/admin', icon: LayoutDashboard },
+          { name: 'Página Inicial', path: '/admin/home', icon: Home },
+        ],
+      },
+      {
+        label: 'Negócio',
+        items: [
+          { name: 'Marketing', path: '/admin/marketing', icon: Megaphone },
+          { name: 'Projetos', path: '/admin/projects', icon: FolderOpen },
+          { name: 'Propostas', path: '/admin/proposals', icon: FileText },
+          { name: 'Mensagens', path: '/admin/messages', icon: Mail },
+        ],
+      },
+      {
+        label: 'Conteúdo',
+        items: [
+          { name: 'Produtora', path: '/admin/produtora', icon: Film },
+          { name: 'Mídia', path: '/admin/media', icon: Image },
+          { name: 'Depoimentos', path: '/admin/testimonials', icon: Quote },
+        ],
+      },
+      {
+        label: 'Nicho',
+        items: [
+          { name: 'Restaurantes', path: '/admin/restaurantes', icon: UtensilsCrossed },
+        ],
+      },
+      {
+        label: 'Sistema',
+        items: [
+          { name: 'Sobre', path: '/admin/sobre', icon: Info },
+          { name: 'Solicitações LGPD', path: '/admin/lgpd', icon: Shield },
+          { name: 'Configurações', path: '/admin/settings', icon: Settings },
+        ],
+      },
     ];
+
+    const initialOpen = navGroups.reduce<Record<string, boolean>>((acc, g) => {
+      acc[g.label] = g.items.some(i => location.pathname === i.path) || true;
+      return acc;
+    }, {});
+    const [openGroups, setOpenGroups] = useState<Record<string, boolean>>(initialOpen);
+    const toggleGroup = (label: string) => setOpenGroups(prev => ({ ...prev, [label]: !prev[label] }));
  
    const handleSignOut = async () => {
      await signOut();
@@ -81,27 +116,45 @@ import {
              </button>
            </div>
  
-           {/* Navigation */}
-           <nav className="flex-1 p-4 space-y-2">
-             {navItems.map((item) => (
-               <Link
-                 key={item.path}
-                 to={item.path}
-                 onClick={() => setSidebarOpen(false)}
-                 className={`
-                   flex items-center gap-3 px-4 py-3 rounded-lg
-                   transition-colors duration-200
-                   ${location.pathname === item.path
-                     ? 'bg-primary text-primary-foreground'
-                     : 'text-muted-foreground hover:bg-muted hover:text-foreground'
-                   }
-                 `}
-               >
-                 <item.icon className="w-5 h-5" />
-                 {item.name}
-               </Link>
-             ))}
-           </nav>
+          {/* Navigation */}
+          <nav className="flex-1 p-3 space-y-4 overflow-y-auto">
+            {navGroups.map((group) => {
+              const isOpen = openGroups[group.label];
+              return (
+                <div key={group.label} className="space-y-1">
+                  <button
+                    onClick={() => toggleGroup(group.label)}
+                    className="w-full flex items-center justify-between px-3 py-1.5 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground/70 hover:text-foreground transition-colors"
+                  >
+                    <span>{group.label}</span>
+                    <ChevronDown className={`w-3.5 h-3.5 transition-transform ${isOpen ? '' : '-rotate-90'}`} />
+                  </button>
+                  {isOpen && (
+                    <div className="space-y-0.5">
+                      {group.items.map((item) => {
+                        const active = location.pathname === item.path;
+                        return (
+                          <Link
+                            key={item.path}
+                            to={item.path}
+                            onClick={() => setSidebarOpen(false)}
+                            className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-all duration-200 ${
+                              active
+                                ? 'bg-primary text-primary-foreground shadow-sm'
+                                : 'text-muted-foreground hover:bg-muted/60 hover:text-foreground'
+                            }`}
+                          >
+                            <item.icon className="w-4 h-4 shrink-0" />
+                            <span className="truncate">{item.name}</span>
+                          </Link>
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </nav>
  
            {/* User & Logout */}
            <div className="p-4 border-t border-border space-y-3">
