@@ -91,7 +91,7 @@ const Header = () => {
           {/* Desktop Right Actions */}
           <div className="hidden lg:flex items-center gap-3">
             <a
-              href="https://app.racun.com.br"
+              href={settings.clientAreaUrl || 'https://app.racun.com.br'}
               target="_blank"
               rel="noopener noreferrer"
               className="btn-ghost flex items-center gap-2 text-sm"
@@ -144,7 +144,7 @@ const Header = () => {
               </Link>
 
               <div className="flex flex-col gap-3 pt-4 border-t border-white/10">
-                <a href="https://app.racun.com.br" target="_blank" rel="noopener noreferrer" className="btn-outline text-center flex items-center justify-center gap-2">
+                <a href={settings.clientAreaUrl || 'https://app.racun.com.br'} target="_blank" rel="noopener noreferrer" className="btn-outline text-center flex items-center justify-center gap-2">
                   <ExternalLink className="w-4 h-4" /> Área do Cliente
                 </a>
                 <a href={whatsappLink} target="_blank" rel="noopener noreferrer" className="btn-primary text-center flex items-center justify-center gap-2">

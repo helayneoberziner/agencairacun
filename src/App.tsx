@@ -12,6 +12,8 @@ import Contato from "./pages/Contato";
 import Produtora from "./pages/Produtora";
 import Restaurantes from "./pages/Restaurantes";
 import Proposta from "./pages/Proposta";
+import PoliticaPrivacidade from "./pages/PoliticaPrivacidade";
+import TermosUso from "./pages/TermosUso";
 import NotFound from "./pages/NotFound";
 import AdminLogin from "./pages/admin/AdminLogin";
 import AdminDashboard from "./pages/admin/AdminDashboard";
@@ -26,7 +28,9 @@ import AdminSobre from "./pages/admin/AdminSobre";
 import AdminMarketing from "./pages/admin/AdminMarketing";
 import AdminHome from "./pages/admin/AdminHome";
 import AdminProposals from "./pages/admin/AdminProposals";
+import AdminLgpd from "./pages/admin/AdminLgpd";
 import ProtectedRoute from "./components/admin/ProtectedRoute";
+import CookieBanner from "./components/CookieBanner";
 
 const queryClient = new QueryClient();
 
@@ -37,6 +41,7 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <AuthProvider>
+          <CookieBanner />
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/marketing" element={<Marketing />} />
@@ -48,6 +53,8 @@ const App = () => (
             <Route path="/restaurantes" element={<Restaurantes />} />
             <Route path="/proposta" element={<Proposta />} />
             <Route path="/proposta/:slug" element={<Proposta />} />
+            <Route path="/politica-de-privacidade" element={<PoliticaPrivacidade />} />
+            <Route path="/termos-de-uso" element={<TermosUso />} />
             
             {/* Admin Routes */}
             <Route path="/admin/login" element={<AdminLogin />} />
@@ -63,6 +70,7 @@ const App = () => (
             <Route path="/admin/marketing" element={<ProtectedRoute><AdminMarketing /></ProtectedRoute>} />
             <Route path="/admin/home" element={<ProtectedRoute><AdminHome /></ProtectedRoute>} />
             <Route path="/admin/proposals" element={<ProtectedRoute><AdminProposals /></ProtectedRoute>} />
+            <Route path="/admin/lgpd" element={<ProtectedRoute><AdminLgpd /></ProtectedRoute>} />
             
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
