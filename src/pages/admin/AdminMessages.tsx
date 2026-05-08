@@ -188,8 +188,10 @@
                  {selectedMessage.phone && (
                    <div className="flex items-center gap-2 text-sm">
                      <Phone className="w-4 h-4 text-muted-foreground" />
-                     <a 
-                       href={`tel:${selectedMessage.phone}`}
+                      <a 
+                        href={`https://wa.me/${selectedMessage.phone.replace(/\D/g, '')}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
                        className="text-primary hover:underline"
                      >
                        {selectedMessage.phone}
