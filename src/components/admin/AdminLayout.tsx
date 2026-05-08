@@ -17,6 +17,7 @@ import {
   Home,
   FileText,
   Shield,
+  Users,
   ChevronDown
 } from 'lucide-react';
  import { useState } from 'react';
@@ -55,6 +56,7 @@ import {
           { name: 'Produtora', path: '/admin/produtora', icon: Film },
           { name: 'Mídia', path: '/admin/media', icon: Image },
           { name: 'Depoimentos', path: '/admin/testimonials', icon: Quote },
+          { name: 'Equipe', path: '/admin/team', icon: Users },
         ],
       },
       {
