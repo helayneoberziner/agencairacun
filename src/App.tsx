@@ -7,6 +7,7 @@ import { AuthProvider } from "@/hooks/useAuth";
 import Index from "./pages/Index";
 import Marketing from "./pages/Marketing";
 import Cases from "./pages/Cases";
+import CaseDetail from "./pages/CaseDetail";
 import Sobre from "./pages/Sobre";
 import Contato from "./pages/Contato";
 import Produtora from "./pages/Produtora";
@@ -29,6 +30,7 @@ import AdminMarketing from "./pages/admin/AdminMarketing";
 import AdminHome from "./pages/admin/AdminHome";
 import AdminProposals from "./pages/admin/AdminProposals";
 import AdminLgpd from "./pages/admin/AdminLgpd";
+import AdminTeam from "./pages/admin/AdminTeam";
 import ProtectedRoute from "./components/admin/ProtectedRoute";
 import CookieBanner from "./components/CookieBanner";
 
@@ -46,7 +48,7 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/marketing" element={<Marketing />} />
             <Route path="/cases" element={<Cases />} />
-            <Route path="/cases/:id" element={<Cases />} />
+            <Route path="/cases/:slug" element={<CaseDetail />} />
             <Route path="/sobre" element={<Sobre />} />
             <Route path="/contato" element={<Contato />} />
             <Route path="/produtora" element={<Produtora />} />
@@ -71,6 +73,7 @@ const App = () => (
             <Route path="/admin/home" element={<ProtectedRoute><AdminHome /></ProtectedRoute>} />
             <Route path="/admin/proposals" element={<ProtectedRoute><AdminProposals /></ProtectedRoute>} />
             <Route path="/admin/lgpd" element={<ProtectedRoute><AdminLgpd /></ProtectedRoute>} />
+            <Route path="/admin/team" element={<ProtectedRoute><AdminTeam /></ProtectedRoute>} />
             
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
