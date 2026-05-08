@@ -8,9 +8,11 @@
  import { toast } from 'sonner';
 import { Plus, Pencil, Trash2, X, Youtube, Image, Star, GripVertical } from 'lucide-react';
 import ImageUpload from '@/components/admin/ImageUpload';
+import { slugify } from '@/lib/slug';
  
   interface Project {
     id: string;
+    slug: string | null;
     title: string;
     category: string;
     subcategory: string | null;
@@ -21,6 +23,11 @@ import ImageUpload from '@/components/admin/ImageUpload';
     deliveries: string[] | null;
     image_url: string | null;
     video_url: string | null;
+    gallery_urls: string[] | null;
+    client_name: string | null;
+    testimonial_text: string | null;
+    testimonial_author: string | null;
+    seo_description: string | null;
     is_featured: boolean;
     display_order: number;
     created_at: string;
@@ -33,6 +40,7 @@ import ImageUpload from '@/components/admin/ImageUpload';
    const [editingProject, setEditingProject] = useState<Project | null>(null);
     const [formData, setFormData] = useState({
       title: '',
+      slug: '',
       category: '',
       subcategory: '',
       description: '',
@@ -42,6 +50,11 @@ import ImageUpload from '@/components/admin/ImageUpload';
       deliveries: '',
       image_url: '',
       video_url: '',
+      gallery_urls: [] as string[],
+      client_name: '',
+      testimonial_text: '',
+      testimonial_author: '',
+      seo_description: '',
       is_featured: false,
     });
   
@@ -74,6 +87,7 @@ import ImageUpload from '@/components/admin/ImageUpload';
        setEditingProject(project);
         setFormData({
           title: project.title,
+           slug: project.slug ?? '',
           category: project.category,
           subcategory: project.subcategory ?? '',
           description: project.description ?? '',
@@ -83,12 +97,18 @@ import ImageUpload from '@/components/admin/ImageUpload';
           deliveries: project.deliveries?.join('\n') ?? '',
           image_url: project.image_url ?? '',
           video_url: project.video_url ?? '',
+           gallery_urls: project.gallery_urls ?? [],
+           client_name: project.client_name ?? '',
+           testimonial_text: project.testimonial_text ?? '',
+           testimonial_author: project.testimonial_author ?? '',
+           seo_description: project.seo_description ?? '',
           is_featured: project.is_featured,
         });
      } else {
        setEditingProject(null);
         setFormData({
           title: '',
+           slug: '',
           category: '',
           subcategory: '',
           description: '',
@@ -98,6 +118,11 @@ import ImageUpload from '@/components/admin/ImageUpload';
           deliveries: '',
           image_url: '',
           video_url: '',
+           gallery_urls: [],
+           client_name: '',
+           testimonial_text: '',
+           testimonial_author: '',
+           seo_description: '',
           is_featured: false,
         });
      }
@@ -119,6 +144,7 @@ import ImageUpload from '@/components/admin/ImageUpload';
  
       const projectData = {
         title: formData.title,
+        slug: formData.slug || slugify(formData.title),
         category: formData.category,
         subcategory: formData.subcategory || null,
         description: formData.description || null,
@@ -128,6 +154,11 @@ import ImageUpload from '@/components/admin/ImageUpload';
         deliveries: deliveriesArray.length > 0 ? deliveriesArray : null,
         image_url: formData.image_url || null,
         video_url: formData.video_url || null,
+        gallery_urls: formData.gallery_urls.length > 0 ? formData.gallery_urls : null,
+        client_name: formData.client_name || null,
+        testimonial_text: formData.testimonial_text || null,
+        testimonial_author: formData.testimonial_author || null,
+        seo_description: formData.seo_description || null,
         is_featured: formData.is_featured,
       };
  
