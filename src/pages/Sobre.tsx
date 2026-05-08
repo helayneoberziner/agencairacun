@@ -4,11 +4,14 @@ import Footer from '@/components/Footer';
 import WhatsAppButton from '@/components/WhatsAppButton';
 import { ArrowRight, Target, Heart, Zap, Users } from 'lucide-react';
 import { useSobreContent } from '@/hooks/useSobreContent';
+import { useTeamMembers } from '@/hooks/useTeamMembers';
+import { getSocialIcon } from '@/lib/socialIcons';
 
 const iconMap = [Target, Heart, Zap, Users];
 
 const Sobre = () => {
   const { content, isLoading } = useSobreContent();
+  const { members } = useTeamMembers(true);
 
   if (isLoading) return <div className="min-h-screen bg-background"><Header /><div className="flex items-center justify-center h-96"><p className="text-muted-foreground">Carregando...</p></div><Footer /></div>;
 
@@ -94,6 +97,50 @@ const Sobre = () => {
             </div>
           </div>
         </section>
+
+        {/* Team */}
+        {members.length > 0 && (
+          <section className="section-padding">
+            <div className="container-custom">
+              <div className="text-center max-w-3xl mx-auto mb-16">
+                <span className="text-primary text-sm font-medium uppercase tracking-[0.2em] mb-4 block">Equipe</span>
+                <h2 className="text-3xl md:text-5xl font-display font-bold leading-tight">
+                  Quem está <span className="italic text-primary">por trás</span>
+                </h2>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                {members.map((m) => (
+                  <div key={m.id} className="group">
+                    <div className="aspect-[4/5] overflow-hidden rounded-2xl bg-secondary/40 mb-5">
+                      {m.photo_url ? (
+                        <img src={m.photo_url} alt={m.name}
+                          className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-[1.03] transition-all duration-700" />
+                      ) : (
+                        <div className="w-full h-full bg-gradient-to-br from-primary/20 to-accent/10" />
+                      )}
+                    </div>
+                    <h3 className="font-display text-2xl mb-1">{m.name}</h3>
+                    <p className="text-primary text-sm italic mb-3">{m.role}</p>
+                    {m.bio && <p className="text-muted-foreground text-sm leading-relaxed mb-4">{m.bio}</p>}
+                    {m.social_links.length > 0 && (
+                      <div className="flex gap-3">
+                        {m.social_links.filter(s => s.url).map((s, i) => {
+                          const Icon = getSocialIcon(s.platform);
+                          return (
+                            <a key={i} href={s.url} target="_blank" rel="noopener noreferrer"
+                              className="w-9 h-9 rounded-full border border-white/10 flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary/40 transition-all">
+                              <Icon className="w-4 h-4" />
+                            </a>
+                          );
+                        })}
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+        )}
 
         {/* CTA */}
         <section className="section-padding">
