@@ -7,7 +7,9 @@ import { toast } from 'sonner';
 import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/integrations/supabase/client';
 import { useSiteSettings } from '@/hooks/useSiteSettings';
-import { Lock, User, Shield, Globe, Phone, MapPin, Instagram, Youtube, Mail, MessageCircle, Image, Trash2, Upload, ExternalLink } from 'lucide-react';
+import { Lock, User, Shield, Globe, Phone, MapPin, Mail, MessageCircle, Image, Trash2, Upload, ExternalLink, Plus, X, ArrowUp, ArrowDown } from 'lucide-react';
+import { socialPlatforms, getSocialLabel, getSocialIcon } from '@/lib/socialIcons';
+import { Switch } from '@/components/ui/switch';
 import { useClientLogos, ClientLogo } from '@/hooks/useClientLogos';
 import ImageUpload from '@/components/admin/ImageUpload';
 
@@ -69,6 +71,28 @@ const AdminSettings = () => {
     setSiteData(prev => ({ ...prev, [field]: value }));
   };
 
+  const updateSocial = (i: number, patch: Partial<{ platform: string; url: string; isActive: boolean }>) => {
+    setSiteData(prev => ({
+      ...prev,
+      socialNetworks: prev.socialNetworks.map((s, idx) => idx === i ? { ...s, ...patch } : s),
+    }));
+  };
+  const addSocial = () => setSiteData(prev => ({
+    ...prev,
+    socialNetworks: [...prev.socialNetworks, { id: crypto.randomUUID(), platform: 'instagram', url: '', isActive: true }],
+  }));
+  const removeSocial = (i: number) => setSiteData(prev => ({
+    ...prev,
+    socialNetworks: prev.socialNetworks.filter((_, idx) => idx !== i),
+  }));
+  const moveSocial = (i: number, dir: -1 | 1) => setSiteData(prev => {
+    const arr = [...prev.socialNetworks];
+    const j = i + dir;
+    if (j < 0 || j >= arr.length) return prev;
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+    return { ...prev, socialNetworks: arr };
+  });
+
   return (
     <AdminLayout title="Configurações">
       <div className="max-w-2xl space-y-8">
@@ -125,21 +149,50 @@ const AdminSettings = () => {
             </div>
 
             <div className="border-t border-white/10 pt-4 mt-4">
-              <p className="text-sm text-muted-foreground mb-4">Redes sociais</p>
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="instagram" className="flex items-center gap-2">
-                <Instagram className="w-4 h-4 text-muted-foreground" /> Instagram
-              </Label>
-              <Input id="instagram" value={siteData.instagram} onChange={e => handleSiteChange('instagram', e.target.value)} placeholder="https://instagram.com/..." />
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="youtube" className="flex items-center gap-2">
-                <Youtube className="w-4 h-4 text-muted-foreground" /> YouTube
-              </Label>
-              <Input id="youtube" value={siteData.youtube} onChange={e => handleSiteChange('youtube', e.target.value)} placeholder="https://youtube.com/@..." />
+              <div className="flex items-center justify-between mb-3">
+                <p className="text-sm text-muted-foreground">Redes sociais</p>
+                <Button type="button" variant="outline" size="sm" onClick={addSocial}>
+                  <Plus className="w-3 h-3 mr-1" /> Adicionar
+                </Button>
+              </div>
+              <div className="space-y-3">
+                {siteData.socialNetworks.map((s, i) => {
+                  const Icon = getSocialIcon(s.platform);
+                  return (
+                    <div key={s.id} className="flex items-center gap-2 bg-secondary/30 border border-border rounded-lg p-2">
+                      <Icon className="w-4 h-4 text-muted-foreground shrink-0 ml-1" />
+                      <select
+                        value={s.platform}
+                        onChange={(e) => updateSocial(i, { platform: e.target.value })}
+                        className="h-9 rounded-md border border-input bg-background px-2 text-xs"
+                      >
+                        {socialPlatforms.map(p => <option key={p} value={p}>{getSocialLabel(p)}</option>)}
+                      </select>
+                      <Input
+                        value={s.url}
+                        onChange={(e) => updateSocial(i, { url: e.target.value })}
+                        placeholder="https://..."
+                        className="h-9 text-sm"
+                      />
+                      <Switch checked={s.isActive} onCheckedChange={(v) => updateSocial(i, { isActive: v })} />
+                      <Button type="button" variant="ghost" size="icon" className="h-8 w-8" onClick={() => moveSocial(i, -1)}>
+                        <ArrowUp className="w-3 h-3" />
+                      </Button>
+                      <Button type="button" variant="ghost" size="icon" className="h-8 w-8" onClick={() => moveSocial(i, 1)}>
+                        <ArrowDown className="w-3 h-3" />
+                      </Button>
+                      <Button type="button" variant="ghost" size="icon" className="h-8 w-8" onClick={() => removeSocial(i)}>
+                        <X className="w-3 h-3" />
+                      </Button>
+                    </div>
+                  );
+                })}
+                {siteData.socialNetworks.length === 0 && (
+                  <p className="text-xs text-muted-foreground text-center py-4 border border-dashed border-border rounded-lg">
+                    Nenhuma rede social cadastrada.
+                  </p>
+                )}
+              </div>
             </div>
 
             <Button type="submit" disabled={isUpdating || isLoading}>
