@@ -1,4 +1,6 @@
 import { Link } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
+import { supabase } from '@/integrations/supabase/client';
 import { ArrowRight, ExternalLink } from 'lucide-react';
 import { useHomeContent } from '@/hooks/useHomeContent';
 
@@ -6,12 +8,19 @@ const CasesPreview = () => {
   const { content } = useHomeContent();
   const c = content.casesPreview;
 
-  const cases = [
-    { id: 1, title: 'Lançamento de produto', category: 'Conteúdo + Tráfego', description: 'Campanha completa para lançamento no mercado de moda.' },
-    { id: 2, title: 'Filme institucional', category: 'Filme', description: 'Produção audiovisual para empresa do setor industrial.' },
-    { id: 3, title: 'Campanha de delivery', category: 'Restaurantes', description: 'Estratégia de tráfego pago para rede de restaurantes.' },
-    { id: 4, title: 'Rebranding digital', category: 'Conteúdo', description: 'Nova identidade visual e linha editorial para marca de beleza.' },
-  ];
+  const { data: cases = [] } = useQuery({
+    queryKey: ['cases-preview'],
+    queryFn: async () => {
+      const { data } = await supabase
+        .from('projects')
+        .select('id,slug,title,category,description,image_url')
+        .order('display_order', { ascending: true })
+        .limit(4);
+      return data ?? [];
+    },
+  });
+
+  if (cases.length === 0) return null;
 
   return (
     <section className="section-padding relative overflow-hidden">
@@ -26,9 +35,14 @@ const CasesPreview = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {cases.map((caseItem) => (
-            <Link key={caseItem.id} to={`/cases/${caseItem.id}`} className="group glass-card overflow-hidden">
+            <Link key={caseItem.id} to={`/cases/${caseItem.slug ?? caseItem.id}`} className="group glass-card overflow-hidden">
               <div className="aspect-video relative overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-accent/10 to-secondary" />
+                {caseItem.image_url ? (
+                  <img src={caseItem.image_url} alt={caseItem.title}
+                    className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-[1.03] transition-all duration-700" />
+                ) : (
+                  <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-accent/10 to-secondary" />
+                )}
                 <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-background/50 backdrop-blur-sm">
                   <span className="btn-primary flex items-center gap-2">Ver case <ExternalLink className="w-4 h-4" /></span>
                 </div>
@@ -36,7 +50,7 @@ const CasesPreview = () => {
               <div className="p-6">
                 <span className="text-xs text-primary font-medium uppercase tracking-wider">{caseItem.category}</span>
                 <h3 className="font-display font-semibold text-xl mt-2 mb-2 group-hover:text-primary transition-colors">{caseItem.title}</h3>
-                <p className="text-muted-foreground text-sm">{caseItem.description}</p>
+                {caseItem.description && <p className="text-muted-foreground text-sm">{caseItem.description}</p>}
               </div>
             </Link>
           ))}
