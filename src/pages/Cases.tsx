@@ -1,28 +1,24 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom'; 
+import { Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import WhatsAppButton from '@/components/WhatsAppButton';
-import { ArrowRight, X, ExternalLink, Youtube, Loader2 } from 'lucide-react';
+import { ArrowRight, ExternalLink, Youtube, Loader2 } from 'lucide-react';
 
 interface Project {
   id: string;
+  slug: string | null;
   title: string;
   category: string;
   description: string | null;
-  context: string | null;
-  actions: string | null;
-  results: string | null;
-  deliveries: string[] | null;
   image_url: string | null;
   video_url: string | null;
   is_featured: boolean;
 }
 
 const Cases = () => {
-  const [selectedCase, setSelectedCase] = useState<Project | null>(null);
   const [filter, setFilter] = useState<string>('Todos');
 
   const { data: projects = [], isLoading } = useQuery({
@@ -30,7 +26,7 @@ const Cases = () => {
     queryFn: async () => {
       const { data, error } = await supabase
         .from('projects')
-        .select('*')
+        .select('id,slug,title,category,description,image_url,video_url,is_featured,display_order')
         .order('display_order', { ascending: true });
       
       if (error) throw error;
@@ -44,11 +40,6 @@ const Cases = () => {
   const filteredProjects = filter === 'Todos' 
     ? projects 
     : projects.filter(p => p.category === filter);
-
-  const getYoutubeEmbedUrl = (url: string) => {
-    const match = url.match(/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/);
-    return match ? `https://www.youtube.com/embed/${match[1]}` : null;
-  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -109,10 +100,10 @@ const Cases = () => {
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {filteredProjects.map((project) => (
-                <div
+                <Link
                   key={project.id}
-                  onClick={() => setSelectedCase(project)}
-                  className="group glass-card overflow-hidden cursor-pointer"
+                  to={`/cases/${project.slug ?? project.id}`}
+                  className="group glass-card overflow-hidden block"
                 >
                   {/* Image */}
                   <div className="aspect-video relative overflow-hidden">
@@ -120,7 +111,7 @@ const Cases = () => {
                       <img 
                         src={project.image_url} 
                         alt={project.title}
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-[1.03] transition-all duration-700"
                       />
                     ) : (
                       <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-accent/10 to-secondary" />
@@ -151,7 +142,7 @@ const Cases = () => {
                       </p>
                     )}
                   </div>
-                  </div>
+                </Link>
               ))}
             </div>
           )}
@@ -179,113 +170,6 @@ const Cases = () => {
           </div>
         </section>
       </main>
-
-      {/* Case Modal */}
-      {selectedCase && (
-        <div 
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-background/80 backdrop-blur-sm"
-          onClick={() => setSelectedCase(null)}
-        >
-          <div 
-            className="glass-card max-w-3xl w-full max-h-[90vh] overflow-y-auto"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="sticky top-0 bg-card/95 backdrop-blur-sm p-6 border-b border-white/10 flex items-center justify-between">
-              <div>
-                <span className="text-xs text-primary font-medium uppercase tracking-wider">
-                {selectedCase.category}
-                </span>
-                <h2 className="font-display font-bold text-2xl">{selectedCase.title}</h2>
-              </div>
-              <button 
-                onClick={() => setSelectedCase(null)}
-                className="p-2 hover:bg-white/10 rounded-lg transition-colors"
-              >
-                <X className="w-5 h-5" />
-              </button>
-            </div>
-
-            <div className="p-6 space-y-8">
-            {/* Video */}
-            {selectedCase.video_url && (
-              <div className="aspect-video rounded-lg overflow-hidden bg-black">
-                {getYoutubeEmbedUrl(selectedCase.video_url) ? (
-                  <iframe
-                    src={getYoutubeEmbedUrl(selectedCase.video_url)!}
-                    title={selectedCase.title}
-                    className="w-full h-full"
-                    allowFullScreen
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  />
-                ) : (
-                  <a 
-                    href={selectedCase.video_url} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="flex items-center justify-center h-full text-primary hover:underline"
-                  >
-                    Ver vídeo no YouTube
-                  </a>
-                )}
-              </div>
-            )}
-
-              {/* Context */}
-            {selectedCase.context && (
-              <div>
-                <h3 className="font-display font-semibold text-lg mb-2 text-primary">Contexto</h3>
-                <p className="text-muted-foreground">{selectedCase.context}</p>
-              </div>
-            )}
-
-              {/* What we did */}
-            {selectedCase.actions && (
-              <div>
-                <h3 className="font-display font-semibold text-lg mb-3 text-primary">O que fizemos</h3>
-                <p className="text-muted-foreground whitespace-pre-wrap">{selectedCase.actions}</p>
-              </div>
-            )}
-
-              {/* Deliverables */}
-            {selectedCase.deliveries && selectedCase.deliveries.length > 0 && (
-              <div>
-                <h3 className="font-display font-semibold text-lg mb-3 text-primary">Entregas</h3>
-                <div className="flex flex-wrap gap-2">
-                  {selectedCase.deliveries.map((item, i) => (
-                    <span 
-                      key={i} 
-                      className="px-3 py-1 text-sm rounded-full bg-white/5 border border-white/10"
-                    >
-                      {item}
-                    </span>
-                  ))}
-                </div>
-                </div>
-            )}
-
-            {/* Results */}
-            {selectedCase.results && (
-              <div>
-                <h3 className="font-display font-semibold text-lg mb-2 text-primary">Resultados</h3>
-                <p className="text-muted-foreground whitespace-pre-wrap">{selectedCase.results}</p>
-              </div>
-            )}
-
-              {/* CTA */}
-              <div className="pt-4 border-t border-white/10">
-                <Link 
-                  to="/contato" 
-                  className="btn-primary w-full flex items-center justify-center gap-2"
-                  onClick={() => setSelectedCase(null)}
-                >
-                  Quero um case assim
-                  <ArrowRight className="w-4 h-4" />
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
 
       <Footer />
       <WhatsAppButton />

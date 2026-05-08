@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
-import { Instagram, Youtube, Mail, Phone } from 'lucide-react';
+import { Mail, Phone } from 'lucide-react';
 import { useSiteSettings } from '@/hooks/useSiteSettings';
+import { getSocialIcon, getSocialLabel } from '@/lib/socialIcons';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -19,10 +20,11 @@ const Footer = () => {
     { name: 'Área do Cliente', path: settings.clientAreaUrl || 'https://app.racun.com.br', external: true },
   ];
 
-  const socials = [
-    { name: 'Instagram', icon: Instagram, url: settings.instagram },
-    { name: 'YouTube', icon: Youtube, url: settings.youtube },
-  ];
+  const socials = (settings.socialNetworks ?? [])
+    .filter(s => s.isActive && s.url)
+    .map(s => ({ name: getSocialLabel(s.platform), icon: getSocialIcon(s.platform), url: s.url }));
+
+  const whatsappLink = `https://wa.me/${settings.whatsapp}`;
 
   return (
     <footer className="bg-secondary/30 border-t border-white/5">
@@ -39,7 +41,7 @@ const Footer = () => {
             </Link>
             <div className="flex gap-3">
               {socials.map((social) => (
-                <a key={social.name} href={social.url} target="_blank" rel="noopener noreferrer"
+                <a key={social.name + social.url} href={social.url} target="_blank" rel="noopener noreferrer"
                   className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-muted-foreground hover:text-primary hover:bg-primary/10 transition-all duration-300">
                   <social.icon className="w-4 h-4" />
                 </a>
@@ -88,7 +90,7 @@ const Footer = () => {
               <Mail className="w-3.5 h-3.5" />
               {settings.email}
             </a>
-            <a href={`tel:+${settings.whatsapp}`}
+            <a href={whatsappLink} target="_blank" rel="noopener noreferrer"
               className="flex items-center gap-2 text-muted-foreground text-xs hover:text-primary transition-colors duration-300">
               <Phone className="w-3.5 h-3.5" />
               {settings.phone}
