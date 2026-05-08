@@ -7,6 +7,8 @@ import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { useToast } from '@/hooks/use-toast';
 import { Plus, Trash2, Edit, Copy, ExternalLink, X, Save } from 'lucide-react';
+import TagAutocompleteInput from '@/components/admin/TagAutocompleteInput';
+import { SuggestionCategory } from '@/hooks/useProposalSuggestions';
 
 interface Proposal {
   id: string;
@@ -256,7 +258,12 @@ const AdminProposals = () => {
                   placeholder="2.500,00"
                 />
               </div>
-              {renderArrayEditor('Itens Inclusos', `${activeSection}_includes` as ArrayField)}
+              <TagAutocompleteInput
+                label="Itens Inclusos"
+                category={activeSection as SuggestionCategory}
+                values={(editing as any)[`${activeSection}_includes`].filter((s: string) => s.trim() !== '')}
+                onChange={(vals) => setEditing({ ...editing, [`${activeSection}_includes`]: vals })}
+              />
               {renderArrayEditor('Diferenciais', `${activeSection}_differentials` as ArrayField)}
               {renderArrayEditor('Bônus', `${activeSection}_bonus` as ArrayField)}
             </div>
