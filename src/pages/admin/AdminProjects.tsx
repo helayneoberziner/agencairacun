@@ -344,10 +344,24 @@ import { slugify } from '@/lib/slug';
                    <Input
                      id="title"
                      value={formData.title}
-                     onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
+                      onChange={(e) => setFormData(prev => ({
+                        ...prev,
+                        title: e.target.value,
+                        slug: editingProject ? prev.slug : slugify(e.target.value),
+                      }))}
                      required
                    />
                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="slug">Slug (URL)</Label>
+                    <Input
+                      id="slug"
+                      value={formData.slug}
+                      onChange={(e) => setFormData(prev => ({ ...prev, slug: slugify(e.target.value) }))}
+                      placeholder="meu-case"
+                    />
+                    <p className="text-[11px] text-muted-foreground">/cases/{formData.slug || '...'}</p>
+                  </div>
                  <div className="space-y-2">
                    <Label htmlFor="category">Categoria *</Label>
                    <select
@@ -448,6 +462,52 @@ import { slugify } from '@/lib/slug';
                   </div>
                 </div>
  
+                {/* Gallery */}
+                <div className="space-y-3 border-t border-border pt-4">
+                  <Label>Galeria de imagens</Label>
+                  {formData.gallery_urls.map((url, i) => (
+                    <div key={i} className="flex items-center gap-3">
+                      <img src={url} alt="" className="w-20 h-12 object-cover rounded" />
+                      <Input value={url} readOnly className="flex-1" />
+                      <Button type="button" variant="ghost" size="icon"
+                        onClick={() => setFormData(prev => ({ ...prev, gallery_urls: prev.gallery_urls.filter((_, idx) => idx !== i) }))}>
+                        <X className="w-4 h-4" />
+                      </Button>
+                    </div>
+                  ))}
+                  <ImageUpload
+                    label="Adicionar imagem à galeria"
+                    value=""
+                    onChange={(url) => url && setFormData(prev => ({ ...prev, gallery_urls: [...prev.gallery_urls, url] }))}
+                    folder="projects/gallery"
+                  />
+                </div>
+
+                {/* Client + testimonial + SEO */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 border-t border-border pt-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="client_name">Cliente</Label>
+                    <Input id="client_name" value={formData.client_name}
+                      onChange={(e) => setFormData(prev => ({ ...prev, client_name: e.target.value }))} />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="testimonial_author">Autor do depoimento</Label>
+                    <Input id="testimonial_author" value={formData.testimonial_author}
+                      onChange={(e) => setFormData(prev => ({ ...prev, testimonial_author: e.target.value }))} />
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="testimonial_text">Depoimento</Label>
+                  <Textarea id="testimonial_text" rows={3} value={formData.testimonial_text}
+                    onChange={(e) => setFormData(prev => ({ ...prev, testimonial_text: e.target.value }))} />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="seo_description">Descrição SEO (meta description)</Label>
+                  <Textarea id="seo_description" rows={2} value={formData.seo_description}
+                    onChange={(e) => setFormData(prev => ({ ...prev, seo_description: e.target.value }))}
+                    placeholder="Resumo curto exibido em buscas (até 160 caracteres)" />
+                </div>
+
                <div className="flex items-center gap-2">
                  <input
                    type="checkbox"
