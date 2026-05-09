@@ -95,29 +95,29 @@ const PortfolioGrid = ({
       <section className="section-padding">
         <div className="container-custom">
           {/* Header */}
-          <div className="text-center mb-12">
-            {badge && (
-              <span className="text-primary text-sm font-medium uppercase tracking-wider mb-4 block">
-                {badge}
-              </span>
-            )}
-            <h2 className="text-3xl md:text-5xl font-display font-bold mb-4">
-              {title} <span className="text-gradient-neon">{titleHighlight}</span>
-            </h2>
-            {subtitle && <p className="text-muted-foreground text-lg max-w-2xl mx-auto">{subtitle}</p>}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 mb-16 md:mb-24">
+            <div className="lg:col-span-3">
+              {badge && <p className="text-eyebrow">{badge}</p>}
+            </div>
+            <div className="lg:col-span-9">
+              <h2 className="text-display text-4xl md:text-6xl lg:text-7xl max-w-3xl">
+                {title} <span className="italic text-primary">{titleHighlight}</span>
+              </h2>
+              {subtitle && <p className="text-foreground/70 text-lg mt-6 max-w-2xl font-light">{subtitle}</p>}
+            </div>
           </div>
 
           {/* Filter tabs */}
           {showFilters && subcategories.length > 2 && (
-            <div className="flex flex-wrap justify-center gap-3 mb-10">
+            <div className="flex flex-wrap justify-center gap-x-8 gap-y-3 mb-16">
               {subcategories.map(sub => (
                 <button
                   key={sub}
                   onClick={() => setActiveFilter(sub)}
-                  className={`px-5 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
+                  className={`text-xs uppercase tracking-[0.25em] transition-all duration-300 pb-1 border-b ${
                     activeFilter === sub
-                      ? 'bg-primary text-primary-foreground'
-                      : 'bg-white/5 text-muted-foreground border border-white/10 hover:border-primary/30 hover:text-foreground'
+                      ? 'text-primary border-primary'
+                      : 'text-foreground/60 border-transparent hover:text-foreground hover:border-white/30'
                   }`}
                 >
                   {sub}
