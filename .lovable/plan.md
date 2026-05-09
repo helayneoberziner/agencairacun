@@ -1,88 +1,134 @@
-# Atualização Premium - Agência Racun
+# Refinamento Visual Premium — Agência Racun
 
-Plano dividido em 7 frentes. Vou executar tudo em sequência, mantendo rotas, banco e identidade visual.
+## Objetivo
+Transformar o site em experiência cinematográfica de agência high ticket. Eliminar aparência de template/WordPress/blog. Foco principal: páginas de Cases e Home.
 
-## 1. Páginas individuais de Cases (`/cases/:slug`)
+## Princípios de Design
+- **Tipografia editorial**: DM Serif Display (já em uso nas memórias) para títulos grandes, Inter light para corpo. Escala maior e mais arejada.
+- **Espaçamento generoso**: section-padding aumentado (py-32 desktop, py-20 mobile). Margens internas amplas.
+- **Minimalismo cromático**: reduzir glow/neon excessivo. Manter primary #FF00CC apenas como acento pontual (italic em palavras chave, micro-detalhes). BG #040d28 dominante.
+- **Sem cards quadrados padrão**: bordas sutis (1px white/5), sem glassmorphism pesado, sem múltiplas sombras coloridas.
+- **Motion discreto**: fade/slide on scroll via IntersectionObserver, parallax leve no hero (translateY com scroll), hover scale 1.02 com transition 700ms.
 
-- Adicionar coluna `slug` na tabela `projects` (migration segura, geração automática a partir do título nos existentes).
-- Adicionar campos opcionais usados na página: `client_name`, `testimonial_text`, `testimonial_author`, `gallery_urls` (array de imagens), `seo_description`.
-- Criar `src/pages/CaseDetail.tsx` com layout cinematográfico:
-  - Hero grande com imagem/vídeo de capa, título display em DM Serif, categoria como tag.
-  - Blocos: Contexto, O que foi feito, Resultados (com números destacados), Entregas (lista refinada), Galeria em grid editorial, Vídeo embed (YouTube), Depoimento, CTA final.
-  - Animações suaves (fade/slide on scroll), tipografia respirada, muito espaço em branco.
-  - SEO via `<title>` e `<meta>` dinâmicos (helmet leve via document head manipulation).
-- Atualizar `App.tsx`: rota `/cases/:slug` → `CaseDetail`.
-- Atualizar `Cases.tsx` e `CasesPreview.tsx`: cards e botões "Ver Case" navegam para `/cases/:slug`.
-- Atualizar `AdminProjects.tsx`: editor inclui novos campos + galeria múltipla + slug auto-gerado editável.
+## 1. CaseDetail (`/cases/:slug`) — Reformulação cinematográfica
 
-## 2. Equipe na página Sobre
+```text
+┌─────────────────────────────────────────┐
+│  HERO FULLSCREEN                         │
+│  imagem/vídeo 100vh                      │
+│  título serif gigante sobreposto         │
+│  cliente + categoria em caps tracking    │
+└─────────────────────────────────────────┘
+┌─────────────────────────────────────────┐
+│  META BAR sticky                         │
+│  cliente · categoria · ano · serviços    │
+└─────────────────────────────────────────┘
+┌─────────────────────────────────────────┐
+│  DESAFIO (texto editorial 2 colunas)    │
+│  título lateral + parágrafo respirado    │
+└─────────────────────────────────────────┘
+┌─────────────────────────────────────────┐
+│  GALERIA fullbleed alternada             │
+│  imagem 100vw → grid 2col → imagem solo │
+└─────────────────────────────────────────┘
+┌─────────────────────────────────────────┐
+│  TESTIMONIAL grande, serif italic        │
+└─────────────────────────────────────────┘
+┌─────────────────────────────────────────┐
+│  PRÓXIMO CASE (full hover)               │
+└─────────────────────────────────────────┘
+```
 
-- Nova tabela `team_members` com: `name`, `role`, `bio`, `photo_url`, `social_links` (jsonb), `display_order`, `is_active`.
-- RLS: leitura pública, escrita admin.
-- Hook `useTeamMembers`.
-- Seção "Equipe" em `Sobre.tsx`: grid responsivo de cards premium, foto em grayscale → cor no hover (regra do projeto), nome serif, cargo italic primary, ícones sociais.
-- Nova página admin `AdminTeam.tsx` com CRUD completo (criar, editar, remover, reordenar, upload de foto via storage).
-- Adicionar rota `/admin/team` e item no menu lateral (grupo Conteúdo).
+- Remover qualquer aparência de "artigo": sem caixas, sem sidebar, sem listas com bullets padrão.
+- Hero: imagem cobrindo viewport com overlay gradiente sutil bottom→top, título em DM Serif 6xl-8xl posicionado bottom-left.
+- Galeria: layout assimétrico (alternando full-width / 2-col / full-width). Imagens com lazy loading e aspect ratios variados.
+- Navegação "próximo case" como bloco visual fullwidth com hover grayscale-to-color.
 
-## 3. Refinar visual (remover "cara de IA")
+## 2. Home — Reformulação por seção
 
-Foco em ajustes de presentation:
-- Espaçamentos verticais mais generosos em seções (`section-padding` revisado).
-- Tipografia: títulos display maiores e respirados, line-height refinado.
-- Reduzir uso excessivo de glow/borders nos componentes home (`HeroSection`, `ServicesSection`, `CasesPreview`, `MarketsSection`).
-- Hover states mais discretos (translate sutil + escala 1.02 em vez de glow forte).
-- Transições suaves em links e botões.
-- Melhor contraste e hierarquia: subtítulos eyebrow, separadores discretos, números grandes em resultados.
-- Microinterações em revelar-on-scroll (intersection observer leve, sem libs novas).
+### Header
+- Transparente no topo, ao scroll > 50px → background `#040d28/80` com backdrop-blur e border-bottom sutil.
+- Logo menor, links com underline animado (story-link).
+- CTA "Área do Cliente" mais discreto (ghost). WhatsApp como ícone circular minimal.
 
-## 4. Propostas: itens com autocomplete
+### HeroSection
+- Reduzir orbs/glow (remover ou deixar muito sutil opacity 5%).
+- Tipografia: headline em DM Serif 7xl, subtitle Inter font-light.
+- Pillars: remover cards "glass-card-hover" — substituir por linhas horizontais com número 01/02/03 + título serif + descrição. Sem ícones coloridos chamativos.
+- Adicionar parallax leve no background image.
 
-- Nova tabela `proposal_suggestions` com: `category` ('marketing' | 'audiovisual' | 'completo'), `text`, `usage_count`. RLS pública leitura, admin escrita.
-- Seed inicial com os exemplos do briefing (Gestão de tráfego, Social Media, Captação, Drone, Edição, etc.).
-- Componente novo `TagAutocompleteInput.tsx`: input com dropdown de sugestões filtradas por categoria, Enter adiciona, item novo é salvo no banco automaticamente, item existente apenas adicionado.
-- Substituir nos campos `marketing_includes`, `audiovisual_includes`, `complete_includes` em `AdminProposals.tsx`.
+### ServicesSection
+- Redesign: lista vertical editorial em vez de grid de cards. Cada serviço = bloco fullwidth com número grande, título serif, descrição, imagem lateral (alternando left/right).
+- Hover: imagem ganha cor (grayscale→color), título move-se sutilmente.
 
-## 5. Telefone → WhatsApp em todo o site
+### CasesPreview / PortfolioGrid
+- Grid maior (1-2 colunas em vez de 2-3). Thumbs cinematográficas aspect-[4/3] ou [16/9].
+- Hover: zoom 1.03 + reveal de overlay com título serif e CTA "Ver projeto".
+- Remover badge "btn-primary" no centro do hover (genérico). Usar tipografia.
 
-- Buscar todas ocorrências de `tel:` e substituir por `https://wa.me/{whatsapp}`.
-- Locais: `Footer.tsx`, `Header.tsx`, `Contato.tsx`, `Proposta.tsx`, qualquer card/CTA.
-- Manter exibição visual do número de telefone (apenas o link muda).
+### SocialProofSection (Depoimentos)
+- Card único centralizado em destaque (rotativo ou um grande). Aspas serif gigantes decorativas. Sem glass-card.
 
-## 6. Redes sociais dinâmicas
+### MarketsSection / ProcessSection
+- Aumentar padding, simplificar visualmente.
 
-- Estender `site_settings` para incluir `socialLinks: Array<{ id, platform, url, isActive, order }>`.
-- Migrar Instagram/YouTube existentes para o novo formato (preservando valores).
-- Map de ícones automático: Instagram, YouTube, TikTok, LinkedIn, Facebook, Behance, Vimeo, X/Twitter, Pinterest, fallback `Link`.
-- Detecção pela URL ou pelo `platform` selecionado.
-- Em `AdminSettings.tsx`: editor com adicionar/remover/reordenar (drag handle simples com setas), select de plataforma, toggle ativo.
-- `Footer.tsx` e qualquer outro lugar exibem apenas redes ativas, ordenadas.
+### Footer
+- Layout mais arejado, 4 colunas com tipografia menor e tracking maior.
+- Logo + tagline serif. Redes sociais como ícones outline minimal sem fundo.
+- Reduzir altura geral, remover elementos decorativos.
 
-## 7. Polish do admin
+## 3. Design System (index.css)
 
-- Inputs com padding e foco mais refinados (variant via classe utilitária no `Input` quando aplicável).
-- Espaçamento vertical maior em formulários longos.
-- Loaders em botões de salvar (Loader2 spinner consistente).
-- Toasts de sucesso/erro padronizados.
-- Cards de listagem com hover discreto.
-- Sem mudanças estruturais no layout já reorganizado.
+Novos utilitários:
+- `.text-display` — DM Serif Display, leading tight
+- `.text-eyebrow` — uppercase, tracking widest, text-xs, primary
+- `.section-divider` — linha 1px white/10 com fade nas pontas
+- `.editorial-grid` — 12 col grid com gap generoso
+- Reduzir `glass-card`: background mais sutil (white/2), border mais discreta (white/5), sem shadow colorida.
+- Atualizar `btn-primary` para versão mais minimal: sem glow no hover, apenas translateY sutil.
+- Adicionar `.hover-grayscale` (grayscale → color em 700ms).
+- IntersectionObserver hook `useReveal` aplicando `animate-fade-in` quando entra no viewport.
 
-## Detalhes técnicos
+## 4. Tipografia
+- Importar DM Serif Display + Inter (300, 400, 500) no index.css.
+- Tailwind config: `font-display: ['DM Serif Display']`, `font-sans: ['Inter']`.
+- Substituir `font-display font-bold` por `font-display` puro (serif não precisa bold).
 
-- Migrations separadas, idempotentes onde possível (`IF NOT EXISTS`).
-- Geração de slug: função utilitária client + backfill SQL para projetos existentes.
-- Storage: usar bucket `media` já existente para fotos da equipe e galerias.
-- SEO dinâmico: hook `useDocumentMeta` simples manipulando `document.title` e meta tags (sem adicionar `react-helmet`).
-- Sem novas dependências npm (autocomplete usa `Command` do shadcn já instalado; ícones do `lucide-react`).
-- Mantém GitHub Pages compatível (sem SSR, tudo client-side).
-- Compatível com tipos auto-gerados do Supabase após migrations.
+## 5. Mobile
+- Spacings reduzidos mas ainda generosos (py-20).
+- Hero CaseDetail: 70vh com título 4xl.
+- Header mobile: drawer fullscreen com tipografia grande serif.
+- Garantir hit targets ≥ 44px.
+
+## 6. Performance
+- `loading="lazy"` em todas imagens não-hero.
+- Reduzir backdrop-blur (caro). Substituir por background sólido com alpha.
+- Animações via CSS transform/opacity apenas.
+- Evitar re-renders no scroll (passive listeners).
+
+## Arquivos a modificar
+- `src/index.css` — tokens, novos utilitários, redução de efeitos
+- `src/pages/CaseDetail.tsx` — reescrita completa cinematográfica
+- `src/components/Header.tsx` — scroll effect, refinamento
+- `src/components/Footer.tsx` — redesign minimal
+- `src/components/home/HeroSection.tsx` — pillars editoriais, menos glow
+- `src/components/home/ServicesSection.tsx` — layout editorial alternado
+- `src/components/home/CasesPreview.tsx` — grid cinematográfico
+- `src/components/home/SocialProofSection.tsx` — depoimento destaque
+- `src/components/PortfolioGrid.tsx` — refinamento hover
+- `src/hooks/useReveal.ts` — novo, IntersectionObserver
+- `tailwind.config.ts` — fontes display/sans
+
+## Não-mudanças
+- Banco de dados intocado.
+- Rotas preservadas.
+- Funcionalidades admin preservadas.
+- Conteúdo dinâmico preservado.
 
 ## Ordem de execução
-
-1. Migrations (projects+slug, team_members, proposal_suggestions, seed).
-2. Backend hooks (useTeamMembers, useProposalSuggestions, useSiteSettings estendido).
-3. CaseDetail + atualizações em Cases/CasesPreview/AdminProjects.
-4. Sobre + AdminTeam + rota.
-5. TagAutocompleteInput + AdminProposals.
-6. Substituição tel: → WhatsApp.
-7. Redes sociais dinâmicas (Settings + Footer).
-8. Polish visual (Hero/Services/Cases preview/etc.).
+1. Design system (index.css + tailwind + useReveal)
+2. CaseDetail cinematográfico
+3. Header + Footer
+4. Hero + Services + CasesPreview + SocialProof
+5. PortfolioGrid refinements
+6. QA mobile/desktop visual
