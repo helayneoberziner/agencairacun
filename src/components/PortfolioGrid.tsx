@@ -140,13 +140,13 @@ const PortfolioGrid = ({
                     if (isVideo && youtubeId) setVideoModal(youtubeId);
                     else if (thumbnail) setPhotoModal({ src: thumbnail, title: project.title });
                   }}
-                  className="group cursor-pointer relative rounded-xl overflow-hidden aspect-video"
+                  className="group cursor-pointer relative overflow-hidden aspect-[4/5]"
                 >
                   {thumbnail ? (
                     <img
                       src={thumbnail}
                       alt={project.title}
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-[1.04] transition-all duration-1000 ease-out"
                       loading="lazy"
                     />
                   ) : (
@@ -156,16 +156,16 @@ const PortfolioGrid = ({
                   )}
 
                   {/* Overlay gradient */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent opacity-90" />
 
                   {/* Title */}
-                  <div className="absolute bottom-4 left-4 right-14">
-                    <h3 className="font-display font-bold text-lg text-white leading-tight uppercase">
+                  <div className="absolute bottom-6 left-6 right-16">
+                    {project.subcategory && (
+                      <span className="text-[10px] uppercase tracking-[0.25em] text-white/60 mb-2 block">{project.subcategory}</span>
+                    )}
+                    <h3 className="font-display text-2xl md:text-3xl text-white leading-tight">
                       {project.title}
                     </h3>
-                    {project.subcategory && (
-                      <span className="text-xs text-white/60 mt-1 block">{project.subcategory}</span>
-                    )}
                   </div>
 
                   {/* Play button */}
