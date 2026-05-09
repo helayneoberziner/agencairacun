@@ -117,22 +117,16 @@ export type Database = {
         Row: {
           actions: string | null
           category: string
-          client_name: string | null
           context: string | null
           created_at: string
           deliveries: string[] | null
           description: string | null
           display_order: number | null
-          gallery_urls: string[] | null
           id: string
           image_url: string | null
           is_featured: boolean | null
           results: string | null
-          seo_description: string | null
-          slug: string | null
           subcategory: string | null
-          testimonial_author: string | null
-          testimonial_text: string | null
           title: string
           updated_at: string
           video_url: string | null
@@ -140,22 +134,16 @@ export type Database = {
         Insert: {
           actions?: string | null
           category: string
-          client_name?: string | null
           context?: string | null
           created_at?: string
           deliveries?: string[] | null
           description?: string | null
           display_order?: number | null
-          gallery_urls?: string[] | null
           id?: string
           image_url?: string | null
           is_featured?: boolean | null
           results?: string | null
-          seo_description?: string | null
-          slug?: string | null
           subcategory?: string | null
-          testimonial_author?: string | null
-          testimonial_text?: string | null
           title: string
           updated_at?: string
           video_url?: string | null
@@ -163,49 +151,19 @@ export type Database = {
         Update: {
           actions?: string | null
           category?: string
-          client_name?: string | null
           context?: string | null
           created_at?: string
           deliveries?: string[] | null
           description?: string | null
           display_order?: number | null
-          gallery_urls?: string[] | null
           id?: string
           image_url?: string | null
           is_featured?: boolean | null
           results?: string | null
-          seo_description?: string | null
-          slug?: string | null
           subcategory?: string | null
-          testimonial_author?: string | null
-          testimonial_text?: string | null
           title?: string
           updated_at?: string
           video_url?: string | null
-        }
-        Relationships: []
-      }
-      proposal_suggestions: {
-        Row: {
-          category: string
-          created_at: string
-          id: string
-          text: string
-          usage_count: number
-        }
-        Insert: {
-          category: string
-          created_at?: string
-          id?: string
-          text: string
-          usage_count?: number
-        }
-        Update: {
-          category?: string
-          created_at?: string
-          id?: string
-          text?: string
-          usage_count?: number
         }
         Relationships: []
       }
@@ -295,45 +253,6 @@ export type Database = {
           content?: Json
           id?: string
           section_key?: string
-          updated_at?: string
-        }
-        Relationships: []
-      }
-      team_members: {
-        Row: {
-          bio: string | null
-          created_at: string
-          display_order: number
-          id: string
-          is_active: boolean
-          name: string
-          photo_url: string | null
-          role: string
-          social_links: Json
-          updated_at: string
-        }
-        Insert: {
-          bio?: string | null
-          created_at?: string
-          display_order?: number
-          id?: string
-          is_active?: boolean
-          name: string
-          photo_url?: string | null
-          role: string
-          social_links?: Json
-          updated_at?: string
-        }
-        Update: {
-          bio?: string | null
-          created_at?: string
-          display_order?: number
-          id?: string
-          is_active?: boolean
-          name?: string
-          photo_url?: string | null
-          role?: string
-          social_links?: Json
           updated_at?: string
         }
         Relationships: []

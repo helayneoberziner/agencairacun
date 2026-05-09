@@ -1,36 +1,55 @@
 import { Link } from 'react-router-dom';
-import { ArrowRight } from 'lucide-react';
+import { Megaphone, Video, Palette, BarChart3, ArrowRight } from 'lucide-react';
 import { useHomeContent } from '@/hooks/useHomeContent';
-import { useReveal } from '@/hooks/useReveal';
+
+const iconMap = [Megaphone, Video, BarChart3, Palette];
 
 const ServicesSection = () => {
   const { content } = useHomeContent();
   const s = content.services;
 
   return (
-    <section className="section-padding relative">
-      <div className="container-custom">
-        {/* Header editorial */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 mb-20 md:mb-32">
-          <div className="lg:col-span-3">
-            <p className="text-eyebrow">{s.badge}</p>
-          </div>
-          <div className="lg:col-span-9">
-            <h2 className="text-display text-4xl md:text-6xl lg:text-7xl mb-8 max-w-4xl">
-              {s.title} <span className="italic text-primary">{s.titleHighlight}</span>
-            </h2>
-            <p className="text-foreground/70 text-lg md:text-xl font-light max-w-2xl">{s.subtitle}</p>
-          </div>
+    <section className="section-padding relative overflow-hidden">
+      <div className="absolute top-0 right-0 w-96 h-96 bg-primary/10 rounded-full blur-[128px]" />
+      
+      <div className="container-custom relative z-10">
+        <div className="text-center max-w-3xl mx-auto mb-16">
+          <span className="text-primary text-sm font-medium uppercase tracking-wider mb-4 block">
+            {s.badge}
+          </span>
+          <h2 className="text-3xl md:text-5xl font-display font-bold mb-6">
+            {s.title} <span className="text-gradient-neon">{s.titleHighlight}</span>
+          </h2>
+          <p className="text-muted-foreground text-lg">{s.subtitle}</p>
         </div>
 
-        {/* Lista editorial */}
-        <div>
-          {s.items.map((service, index) => (
-            <ServiceRow key={index} index={index} total={s.items.length} service={service} />
-          ))}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {s.items.map((service, index) => {
+            const Icon = iconMap[index % iconMap.length];
+            return (
+              <div key={index} className="glass-card-hover p-8 group">
+                <div className="flex items-start gap-6">
+                  <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0 group-hover:neon-glow transition-all duration-500">
+                    <Icon className="w-7 h-7 text-primary" />
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="font-display font-semibold text-xl mb-3">{service.title}</h3>
+                    <p className="text-muted-foreground mb-4">{service.description}</p>
+                    <div className="flex flex-wrap gap-2 mb-4">
+                      {service.features.map((feature) => (
+                        <span key={feature} className="px-3 py-1 text-xs rounded-full bg-white/5 text-muted-foreground border border-white/10">
+                          {feature}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
         </div>
 
-        <div className="mt-20 md:mt-28 text-center">
+        <div className="text-center mt-12">
           <Link to="/marketing" className="btn-outline inline-flex items-center gap-2">
             {s.cta}
             <ArrowRight className="w-4 h-4" />
@@ -38,45 +57,6 @@ const ServicesSection = () => {
         </div>
       </div>
     </section>
-  );
-};
-
-const ServiceRow = ({
-  service,
-  index,
-  total,
-}: {
-  service: { title: string; description: string; features: string[] };
-  index: number;
-  total: number;
-}) => {
-  const ref = useReveal<HTMLDivElement>();
-  return (
-    <div
-      ref={ref}
-      className={`group grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 py-10 md:py-14 border-t border-white/5 ${index === total - 1 ? 'border-b' : ''}`}
-    >
-      <div className="lg:col-span-1">
-        <span className="text-eyebrow">{String(index + 1).padStart(2, '0')}</span>
-      </div>
-      <div className="lg:col-span-5">
-        <h3 className="text-display text-3xl md:text-4xl lg:text-5xl group-hover:text-primary transition-colors duration-500">
-          {service.title}
-        </h3>
-      </div>
-      <div className="lg:col-span-6">
-        <p className="text-foreground/70 text-lg md:text-xl font-light leading-relaxed mb-6">
-          {service.description}
-        </p>
-        <div className="flex flex-wrap gap-x-6 gap-y-2">
-          {service.features.map((feature) => (
-            <span key={feature} className="text-sm text-foreground/50">
-              {feature}
-            </span>
-          ))}
-        </div>
-      </div>
-    </div>
   );
 };
 

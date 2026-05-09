@@ -1,72 +1,89 @@
-import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Target, Sparkles, TrendingUp } from 'lucide-react';
+import ParticlesBackground from '../ParticlesBackground';
 import { useHomeContent } from '@/hooks/useHomeContent';
+
+const iconMap = [Target, Sparkles, TrendingUp];
 
 const HeroSection = () => {
   const { content } = useHomeContent();
   const h = content.hero;
-  const [scrollY, setScrollY] = useState(0);
-
-  useEffect(() => {
-    const onScroll = () => setScrollY(window.scrollY);
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
-
-  const parallax = Math.min(scrollY * 0.25, 160);
 
   return (
-    <section className="relative min-h-[100vh] flex items-end overflow-hidden">
-      {/* Background */}
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      {/* Background Effects */}
       {h.backgroundImage ? (
         <>
-          <img
-            src={h.backgroundImage}
-            alt=""
-            style={{ transform: `translateY(${parallax}px) scale(1.15)` }}
-            className="absolute inset-0 w-full h-full object-cover transition-transform duration-100"
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-background/30 via-background/40 to-background" />
+          <img src={h.backgroundImage} alt="" className="absolute inset-0 w-full h-full object-cover opacity-30" />
+          <div className="absolute inset-0 bg-background/60" />
         </>
       ) : (
         <>
-          <div className="absolute inset-0 gradient-mesh opacity-60" />
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/40 to-background" />
+          <div className="absolute inset-0 gradient-mesh" />
+          <div className="absolute inset-0 grid-overlay opacity-30" />
         </>
       )}
+      <ParticlesBackground />
 
-      <div className="container-custom relative z-10 pt-32 pb-20 md:pt-40 md:pb-32">
-        <div className="max-w-5xl">
-          <p className="text-eyebrow mb-8 animate-fade-in">{h.badge}</p>
+      {/* Glow orbs */}
+      <div className="hidden md:block absolute top-1/4 left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-[128px] animate-float" />
+      <div className="hidden md:block absolute bottom-1/4 right-1/4 w-80 h-80 bg-accent/20 rounded-full blur-[128px] animate-float delay-300" />
 
-          <h1 className="text-display text-5xl md:text-7xl lg:text-8xl mb-10 animate-fade-in delay-100">
+      <div className="container-custom relative z-10 pt-24 md:pt-32 pb-12 md:pb-20">
+        <div className="text-center max-w-5xl mx-auto mb-16">
+          {/* Badge */}
+          <div className="inline-flex items-center gap-2 px-3 md:px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs md:text-sm mb-6 md:mb-8 animate-fade-in">
+            <Sparkles className="w-3 h-3 md:w-4 md:h-4" />
+            {h.badge}
+          </div>
+
+          {/* Main headline */}
+          <h1 className="text-3xl md:text-6xl lg:text-7xl font-display font-bold leading-tight mb-4 md:mb-6 animate-fade-in delay-100">
             {h.headline1}{' '}
-            <span className="italic text-primary">{h.headlineHighlight}</span>{' '}
-            {h.headline2}
+            <span className="text-gradient-neon">{h.headlineHighlight}</span>
+            {' '}{h.headline2}
           </h1>
 
-          <p className="text-lg md:text-2xl text-foreground/70 max-w-2xl mb-12 font-light leading-relaxed animate-fade-in delay-200">
+          {/* Subtitle */}
+          <p className="text-base md:text-2xl text-muted-foreground max-w-3xl mx-auto mb-8 md:mb-10 animate-fade-in delay-200">
             {h.subtitle}
           </p>
 
-          <div className="flex flex-col sm:flex-row items-start gap-4 animate-fade-in delay-300">
-            <Link to="/contato" className="btn-primary inline-flex items-center gap-2">
+          {/* CTAs */}
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 md:gap-4 animate-fade-in delay-300">
+            <Link to="/contato" className="btn-primary flex items-center gap-2 text-base md:text-lg px-6 md:px-8 py-3 md:py-4 w-full sm:w-auto justify-center">
               {h.ctaPrimary}
-              <ArrowRight className="w-4 h-4" />
+              <ArrowRight className="w-5 h-5" />
             </Link>
-            <Link to="/cases" className="btn-outline inline-flex items-center gap-2">
+            <Link to="/cases" className="btn-outline flex items-center gap-2 text-base md:text-lg px-6 md:px-8 py-3 md:py-4 w-full sm:w-auto justify-center">
               {h.ctaSecondary}
             </Link>
           </div>
         </div>
+
+        {/* Pillars */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 mt-10 md:mt-16 animate-fade-in delay-400">
+          {h.pillars.map((pillar, index) => {
+            const Icon = iconMap[index % iconMap.length];
+            return (
+              <div
+                key={index}
+                className="glass-card-hover p-6 md:p-8 text-center group"
+                style={{ animationDelay: `${(index + 4) * 100}ms` }}
+              >
+                <div className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-primary/10 flex items-center justify-center group-hover:neon-glow transition-all duration-500">
+                  <Icon className="w-8 h-8 text-primary" />
+                </div>
+                <h3 className="font-display font-semibold text-xl mb-3">{pillar.title}</h3>
+                <p className="text-muted-foreground">{pillar.description}</p>
+              </div>
+            );
+          })}
+        </div>
       </div>
 
-      {/* Scroll indicator */}
-      <div className="absolute bottom-8 right-8 hidden md:flex flex-col items-center gap-3 text-foreground/40">
-        <span className="text-[10px] uppercase tracking-[0.3em]">Scroll</span>
-        <div className="w-px h-10 bg-gradient-to-b from-foreground/40 to-transparent" />
-      </div>
+      {/* Bottom gradient fade */}
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent" />
     </section>
   );
 };

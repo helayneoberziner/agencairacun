@@ -1,6 +1,5 @@
-import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight } from 'lucide-react';
+import { CheckCircle2, ArrowRight, Quote } from 'lucide-react';
 import { useClientLogos } from '@/hooks/useClientLogos';
 import { useTestimonials } from '@/hooks/useTestimonials';
 import { useHomeContent } from '@/hooks/useHomeContent';
@@ -10,79 +9,66 @@ const SocialProofSection = () => {
   const { testimonials } = useTestimonials();
   const { content } = useHomeContent();
   const sp = content.socialProof;
-  const [active, setActive] = useState(0);
-
-  useEffect(() => {
-    if (testimonials.length <= 1) return;
-    const id = setInterval(() => setActive((a) => (a + 1) % testimonials.length), 7000);
-    return () => clearInterval(id);
-  }, [testimonials.length]);
-
-  const current = testimonials[active];
 
   return (
-    <section className="section-padding border-t border-white/5">
-      <div className="container-custom">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 mb-20">
-          <div className="lg:col-span-3">
-            <p className="text-eyebrow">{sp.badge}</p>
-          </div>
-          <div className="lg:col-span-9">
-            <h2 className="text-display text-4xl md:text-6xl max-w-3xl">
-              {sp.title} <span className="italic text-primary">{sp.titleHighlight}</span>
-            </h2>
-          </div>
-        </div>
-
-        {/* Depoimento em destaque */}
-        {current && (
-          <div className="max-w-5xl mx-auto text-center mb-24 md:mb-32">
-            <span className="text-display text-7xl md:text-9xl text-primary/30 leading-none block mb-4">&ldquo;</span>
-            <p className="text-display italic text-2xl md:text-4xl lg:text-5xl leading-[1.25] text-foreground/95 mb-10">
-              {current.quote}
-            </p>
-            <div className="flex flex-col items-center">
-              <p className="text-sm uppercase tracking-[0.25em] text-foreground">{current.name}</p>
-              {current.role && (
-                <p className="text-xs text-foreground/50 mt-2">{current.role}</p>
-              )}
-            </div>
-
-            {testimonials.length > 1 && (
-              <div className="flex justify-center gap-2 mt-10">
-                {testimonials.map((_, i) => (
-                  <button
-                    key={i}
-                    onClick={() => setActive(i)}
-                    aria-label={`Depoimento ${i + 1}`}
-                    className={`h-px transition-all duration-500 ${
-                      i === active ? 'w-12 bg-primary' : 'w-6 bg-foreground/20'
-                    }`}
-                  />
-                ))}
-              </div>
-            )}
-          </div>
-        )}
-
-        {/* Logos clientes */}
-        {logos.length > 0 && (
+    <section className="section-padding relative overflow-hidden bg-secondary/20">
+      <div className="absolute bottom-0 left-0 w-80 h-80 bg-accent/10 rounded-full blur-[128px]" />
+      
+      <div className="container-custom relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           <div>
-            <p className="text-eyebrow text-center mb-10">Marcas que confiam na Racun</p>
-            <div className="flex flex-wrap justify-center items-center gap-x-12 gap-y-8">
-              {logos.map((logo) => (
-                <div key={logo.id} className="h-10 opacity-50 hover:opacity-100 transition-opacity duration-500">
-                  <img src={logo.image_url} alt={logo.name} className="h-full w-auto object-contain grayscale hover:grayscale-0 transition-all duration-500" />
+            <span className="text-primary text-sm font-medium uppercase tracking-wider mb-4 block">
+              {sp.badge}
+            </span>
+            <h2 className="text-3xl md:text-4xl font-display font-bold mb-8">
+              {sp.title} <span className="text-gradient-neon">{sp.titleHighlight}</span>
+            </h2>
+            
+            <div className="space-y-4 mb-8">
+              {sp.proofs.map((proof) => (
+                <div key={proof} className="flex items-center gap-3">
+                  <CheckCircle2 className="w-5 h-5 text-primary flex-shrink-0" />
+                  <span className="text-foreground">{proof}</span>
                 </div>
               ))}
             </div>
-          </div>
-        )}
 
-        <div className="mt-20 text-center">
-          <Link to="/contato" className="btn-primary inline-flex items-center gap-2">
-            {sp.cta} <ArrowRight className="w-4 h-4" />
-          </Link>
+            {logos.length > 0 && (
+              <div className="mb-8">
+                <p className="text-sm text-muted-foreground mb-4">Clientes que confiam na Racun:</p>
+                <div className="flex flex-wrap gap-4">
+                  {logos.map((logo) => (
+                    <div key={logo.id} className="w-24 h-12 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center p-2">
+                      <img src={logo.image_url} alt={logo.name} className="max-h-full max-w-full object-contain" />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            <Link to="/contato" className="btn-primary inline-flex items-center gap-2">
+              {sp.cta}
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+
+          <div className="space-y-6">
+            {testimonials.length > 0 ? testimonials.map((testimonial) => (
+              <div key={testimonial.id} className="glass-card p-6 relative">
+                <Quote className="absolute top-4 right-4 w-8 h-8 text-primary/20" />
+                <p className="text-foreground mb-4 leading-relaxed">"{testimonial.quote}"</p>
+                <div>
+                  <p className="font-medium text-foreground">{testimonial.name}</p>
+                  <p className="text-sm text-muted-foreground">{testimonial.role}</p>
+                </div>
+              </div>
+            )) : (
+              <div className="glass-card p-6 text-center text-muted-foreground">
+                <Quote className="w-8 h-8 mx-auto mb-3 opacity-30" />
+                <p>Depoimentos em breve.</p>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </section>

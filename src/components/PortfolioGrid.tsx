@@ -95,29 +95,29 @@ const PortfolioGrid = ({
       <section className="section-padding">
         <div className="container-custom">
           {/* Header */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 mb-16 md:mb-24">
-            <div className="lg:col-span-3">
-              {badge && <p className="text-eyebrow">{badge}</p>}
-            </div>
-            <div className="lg:col-span-9">
-              <h2 className="text-display text-4xl md:text-6xl lg:text-7xl max-w-3xl">
-                {title} <span className="italic text-primary">{titleHighlight}</span>
-              </h2>
-              {subtitle && <p className="text-foreground/70 text-lg mt-6 max-w-2xl font-light">{subtitle}</p>}
-            </div>
+          <div className="text-center mb-12">
+            {badge && (
+              <span className="text-primary text-sm font-medium uppercase tracking-wider mb-4 block">
+                {badge}
+              </span>
+            )}
+            <h2 className="text-3xl md:text-5xl font-display font-bold mb-4">
+              {title} <span className="text-gradient-neon">{titleHighlight}</span>
+            </h2>
+            {subtitle && <p className="text-muted-foreground text-lg max-w-2xl mx-auto">{subtitle}</p>}
           </div>
 
           {/* Filter tabs */}
           {showFilters && subcategories.length > 2 && (
-            <div className="flex flex-wrap justify-center gap-x-8 gap-y-3 mb-16">
+            <div className="flex flex-wrap justify-center gap-3 mb-10">
               {subcategories.map(sub => (
                 <button
                   key={sub}
                   onClick={() => setActiveFilter(sub)}
-                  className={`text-xs uppercase tracking-[0.25em] transition-all duration-300 pb-1 border-b ${
+                  className={`px-5 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
                     activeFilter === sub
-                      ? 'text-primary border-primary'
-                      : 'text-foreground/60 border-transparent hover:text-foreground hover:border-white/30'
+                      ? 'bg-primary text-primary-foreground'
+                      : 'bg-white/5 text-muted-foreground border border-white/10 hover:border-primary/30 hover:text-foreground'
                   }`}
                 >
                   {sub}
@@ -140,13 +140,13 @@ const PortfolioGrid = ({
                     if (isVideo && youtubeId) setVideoModal(youtubeId);
                     else if (thumbnail) setPhotoModal({ src: thumbnail, title: project.title });
                   }}
-                  className="group cursor-pointer relative overflow-hidden aspect-[4/5]"
+                  className="group cursor-pointer relative rounded-xl overflow-hidden aspect-video"
                 >
                   {thumbnail ? (
                     <img
                       src={thumbnail}
                       alt={project.title}
-                      className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-[1.04] transition-all duration-1000 ease-out"
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                       loading="lazy"
                     />
                   ) : (
@@ -156,16 +156,16 @@ const PortfolioGrid = ({
                   )}
 
                   {/* Overlay gradient */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent opacity-90" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
 
                   {/* Title */}
-                  <div className="absolute bottom-6 left-6 right-16">
-                    {project.subcategory && (
-                      <span className="text-[10px] uppercase tracking-[0.25em] text-white/60 mb-2 block">{project.subcategory}</span>
-                    )}
-                    <h3 className="font-display text-2xl md:text-3xl text-white leading-tight">
+                  <div className="absolute bottom-4 left-4 right-14">
+                    <h3 className="font-display font-bold text-lg text-white leading-tight uppercase">
                       {project.title}
                     </h3>
+                    {project.subcategory && (
+                      <span className="text-xs text-white/60 mt-1 block">{project.subcategory}</span>
+                    )}
                   </div>
 
                   {/* Play button */}

@@ -1,118 +1,115 @@
 import { Link } from 'react-router-dom';
+import { Instagram, Youtube, Mail, Phone } from 'lucide-react';
 import { useSiteSettings } from '@/hooks/useSiteSettings';
-import { getSocialIcon, getSocialLabel } from '@/lib/socialIcons';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
   const { settings } = useSiteSettings();
 
-  const socials = (settings.socialNetworks ?? [])
-    .filter(s => s.isActive && s.url)
-    .map(s => ({ name: getSocialLabel(s.platform), icon: getSocialIcon(s.platform), url: s.url }));
+  const services = [
+    { name: 'Marketing Digital', path: '/marketing' },
+    { name: 'Produtora Audiovisual', path: '/produtora' },
+    { name: 'Cases', path: '/cases' },
+  ];
 
-  const whatsappLink = `https://wa.me/${settings.whatsapp}`;
+  const company = [
+    { name: 'Sobre nós', path: '/sobre' },
+    { name: 'Contato', path: '/contato' },
+    { name: 'Produtora', path: '/produtora' },
+    { name: 'Área do Cliente', path: settings.clientAreaUrl || 'https://app.racun.com.br', external: true },
+  ];
+
+  const socials = [
+    { name: 'Instagram', icon: Instagram, url: settings.instagram },
+    { name: 'YouTube', icon: Youtube, url: settings.youtube },
+  ];
 
   return (
-    <footer className="border-t border-white/5 mt-16">
-      <div className="container-custom py-16 md:py-24 px-4 md:px-8">
-        {/* Tagline editorial */}
-        <div className="mb-16 md:mb-24 max-w-3xl">
-          <p className="text-eyebrow mb-6">Agência Racun</p>
-          <p className="text-display text-3xl md:text-5xl leading-[1.15] text-foreground/95">
-            Construímos marcas que <span className="italic text-primary">marcam.</span>
-          </p>
-        </div>
-
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-10 md:gap-8 pb-12 border-b border-white/5">
-          {/* Brand */}
-          <div className="col-span-2 md:col-span-1">
-            <Link to="/" className="inline-block mb-6">
+    <footer className="bg-secondary/30 border-t border-white/5">
+      <div className="container-custom py-8 md:py-12 px-4 md:px-8">
+        <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-6 md:gap-8">
+          {/* Brand + Socials */}
+          <div className="flex items-center gap-4 md:flex-col md:items-start md:gap-3">
+            <Link to="/" className="inline-block shrink-0">
               {settings.logoUrl ? (
                 <img src={settings.logoUrl} alt="Racun" className="h-8 w-auto object-contain" />
               ) : (
-                <span className="text-2xl font-display text-foreground">RACUN</span>
+                <span className="text-2xl font-display font-bold text-gradient-neon">RACUN</span>
               )}
             </Link>
-            <div className="flex gap-4">
+            <div className="flex gap-3">
               {socials.map((social) => (
-                <a
-                  key={social.name + social.url}
-                  href={social.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={social.name}
-                  className="text-foreground/50 hover:text-primary transition-colors duration-300"
-                >
+                <a key={social.name} href={social.url} target="_blank" rel="noopener noreferrer"
+                  className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-muted-foreground hover:text-primary hover:bg-primary/10 transition-all duration-300">
                   <social.icon className="w-4 h-4" />
                 </a>
               ))}
             </div>
           </div>
 
-          {/* Navegação */}
-          <FooterCol title="Navegação" items={[
-            { name: 'Trabalho', path: '/cases' },
-            { name: 'Marketing', path: '/marketing' },
-            { name: 'Produtora', path: '/produtora' },
-            { name: 'Sobre', path: '/sobre' },
-            { name: 'Contato', path: '/contato' },
-          ]} />
-
-          {/* Contato */}
-          <div>
-            <p className="text-[10px] uppercase tracking-[0.25em] text-foreground/40 mb-5">Contato</p>
-            <ul className="space-y-3 text-sm">
-              <li>
-                <a href={`mailto:${settings.email}`} className="text-foreground/70 hover:text-primary transition-colors story-link">
-                  {settings.email}
-                </a>
-              </li>
-              <li>
-                <a href={whatsappLink} target="_blank" rel="noopener noreferrer" className="text-foreground/70 hover:text-primary transition-colors story-link">
-                  WhatsApp
-                </a>
-              </li>
-              <li>
-                <a href={settings.clientAreaUrl || 'https://app.racun.com.br'} target="_blank" rel="noopener noreferrer" className="text-foreground/70 hover:text-primary transition-colors story-link">
-                  Área do cliente
-                </a>
-              </li>
+          {/* Services - hidden on mobile */}
+          <div className="hidden md:block">
+            <h4 className="font-display font-semibold text-foreground text-sm mb-3">Serviços</h4>
+            <ul className="space-y-1.5">
+              {services.map((service) => (
+                <li key={service.name}>
+                  <Link to={service.path} className="text-muted-foreground text-xs hover:text-primary transition-colors duration-300">
+                    {service.name}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
-          {/* Legal */}
-          <FooterCol title="Legal" items={[
-            { name: 'Privacidade', path: '/politica-de-privacidade' },
-            { name: 'Termos de uso', path: '/termos-de-uso' },
-          ]} />
+          {/* Company - hidden on mobile */}
+          <div className="hidden md:block">
+            <h4 className="font-display font-semibold text-foreground text-sm mb-3">Empresa</h4>
+            <ul className="space-y-1.5">
+              {company.map((item) => (
+                <li key={item.name}>
+                  {'external' in item && item.external ? (
+                    <a href={item.path} target="_blank" rel="noopener noreferrer" className="text-muted-foreground text-xs hover:text-primary transition-colors duration-300">
+                      {item.name}
+                    </a>
+                  ) : (
+                    <Link to={item.path} className="text-muted-foreground text-xs hover:text-primary transition-colors duration-300">
+                      {item.name}
+                    </Link>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Contact */}
+          <div className="flex flex-wrap gap-4 md:flex-col md:gap-2">
+            <a href={`mailto:${settings.email}`}
+              className="flex items-center gap-2 text-muted-foreground text-xs hover:text-primary transition-colors duration-300">
+              <Mail className="w-3.5 h-3.5" />
+              {settings.email}
+            </a>
+            <a href={`tel:+${settings.whatsapp}`}
+              className="flex items-center gap-2 text-muted-foreground text-xs hover:text-primary transition-colors duration-300">
+              <Phone className="w-3.5 h-3.5" />
+              {settings.phone}
+            </a>
+          </div>
         </div>
 
-        <div className="mt-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-          <p className="text-foreground/40 text-xs">
+        {/* Bottom */}
+        <div className="mt-6 pt-4 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-2">
+          <p className="text-muted-foreground text-xs">
             © {currentYear} Agência Racun. Todos os direitos reservados.
           </p>
-          <Link to="/admin/login" className="text-foreground/30 text-[10px] uppercase tracking-[0.25em] hover:text-foreground/60 transition-colors">
-            Admin
-          </Link>
+          <div className="flex items-center gap-4">
+            <Link to="/politica-de-privacidade" className="text-muted-foreground text-xs hover:text-primary transition-colors">Privacidade</Link>
+            <Link to="/termos-de-uso" className="text-muted-foreground text-xs hover:text-primary transition-colors">Termos</Link>
+            <Link to="/admin/login" className="text-muted-foreground/50 text-[10px] hover:text-muted-foreground transition-colors">Admin</Link>
+          </div>
         </div>
       </div>
     </footer>
   );
 };
-
-const FooterCol = ({ title, items }: { title: string; items: { name: string; path: string }[] }) => (
-  <div>
-    <p className="text-[10px] uppercase tracking-[0.25em] text-foreground/40 mb-5">{title}</p>
-    <ul className="space-y-3 text-sm">
-      {items.map((item) => (
-        <li key={item.name}>
-          <Link to={item.path} className="text-foreground/70 hover:text-primary transition-colors story-link">
-            {item.name}
-          </Link>
-        </li>
-      ))}
-    </ul>
-  </div>
-);
 
 export default Footer;

@@ -93,9 +93,7 @@ const Contato = () => {
                   </a>
 
                   <a
-                    href={`https://wa.me/${settings.whatsapp}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    href={`tel:+${settings.whatsapp}`}
                     className="flex items-center gap-4 p-4 rounded-xl bg-white/5 border border-white/10 hover:border-primary/30 transition-colors"
                   >
                     <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">

@@ -4,7 +4,7 @@
 
 /* Racun Agency - Futuristic Premium Design System */
 
-@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap');
 
 @layer base {
   :root {
@@ -86,53 +86,15 @@
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'DM Serif Display', serif;
-    font-weight: 400;
-    letter-spacing: -0.01em;
+    font-family: 'Space Grotesk', sans-serif;
   }
 }
 
 @layer components {
-  /* Editorial typography helpers */
-  .text-eyebrow {
-    @apply text-[11px] uppercase tracking-[0.25em] text-primary font-medium;
-  }
-
-  .text-display {
-    font-family: 'DM Serif Display', serif;
-    font-weight: 400;
-    letter-spacing: -0.015em;
-    line-height: 1.05;
-  }
-
-  .section-divider {
-    @apply h-px w-full;
-    background: linear-gradient(90deg, transparent, hsl(0 0% 100% / 0.08), transparent);
-  }
-
-  /* Reveal on scroll */
-  .reveal {
-    opacity: 0;
-    transform: translateY(24px);
-    transition: opacity 900ms cubic-bezier(0.16, 1, 0.3, 1), transform 900ms cubic-bezier(0.16, 1, 0.3, 1);
-    will-change: opacity, transform;
-  }
-  .reveal.is-visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  /* Grayscale to color hover */
-  .hover-grayscale img {
-    @apply grayscale transition-all duration-700 ease-out;
-  }
-  .hover-grayscale:hover img {
-    @apply grayscale-0 scale-[1.03];
-  }
-
-  /* Glass morphism card (refined, minimal) */
+  /* Glass morphism card */
   .glass-card {
-    @apply bg-white/[0.02] border border-white/5 rounded-2xl;
+    @apply bg-secondary/60 backdrop-blur-xl border border-white/10 rounded-2xl;
+    box-shadow: 0 8px 32px hsl(0 0% 0% / 0.3);
   }
 
   .glass-card-hover {
@@ -140,8 +102,9 @@
   }
 
   .glass-card-hover:hover {
-    @apply border-white/10;
-    transform: translateY(-2px);
+    @apply border-primary/30;
+    box-shadow: 0 8px 32px hsl(312 100% 60% / 0.15);
+    transform: translateY(-4px);
   }
 
   /* Neon text gradient */
@@ -161,20 +124,20 @@
 
   /* Button variants */
   .btn-primary {
-    @apply bg-primary text-primary-foreground font-medium px-7 py-3.5 rounded-full transition-all duration-300 text-sm tracking-wide;
+    @apply bg-primary text-primary-foreground font-semibold px-6 py-3 rounded-xl transition-all duration-300;
   }
 
   .btn-primary:hover {
-    transform: translateY(-1px);
-    background-color: hsl(312 100% 65%);
+    @apply neon-glow;
+    transform: translateY(-2px);
   }
 
   .btn-outline {
-    @apply border border-white/15 text-foreground font-medium px-7 py-3.5 rounded-full transition-all duration-300 bg-transparent text-sm tracking-wide;
+    @apply border border-primary/50 text-primary font-semibold px-6 py-3 rounded-xl transition-all duration-300 bg-transparent;
   }
 
   .btn-outline:hover {
-    @apply border-white/40 bg-white/[0.03];
+    @apply bg-primary/10 border-primary;
   }
 
   .btn-ghost {
@@ -187,23 +150,11 @@
 
   /* Section styling */
   .section-padding {
-    @apply py-20 md:py-40 px-4 md:px-8;
+    @apply py-12 md:py-32 px-4 md:px-8;
   }
 
   .container-custom {
     @apply max-w-7xl mx-auto;
-  }
-
-  /* Story link with underline animation */
-  .story-link {
-    @apply relative inline-block;
-  }
-  .story-link::after {
-    content: '';
-    @apply absolute left-0 bottom-0 h-px w-full bg-current scale-x-0 origin-right transition-transform duration-500;
-  }
-  .story-link:hover::after {
-    @apply scale-x-100 origin-left;
   }
 
   /* Animated border */

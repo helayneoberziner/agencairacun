@@ -1,13 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 
-export interface SocialNetwork {
-  id: string;
-  platform: string;
-  url: string;
-  isActive: boolean;
-}
-
 export interface SiteSettings {
   phone: string;
   whatsapp: string;
@@ -17,7 +10,6 @@ export interface SiteSettings {
   youtube: string;
   logoUrl: string;
   clientAreaUrl: string;
-  socialNetworks: SocialNetwork[];
 }
 
 const defaultSettings: SiteSettings = {
@@ -29,7 +21,6 @@ const defaultSettings: SiteSettings = {
   youtube: 'https://youtube.com/@agenciaracun',
   logoUrl: '',
   clientAreaUrl: 'https://app.racun.com.br',
-  socialNetworks: [],
 };
 
 export function useSiteSettings() {
@@ -46,15 +37,7 @@ export function useSiteSettings() {
 
       if (error) throw error;
       if (!data) return defaultSettings;
-      const merged = { ...defaultSettings, ...(data.content as unknown as Partial<SiteSettings>) };
-      // Backfill socialNetworks from legacy instagram/youtube fields
-      if (!merged.socialNetworks || merged.socialNetworks.length === 0) {
-        const legacy: SocialNetwork[] = [];
-        if (merged.instagram) legacy.push({ id: 'ig', platform: 'instagram', url: merged.instagram, isActive: true });
-        if (merged.youtube) legacy.push({ id: 'yt', platform: 'youtube', url: merged.youtube, isActive: true });
-        merged.socialNetworks = legacy;
-      }
-      return merged;
+      return { ...defaultSettings, ...(data.content as unknown as Partial<SiteSettings>) };
     },
     staleTime: 1000 * 60 * 5,
   });
