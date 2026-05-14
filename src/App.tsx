@@ -14,6 +14,12 @@ import Restaurantes from "./pages/Restaurantes";
 import Proposta from "./pages/Proposta";
 import PoliticaPrivacidade from "./pages/PoliticaPrivacidade";
 import TermosUso from "./pages/TermosUso";
+import SegmentImobiliario from "./pages/SegmentImobiliario";
+import SegmentEmpresas from "./pages/SegmentEmpresas";
+import SegmentRestaurantes from "./pages/SegmentRestaurantes";
+import SegmentEventos from "./pages/SegmentEventos";
+import SegmentMarcas from "./pages/SegmentMarcas";
+import SegmentPolitica from "./pages/SegmentPolitica";
 import NotFound from "./pages/NotFound";
 import AdminLogin from "./pages/admin/AdminLogin";
 import AdminDashboard from "./pages/admin/AdminDashboard";
@@ -29,6 +35,7 @@ import AdminMarketing from "./pages/admin/AdminMarketing";
 import AdminHome from "./pages/admin/AdminHome";
 import AdminProposals from "./pages/admin/AdminProposals";
 import AdminLgpd from "./pages/admin/AdminLgpd";
+import AdminSegments from "./pages/admin/AdminSegments";
 import ProtectedRoute from "./components/admin/ProtectedRoute";
 import CookieBanner from "./components/CookieBanner";
 
@@ -55,7 +62,15 @@ const App = () => (
             <Route path="/proposta/:slug" element={<Proposta />} />
             <Route path="/politica-de-privacidade" element={<PoliticaPrivacidade />} />
             <Route path="/termos-de-uso" element={<TermosUso />} />
-            
+
+            {/* Segment landing pages */}
+            <Route path="/imobiliario" element={<SegmentImobiliario />} />
+            <Route path="/empresas" element={<SegmentEmpresas />} />
+            <Route path="/restaurantes-segmento" element={<SegmentRestaurantes />} />
+            <Route path="/eventos" element={<SegmentEventos />} />
+            <Route path="/marcas" element={<SegmentMarcas />} />
+            <Route path="/politica" element={<SegmentPolitica />} />
+
             {/* Admin Routes */}
             <Route path="/admin/login" element={<AdminLogin />} />
             <Route path="/admin" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
@@ -71,6 +86,7 @@ const App = () => (
             <Route path="/admin/home" element={<ProtectedRoute><AdminHome /></ProtectedRoute>} />
             <Route path="/admin/proposals" element={<ProtectedRoute><AdminProposals /></ProtectedRoute>} />
             <Route path="/admin/lgpd" element={<ProtectedRoute><AdminLgpd /></ProtectedRoute>} />
+            <Route path="/admin/segments" element={<ProtectedRoute><AdminSegments /></ProtectedRoute>} />
             
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
