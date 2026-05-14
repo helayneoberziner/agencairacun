@@ -16,7 +16,6 @@ import PoliticaPrivacidade from "./pages/PoliticaPrivacidade";
 import TermosUso from "./pages/TermosUso";
 import SegmentImobiliario from "./pages/SegmentImobiliario";
 import SegmentEmpresas from "./pages/SegmentEmpresas";
-import SegmentRestaurantes from "./pages/SegmentRestaurantes";
 import SegmentEventos from "./pages/SegmentEventos";
 import SegmentMarcas from "./pages/SegmentMarcas";
 import SegmentPolitica from "./pages/SegmentPolitica";
@@ -66,7 +65,6 @@ const App = () => (
             {/* Segment landing pages */}
             <Route path="/imobiliario" element={<SegmentImobiliario />} />
             <Route path="/empresas" element={<SegmentEmpresas />} />
-            <Route path="/restaurantes-segmento" element={<SegmentRestaurantes />} />
             <Route path="/eventos" element={<SegmentEventos />} />
             <Route path="/marcas" element={<SegmentMarcas />} />
             <Route path="/politica" element={<SegmentPolitica />} />
