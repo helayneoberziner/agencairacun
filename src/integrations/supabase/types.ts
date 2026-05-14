@@ -278,6 +278,48 @@ export type Database = {
         }
         Relationships: []
       }
+      segment_pages: {
+        Row: {
+          content: Json
+          created_at: string
+          display_order: number
+          id: string
+          is_active: boolean
+          name: string
+          og_image_url: string | null
+          seo_description: string | null
+          seo_title: string | null
+          slug: string
+          updated_at: string
+        }
+        Insert: {
+          content?: Json
+          created_at?: string
+          display_order?: number
+          id?: string
+          is_active?: boolean
+          name: string
+          og_image_url?: string | null
+          seo_description?: string | null
+          seo_title?: string | null
+          slug: string
+          updated_at?: string
+        }
+        Update: {
+          content?: Json
+          created_at?: string
+          display_order?: number
+          id?: string
+          is_active?: boolean
+          name?: string
+          og_image_url?: string | null
+          seo_description?: string | null
+          seo_title?: string | null
+          slug?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       site_content: {
         Row: {
           content: Json

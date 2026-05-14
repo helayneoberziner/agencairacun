@@ -103,13 +103,23 @@ const Produtora = () => {
                 {segments.sectionTitle} <span className="text-gradient-neon">{segments.sectionTitleHighlight}</span>
               </h2>
             </div>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
-              {segments.items.map((seg, i) => (
-                <div key={i} className="glass-card p-6 text-center hover:border-primary/30 transition-colors">
-                  <h4 className="font-display font-semibold text-lg mb-2">{seg.title}</h4>
-                  <p className="text-sm text-muted-foreground">{seg.description}</p>
-                </div>
-              ))}
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
+              {segments.items.map((seg, i) => {
+                const slugMap: Record<string, string> = {
+                  'Imobiliário': '/imobiliario','Empresas': '/empresas','Restaurantes': '/restaurantes',
+                  'Eventos': '/eventos','Marcas': '/marcas','Política e Eleição': '/politica','Política': '/politica',
+                };
+                const path = slugMap[seg.title] || '/';
+                return (
+                  <Link key={i} to={path} className="glass-card p-6 text-left hover:border-primary/40 transition-all duration-300 group flex flex-col">
+                    <h4 className="font-display font-semibold text-lg mb-2">{seg.title}</h4>
+                    <p className="text-sm text-muted-foreground mb-5 flex-1">{seg.description}</p>
+                    <span className="inline-flex items-center gap-1.5 text-sm text-primary font-medium group-hover:gap-2.5 transition-all">
+                      Saiba mais <ArrowRight className="w-4 h-4" />
+                    </span>
+                  </Link>
+                );
+              })}
             </div>
           </div>
         </section>

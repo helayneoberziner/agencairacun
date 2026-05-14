@@ -17,7 +17,8 @@ import {
   Home,
   FileText,
   Shield,
-  ChevronDown
+  ChevronDown,
+  Layers
 } from 'lucide-react';
  import { useState } from 'react';
  
@@ -53,6 +54,7 @@ import {
         label: 'Conteúdo',
         items: [
           { name: 'Produtora', path: '/admin/produtora', icon: Film },
+          { name: 'Segmentos', path: '/admin/segments', icon: Layers },
           { name: 'Mídia', path: '/admin/media', icon: Image },
           { name: 'Depoimentos', path: '/admin/testimonials', icon: Quote },
         ],
