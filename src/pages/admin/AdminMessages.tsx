@@ -3,7 +3,7 @@
  import { supabase } from '@/integrations/supabase/client';
  import { Button } from '@/components/ui/button';
  import { toast } from 'sonner';
- import { Mail, MailOpen, Trash2, Clock, User, Building, Phone } from 'lucide-react';
+import { Mail, MailOpen, Trash2, Clock, Building, Phone, Search, Tag } from 'lucide-react';
  
  interface Message {
    id: string;
@@ -12,15 +12,26 @@
    company: string | null;
    phone: string | null;
    service: string | null;
+  segment: string | null;
+  status: string;
    message: string;
    is_read: boolean;
    created_at: string;
  }
  
+const STATUS_OPTIONS = [
+  { value: 'novo', label: 'Novo', color: 'bg-primary/10 text-primary border-primary/30' },
+  { value: 'em_atendimento', label: 'Em atendimento', color: 'bg-amber-500/10 text-amber-400 border-amber-500/30' },
+  { value: 'fechado', label: 'Fechado', color: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30' },
+];
+
  const AdminMessages = () => {
    const [messages, setMessages] = useState<Message[]>([]);
    const [isLoading, setIsLoading] = useState(true);
    const [selectedMessage, setSelectedMessage] = useState<Message | null>(null);
+  const [search, setSearch] = useState('');
+  const [statusFilter, setStatusFilter] = useState<string>('all');
+  const [segmentFilter, setSegmentFilter] = useState<string>('all');
  
    useEffect(() => {
      fetchMessages();
@@ -34,7 +45,7 @@
          .order('created_at', { ascending: false });
  
        if (error) throw error;
-       setMessages(data ?? []);
+      setMessages((data ?? []) as any);
      } catch (error) {
        console.error('Error fetching messages:', error);
        toast.error('Erro ao carregar mensagens');
@@ -64,6 +75,22 @@
      }
    };
  
+  const updateStatus = async (id: string, status: string) => {
+    try {
+      const { error } = await supabase
+        .from('contact_messages')
+        .update({ status } as any)
+        .eq('id', id);
+      if (error) throw error;
+      setMessages(prev => prev.map(m => m.id === id ? { ...m, status } : m));
+      if (selectedMessage?.id === id) setSelectedMessage(prev => prev ? { ...prev, status } : null);
+      toast.success('Status atualizado');
+    } catch (e) {
+      console.error(e);
+      toast.error('Erro ao atualizar status');
+    }
+  };
+
    const deleteMessage = async (id: string) => {
      if (!confirm('Tem certeza que deseja excluir esta mensagem?')) return;
  
@@ -103,6 +130,24 @@
  
    const unreadCount = messages.filter(m => !m.is_read).length;
  
+  const segments = Array.from(new Set(messages.map(m => m.segment).filter(Boolean))) as string[];
+
+  const filteredMessages = messages.filter(m => {
+    if (statusFilter !== 'all' && (m.status || 'novo') !== statusFilter) return false;
+    if (segmentFilter !== 'all' && (m.segment || '') !== segmentFilter) return false;
+    if (search) {
+      const q = search.toLowerCase();
+      const blob = `${m.name} ${m.email} ${m.company ?? ''} ${m.phone ?? ''} ${m.service ?? ''} ${m.segment ?? ''} ${m.message}`.toLowerCase();
+      if (!blob.includes(q)) return false;
+    }
+    return true;
+  });
+
+  const statusBadge = (status: string) => {
+    const opt = STATUS_OPTIONS.find(s => s.value === (status || 'novo')) || STATUS_OPTIONS[0];
+    return <span className={`text-[10px] uppercase tracking-wider font-medium px-2 py-0.5 rounded-full border ${opt.color}`}>{opt.label}</span>;
+  };
+
    return (
      <AdminLayout title="Mensagens">
        <div className="flex flex-col lg:flex-row gap-6 h-[calc(100vh-180px)]">
@@ -110,7 +155,7 @@
          <div className="lg:w-1/3 glass-card p-4 overflow-y-auto">
            <div className="flex items-center justify-between mb-4">
              <h2 className="font-semibold">
-               Caixa de entrada
+              Leads
                {unreadCount > 0 && (
                  <span className="ml-2 px-2 py-0.5 text-xs rounded-full bg-primary text-primary-foreground">
                    {unreadCount}
@@ -119,13 +164,35 @@
              </h2>
            </div>
  
+          <div className="space-y-2 mb-4">
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+              <input
+                value={search}
+                onChange={e => setSearch(e.target.value)}
+                placeholder="Buscar por nome, email, segmento..."
+                className="w-full pl-9 pr-3 py-2 rounded-lg bg-white/5 border border-white/10 text-sm focus:outline-none focus:border-primary/40"
+              />
+            </div>
+            <div className="grid grid-cols-2 gap-2">
+              <select value={statusFilter} onChange={e => setStatusFilter(e.target.value)} className="px-2 py-2 rounded-lg bg-white/5 border border-white/10 text-xs">
+                <option value="all" className="bg-background">Todos status</option>
+                {STATUS_OPTIONS.map(s => <option key={s.value} value={s.value} className="bg-background">{s.label}</option>)}
+              </select>
+              <select value={segmentFilter} onChange={e => setSegmentFilter(e.target.value)} className="px-2 py-2 rounded-lg bg-white/5 border border-white/10 text-xs">
+                <option value="all" className="bg-background">Todos segmentos</option>
+                {segments.map(s => <option key={s} value={s} className="bg-background">{s}</option>)}
+              </select>
+            </div>
+          </div>
+
            {isLoading ? (
              <p className="text-muted-foreground p-4">Carregando...</p>
-           ) : messages.length === 0 ? (
+          ) : filteredMessages.length === 0 ? (
              <p className="text-muted-foreground p-4">Nenhuma mensagem recebida.</p>
            ) : (
              <div className="space-y-2">
-               {messages.map((message) => (
+              {filteredMessages.map((message) => (
                  <button
                    key={message.id}
                    onClick={() => handleSelectMessage(message)}
@@ -137,7 +204,8 @@
                          : 'bg-primary/5 hover:bg-primary/10 border border-primary/20'
                    }`}
                  >
-                   <div className="flex items-center gap-2 mb-1">
+                  <div className="flex items-center justify-between gap-2 mb-1">
+                    <div className="flex items-center gap-2 min-w-0">
                      {message.is_read ? (
                        <MailOpen className="w-4 h-4 text-muted-foreground" />
                      ) : (
@@ -146,8 +214,13 @@
                      <span className={`font-medium truncate ${!message.is_read && 'text-primary'}`}>
                        {message.name}
                      </span>
+                    </div>
+                    {statusBadge(message.status)}
                    </div>
                    <p className="text-sm text-muted-foreground truncate">{message.email}</p>
+                  {message.segment && (
+                    <p className="text-[11px] text-primary/80 mt-1 flex items-center gap-1"><Tag className="w-3 h-3" /> {message.segment}</p>
+                  )}
                    <p className="text-xs text-muted-foreground mt-1 truncate">{message.message}</p>
                  </button>
                ))}
@@ -164,8 +237,16 @@
                  <div>
                    <h2 className="text-xl font-display font-semibold">{selectedMessage.name}</h2>
                    <p className="text-muted-foreground">{selectedMessage.email}</p>
+                  <div className="mt-2">{statusBadge(selectedMessage.status)}</div>
                  </div>
-                 <div className="flex gap-2">
+                <div className="flex gap-2 items-center">
+                  <select
+                    value={selectedMessage.status || 'novo'}
+                    onChange={(e) => updateStatus(selectedMessage.id, e.target.value)}
+                    className="px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-sm focus:outline-none focus:border-primary/40"
+                  >
+                    {STATUS_OPTIONS.map(s => <option key={s.value} value={s.value} className="bg-background">{s.label}</option>)}
+                  </select>
                    <Button
                      variant="outline"
                      size="sm"
@@ -203,6 +284,12 @@
                      </span>
                    </div>
                  )}
+                {selectedMessage.segment && (
+                  <div className="flex items-center gap-2 text-sm">
+                    <Tag className="w-4 h-4 text-muted-foreground" />
+                    <span>{selectedMessage.segment}</span>
+                  </div>
+                )}
                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
                    <Clock className="w-4 h-4" />
                    {formatDate(selectedMessage.created_at)}
