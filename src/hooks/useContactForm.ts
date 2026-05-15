@@ -9,6 +9,7 @@ const contactSchema = z.object({
   phone: z.string().trim().max(30, 'Telefone muito longo').optional().or(z.literal('')),
   company: z.string().trim().max(100, 'Empresa muito longa').optional().or(z.literal('')),
   service: z.string().trim().max(100, 'Serviço muito longo').optional().or(z.literal('')),
+  segment: z.string().trim().max(100, 'Segmento muito longo').optional().or(z.literal('')),
   message: z.string().trim().min(1, 'Mensagem é obrigatória').max(2000, 'Mensagem muito longa'),
 });
 
@@ -46,8 +47,9 @@ export function useContactForm(options?: UseContactFormOptions) {
         phone: result.data.phone || null,
         company: result.data.company || null,
         service: result.data.service || null,
+        segment: result.data.segment || null,
         message: result.data.message,
-      });
+      } as any);
 
       if (error) throw error;
 
