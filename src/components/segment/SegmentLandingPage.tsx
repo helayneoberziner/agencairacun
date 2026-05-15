@@ -369,6 +369,9 @@ const SegmentLandingPage = ({ slug }: Props) => {
             </div>
           </div>
         </section>
+
+        {/* FORMULÁRIO DE CONVERSÃO */}
+        <SegmentLeadForm segmentName={page.name} />
       </main>
 
       <Footer />
