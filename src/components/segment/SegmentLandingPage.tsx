@@ -39,7 +39,7 @@ const SegmentLandingPage = ({ slug }: Props) => {
   const [photoModal, setPhotoModal] = useState<string | null>(null);
 
   const { data: portfolioProjects = [] } = useQuery({
-    queryKey: ['segment-portfolio', page?.id, page?.content?.portfolio?.projectIds],
+    queryKey: ['segment-portfolio', page?.id, page?.name, page?.content?.portfolio?.projectIds],
     enabled: !!page,
     queryFn: async () => {
       const ids = page?.content?.portfolio?.projectIds ?? [];
@@ -48,9 +48,16 @@ const SegmentLandingPage = ({ slug }: Props) => {
         .select('id,title,subcategory,image_url,video_url')
         .order('display_order', { ascending: true });
       const all = data ?? [];
-      if (ids.length === 0) return all;
-      const set = new Set(ids);
-      return all.filter((p: any) => set.has(p.id));
+      // Manual selection wins
+      if (ids.length > 0) {
+        const set = new Set(ids);
+        return all.filter((p: any) => set.has(p.id));
+      }
+      // Auto filter by subcategory matching the segment (name or slug)
+      const norm = (s: string) =>
+        (s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim();
+      const targets = [norm(page?.name || ''), norm(slug)];
+      return all.filter((p: any) => p.subcategory && targets.includes(norm(p.subcategory)));
     },
   });
 
