@@ -10,6 +10,7 @@ import {
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import WhatsAppButton from '@/components/WhatsAppButton';
+import SegmentLeadForm from '@/components/segment/SegmentLeadForm';
 import { useSegmentPage } from '@/hooks/useSegmentPage';
 import { useSiteSettings } from '@/hooks/useSiteSettings';
 import { useTestimonials } from '@/hooks/useTestimonials';
