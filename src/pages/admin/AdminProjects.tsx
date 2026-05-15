@@ -31,6 +31,8 @@ import ImageUpload from '@/components/admin/ImageUpload';
    const [isLoading, setIsLoading] = useState(true);
    const [isModalOpen, setIsModalOpen] = useState(false);
    const [editingProject, setEditingProject] = useState<Project | null>(null);
+  const [creatingNewSub, setCreatingNewSub] = useState(false);
+  const [newSubInput, setNewSubInput] = useState('');
     const [formData, setFormData] = useState({
       title: '',
       category: '',
@@ -46,7 +48,13 @@ import ImageUpload from '@/components/admin/ImageUpload';
     });
   
     const categories = ['Vídeo', 'Fotografia', 'Marketing', 'Branding'];
-    const subcategories = ['Institucionais', 'Comerciais', 'Imobiliário', 'Redes Sociais', 'Eventos', 'Política e Eleição', 'Gastronomia'];
+   const defaultSubcategories = ['Institucionais', 'Comerciais', 'Imobiliário', 'Empresas', 'Restaurantes', 'Redes Sociais', 'Eventos', 'Marcas', 'Política e Eleição', 'Gastronomia'];
+   const dynamicSubcategories = Array.from(
+     new Set([
+       ...defaultSubcategories,
+       ...projects.map(p => p.subcategory).filter(Boolean) as string[],
+     ])
+   ).sort((a, b) => a.localeCompare(b, 'pt-BR'));
  
    useEffect(() => {
      fetchProjects();
@@ -70,6 +78,8 @@ import ImageUpload from '@/components/admin/ImageUpload';
    };
  
    const openModal = (project?: Project) => {
+      setCreatingNewSub(false);
+      setNewSubInput('');
      if (project) {
        setEditingProject(project);
         setFormData({
@@ -334,17 +344,55 @@ import ImageUpload from '@/components/admin/ImageUpload';
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="subcategory">Subcategoria (filtro público)</Label>
-                    <select
-                      id="subcategory"
-                      value={formData.subcategory}
-                      onChange={(e) => setFormData(prev => ({ ...prev, subcategory: e.target.value }))}
-                      className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
-                    >
-                      <option value="">Selecione...</option>
-                      {subcategories.map(sub => (
-                        <option key={sub} value={sub}>{sub}</option>
-                      ))}
-                    </select>
+                     {!creatingNewSub ? (
+                       <select
+                         id="subcategory"
+                         value={formData.subcategory}
+                         onChange={(e) => {
+                           if (e.target.value === '__new__') {
+                             setCreatingNewSub(true);
+                             setNewSubInput('');
+                           } else {
+                             setFormData(prev => ({ ...prev, subcategory: e.target.value }));
+                           }
+                         }}
+                         className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                       >
+                         <option value="">Selecione...</option>
+                         {dynamicSubcategories.map(sub => (
+                           <option key={sub} value={sub}>{sub}</option>
+                         ))}
+                         <option value="__new__">+ Criar nova categoria</option>
+                       </select>
+                     ) : (
+                       <div className="flex gap-2">
+                         <Input
+                           autoFocus
+                           value={newSubInput}
+                           onChange={(e) => setNewSubInput(e.target.value)}
+                           placeholder="Nome da nova categoria"
+                         />
+                         <Button
+                           type="button"
+                           size="sm"
+                           onClick={() => {
+                             const v = newSubInput.trim();
+                             if (!v) return;
+                             setFormData(prev => ({ ...prev, subcategory: v }));
+                             setCreatingNewSub(false);
+                           }}
+                         >Salvar</Button>
+                         <Button
+                           type="button"
+                           size="sm"
+                           variant="outline"
+                           onClick={() => setCreatingNewSub(false)}
+                         >Cancelar</Button>
+                       </div>
+                     )}
+                     {formData.subcategory && !creatingNewSub && (
+                       <p className="text-xs text-muted-foreground">Selecionada: <span className="text-primary">{formData.subcategory}</span></p>
+                     )}
                   </div>
                 </div>
  
