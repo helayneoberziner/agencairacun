@@ -357,27 +357,7 @@ const SegmentLandingPage = ({ slug }: Props) => {
           </section>
         )}
 
-        {/* CTA FINAL */}
-        <section className="section-padding">
-          <div className="container-custom">
-            <div className="glass-card p-8 md:p-16 text-center relative overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-r from-accent/10 via-primary/10 to-accent/10" />
-              <div className="relative z-10">
-                <h2 className="text-3xl md:text-5xl font-display font-bold mb-6">
-                  {c.finalCta.title?.split(' ').slice(0, -1).join(' ')}{' '}
-                  <span className="text-gradient-neon italic">{c.finalCta.title?.split(' ').slice(-1)}</span>
-                </h2>
-                <p className="text-muted-foreground text-lg mb-8 max-w-2xl mx-auto">{c.finalCta.subtitle}</p>
-                <a href={whatsappLink} target="_blank" rel="noopener noreferrer" className="btn-primary inline-flex items-center gap-2 text-lg px-8 py-4">
-                  {c.finalCta.buttonText}
-                  <ArrowRight className="w-5 h-5" />
-                </a>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* FORMULÁRIO DE CONVERSÃO */}
+        {/* FORMULÁRIO DE CONVERSÃO — CTA FINAL */}
         <SegmentLeadForm segmentName={page.name} />
       </main>
 

@@ -61,11 +61,11 @@ const SegmentLeadForm = ({ segmentName, title, subtitle }: Props) => {
             </span>
             <h2 className="text-3xl md:text-5xl font-display font-bold mb-6 leading-tight">
               {title || (
-                <>Pronto para crescer no <span className="text-gradient-neon italic">{segmentName}?</span></>
+                <>Vamos conversar sobre seu <span className="text-gradient-neon italic">projeto?</span></>
               )}
             </h2>
             <p className="text-muted-foreground text-base md:text-lg mb-8">
-              {subtitle || 'Conte um pouco sobre seu projeto. Nosso time entra em contato com uma proposta sob medida para o seu negócio.'}
+              {subtitle || `Conte para a Racun o momento da sua marca no segmento ${segmentName}. Um especialista entra em contato com um plano estratégico sob medida para o seu próximo passo.`}
             </p>
             <a
               href={waLink}
@@ -169,7 +169,7 @@ const SegmentLeadForm = ({ segmentName, title, subtitle }: Props) => {
                     {isSubmitting ? (
                       <><Loader2 className="w-4 h-4 animate-spin" /> Enviando...</>
                     ) : (
-                      <><Send className="w-4 h-4" /> Enviar mensagem</>
+                      <><Send className="w-4 h-4" /> Quero falar com a Racun</>
                     )}
                   </button>
                   <a
