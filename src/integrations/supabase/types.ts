@@ -92,6 +92,66 @@ export type Database = {
         }
         Relationships: []
       }
+      media_assets: {
+        Row: {
+          created_at: string
+          folder: string
+          hash: string | null
+          height: number | null
+          id: string
+          is_video: boolean
+          mime_type: string | null
+          name: string
+          path: string
+          size: number
+          width: number | null
+        }
+        Insert: {
+          created_at?: string
+          folder?: string
+          hash?: string | null
+          height?: number | null
+          id?: string
+          is_video?: boolean
+          mime_type?: string | null
+          name: string
+          path: string
+          size?: number
+          width?: number | null
+        }
+        Update: {
+          created_at?: string
+          folder?: string
+          hash?: string | null
+          height?: number | null
+          id?: string
+          is_video?: boolean
+          mime_type?: string | null
+          name?: string
+          path?: string
+          size?: number
+          width?: number | null
+        }
+        Relationships: []
+      }
+      media_folders: {
+        Row: {
+          created_at: string
+          id: string
+          name: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           created_at: string
