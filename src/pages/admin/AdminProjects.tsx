@@ -6,8 +6,9 @@
  import { Label } from '@/components/ui/label';
  import { Textarea } from '@/components/ui/textarea';
  import { toast } from 'sonner';
-import { Plus, Pencil, Trash2, X, Youtube, Image, Star, GripVertical } from 'lucide-react';
+import { Plus, Pencil, Trash2, X, Youtube, Image, Star, GripVertical, FolderOpen, CheckSquare, Square } from 'lucide-react';
 import ImageUpload from '@/components/admin/ImageUpload';
+import MediaPicker from '@/components/admin/MediaPicker';
  
   interface Project {
     id: string;
@@ -33,6 +34,11 @@ import ImageUpload from '@/components/admin/ImageUpload';
    const [editingProject, setEditingProject] = useState<Project | null>(null);
   const [creatingNewSub, setCreatingNewSub] = useState(false);
   const [newSubInput, setNewSubInput] = useState('');
+  const [videoPickerOpen, setVideoPickerOpen] = useState(false);
+  const [bulkSelected, setBulkSelected] = useState<Set<string>>(new Set());
+  const [bulkSub, setBulkSub] = useState('');
+  const [bulkCreatingSub, setBulkCreatingSub] = useState(false);
+  const [bulkNewSub, setBulkNewSub] = useState('');
     const [formData, setFormData] = useState({
       title: '',
       category: '',
@@ -185,6 +191,40 @@ import ImageUpload from '@/components/admin/ImageUpload';
        toast.error('Erro ao excluir projeto');
      }
    };
+
+  const toggleBulk = (id: string) => {
+    setBulkSelected(prev => {
+      const n = new Set(prev);
+      if (n.has(id)) n.delete(id); else n.add(id);
+      return n;
+    });
+  };
+
+  const selectAllVisible = () => {
+    if (bulkSelected.size === projects.length) setBulkSelected(new Set());
+    else setBulkSelected(new Set(projects.map(p => p.id)));
+  };
+
+  const applyBulkSubcategory = async () => {
+    const target = bulkCreatingSub ? bulkNewSub.trim() : bulkSub;
+    if (!target) { toast.error('Selecione uma subcategoria'); return; }
+    if (bulkSelected.size === 0) { toast.error('Selecione ao menos um projeto'); return; }
+    try {
+      const ids = Array.from(bulkSelected);
+      const { error } = await supabase
+        .from('projects')
+        .update({ subcategory: target })
+        .in('id', ids);
+      if (error) throw error;
+      toast.success(`${ids.length} projeto(s) atualizado(s) para "${target}"`);
+      setBulkSelected(new Set());
+      setBulkSub(''); setBulkCreatingSub(false); setBulkNewSub('');
+      fetchProjects();
+    } catch (e) {
+      console.error(e);
+      toast.error('Erro ao reatribuir');
+    }
+  };
  
    const toggleFeatured = async (id: string, isFeatured: boolean) => {
      try {
@@ -217,6 +257,42 @@ import ImageUpload from '@/components/admin/ImageUpload';
              Novo projeto
            </Button>
          </div>
+
+        {/* Barra de ação em lote */}
+        {projects.length > 0 && (
+          <div className="glass-card p-4 flex flex-col md:flex-row md:items-center gap-3">
+            <button onClick={selectAllVisible} className="text-sm text-muted-foreground hover:text-foreground inline-flex items-center gap-2">
+              {bulkSelected.size === projects.length ? <CheckSquare className="w-4 h-4" /> : <Square className="w-4 h-4" />}
+              {bulkSelected.size > 0 ? `${bulkSelected.size} selecionado(s)` : 'Selecionar todos'}
+            </button>
+            <div className="flex-1" />
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="text-xs text-muted-foreground">Reatribuir subcategoria:</span>
+              {!bulkCreatingSub ? (
+                <select
+                  value={bulkSub}
+                  onChange={(e) => {
+                    if (e.target.value === '__new__') { setBulkCreatingSub(true); setBulkNewSub(''); }
+                    else setBulkSub(e.target.value);
+                  }}
+                  className="h-9 rounded-md border border-input bg-background px-2 text-sm"
+                >
+                  <option value="">Selecione...</option>
+                  {dynamicSubcategories.map(s => <option key={s} value={s}>{s}</option>)}
+                  <option value="__new__">+ Nova categoria</option>
+                </select>
+              ) : (
+                <div className="flex items-center gap-1">
+                  <Input autoFocus value={bulkNewSub} onChange={(e) => setBulkNewSub(e.target.value)} placeholder="Nome" className="h-9 w-40" />
+                  <Button size="sm" variant="ghost" onClick={() => setBulkCreatingSub(false)}>×</Button>
+                </div>
+              )}
+              <Button size="sm" disabled={bulkSelected.size === 0} onClick={applyBulkSubcategory}>
+                Aplicar a {bulkSelected.size || 0}
+              </Button>
+            </div>
+          </div>
+        )}
  
          {/* Projects Grid */}
          {isLoading ? (
@@ -235,6 +311,13 @@ import ImageUpload from '@/components/admin/ImageUpload';
                <div key={project.id} className="glass-card overflow-hidden group">
                  {/* Image */}
                  <div className="aspect-video relative bg-muted">
+                    <button
+                      onClick={() => toggleBulk(project.id)}
+                      className="absolute top-2 left-2 z-10 w-7 h-7 rounded bg-background/80 backdrop-blur flex items-center justify-center hover:bg-background"
+                      title="Selecionar para ação em lote"
+                    >
+                      {bulkSelected.has(project.id) ? <CheckSquare className="w-4 h-4 text-primary" /> : <Square className="w-4 h-4" />}
+                    </button>
                    {project.image_url ? (
                      <img 
                        src={project.image_url} 
@@ -455,12 +538,27 @@ import ImageUpload from '@/components/admin/ImageUpload';
                   />
                   <div className="space-y-2">
                     <Label htmlFor="video_url">URL do vídeo (YouTube)</Label>
-                    <Input
-                      id="video_url"
-                      type="url"
-                      value={formData.video_url}
-                      onChange={(e) => setFormData(prev => ({ ...prev, video_url: e.target.value }))}
-                      placeholder="https://youtube.com/..."
+                    <div className="flex gap-2">
+                      <Input
+                        id="video_url"
+                        type="url"
+                        value={formData.video_url}
+                        onChange={(e) => setFormData(prev => ({ ...prev, video_url: e.target.value }))}
+                        placeholder="https://youtube.com/... ou escolha da biblioteca"
+                      />
+                      <Button type="button" variant="outline" size="sm" onClick={() => setVideoPickerOpen(true)}>
+                        <FolderOpen className="w-4 h-4 mr-1" /> Biblioteca
+                      </Button>
+                    </div>
+                    {formData.video_url && !formData.video_url.includes('youtu') && (
+                      <video src={formData.video_url} controls className="w-full max-w-sm rounded-lg border border-border mt-2" />
+                    )}
+                    <MediaPicker
+                      open={videoPickerOpen}
+                      onClose={() => setVideoPickerOpen(false)}
+                      onSelect={(url) => setFormData(prev => ({ ...prev, video_url: url }))}
+                      folder="projects"
+                      accept="video"
                     />
                   </div>
                 </div>
