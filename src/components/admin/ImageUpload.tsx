@@ -2,7 +2,8 @@ import { useState, useRef } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
-import { Upload, Trash2, Loader2, ImageIcon } from 'lucide-react';
+import { Upload, Trash2, Loader2, ImageIcon, FolderOpen } from 'lucide-react';
+import MediaPicker from './MediaPicker';
 
 interface ImageUploadProps {
   label: string;
@@ -14,6 +15,7 @@ interface ImageUploadProps {
 
 const ImageUpload = ({ label, value, onChange, bucket = 'media', folder = 'home' }: ImageUploadProps) => {
   const [uploading, setUploading] = useState(false);
+  const [pickerOpen, setPickerOpen] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -63,7 +65,7 @@ const ImageUpload = ({ label, value, onChange, bucket = 'media', folder = 'home'
             <ImageIcon className="w-8 h-8 text-muted-foreground/40" />
           </div>
         )}
-        <div>
+        <div className="flex flex-col gap-2">
           <input
             ref={inputRef}
             type="file"
@@ -85,8 +87,24 @@ const ImageUpload = ({ label, value, onChange, bucket = 'media', folder = 'home'
             )}
             {uploading ? 'Enviando...' : 'Enviar imagem'}
           </Button>
+          <Button
+            type="button"
+            variant="ghost"
+            size="sm"
+            onClick={() => setPickerOpen(true)}
+          >
+            <FolderOpen className="w-4 h-4 mr-1" />
+            Escolher da biblioteca
+          </Button>
         </div>
       </div>
+      <MediaPicker
+        open={pickerOpen}
+        onClose={() => setPickerOpen(false)}
+        onSelect={(url) => onChange(url)}
+        folder={folder}
+        accept="image"
+      />
     </div>
   );
 };
