@@ -5,7 +5,7 @@ import HeroSection from '@/components/home/HeroSection';
 import ServicesSection from '@/components/home/ServicesSection';
 import SocialProofSection from '@/components/home/SocialProofSection';
 import ProdutoraTeaser from '@/components/home/ProdutoraTeaser';
-import PortfolioGrid from '@/components/PortfolioGrid';
+import CasesPreview from '@/components/home/CasesPreview';
 import MarketsSection from '@/components/home/MarketsSection';
 import ProcessSection from '@/components/home/ProcessSection';
 import ContactSection from '@/components/home/ContactSection';
@@ -23,14 +23,7 @@ const Index = () => {
         <ServicesSection />
         <SocialProofSection />
         <ProdutoraTeaser />
-        <PortfolioGrid
-          featuredOnly
-          showFilters
-          badge={c.badge}
-          title={c.title}
-          titleHighlight={c.titleHighlight}
-          subtitle={c.subtitle}
-        />
+        <CasesPreview />
         <MarketsSection />
         <ProcessSection />
         <ContactSection />
