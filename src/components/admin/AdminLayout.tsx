@@ -19,6 +19,8 @@ import {
   Shield,
   ChevronDown,
   Layers
+  , Briefcase
+  , Tags
 } from 'lucide-react';
  import { useState } from 'react';
  
@@ -45,6 +47,8 @@ import {
         label: 'Negócio',
         items: [
           { name: 'Marketing', path: '/admin/marketing', icon: Megaphone },
+          { name: 'Cases', path: '/admin/cases', icon: Briefcase },
+          { name: 'Categorias', path: '/admin/categories', icon: Tags },
           { name: 'Projetos', path: '/admin/projects', icon: FolderOpen },
           { name: 'Propostas', path: '/admin/proposals', icon: FileText },
           { name: 'Mensagens', path: '/admin/messages', icon: Mail },
