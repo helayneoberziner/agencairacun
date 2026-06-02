@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Send, MessageCircle, CheckCircle } from 'lucide-react';
+import { Send, MessageCircle, CheckCircle, MapPin, ExternalLink } from 'lucide-react';
 import { useContactForm } from '@/hooks/useContactForm';
 import { useSiteSettings } from '@/hooks/useSiteSettings';
 import { useHomeContent } from '@/hooks/useHomeContent';
@@ -38,6 +38,10 @@ const ContactSection = () => {
   const whatsappLink = `https://wa.me/${settings.whatsapp}?text=${whatsappMessage}`;
   const whatsappGenericLink = `https://wa.me/${settings.whatsapp}?text=${encodeURIComponent('Olá! Gostaria de saber mais sobre os serviços da Racun.')}`;
 
+  const mapQuery = encodeURIComponent(settings.address || 'Agência Racun, Blumenau, SC');
+  const mapEmbed = `https://www.google.com/maps?q=${mapQuery}&output=embed`;
+  const mapOpen = `https://www.google.com/maps/search/?api=1&query=${mapQuery}`;
+
   return (
     <section id="contato" className="section-padding relative overflow-hidden">
       <div className="absolute inset-0 gradient-mesh opacity-30" />
@@ -61,6 +65,29 @@ const ContactSection = () => {
                 <p className="text-sm opacity-80">{settings.phone}</p>
               </div>
             </a>
+
+            {/* Mapa integrado abaixo do WhatsApp */}
+            <div className="mt-8 glass-card overflow-hidden">
+              <div className="relative h-56 md:h-72">
+                <iframe
+                  src={mapEmbed}
+                  title="Localização Agência Racun"
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  className="absolute inset-0 w-full h-full border-0"
+                  style={{ filter: 'invert(0.92) hue-rotate(180deg) grayscale(0.4) contrast(0.95)' }}
+                />
+              </div>
+              <div className="p-4 md:p-5 flex flex-col sm:flex-row sm:items-center gap-3 justify-between border-t border-white/5">
+                <div className="flex items-start gap-2 text-sm text-muted-foreground">
+                  <MapPin className="w-4 h-4 text-primary mt-0.5 shrink-0" />
+                  <span>{settings.address}</span>
+                </div>
+                <a href={mapOpen} target="_blank" rel="noopener noreferrer" className="btn-outline text-sm inline-flex items-center gap-2 self-start">
+                  Abrir no Google Maps <ExternalLink className="w-3.5 h-3.5" />
+                </a>
+              </div>
+            </div>
           </div>
 
           <div className="glass-card p-5 md:p-8">
