@@ -14,6 +14,170 @@ export type Database = {
   }
   public: {
     Tables: {
+      case_media: {
+        Row: {
+          caption: string | null
+          case_id: string
+          created_at: string
+          display_order: number
+          id: string
+          kind: string
+          section: string
+          url: string | null
+          youtube_id: string | null
+        }
+        Insert: {
+          caption?: string | null
+          case_id: string
+          created_at?: string
+          display_order?: number
+          id?: string
+          kind?: string
+          section?: string
+          url?: string | null
+          youtube_id?: string | null
+        }
+        Update: {
+          caption?: string | null
+          case_id?: string
+          created_at?: string
+          display_order?: number
+          id?: string
+          kind?: string
+          section?: string
+          url?: string | null
+          youtube_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "case_media_case_id_fkey"
+            columns: ["case_id"]
+            isOneToOne: false
+            referencedRelation: "cases"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      cases: {
+        Row: {
+          categories: string[]
+          challenge: string | null
+          client_name: string
+          created_at: string
+          display_order: number
+          hero_image_url: string | null
+          hero_kind: string
+          hero_media_url: string | null
+          hero_youtube_id: string | null
+          id: string
+          is_active: boolean
+          is_featured: boolean
+          metrics: Json
+          og_image_url: string | null
+          results_text: string | null
+          segments: string[]
+          seo_description: string | null
+          seo_title: string | null
+          show_on_home: boolean
+          slug: string
+          solution: string | null
+          strategy: string | null
+          subtitle: string | null
+          testimonial_author: string | null
+          testimonial_text: string | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          categories?: string[]
+          challenge?: string | null
+          client_name: string
+          created_at?: string
+          display_order?: number
+          hero_image_url?: string | null
+          hero_kind?: string
+          hero_media_url?: string | null
+          hero_youtube_id?: string | null
+          id?: string
+          is_active?: boolean
+          is_featured?: boolean
+          metrics?: Json
+          og_image_url?: string | null
+          results_text?: string | null
+          segments?: string[]
+          seo_description?: string | null
+          seo_title?: string | null
+          show_on_home?: boolean
+          slug: string
+          solution?: string | null
+          strategy?: string | null
+          subtitle?: string | null
+          testimonial_author?: string | null
+          testimonial_text?: string | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          categories?: string[]
+          challenge?: string | null
+          client_name?: string
+          created_at?: string
+          display_order?: number
+          hero_image_url?: string | null
+          hero_kind?: string
+          hero_media_url?: string | null
+          hero_youtube_id?: string | null
+          id?: string
+          is_active?: boolean
+          is_featured?: boolean
+          metrics?: Json
+          og_image_url?: string | null
+          results_text?: string | null
+          segments?: string[]
+          seo_description?: string | null
+          seo_title?: string | null
+          show_on_home?: boolean
+          slug?: string
+          solution?: string | null
+          strategy?: string | null
+          subtitle?: string | null
+          testimonial_author?: string | null
+          testimonial_text?: string | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      categories: {
+        Row: {
+          created_at: string
+          display_order: number
+          id: string
+          kind: string
+          name: string
+          slug: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          display_order?: number
+          id?: string
+          kind?: string
+          name: string
+          slug: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          display_order?: number
+          id?: string
+          kind?: string
+          name?: string
+          slug?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       contact_messages: {
         Row: {
           company: string | null
@@ -100,11 +264,15 @@ export type Database = {
           height: number | null
           id: string
           is_video: boolean
+          kind: string
           mime_type: string | null
           name: string
-          path: string
-          size: number
+          path: string | null
+          size: number | null
+          thumbnail_url: string | null
           width: number | null
+          youtube_id: string | null
+          youtube_title: string | null
         }
         Insert: {
           created_at?: string
@@ -113,11 +281,15 @@ export type Database = {
           height?: number | null
           id?: string
           is_video?: boolean
+          kind?: string
           mime_type?: string | null
           name: string
-          path: string
-          size?: number
+          path?: string | null
+          size?: number | null
+          thumbnail_url?: string | null
           width?: number | null
+          youtube_id?: string | null
+          youtube_title?: string | null
         }
         Update: {
           created_at?: string
@@ -126,11 +298,15 @@ export type Database = {
           height?: number | null
           id?: string
           is_video?: boolean
+          kind?: string
           mime_type?: string | null
           name?: string
-          path?: string
-          size?: number
+          path?: string | null
+          size?: number | null
+          thumbnail_url?: string | null
           width?: number | null
+          youtube_id?: string | null
+          youtube_title?: string | null
         }
         Relationships: []
       }

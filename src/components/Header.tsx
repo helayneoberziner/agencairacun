@@ -47,7 +47,7 @@ const Header = () => {
           {/* Desktop Nav */}
           <div className="hidden lg:flex items-center gap-8">
             <Link to="/cases" className={`text-sm font-medium transition-all duration-300 hover:text-primary ${isActive('/cases') ? 'text-primary' : 'text-muted-foreground'}`}>
-              Trabalho
+              Cases
             </Link>
 
             {/* Serviços Dropdown */}
@@ -121,7 +121,7 @@ const Header = () => {
           <div className="lg:hidden absolute top-20 left-0 right-0 bg-background/95 backdrop-blur-xl border-b border-white/5 animate-fade-in">
             <div className="container-custom py-6 flex flex-col gap-4">
               <Link to="/cases" onClick={() => setIsMobileMenuOpen(false)} className={`text-lg font-medium py-2 ${isActive('/cases') ? 'text-primary' : 'text-muted-foreground'}`}>
-                Trabalho
+                Cases
               </Link>
 
               <div className="space-y-2">

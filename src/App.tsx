@@ -35,6 +35,9 @@ import AdminHome from "./pages/admin/AdminHome";
 import AdminProposals from "./pages/admin/AdminProposals";
 import AdminLgpd from "./pages/admin/AdminLgpd";
 import AdminSegments from "./pages/admin/AdminSegments";
+import AdminCases from "./pages/admin/AdminCases";
+import AdminCategories from "./pages/admin/AdminCategories";
+import CaseDetail from "./pages/CaseDetail";
 import ProtectedRoute from "./components/admin/ProtectedRoute";
 import CookieBanner from "./components/CookieBanner";
 
@@ -52,7 +55,7 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/marketing" element={<Marketing />} />
             <Route path="/cases" element={<Cases />} />
-            <Route path="/cases/:id" element={<Cases />} />
+            <Route path="/cases/:slug" element={<CaseDetail />} />
             <Route path="/sobre" element={<Sobre />} />
             <Route path="/contato" element={<Contato />} />
             <Route path="/produtora" element={<Produtora />} />
@@ -85,6 +88,8 @@ const App = () => (
             <Route path="/admin/proposals" element={<ProtectedRoute><AdminProposals /></ProtectedRoute>} />
             <Route path="/admin/lgpd" element={<ProtectedRoute><AdminLgpd /></ProtectedRoute>} />
             <Route path="/admin/segments" element={<ProtectedRoute><AdminSegments /></ProtectedRoute>} />
+            <Route path="/admin/cases" element={<ProtectedRoute><AdminCases /></ProtectedRoute>} />
+            <Route path="/admin/categories" element={<ProtectedRoute><AdminCategories /></ProtectedRoute>} />
             
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
