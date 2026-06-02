@@ -9,7 +9,6 @@ import PortfolioGrid from '@/components/PortfolioGrid';
 import MarketsSection from '@/components/home/MarketsSection';
 import ProcessSection from '@/components/home/ProcessSection';
 import ContactSection from '@/components/home/ContactSection';
-import LocationMap from '@/components/home/LocationMap';
 import { useHomeContent } from '@/hooks/useHomeContent';
 
 const Index = () => {
@@ -35,7 +34,6 @@ const Index = () => {
         <MarketsSection />
         <ProcessSection />
         <ContactSection />
-        <LocationMap />
       </main>
       <Footer />
       <WhatsAppButton />
