@@ -40,6 +40,7 @@ import AdminCategories from "./pages/admin/AdminCategories";
 import CaseDetail from "./pages/CaseDetail";
 import ProtectedRoute from "./components/admin/ProtectedRoute";
 import CookieBanner from "./components/CookieBanner";
+import ScrollToTop from "./components/ScrollToTop";
 
 const queryClient = new QueryClient();
 
@@ -50,6 +51,7 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <AuthProvider>
+          <ScrollToTop />
           <CookieBanner />
           <Routes>
             <Route path="/" element={<Index />} />
