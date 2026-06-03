@@ -48,6 +48,7 @@ const AdminHome = () => {
           <Field label="CTA Primário" value={form.hero.ctaPrimary} onChange={v => setForm({ ...form, hero: { ...form.hero, ctaPrimary: v } })} />
           <Field label="CTA Secundário" value={form.hero.ctaSecondary} onChange={v => setForm({ ...form, hero: { ...form.hero, ctaSecondary: v } })} />
           <ImageUpload label="Imagem de fundo (Hero)" value={form.hero.backgroundImage} onChange={v => setForm({ ...form, hero: { ...form.hero, backgroundImage: v } })} folder="home/hero" />
+          <Field label="Showreel YouTube ID (opcional)" value={form.hero.showreelYoutubeId || ''} onChange={v => setForm({ ...form, hero: { ...form.hero, showreelYoutubeId: v } })} />
           <ListEditor
             label="Pilares"
             items={form.hero.pillars}
@@ -57,6 +58,41 @@ const AdminHome = () => {
               <>
                 <Field label="Título" value={item.title} onChange={v => update('title', v)} />
                 <Field label="Descrição" value={item.description} onChange={v => update('description', v)} />
+              </>
+            )}
+          />
+        </SectionCard>
+
+        {/* Audiovisual em destaque */}
+        <SectionCard title="Audiovisual em destaque">
+          <Field label="Badge" value={form.audiovisual.badge} onChange={v => setForm({ ...form, audiovisual: { ...form.audiovisual, badge: v } })} />
+          <Field label="Título" value={form.audiovisual.title} onChange={v => setForm({ ...form, audiovisual: { ...form.audiovisual, title: v } })} />
+          <Field label="Título (destaque)" value={form.audiovisual.titleHighlight} onChange={v => setForm({ ...form, audiovisual: { ...form.audiovisual, titleHighlight: v } })} />
+          <Field label="Subtítulo" value={form.audiovisual.subtitle} onChange={v => setForm({ ...form, audiovisual: { ...form.audiovisual, subtitle: v } })} multiline />
+          <Field label="Vídeo destaque (YouTube ID)" value={form.audiovisual.featuredYoutubeId} onChange={v => setForm({ ...form, audiovisual: { ...form.audiovisual, featuredYoutubeId: v } })} />
+          <Field label="CTA" value={form.audiovisual.cta} onChange={v => setForm({ ...form, audiovisual: { ...form.audiovisual, cta: v } })} />
+          <Field label="Link do CTA" value={form.audiovisual.ctaLink} onChange={v => setForm({ ...form, audiovisual: { ...form.audiovisual, ctaLink: v } })} />
+          <ListEditor
+            label="Cards de produções"
+            items={form.audiovisual.items}
+            onChange={items => setForm({ ...form, audiovisual: { ...form.audiovisual, items } })}
+            createItem={() => ({ title: '', category: '', youtubeId: '', imageUrl: '', link: '' })}
+            renderItem={(item, idx, update) => (
+              <>
+                <Field label="Título" value={item.title} onChange={v => update('title', v)} />
+                <Field label="Categoria" value={item.category} onChange={v => update('category', v)} />
+                <Field label="YouTube ID (opcional)" value={item.youtubeId || ''} onChange={v => update('youtubeId', v)} />
+                <ImageUpload
+                  label="Imagem / thumbnail (opcional)"
+                  value={item.imageUrl || ''}
+                  onChange={v => {
+                    const updated = [...form.audiovisual.items];
+                    updated[idx] = { ...updated[idx], imageUrl: v };
+                    setForm({ ...form, audiovisual: { ...form.audiovisual, items: updated } });
+                  }}
+                  folder="home/audiovisual"
+                />
+                <Field label="Link (opcional)" value={item.link || ''} onChange={v => update('link', v)} />
               </>
             )}
           />
