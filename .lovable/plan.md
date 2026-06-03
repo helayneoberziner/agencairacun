@@ -1,132 +1,106 @@
+# Reestruturação Premium do Home da Racun
 
-# Evolução premium: Cases vivos, vídeos híbridos, CTA global
+Reorganização completa do Home priorizando audiovisual como protagonista, mantendo 100% a identidade visual atual (dark premium, glow magenta/roxo, DM Serif + Inter, italic em #FF00CC).
 
-Plano consolidado dos 10 grupos de melhorias (itens 17–26). Tudo mantendo identidade dark premium da Racun (cores, tipografia DM Serif Display + Inter, gradientes, grão).
+## Nova ordem de seções
 
-## 1. Sistema híbrido de vídeos (YouTube + upload) — item 17, 22
+```
+1. Hero (cinematográfico + partículas leves + showreel lazy)
+2. Clientes que confiam (marquee infinito)            ← NOVO no topo
+3. Audiovisual em destaque (protagonista)             ← SUBIDO
+4. Marketing de performance (com métricas/visual)     ← DEPOIS
+5. Cases / Projetos (slider premium)
+6. Segmentos que atendemos (com botão "Saiba mais")
+7. Prova social (depoimentos + logos marquee)         ← JÁ FEITO
+8. Processo da Racun
+9. Contato (form + mapa lateral)                      ← JÁ FEITO
+```
 
-- Criar utilitário `src/lib/videoUtils.ts`:
-  - `parseYouTube(url)` reconhece: `youtube.com/watch?v=`, `youtu.be/`, `/shorts/`, `/embed/`.
-  - `getYouTubeThumb(id, quality)` → `https://img.youtube.com/vi/{id}/maxresdefault.jpg` com fallback hqdefault.
-  - `getEmbedUrl(id)` com `rel=0&modestbranding=1`.
-- Novo componente `src/components/media/VideoPlayer.tsx`:
-  - Recebe URL. Se YouTube → renderiza thumb + play overlay; ao clicar carrega iframe (lazy, facade pattern para performance).
-  - Se for arquivo (mp4/webm/mov) → `<video controls preload="metadata">` com poster.
-- No admin, campo de vídeo passa a ser um `VideoInput` com 2 modos:
-  - **YouTube** (preferencial): input de URL + preview da thumb + título manual.
-  - **Upload/Biblioteca**: abre MediaPicker filtrando vídeos.
-- Thumb automática: quando há vídeo YouTube e nenhuma `image_url`, o front e o card usam a thumb do YouTube automaticamente.
+## O que muda em cada seção
 
-## 2. Biblioteca de Mídia híbrida — item 18
+**1. HeroSection**
+- Mantém estrutura/copy, evolui visualmente
+- Adiciona `ParticlesBackground` já existente, modo discreto
+- Slot opcional `hero.showreelYoutubeId` (CMS) → `VideoPlayer` facade lazy
+- CTAs mais sólidos ("Solicitar proposta" / "Ver nossos cases")
 
-Evoluir `AdminMedia.tsx` e `MediaPicker.tsx`:
-- Adicionar suporte a **vídeos YouTube** como assets (sem upload de arquivo).
-- Coluna `kind` no `media_assets`: `image` | `video_file` | `video_youtube`.
-- Novos campos: `youtube_id`, `youtube_title`.
-- Badge no card: "YouTube" / "Arquivo" / imagem normal.
-- Filtros existentes (Imagens/Vídeos) + filtro por pasta (já existe).
-- Botão **"Adicionar vídeo do YouTube"** no header da biblioteca → modal com URL, busca thumb automaticamente.
+**2. ClientsStrip (novo componente)**
+- Faixa de logos com marquee infinito (reaproveita lógica de `useInfiniteMarquee` da `SocialProofSection`)
+- Hover/touch pausa, grayscale → cor
+- Usa `useClientLogos` + fallback com nomes (Prisma, Assadão, Scottini, Kaj Club, Calafate, Braseiro, Parceiros Internet)
+- Extrai hook reutilizável para `src/hooks/useInfiniteMarquee.ts`
 
-## 3. Cases vivos por slug — item 19
+**3. AudiovisualShowcase (novo, substitui posição atual do ProdutoraTeaser)**
+- Título "Histórias com estética de cinema"
+- Grid cinematográfico: 1 vídeo grande + cards menores (institucional, reels, drone, fotos, gastronomia, eventos, política)
+- Cards usam `VideoPlayer` facade (lazy YouTube)
+- Hover: zoom 1.03 + glow magenta
+- Botão "Ver produções" → /produtora
+- Todo conteúdo (título, subtítulo, tags, lista de mídias com YouTube ID/imagem/categoria/CTA) editável via CMS em `home_content.audiovisual`
 
-Nova arquitetura: **um cliente = um case = uma página** que evolui com o tempo.
+**4. ServicesSection (Marketing)**
+- Continua, mas reposicionado depois do audiovisual
+- Reescreve o cabeçalho para puxar "Marketing de performance"
+- Pequenos chips de métricas/resultados acima dos cards (editáveis via CMS, sem números fake — placeholders genéricos tipo "ROAS acompanhado", "Otimização semanal")
 
-- Tabela `cases` (nova):
-  - `slug` (único), `client_name`, `title`, `subtitle`, `hero_media` (url ou youtube), `hero_kind`, `challenge`, `strategy`, `solution`, `results_text`, `metrics` (jsonb), `testimonial_text`, `testimonial_author`, `categories` (text[]), `segments` (text[]), `is_featured`, `show_on_home`, `display_order`, `seo_*`.
-- Tabela `case_media` (galeria evolutiva):
-  - `case_id`, `kind` (image | video_youtube | video_file), `url`, `youtube_id`, `caption`, `section` (audiovisual | marketing | bastidores | results), `display_order`.
-- Página `src/pages/CaseDetail.tsx` em rota `/cases/:slug` com seções:
-  1. Hero cinematográfico (vídeo ou imagem grande)
-  2. "O que fizemos" (desafio + estratégia)
-  3. Audiovisual (grid das mídias com `section=audiovisual`)
-  4. Marketing (mídias com `section=marketing` + texto)
-  5. Resultados (métricas em cards)
-  6. Galeria premium (lightbox misturando vídeos + imagens)
-  7. Depoimento (se houver)
-  8. CTA final global
+**5. CasesPreview**
+- Mantém componente, ajusta layout: cards maiores, mais respiro, hover cinematográfico
+- Reusa o mesmo Card que já busca `cases` ativos
 
-- Admin `AdminCases.tsx` (substitui/expande `AdminProjects` ou convive):
-  - Lista de cases por cliente.
-  - Editor com abas: Informações · Audiovisual · Marketing · Resultados · Galeria · SEO.
-  - Cada aba permite adicionar múltiplas mídias (YouTube + upload + biblioteca) com drag-and-drop para reordenar.
+**6. MarketsSection (Segmentos)**
+- Adiciona botão "Saiba mais" em cada card linkando para /segmentos/:slug
 
-> Decisão: manter `projects` como tabela legada/portfólio simples e introduzir `cases` como nova entidade. Migração: cases existentes em `projects` com `category='case'` podem ser portados via script (faço uma migração suave). Confirmo no chat antes de remover.
+**7. SocialProofSection** — já feita, mantém
 
-## 4. Menu "Cases" + listagem + Home automática — item 20
+**8. ProcessSection** — refino visual sutil (numeração com glow, linha conectora premium, sem mudar copy)
 
-- Header: renomear link "Trabalhos" → "Cases" (rota `/cases`).
-- Página `/cases` (Cases.tsx existente refatorada): grid premium dos cases ativos, filtros por categoria/segmento, hover sofisticado, clique → `/cases/:slug`.
-- Home `CasesPreview.tsx`: query automática `cases.show_on_home=true` ordenados por `display_order`.
-- Admin: checkbox **"Exibir na Home"** em cada case.
+**9. ContactSection** — já feita com mapa lateral
 
-## 5. Galeria múltipla com drag-and-drop — item 21
+## Bug de scroll
+Criar `src/components/ScrollToTop.tsx` que escuta `useLocation` e faz `window.scrollTo(0, 0)` em cada mudança de rota. Montar dentro do `BrowserRouter` no `App.tsx`.
 
-- Componente `MediaGalleryEditor` usando `@dnd-kit/sortable` (já é padrão em React/Tailwind).
-- Aceita imagens + vídeos misturados, reordenação visual, remoção, edição de caption.
+## CMS (sem quebrar nada)
+Estender `useHomeContent.ts` com novos campos opcionais (mantendo defaults):
+- `hero.showreelYoutubeId`
+- `audiovisual`: { badge, title, titleHighlight, subtitle, featuredYoutubeId, items: [{ title, category, youtubeId?, imageUrl?, link? }], cta, ctaLink }
+- `services.metrics`: string[] (chips acima dos cards)
 
-## 6. Categorias dinâmicas — item 23
+Adicionar no `AdminHome.tsx` blocos de edição correspondentes seguindo o mesmo padrão dos existentes (ContentEditorFields).
 
-- Tabela `categories` (`id`, `name`, `slug`, `display_order`, `kind` = "case"|"project").
-- Seed inicial: Foto, Vídeo, **Foto + Vídeo**.
-- Tela `AdminCategories` (CRUD + reordenação drag-and-drop).
-- Selects no editor de case/projeto puxam dessa tabela.
+## Mobile premium
+- Tipografia responsiva (`text-3xl md:text-5xl`)
+- Marquees com largura de cards menores em < 640px
+- Particles desativadas em mobile (perf)
+- Padding consistente (`section-padding`)
+- Auditoria: Hero, ClientsStrip, Audiovisual, Services, Cases, Markets, SocialProof, Process, Contact
 
-## 7. CTA global em todas as páginas — item 24
+## Arquivos
 
-- Componente `src/components/cta/GlobalCTA.tsx`:
-  - Props: `title`, `subtitle`, `context` (passado como `segment` no lead).
-  - Formulário completo (Nome, Empresa, WhatsApp, E-mail, Serviço, Mensagem) + botão WhatsApp.
-  - Reuso do `useContactForm` (já validado com zod).
-- Incluído em: Home, Cases (lista), CaseDetail, Segmentos, Sobre, Marketing, Produtora, Restaurantes.
+**Novos**
+- `src/components/ScrollToTop.tsx`
+- `src/hooks/useInfiniteMarquee.ts` (extraído da SocialProofSection)
+- `src/components/home/ClientsStrip.tsx`
+- `src/components/home/AudiovisualShowcase.tsx`
 
-## 8. Contato com mapa ao lado — item 25
+**Modificados**
+- `src/App.tsx` (montar ScrollToTop)
+- `src/pages/Index.tsx` (nova ordem)
+- `src/components/home/HeroSection.tsx` (particles + showreel slot + CTA)
+- `src/components/home/SocialProofSection.tsx` (usa hook extraído)
+- `src/components/home/ServicesSection.tsx` (header reescrito + chips)
+- `src/components/home/MarketsSection.tsx` (botão "Saiba mais")
+- `src/components/home/ProcessSection.tsx` (refino visual)
+- `src/components/home/CasesPreview.tsx` (respiro/cards maiores)
+- `src/hooks/useHomeContent.ts` (novos campos + defaults)
+- `src/pages/admin/AdminHome.tsx` (editores novos)
 
-Refatorar `ContactSection.tsx` (e/ou `Contato.tsx`):
-- Layout 2 colunas em desktop:
-  - **Esquerda**: título "Vamos conversar sobre o seu projeto?", texto curto, botão WhatsApp grande, **abaixo do botão**: `LocationMap` premium com bordas suaves + botão "Abrir no Google Maps".
-  - **Direita**: formulário premium dark.
-- Mobile: empilhar (texto → WhatsApp → mapa → formulário).
-- Remover o mapa solto que aparece atualmente abaixo do formulário em `Index.tsx`.
+**Removido do fluxo do Home** (mas arquivo preservado):
+- `ProdutoraTeaser` (substituído por AudiovisualShowcase, fica disponível caso queira reusar em outra página)
 
-## 9. Performance + SEO — item 26
+## Sem migration
+Nenhuma alteração de schema. Tudo persistido em `site_content.home_content` (JSON) que já existe e é editável.
 
-- YouTube facade (carregar iframe só no clique) — ganho enorme de LCP.
-- `loading="lazy"` em imagens; `preload="metadata"` em vídeos.
-- Thumbs YouTube via `i.ytimg.com` (cacheado pelo Google).
-- `<link rel="preconnect" href="https://www.youtube.com">` no `index.html`.
-- Meta tags (title/description/og) por case via React Helmet (já em uso? caso não, adiciono `react-helmet-async`).
-- Sitemap dinâmico de cases (`/cases/*`) em arquivo estático gerado on build (opcional).
-
-## Detalhes técnicos (apêndice)
-
-### Migrações necessárias (em uma única chamada da migration tool)
-- `media_assets`: add `kind`, `youtube_id`, `youtube_title` (nullable).
-- `cases` + `case_media` + RLS + GRANTs + triggers `updated_at`.
-- `categories` + RLS + GRANTs + seed.
-- Trigger updated_at já existe (`update_updated_at_column`).
-
-### Dependências novas
-- `@dnd-kit/core` + `@dnd-kit/sortable` (drag-and-drop).
-- `react-helmet-async` (se ainda não estiver) para SEO por case.
-
-### Estimativa de arquivos
-- Novos: ~12 (player, picker upgrade, cases pages, admin cases, categorias, CTA global, video utils, gallery editor).
-- Editados: ~10 (Header, Index, ContactSection, MarketsSection, SegmentLandingPage, AdminMedia, MediaPicker, ImageUpload, App.tsx, types).
-
-### Ordem de execução
-1. Migrações DB (cases, case_media, categories, media_assets cols).
-2. videoUtils + VideoPlayer + MediaPicker/AdminMedia híbridos.
-3. GlobalCTA + ContactSection novo layout.
-4. Cases: listagem `/cases` + página `/cases/:slug` + admin.
-5. Header rename + Home `CasesPreview` automático.
-6. Categorias dinâmicas.
-7. Polimento de performance + SEO meta.
-
-## Observações / confirmações antes de implementar
-
-1. **Cases vs Projects**: posso manter `projects` para portfólio audiovisual segmentado (já usado nas páginas de segmento) e criar `cases` como entidade nova focada em clientes. OK?
-2. **Migração de dados**: cases existentes hoje estão em `projects` com `category='Cases'`? Se sim, faço script de migração para `cases` preservando histórico. Confirme.
-3. **Mapa**: usar embed simples do Google Maps (gratuito, sem API key) ou o componente `LocationMap` já existente? Posso seguir com o atual estilizado.
-4. **Páginas a receber o GlobalCTA**: confirma a lista (Home, Cases, CaseDetail, Segmentos, Sobre, Marketing, Produtora, Restaurantes)?
-
-Respondendo essas 4, sigo direto pelas migrações e implementação na ordem acima.
+## Confirmar antes de implementar
+1. **Showreel do hero**: posso deixar o campo do YouTube ID vazio por padrão (você cola depois no admin), ou tem um link agora?
+2. **Audiovisual em destaque**: começo com placeholders (você popula depois pelo admin) ou quer que eu já preencha com itens existentes na tabela `cases` que tenham mídia audiovisual?
+3. **ProdutoraTeaser atual**: posso aposentar do Home (mantendo o arquivo) já que o novo `AudiovisualShowcase` cumpre o papel com mais força?
