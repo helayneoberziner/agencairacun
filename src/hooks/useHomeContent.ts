@@ -12,6 +12,7 @@ export interface HomeContent {
     ctaSecondary: string;
     pillars: { title: string; description: string }[];
     backgroundImage: string;
+    showreelYoutubeId?: string;
   };
   services: {
     badge: string;
@@ -20,6 +21,7 @@ export interface HomeContent {
     subtitle: string;
     items: { title: string; description: string; features: string[] }[];
     cta: string;
+    metrics?: string[];
   };
   socialProof: {
     badge: string;
@@ -38,6 +40,16 @@ export interface HomeContent {
     cta: string;
     ctaLink: string;
     image: string;
+  };
+  audiovisual: {
+    badge: string;
+    title: string;
+    titleHighlight: string;
+    subtitle: string;
+    featuredYoutubeId: string;
+    items: { title: string; category: string; youtubeId?: string; imageUrl?: string; link?: string }[];
+    cta: string;
+    ctaLink: string;
   };
   restaurantesTeaser: {
     badge: string;
@@ -140,6 +152,23 @@ const defaultContent: HomeContent = {
     floatingLabel: 'Engajamento',
     badgeText: '📍 Alcance local + Delivery',
     image: '',
+  },
+  audiovisual: {
+    badge: 'Produtora Racun',
+    title: 'Histórias com',
+    titleHighlight: 'estética de cinema',
+    subtitle: 'Filmes institucionais, campanhas, reels premium, drone e cobertura completa. Cada projeto tratado com a qualidade de uma produção cinematográfica.',
+    featuredYoutubeId: '',
+    items: [
+      { title: 'Filmes institucionais', category: 'Institucional' },
+      { title: 'Reels premium', category: 'Conteúdo' },
+      { title: 'Captação com drone', category: 'Aéreo' },
+      { title: 'Gastronomia', category: 'Restaurantes' },
+      { title: 'Cobertura de eventos', category: 'Eventos' },
+      { title: 'Campanhas políticas', category: 'Política' },
+    ],
+    cta: 'Ver produções',
+    ctaLink: '/produtora',
   },
   casesPreview: {
     badge: 'Cases',
