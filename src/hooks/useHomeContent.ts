@@ -218,6 +218,11 @@ export function useHomeContent() {
         services: { ...defaultContent.services, ...saved.services },
         socialProof: { ...defaultContent.socialProof, ...saved.socialProof },
         produtoraTeaser: { ...defaultContent.produtoraTeaser, ...saved.produtoraTeaser },
+        audiovisual: {
+          ...defaultContent.audiovisual,
+          ...saved.audiovisual,
+          items: saved.audiovisual?.items ?? defaultContent.audiovisual.items,
+        },
         restaurantesTeaser: { ...defaultContent.restaurantesTeaser, ...saved.restaurantesTeaser },
         casesPreview: { ...defaultContent.casesPreview, ...saved.casesPreview },
         process: { ...defaultContent.process, ...saved.process },
