@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
-import { ArrowRight, Target, Sparkles, TrendingUp } from 'lucide-react';
+import { ArrowRight, Target, Sparkles, TrendingUp, Play } from 'lucide-react';
 import ParticlesBackground from '../ParticlesBackground';
+import VideoPlayer from '@/components/media/VideoPlayer';
 import { useHomeContent } from '@/hooks/useHomeContent';
 
 const iconMap = [Target, Sparkles, TrendingUp];
@@ -8,6 +9,7 @@ const iconMap = [Target, Sparkles, TrendingUp];
 const HeroSection = () => {
   const { content } = useHomeContent();
   const h = content.hero;
+  const showreel = h.showreelYoutubeId?.trim();
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
@@ -51,15 +53,25 @@ const HeroSection = () => {
 
           {/* CTAs */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 md:gap-4 animate-fade-in delay-300">
-            <Link to="/contato" className="btn-primary flex items-center gap-2 text-base md:text-lg px-6 md:px-8 py-3 md:py-4 w-full sm:w-auto justify-center">
+            <Link to="/contato" className="btn-primary flex items-center gap-2 text-base md:text-lg px-6 md:px-8 py-3 md:py-4 w-full sm:w-auto justify-center group">
               {h.ctaPrimary}
-              <ArrowRight className="w-5 h-5" />
+              <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
             </Link>
-            <Link to="/cases" className="btn-outline flex items-center gap-2 text-base md:text-lg px-6 md:px-8 py-3 md:py-4 w-full sm:w-auto justify-center">
+            <Link to="/cases" className="btn-outline flex items-center gap-2 text-base md:text-lg px-6 md:px-8 py-3 md:py-4 w-full sm:w-auto justify-center group">
+              <Play className="w-4 h-4 fill-current" />
               {h.ctaSecondary}
             </Link>
           </div>
         </div>
+
+        {/* Optional showreel */}
+        {showreel && (
+          <div className="max-w-4xl mx-auto mb-10 md:mb-16 animate-fade-in delay-300">
+            <div className="rounded-2xl overflow-hidden border border-white/10 shadow-[0_30px_80px_-30px_hsl(var(--primary)/0.45)]">
+              <VideoPlayer url={`https://www.youtube.com/watch?v=${showreel}`} title="Showreel Racun" aspect="aspect-video" />
+            </div>
+          </div>
+        )}
 
         {/* Pillars */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 mt-10 md:mt-16 animate-fade-in delay-400">
