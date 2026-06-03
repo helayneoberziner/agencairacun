@@ -6,6 +6,8 @@ export interface Testimonial {
   quote: string;
   name: string;
   role: string;
+  image_url?: string;
+  rating?: number;
 }
 
 const SECTION_KEY = 'testimonials';
