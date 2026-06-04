@@ -242,40 +242,16 @@ const SegmentLandingPage = ({ slug }: Props) => {
           </section>
         )}
 
-        {/* PORTFÓLIO DO SEGMENTO */}
-        {portfolioProjects.length > 0 && (
-          <section className="section-padding bg-secondary/20">
-            <div className="container-custom">
-              <div className="text-center mb-12">
-                <span className="text-primary text-sm font-medium uppercase tracking-wider mb-4 block">Portfólio</span>
-                <h2 className="text-3xl md:text-5xl font-display font-bold">
-                  <span className="text-gradient-neon italic">{c.portfolio.title}</span>
-                </h2>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {portfolioProjects.map((p: any) => {
-                  const yid = p.video_url ? extractYoutubeId(p.video_url) : null;
-                  const thumb = p.image_url || (yid ? `https://img.youtube.com/vi/${yid}/hqdefault.jpg` : null);
-                  return (
-                    <div key={p.id} onClick={() => yid ? setPhotoModal(`yt:${yid}`) : thumb && setPhotoModal(thumb)} className="group cursor-pointer relative rounded-xl overflow-hidden aspect-video grayscale hover:grayscale-0 transition-all duration-500">
-                      {thumb && <img src={thumb} alt={p.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.03]" loading="lazy" />}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
-                      <div className="absolute bottom-4 left-4 right-4">
-                        <h3 className="font-display font-bold text-white uppercase">{p.title}</h3>
-                        {p.subcategory && <span className="text-xs text-white/60">{p.subcategory}</span>}
-                      </div>
-                      {yid && (
-                        <div className="absolute top-4 right-4 w-10 h-10 rounded-full bg-primary flex items-center justify-center">
-                          <Play className="w-4 h-4 text-primary-foreground ml-0.5" />
-                        </div>
-                      )}
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          </section>
-        )}
+        {/* PORTFÓLIO VIVO DO SEGMENTO (cases + case_media) */}
+        <SegmentPortfolioGallery
+          slug={slug}
+          segmentLabel={page.name}
+          title={c.portfolio?.title || 'Portfólio'}
+          highlight="ao vivo"
+        />
+
+        {/* LOGOS DE CLIENTES DO SEGMENTO */}
+        <SegmentClientsStrip slug={slug} />
 
         {/* GALERIA */}
         {c.gallery?.images?.length > 0 && (
