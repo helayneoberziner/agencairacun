@@ -21,6 +21,7 @@ import {
   Layers
   , Briefcase
   , Tags
+  , Users
 } from 'lucide-react';
  import { useState } from 'react';
  
@@ -61,6 +62,7 @@ import {
           { name: 'Segmentos', path: '/admin/segments', icon: Layers },
           { name: 'Mídia', path: '/admin/media', icon: Image },
           { name: 'Depoimentos', path: '/admin/testimonials', icon: Quote },
+          { name: 'Equipe', path: '/admin/team', icon: Users },
         ],
       },
       {

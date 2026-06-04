@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
 import {
   ArrowRight, Play, X, ChevronDown,
   Target, MapPin, Users, Repeat, MessageSquare, LineChart,
@@ -14,7 +13,10 @@ import SegmentLeadForm from '@/components/segment/SegmentLeadForm';
 import { useSegmentPage } from '@/hooks/useSegmentPage';
 import { useSiteSettings } from '@/hooks/useSiteSettings';
 import { useTestimonials } from '@/hooks/useTestimonials';
-import { supabase } from '@/integrations/supabase/client';
+import SegmentPortfolioGallery from './SegmentPortfolioGallery';
+import SegmentClientsStrip from './SegmentClientsStrip';
+import GlobalCTA from '@/components/cta/GlobalCTA';
+import { normalizeSegment } from '@/lib/segments';
 
 const iconMap: Record<string, any> = {
   Target, MapPin, Users, Repeat, MessageSquare, LineChart,
@@ -38,28 +40,7 @@ const SegmentLandingPage = ({ slug }: Props) => {
   const [videoOpen, setVideoOpen] = useState(false);
   const [photoModal, setPhotoModal] = useState<string | null>(null);
 
-  const { data: portfolioProjects = [] } = useQuery({
-    queryKey: ['segment-portfolio', page?.id, page?.name, page?.content?.portfolio?.projectIds],
-    enabled: !!page,
-    queryFn: async () => {
-      const ids = page?.content?.portfolio?.projectIds ?? [];
-      const { data } = await supabase
-        .from('projects')
-        .select('id,title,subcategory,image_url,video_url')
-        .order('display_order', { ascending: true });
-      const all = data ?? [];
-      // Manual selection wins
-      if (ids.length > 0) {
-        const set = new Set(ids);
-        return all.filter((p: any) => set.has(p.id));
-      }
-      // Auto filter by subcategory matching the segment (name or slug)
-      const norm = (s: string) =>
-        (s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim();
-      const targets = [norm(page?.name || ''), norm(slug)];
-      return all.filter((p: any) => p.subcategory && targets.includes(norm(p.subcategory)));
-    },
-  });
+  // Portfolio gallery now reads from cases/case_media via SegmentPortfolioGallery
 
   // SEO
   useEffect(() => {
@@ -133,7 +114,11 @@ const SegmentLandingPage = ({ slug }: Props) => {
   const heroYouTubeId = c.hero.mediaType === 'video' ? extractYoutubeId(c.hero.mediaUrl) : null;
   const featuredYouTubeId = extractYoutubeId(c.videoFeatured?.youtubeId || '');
   const whatsappLink = `https://wa.me/${settings.whatsapp}?text=${encodeURIComponent(c.finalCta.whatsappMessage || `Olá! Quero falar sobre ${page.name}.`)}`;
-  const segmentTestimonials = testimonials.filter(t => c.testimonialIds?.includes(t.id));
+  const segNorm = normalizeSegment(slug);
+  const segmentTestimonials = testimonials.filter(t => {
+    if ((t.segments || []).map(normalizeSegment).includes(segNorm)) return true;
+    return c.testimonialIds?.includes(t.id);
+  });
 
   const renderServiceCard = (item: any, i: number) => {
     const Icon = iconMap[item.icon] || Sparkles;
@@ -255,40 +240,16 @@ const SegmentLandingPage = ({ slug }: Props) => {
           </section>
         )}
 
-        {/* PORTFÓLIO DO SEGMENTO */}
-        {portfolioProjects.length > 0 && (
-          <section className="section-padding bg-secondary/20">
-            <div className="container-custom">
-              <div className="text-center mb-12">
-                <span className="text-primary text-sm font-medium uppercase tracking-wider mb-4 block">Portfólio</span>
-                <h2 className="text-3xl md:text-5xl font-display font-bold">
-                  <span className="text-gradient-neon italic">{c.portfolio.title}</span>
-                </h2>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {portfolioProjects.map((p: any) => {
-                  const yid = p.video_url ? extractYoutubeId(p.video_url) : null;
-                  const thumb = p.image_url || (yid ? `https://img.youtube.com/vi/${yid}/hqdefault.jpg` : null);
-                  return (
-                    <div key={p.id} onClick={() => yid ? setPhotoModal(`yt:${yid}`) : thumb && setPhotoModal(thumb)} className="group cursor-pointer relative rounded-xl overflow-hidden aspect-video grayscale hover:grayscale-0 transition-all duration-500">
-                      {thumb && <img src={thumb} alt={p.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.03]" loading="lazy" />}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
-                      <div className="absolute bottom-4 left-4 right-4">
-                        <h3 className="font-display font-bold text-white uppercase">{p.title}</h3>
-                        {p.subcategory && <span className="text-xs text-white/60">{p.subcategory}</span>}
-                      </div>
-                      {yid && (
-                        <div className="absolute top-4 right-4 w-10 h-10 rounded-full bg-primary flex items-center justify-center">
-                          <Play className="w-4 h-4 text-primary-foreground ml-0.5" />
-                        </div>
-                      )}
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          </section>
-        )}
+        {/* PORTFÓLIO VIVO DO SEGMENTO (cases + case_media) */}
+        <SegmentPortfolioGallery
+          slug={slug}
+          segmentLabel={page.name}
+          title={c.portfolio?.title || 'Portfólio'}
+          highlight="ao vivo"
+        />
+
+        {/* LOGOS DE CLIENTES DO SEGMENTO */}
+        <SegmentClientsStrip slug={slug} />
 
         {/* GALERIA */}
         {c.gallery?.images?.length > 0 && (
@@ -357,8 +318,15 @@ const SegmentLandingPage = ({ slug }: Props) => {
           </section>
         )}
 
-        {/* FORMULÁRIO DE CONVERSÃO — CTA FINAL */}
+        {/* FORMULÁRIO DE CONVERSÃO — Lead curto */}
         <SegmentLeadForm segmentName={page.name} />
+
+        {/* CTA PREMIUM GLOBAL */}
+        <GlobalCTA
+          context={page.name}
+          title={c.finalCta?.title ? (<>{c.finalCta.title}</>) : (<>Vamos elevar a sua marca em <span className="text-gradient-neon italic">{page.name}?</span></>)}
+          subtitle={c.finalCta?.subtitle || `Fale com a Racun e receba um plano sob medida para ${page.name}.`}
+        />
       </main>
 
       <Footer />

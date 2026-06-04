@@ -60,15 +60,19 @@ export type Database = {
       }
       cases: {
         Row: {
+          appears_in: string[]
           categories: string[]
+          category: string | null
           challenge: string | null
           client_name: string
+          cover_media_id: string | null
           created_at: string
           display_order: number
           hero_image_url: string | null
           hero_kind: string
           hero_media_url: string | null
           hero_youtube_id: string | null
+          home_featured: boolean
           id: string
           is_active: boolean
           is_featured: boolean
@@ -82,6 +86,7 @@ export type Database = {
           slug: string
           solution: string | null
           strategy: string | null
+          subcategory: string | null
           subtitle: string | null
           testimonial_author: string | null
           testimonial_text: string | null
@@ -89,15 +94,19 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          appears_in?: string[]
           categories?: string[]
+          category?: string | null
           challenge?: string | null
           client_name: string
+          cover_media_id?: string | null
           created_at?: string
           display_order?: number
           hero_image_url?: string | null
           hero_kind?: string
           hero_media_url?: string | null
           hero_youtube_id?: string | null
+          home_featured?: boolean
           id?: string
           is_active?: boolean
           is_featured?: boolean
@@ -111,6 +120,7 @@ export type Database = {
           slug: string
           solution?: string | null
           strategy?: string | null
+          subcategory?: string | null
           subtitle?: string | null
           testimonial_author?: string | null
           testimonial_text?: string | null
@@ -118,15 +128,19 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          appears_in?: string[]
           categories?: string[]
+          category?: string | null
           challenge?: string | null
           client_name?: string
+          cover_media_id?: string | null
           created_at?: string
           display_order?: number
           hero_image_url?: string | null
           hero_kind?: string
           hero_media_url?: string | null
           hero_youtube_id?: string | null
+          home_featured?: boolean
           id?: string
           is_active?: boolean
           is_featured?: boolean
@@ -140,6 +154,7 @@ export type Database = {
           slug?: string
           solution?: string | null
           strategy?: string | null
+          subcategory?: string | null
           subtitle?: string | null
           testimonial_author?: string | null
           testimonial_text?: string | null

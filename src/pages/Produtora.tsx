@@ -7,6 +7,7 @@ import PortfolioGrid from '@/components/PortfolioGrid';
 import { ArrowRight, Play, X, ChevronDown, Camera } from 'lucide-react';
 import { useProdutoraContent } from '@/hooks/useProdutoraContent';
 import { Video, Megaphone, Building2, CalendarDays, Clapperboard, Target } from 'lucide-react';
+import GlobalCTA from '@/components/cta/GlobalCTA';
 
 const processSteps = ['Briefing', 'Roteiro', 'Captação', 'Direção', 'Pós-produção', 'Entrega'];
 const serviceIcons = [Video, Megaphone, Target, Building2, CalendarDays, Clapperboard];
@@ -213,24 +214,13 @@ const Produtora = () => {
           </div>
         </section>
 
-        {/* ═══ CTA FINAL ═══ */}
-        <section className="section-padding">
-          <div className="container-custom">
-            <div className="glass-card p-12 md:p-16 text-center relative overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-r from-accent/10 via-primary/10 to-accent/10" />
-              <div className="relative z-10">
-                <h2 className="text-3xl md:text-5xl font-display font-bold mb-6">
-                  {cta.title} <span className="text-gradient-neon">{cta.titleHighlight}</span>
-                </h2>
-                <p className="text-muted-foreground text-lg mb-8 max-w-2xl mx-auto">{cta.subtitle}</p>
-                <Link to="/contato" className="btn-primary inline-flex items-center gap-2 text-lg px-8 py-4">
-                  {cta.ctaText}
-                  <ArrowRight className="w-5 h-5" />
-                </Link>
-              </div>
-            </div>
-          </div>
-        </section>
+        {/* ═══ CTA FINAL PREMIUM ═══ */}
+        <GlobalCTA
+          context="Produtora"
+          defaultService="Produtora Audiovisual"
+          title={<>{cta.title} <span className="text-gradient-neon italic">{cta.titleHighlight}</span></>}
+          subtitle={cta.subtitle || 'Vamos criar algo cinematográfico para a sua marca?'}
+        />
       </main>
 
       <Footer />

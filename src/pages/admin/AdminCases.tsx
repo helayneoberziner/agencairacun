@@ -12,6 +12,7 @@ import { toast } from 'sonner';
 import { Plus, Pencil, Trash2, X, Eye, EyeOff, Star } from 'lucide-react';
 import { parseYouTubeId, resolveVideoCover } from '@/lib/videoUtils';
 import { Link } from 'react-router-dom';
+import { SEGMENTS, APPEARS_OPTIONS } from '@/lib/segments';
 
 interface CaseRow {
   id: string;
@@ -39,6 +40,11 @@ interface CaseRow {
   seo_title: string | null;
   seo_description: string | null;
   og_image_url: string | null;
+  category?: string | null;
+  subcategory?: string | null;
+  appears_in?: string[];
+  home_featured?: boolean;
+  cover_media_id?: string | null;
 }
 
 const slugify = (s: string) =>
@@ -53,10 +59,17 @@ const emptyForm = {
   results_text: '',
   metricsRaw: '',
   testimonial_text: '', testimonial_author: '',
-  categoriesRaw: '', segmentsRaw: '',
+  categoriesRaw: '',
+  segments: [] as string[],
+  appears_in: [] as string[],
+  category: '',
+  subcategory: '',
+  home_featured: false,
   is_active: true, is_featured: false, show_on_home: true,
   seo_title: '', seo_description: '', og_image_url: '',
 };
+
+const CATEGORY_OPTIONS = ['Vídeo', 'Fotografia', 'Marketing', 'Branding', 'Filme', 'Drone', 'Institucional'];
 
 const AdminCases = () => {
   const [list, setList] = useState<CaseRow[]>([]);
@@ -86,7 +99,11 @@ const AdminCases = () => {
         metricsRaw: (c.metrics || []).map(m => `${m.label}|${m.value}`).join('\n'),
         testimonial_text: c.testimonial_text ?? '', testimonial_author: c.testimonial_author ?? '',
         categoriesRaw: (c.categories || []).join(', '),
-        segmentsRaw: (c.segments || []).join(', '),
+        segments: c.segments || [],
+        appears_in: c.appears_in || [],
+        category: c.category || '',
+        subcategory: c.subcategory || '',
+        home_featured: !!c.home_featured,
         is_active: c.is_active, is_featured: c.is_featured, show_on_home: c.show_on_home,
         seo_title: c.seo_title ?? '', seo_description: c.seo_description ?? '',
         og_image_url: c.og_image_url ?? '',
@@ -122,7 +139,11 @@ const AdminCases = () => {
       testimonial_text: form.testimonial_text || null,
       testimonial_author: form.testimonial_author || null,
       categories: form.categoriesRaw.split(',').map(s => s.trim()).filter(Boolean),
-      segments: form.segmentsRaw.split(',').map(s => s.trim()).filter(Boolean),
+      segments: form.segments,
+      appears_in: form.appears_in,
+      category: form.category || null,
+      subcategory: form.subcategory || null,
+      home_featured: form.home_featured,
       is_active: form.is_active,
       is_featured: form.is_featured,
       show_on_home: form.show_on_home,
@@ -308,17 +329,74 @@ const AdminCases = () => {
                 <h3 className="font-semibold">Classificação</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label>Categorias (separadas por vírgula)</Label>
-                    <Input value={form.categoriesRaw} onChange={e => setForm({ ...form, categoriesRaw: e.target.value })} placeholder="Vídeo, Marketing" />
+                    <Label>Categoria principal</Label>
+                    <select
+                      className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                      value={form.category}
+                      onChange={e => setForm({ ...form, category: e.target.value })}
+                    >
+                      <option value="">Selecione...</option>
+                      {CATEGORY_OPTIONS.map(c => <option key={c} value={c}>{c}</option>)}
+                    </select>
                   </div>
                   <div className="space-y-2">
-                    <Label>Segmentos (separados por vírgula)</Label>
-                    <Input value={form.segmentsRaw} onChange={e => setForm({ ...form, segmentsRaw: e.target.value })} placeholder="Imobiliário, Eventos" />
+                    <Label>Subcategoria</Label>
+                    <Input value={form.subcategory} onChange={e => setForm({ ...form, subcategory: e.target.value })} placeholder="Ex.: Institucional, Reels, Drone" />
+                  </div>
+                  <div className="space-y-2 md:col-span-2">
+                    <Label>Tags extras (separadas por vírgula)</Label>
+                    <Input value={form.categoriesRaw} onChange={e => setForm({ ...form, categoriesRaw: e.target.value })} placeholder="Vídeo, Marketing" />
                   </div>
                 </div>
+
+                <div className="space-y-2 pt-2">
+                  <Label>Segmentos relacionados</Label>
+                  <div className="flex flex-wrap gap-2">
+                    {SEGMENTS.map(s => {
+                      const active = form.segments.includes(s.slug);
+                      return (
+                        <button
+                          type="button"
+                          key={s.slug}
+                          onClick={() => setForm({
+                            ...form,
+                            segments: active ? form.segments.filter(x => x !== s.slug) : [...form.segments, s.slug],
+                          })}
+                          className={`px-3 py-1.5 rounded-full text-xs font-medium border transition ${active ? 'bg-primary text-primary-foreground border-primary' : 'bg-white/5 text-muted-foreground border-white/10 hover:border-primary/40'}`}
+                        >
+                          {s.label}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                <div className="space-y-2 pt-2">
+                  <Label>Onde esse projeto deve aparecer</Label>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    {APPEARS_OPTIONS.map(opt => {
+                      const active = form.appears_in.includes(opt.value);
+                      return (
+                        <label key={opt.value} className={`flex items-center gap-2 px-3 py-2 rounded-lg border text-sm cursor-pointer transition ${active ? 'bg-primary/10 border-primary/40' : 'bg-white/5 border-white/10 hover:border-primary/30'}`}>
+                          <input
+                            type="checkbox"
+                            checked={active}
+                            onChange={() => setForm({
+                              ...form,
+                              appears_in: active ? form.appears_in.filter(x => x !== opt.value) : [...form.appears_in, opt.value],
+                            })}
+                          />
+                          {opt.label}
+                        </label>
+                      );
+                    })}
+                  </div>
+                </div>
+
                 <div className="flex flex-wrap gap-4 pt-2">
                   <label className="inline-flex items-center gap-2 text-sm"><input type="checkbox" checked={form.show_on_home} onChange={e => setForm({ ...form, show_on_home: e.target.checked })} /> Exibir na Home</label>
-                  <label className="inline-flex items-center gap-2 text-sm"><input type="checkbox" checked={form.is_featured} onChange={e => setForm({ ...form, is_featured: e.target.checked })} /> Destaque</label>
+                  <label className="inline-flex items-center gap-2 text-sm"><input type="checkbox" checked={form.is_featured} onChange={e => setForm({ ...form, is_featured: e.target.checked })} /> Destacar em Cases</label>
+                  <label className="inline-flex items-center gap-2 text-sm"><input type="checkbox" checked={form.home_featured} onChange={e => setForm({ ...form, home_featured: e.target.checked })} /> Destaque na Home Produtora</label>
                   <label className="inline-flex items-center gap-2 text-sm"><input type="checkbox" checked={form.is_active} onChange={e => setForm({ ...form, is_active: e.target.checked })} /> Ativo</label>
                 </div>
               </div>

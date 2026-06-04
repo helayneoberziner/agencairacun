@@ -9,6 +9,7 @@
 import { Plus, Pencil, Trash2, X, Youtube, Image, Star, GripVertical, FolderOpen, CheckSquare, Square } from 'lucide-react';
 import ImageUpload from '@/components/admin/ImageUpload';
 import MediaPicker from '@/components/admin/MediaPicker';
+import { Link } from 'react-router-dom';
  
   interface Project {
     id: string;
@@ -247,10 +248,22 @@ import MediaPicker from '@/components/admin/MediaPicker';
    return (
      <AdminLayout title="Projetos">
        <div className="space-y-6">
+        {/* Banner: novo fluxo unificado */}
+        <div className="glass-card p-4 border border-primary/30 bg-primary/5 flex flex-col md:flex-row md:items-center gap-3">
+          <div className="flex-1">
+            <p className="font-display font-semibold">Novo fluxo unificado: Cases</p>
+            <p className="text-sm text-muted-foreground">
+              Para novos projetos, use o módulo Cases. Lá você cadastra múltiplas mídias (vídeos + fotos), define capa, escolhe segmentos e onde aparecer no site.
+            </p>
+          </div>
+          <Link to="/admin/cases">
+            <Button>Ir para Cases</Button>
+          </Link>
+        </div>
          {/* Header */}
          <div className="flex items-center justify-between">
            <p className="text-muted-foreground">
-             Gerencie os projetos do portfólio
+            Projetos legados (somente leitura recomendada). Edite aqui apenas para manter compatibilidade.
            </p>
            <Button onClick={() => openModal()}>
              <Plus className="w-4 h-4 mr-2" />
