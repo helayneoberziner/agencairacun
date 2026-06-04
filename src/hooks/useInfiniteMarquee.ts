@@ -55,7 +55,8 @@ export function useInfiniteMarquee(pxPerSecond = 40) {
     };
   }, [pxPerSecond]);
 
-  const onPointerEnter = () => { pausedRef.current = true; };
+  // Hover does NOT pause. Only an active pointer down (click/drag/touch hold) pauses.
+  const onPointerEnter = () => { /* no-op: keep playing on hover */ };
   const onPointerLeave = () => {
     pausedRef.current = false;
     dragRef.current = null;
