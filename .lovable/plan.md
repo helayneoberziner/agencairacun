@@ -1,106 +1,148 @@
-# Reestruturação Premium do Home da Racun
+## Auditoria do que existe hoje
 
-Reorganização completa do Home priorizando audiovisual como protagonista, mantendo 100% a identidade visual atual (dark premium, glow magenta/roxo, DM Serif + Inter, italic em #FF00CC).
+**Conteúdo / mídia**
+- `projects` (Supabase): 1 `image_url`, 1 `video_url`, `subcategory`, `is_featured`, `gallery_urls` (não usado em formulário), `client_name`, `testimonial_*`. CMS em `AdminProjects.tsx` só edita 1 imagem + 1 vídeo.
+- `cases` + `case_media` (estrutura nova, multi-mídia já existe). `case_media` aceita várias imagens e vídeos por seções (`audiovisual`, `marketing`, `galeria`, `bastidores`). CMS em `AdminCases.tsx` + `CaseMediaEditor.tsx`.
+- `media_assets` / `media_folders` / bucket `media`: biblioteca pronta.
+- `site_content` JSON: `client_logos` (`useClientLogos`), `testimonials` (`useTestimonials`) — nenhum tem campo `segments`.
 
-## Nova ordem de seções
+**Portfólio nos segmentos** (`SegmentLandingPage.tsx`)
+- Query `segment-portfolio` lê só `projects` (id, title, subcategory, image_url, video_url) e filtra por `subcategory` ou IDs manuais. Clicar abre 1 imagem/1 vídeo.
+- Logos por segmento: NÃO existe (`ClientLogo` é só `id|name|image_url`).
+- Depoimentos por segmento: já filtra por `c.testimonialIds?.includes(t.id)` no JSON do segment_pages — funciona, mas exige cadastrar lista manualmente.
 
-```
-1. Hero (cinematográfico + partículas leves + showreel lazy)
-2. Clientes que confiam (marquee infinito)            ← NOVO no topo
-3. Audiovisual em destaque (protagonista)             ← SUBIDO
-4. Marketing de performance (com métricas/visual)     ← DEPOIS
-5. Cases / Projetos (slider premium)
-6. Segmentos que atendemos (com botão "Saiba mais")
-7. Prova social (depoimentos + logos marquee)         ← JÁ FEITO
-8. Processo da Racun
-9. Contato (form + mapa lateral)                      ← JÁ FEITO
-```
+**Cases / Produtora**
+- `/cases` mostra todos `cases` ativos. `is_featured` no `cases` controla destaque.
+- `/produtora` usa `PortfolioGrid` de `projects` (categoria Vídeo/Filme).
+- Hoje `is_featured` em `projects` faz aparecer em /produtora (na verdade qualquer projeto Vídeo já aparece, e featured só vira badge). Comportamento confuso.
 
-## O que muda em cada seção
+**Marquees** (`useInfiniteMarquee`)
+- `onPointerEnter` pausa no hover. Precisa parar de pausar em hover, só pausar em pointer down/touch.
 
-**1. HeroSection**
-- Mantém estrutura/copy, evolui visualmente
-- Adiciona `ParticlesBackground` já existente, modo discreto
-- Slot opcional `hero.showreelYoutubeId` (CMS) → `VideoPlayer` facade lazy
-- CTAs mais sólidos ("Solicitar proposta" / "Ver nossos cases")
+**CTA**
+- `GlobalCTA.tsx` já existe e está usado em Cases. Falta em `/marketing`, `/produtora`, `/sobre`, segmentos (segmentos têm `SegmentLeadForm` — manter, mas pode substituir).
 
-**2. ClientsStrip (novo componente)**
-- Faixa de logos com marquee infinito (reaproveita lógica de `useInfiniteMarquee` da `SocialProofSection`)
-- Hover/touch pausa, grayscale → cor
-- Usa `useClientLogos` + fallback com nomes (Prisma, Assadão, Scottini, Kaj Club, Calafate, Braseiro, Parceiros Internet)
-- Extrai hook reutilizável para `src/hooks/useInfiniteMarquee.ts`
+**Rotas / 404**
+- Lovable hosting já tem fallback SPA automático. 404 em URLs diretas geralmente é configuração antiga. Conferir `index.html`, `BrowserRouter`, e qualquer `vite.config` com `base`.
 
-**3. AudiovisualShowcase (novo, substitui posição atual do ProdutoraTeaser)**
-- Título "Histórias com estética de cinema"
-- Grid cinematográfico: 1 vídeo grande + cards menores (institucional, reels, drone, fotos, gastronomia, eventos, política)
-- Cards usam `VideoPlayer` facade (lazy YouTube)
-- Hover: zoom 1.03 + glow magenta
-- Botão "Ver produções" → /produtora
-- Todo conteúdo (título, subtítulo, tags, lista de mídias com YouTube ID/imagem/categoria/CTA) editável via CMS em `home_content.audiovisual`
+**Equipe (Sobre)**
+- Tabela `team_members` já existe. `AdminSobre` provavelmente não edita.
 
-**4. ServicesSection (Marketing)**
-- Continua, mas reposicionado depois do audiovisual
-- Reescreve o cabeçalho para puxar "Marketing de performance"
-- Pequenos chips de métricas/resultados acima dos cards (editáveis via CMS, sem números fake — placeholders genéricos tipo "ROAS acompanhado", "Otimização semanal")
+---
 
-**5. CasesPreview**
-- Mantém componente, ajusta layout: cards maiores, mais respiro, hover cinematográfico
-- Reusa o mesmo Card que já busca `cases` ativos
+## Plano de implementação
 
-**6. MarketsSection (Segmentos)**
-- Adiciona botão "Saiba mais" em cada card linkando para /segmentos/:slug
+### 1. Múltiplas mídias por projeto + unificação Projeto = Case
 
-**7. SocialProofSection** — já feita, mantém
+Reaproveitar a tabela `cases` + `case_media` como o "Projeto". A tabela `projects` (legada) continua existindo só para leitura nas páginas antigas; novos cadastros usam `cases`.
 
-**8. ProcessSection** — refino visual sutil (numeração com glow, linha conectora premium, sem mudar copy)
+- **Estender `cases`**: adicionar colunas
+  - `category` text (Vídeo / Fotografia / Marketing / Branding)
+  - `subcategory` text
+  - `appears_in` text[] (`['home_audio','home_mkt','produtora','cases','seg:imobiliario',...]`) — controla onde aparece
+  - `cover_kind` text + `cover_media_id` uuid (referência opcional a um `case_media.id` que vira capa, ou usa `hero_*` existente)
+- **`case_media`**: já suporta N itens. Mostrar UI no admin para múltiplas imagens + vídeos misturados, escolher capa.
+- **AdminProjects**: aposentar UI de criação (manter listagem em modo "Projetos legados") e redirecionar "Novo projeto" para `/admin/cases`.
+- **AdminCases (evoluir)**: adicionar
+  - Galeria com upload múltiplo + add YouTube
+  - Botão "Definir como capa" por item
+  - Checkboxes "Aparecer em": Home Audiovisual / Home Marketing / Produtora / Cases / Segmento X / Y / Z
+  - Toggle "Destacar em Cases" (já = `is_featured`)
+  - Toggle "Destacar na Home produtora" (novo flag `home_featured`)
 
-**9. ContactSection** — já feita com mapa lateral
+### 2. Comportamento de destaque
 
-## Bug de scroll
-Criar `src/components/ScrollToTop.tsx` que escuta `useLocation` e faz `window.scrollTo(0, 0)` em cada mudança de rota. Montar dentro do `BrowserRouter` no `App.tsx`.
+- Todo `case` ativo → automaticamente listado em `/produtora` (não depende de `is_featured`).
+- `is_featured = true` → entra na seção destaque da Home produtora (não vai para `/produtora` exclusivamente).
+- `show_on_home` continua para Home geral.
+- Filtros das páginas usarão `appears_in` quando preenchido; fallback para `segments`/`category`.
 
-## CMS (sem quebrar nada)
-Estender `useHomeContent.ts` com novos campos opcionais (mantendo defaults):
-- `hero.showreelYoutubeId`
-- `audiovisual`: { badge, title, titleHighlight, subtitle, featuredYoutubeId, items: [{ title, category, youtubeId?, imageUrl?, link? }], cta, ctaLink }
-- `services.metrics`: string[] (chips acima dos cards)
+### 3. Portfólio dos segmentos — galeria viva
 
-Adicionar no `AdminHome.tsx` blocos de edição correspondentes seguindo o mesmo padrão dos existentes (ContentEditorFields).
+Reescrever a seção "Portfólio" em `SegmentLandingPage.tsx`:
+- Buscar `cases` cujo `segments` contém o slug **+** todos os `case_media` desses cases.
+- Renderizar grade misturada (vídeos + imagens) tipo masonry/grid premium. Sem "abrir cliente". Clique abre lightbox de vídeo ou imagem inline.
+- Manter fallback: se segmento ainda não tem cases, usar `projects` legados (comportamento atual).
 
-## Mobile premium
-- Tipografia responsiva (`text-3xl md:text-5xl`)
-- Marquees com largura de cards menores em < 640px
-- Particles desativadas em mobile (perf)
-- Padding consistente (`section-padding`)
-- Auditoria: Hero, ClientsStrip, Audiovisual, Services, Cases, Markets, SocialProof, Process, Contact
+### 4. Logos e depoimentos por segmento
 
-## Arquivos
+- **Logos**: estender `ClientLogo` com `segments: string[]`. Editor em `AdminSettings` ganha checkbox de segmentos por logo. Nova seção "Clientes" em `SegmentLandingPage` (logos do segmento, marquee infinita).
+- **Depoimentos**: estender `Testimonial` com `segments: string[]`. `SegmentLandingPage` filtra automaticamente (`t.segments.includes(slug)`), mantendo fallback para `testimonialIds` manuais existentes.
+- CMS `AdminTestimonials` e logos: adicionar multi-select de segmentos.
 
-**Novos**
-- `src/components/ScrollToTop.tsx`
-- `src/hooks/useInfiniteMarquee.ts` (extraído da SocialProofSection)
-- `src/components/home/ClientsStrip.tsx`
-- `src/components/home/AudiovisualShowcase.tsx`
+### 5. Marquees: pausar só em click/drag, não em hover
 
-**Modificados**
-- `src/App.tsx` (montar ScrollToTop)
-- `src/pages/Index.tsx` (nova ordem)
-- `src/components/home/HeroSection.tsx` (particles + showreel slot + CTA)
-- `src/components/home/SocialProofSection.tsx` (usa hook extraído)
-- `src/components/home/ServicesSection.tsx` (header reescrito + chips)
-- `src/components/home/MarketsSection.tsx` (botão "Saiba mais")
-- `src/components/home/ProcessSection.tsx` (refino visual)
-- `src/components/home/CasesPreview.tsx` (respiro/cards maiores)
-- `src/hooks/useHomeContent.ts` (novos campos + defaults)
-- `src/pages/admin/AdminHome.tsx` (editores novos)
+Atualizar `useInfiniteMarquee.ts`: remover pausa em `onPointerEnter`/`Leave`. Manter pausa só durante `pointerdown` ativo (drag). Soltar = volta a rodar. Usado em logos home, depoimentos home e novos marquees de logos segmento.
 
-**Removido do fluxo do Home** (mas arquivo preservado):
-- `ProdutoraTeaser` (substituído por AudiovisualShowcase, fica disponível caso queira reusar em outra página)
+### 6. CTA premium em todas as páginas
 
-## Sem migration
-Nenhuma alteração de schema. Tudo persistido em `site_content.home_content` (JSON) que já existe e é editável.
+`GlobalCTA` já existe. Adicionar em:
+- `/marketing` (final)
+- `/produtora` (substituir CTA atual)
+- `/sobre` (final)
+- Segmentos: substituir `SegmentLeadForm` por `GlobalCTA` + texto personalizado vindo do JSON `content.finalCta`.
+Texto customizado por página, lido do CMS quando disponível, com defaults sugeridos.
 
-## Confirmar antes de implementar
-1. **Showreel do hero**: posso deixar o campo do YouTube ID vazio por padrão (você cola depois no admin), ou tem um link agora?
-2. **Audiovisual em destaque**: começo com placeholders (você popula depois pelo admin) ou quer que eu já preencha com itens existentes na tabela `cases` que tenham mídia audiovisual?
-3. **ProdutoraTeaser atual**: posso aposentar do Home (mantendo o arquivo) já que o novo `AudiovisualShowcase` cumpre o papel com mais força?
+### 7. Página Sobre — equipe
+
+Já existe `team_members`. Adicionar seção "Equipe" em `Sobre.tsx` (foto, nome, cargo, bio curta). Criar `AdminTeam.tsx` (ou subaba em `AdminSobre`) com CRUD: upload foto, nome, cargo, bio, ordem, ativo.
+
+### 8. Bug 404 em URLs diretas
+
+- Confirmar `BrowserRouter` ativo (já está).
+- Conferir `vite.config.ts` (sem `base` customizado quebrando).
+- Adicionar `<base href="/" />` no `index.html` se necessário.
+- Garantir que `agenciaracun.com` (domínio custom) usa hosting Lovable (sem `_redirects`). Documentar para o usuário se precisar reconectar domínio.
+
+### 9. Capa do projeto
+
+No editor de mídia do case: cada item ganha botão estrela "Definir como capa". Salva em `cover_media_id`. `resolveVideoCover` continua como fallback. Capa também pode ser thumb do YouTube ou imagem da biblioteca via picker.
+
+### 10. CMS geral
+
+Tudo via painel:
+- `/admin/cases` (unifica projetos)
+- `/admin/projects` → modo legado/leitura (banner avisa para usar Cases)
+- `/admin/testimonials` → ganha multi-select de segmentos
+- `/admin/settings` (logos) → ganha multi-select de segmentos
+- `/admin/sobre` → ganha aba equipe
+- `/admin/segments` → mantém edição de página + agora puxa portfolio automático
+
+---
+
+## Mudanças técnicas (resumo)
+
+**Migração SQL** (uma só):
+- `cases`: + `category text`, `subcategory text`, `appears_in text[] default '{}'`, `home_featured bool default false`, `cover_media_id uuid`.
+
+**Hooks / tipos**:
+- `useClientLogos`: + `segments: string[]`
+- `useTestimonials`: + `segments: string[]`
+- `useCases`: novos filtros (`appears_in`, segment slug)
+- novo `useTeam` para `team_members`
+
+**Componentes novos**:
+- `SegmentPortfolioGallery.tsx` (grade viva de mídia)
+- `SegmentClientsStrip.tsx` (marquee logos do segmento)
+- `TeamSection.tsx` + `AdminTeam.tsx`
+- `CaseMediaPicker` capa toggle
+
+**Componentes editados**:
+- `useInfiniteMarquee` (pausa só drag)
+- `SegmentLandingPage` (portfolio + logos)
+- `AdminCases` + `CaseMediaEditor` (capa, appears_in, multi-mídia)
+- `AdminProjects` (banner legado)
+- `AdminTestimonials` (segmentos)
+- `AdminSettings` (logos com segmentos)
+- `AdminSobre` (equipe)
+- `Marketing.tsx`, `Produtora.tsx`, `Sobre.tsx` (GlobalCTA final)
+
+**Sem quebrar**: tabela `projects` mantida intacta; `cases` apenas ganha colunas opcionais; JSONs ganham campos opcionais com fallback.
+
+---
+
+## Perguntas antes de partir
+
+1. **Migração projetos → cases**: posso deixar os projetos antigos como leitura (banner "Use Cases para novos cadastros") ou prefere que eu rode um script de migração automática copiando todos os `projects` existentes para `cases` + `case_media`?
+2. **Domínio**: o site está rodando em `agenciaracun.com` hoje? Algum 404 específico que você consegue reproduzir agora (qual URL)? Isso ajuda a confirmar se é fallback SPA ou rota inexistente.
+3. **CTA dos segmentos**: substituo o `SegmentLeadForm` atual pelo `GlobalCTA` premium (mesmo visual do Home) ou mantenho os dois (form curto + CTA grande final)?
