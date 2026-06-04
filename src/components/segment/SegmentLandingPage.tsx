@@ -320,8 +320,15 @@ const SegmentLandingPage = ({ slug }: Props) => {
           </section>
         )}
 
-        {/* FORMULÁRIO DE CONVERSÃO — CTA FINAL */}
+        {/* FORMULÁRIO DE CONVERSÃO — Lead curto */}
         <SegmentLeadForm segmentName={page.name} />
+
+        {/* CTA PREMIUM GLOBAL */}
+        <GlobalCTA
+          context={page.name}
+          title={c.finalCta?.title ? (<>{c.finalCta.title}</>) : (<>Vamos elevar a sua marca em <span className="text-gradient-neon italic">{page.name}?</span></>)}
+          subtitle={c.finalCta?.subtitle || `Fale com a Racun e receba um plano sob medida para ${page.name}.`}
+        />
       </main>
 
       <Footer />
