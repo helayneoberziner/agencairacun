@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Trash2, ChevronUp, ChevronDown, Image as ImgIcon, Video } from 'lucide-react';
+import { Trash2, ChevronUp, ChevronDown, Image as ImgIcon, Video, Star } from 'lucide-react';
 import { toast } from 'sonner';
 import VideoInput from './VideoInput';
 import ImageUpload from './ImageUpload';
@@ -32,12 +32,22 @@ const CaseMediaEditor = ({ caseId }: { caseId: string }) => {
   const [addKind, setAddKind] = useState<'image' | 'video'>('video');
   const [draftUrl, setDraftUrl] = useState('');
   const [draftCaption, setDraftCaption] = useState('');
+  const [coverId, setCoverId] = useState<string | null>(null);
 
   const load = async () => {
     const { data } = await supabase.from('case_media' as any).select('*').eq('case_id', caseId).order('display_order');
     setItems((data ?? []) as unknown as Item[]);
+    const { data: caseRow } = await supabase.from('cases' as any).select('cover_media_id').eq('id', caseId).maybeSingle();
+    setCoverId(((caseRow as any)?.cover_media_id ?? null) as string | null);
   };
   useEffect(() => { load(); }, [caseId]);
+
+  const setAsCover = async (id: string) => {
+    const { error } = await supabase.from('cases' as any).update({ cover_media_id: id }).eq('id', caseId);
+    if (error) { toast.error('Erro ao definir capa'); return; }
+    setCoverId(id);
+    toast.success('Capa definida');
+  };
 
   const add = async () => {
     if (!draftUrl) { toast.error('Adicione a mídia'); return; }
@@ -129,6 +139,14 @@ const CaseMediaEditor = ({ caseId }: { caseId: string }) => {
                   <div className="flex gap-1">
                     <button onClick={() => move(it.id, -1)} className="p-1 hover:bg-muted rounded"><ChevronUp className="w-3 h-3" /></button>
                     <button onClick={() => move(it.id, 1)} className="p-1 hover:bg-muted rounded"><ChevronDown className="w-3 h-3" /></button>
+                    <button
+                      type="button"
+                      onClick={() => setAsCover(it.id)}
+                      title={coverId === it.id ? 'Esta é a capa' : 'Definir como capa'}
+                      className={`p-1 rounded ${coverId === it.id ? 'text-yellow-500 bg-yellow-500/10' : 'hover:bg-muted text-muted-foreground'}`}
+                    >
+                      <Star className={`w-3 h-3 ${coverId === it.id ? 'fill-current' : ''}`} />
+                    </button>
                   </div>
                   <button onClick={() => remove(it.id)} className="p-1 text-destructive hover:bg-destructive/10 rounded"><Trash2 className="w-3 h-3" /></button>
                 </div>
