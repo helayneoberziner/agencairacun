@@ -37,6 +37,7 @@ import AdminLgpd from "./pages/admin/AdminLgpd";
 import AdminSegments from "./pages/admin/AdminSegments";
 import AdminCases from "./pages/admin/AdminCases";
 import AdminCategories from "./pages/admin/AdminCategories";
+import AdminTeam from "./pages/admin/AdminTeam";
 import CaseDetail from "./pages/CaseDetail";
 import ProtectedRoute from "./components/admin/ProtectedRoute";
 import CookieBanner from "./components/CookieBanner";
@@ -92,6 +93,7 @@ const App = () => (
             <Route path="/admin/segments" element={<ProtectedRoute><AdminSegments /></ProtectedRoute>} />
             <Route path="/admin/cases" element={<ProtectedRoute><AdminCases /></ProtectedRoute>} />
             <Route path="/admin/categories" element={<ProtectedRoute><AdminCategories /></ProtectedRoute>} />
+            <Route path="/admin/team" element={<ProtectedRoute><AdminTeam /></ProtectedRoute>} />
             
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
