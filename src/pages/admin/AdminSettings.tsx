@@ -165,6 +165,27 @@ const AdminSettings = () => {
               <div key={logo.id} className="relative group rounded-lg border border-white/10 bg-white/5 p-3 flex flex-col items-center gap-2">
                 <img src={logo.image_url} alt={logo.name} className="h-12 object-contain" />
                 <span className="text-xs text-muted-foreground truncate w-full text-center">{logo.name}</span>
+                <div className="flex flex-wrap justify-center gap-1 w-full">
+                  {SEGMENTS.map(s => {
+                    const active = (logo.segments || []).includes(s.slug);
+                    return (
+                      <button
+                        key={s.slug}
+                        type="button"
+                        onClick={async () => {
+                          const nextSegs = active
+                            ? (logo.segments || []).filter(x => x !== s.slug)
+                            : [...(logo.segments || []), s.slug];
+                          const updated = logos.map(l => l.id === logo.id ? { ...l, segments: nextSegs } : l);
+                          await updateLogos(updated);
+                        }}
+                        className={`px-1.5 py-0.5 rounded text-[10px] border transition ${active ? 'bg-primary text-primary-foreground border-primary' : 'bg-white/5 text-muted-foreground border-white/10 hover:border-primary/40'}`}
+                      >
+                        {s.label}
+                      </button>
+                    );
+                  })}
+                </div>
                 <button
                   onClick={() => deleteLogo(logo, logos)}
                   className="absolute top-1 right-1 opacity-0 group-hover:opacity-100 transition-opacity p-1 rounded bg-destructive/80 text-destructive-foreground"
@@ -185,6 +206,22 @@ const AdminSettings = () => {
               <Label htmlFor="logoFile">Imagem da logo</Label>
               <Input id="logoFile" type="file" accept="image/*" onChange={e => setLogoFile(e.target.files?.[0] || null)} />
             </div>
+            <div className="space-y-2">
+              <Label>Segmentos</Label>
+              <div className="flex flex-wrap gap-2">
+                {SEGMENTS.map(s => {
+                  const active = logoSegments.includes(s.slug);
+                  return (
+                    <button key={s.slug} type="button"
+                      onClick={() => setLogoSegments(active ? logoSegments.filter(x => x !== s.slug) : [...logoSegments, s.slug])}
+                      className={`px-3 py-1.5 rounded-full text-xs font-medium border transition ${active ? 'bg-primary text-primary-foreground border-primary' : 'bg-white/5 text-muted-foreground border-white/10 hover:border-primary/40'}`}
+                    >
+                      {s.label}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
             <Button
               disabled={!logoName || !logoFile || isUploading}
               onClick={async () => {
@@ -192,9 +229,10 @@ const AdminSettings = () => {
                 setIsUploading(true);
                 try {
                   const newLogo = await uploadLogo(logoFile, logoName);
-                  await updateLogos([...logos, newLogo]);
+                  await updateLogos([...logos, { ...newLogo, segments: logoSegments }]);
                   setLogoName('');
                   setLogoFile(null);
+                  setLogoSegments([]);
                   toast.success('Logo adicionada!');
                 } catch (err) {
                   console.error(err);
