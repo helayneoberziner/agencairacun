@@ -8,6 +8,7 @@ export interface Testimonial {
   role: string;
   image_url?: string;
   rating?: number;
+  segments?: string[];
 }
 
 const SECTION_KEY = 'testimonials';
