@@ -6,6 +6,7 @@ export interface ClientLogo {
   id: string;
   name: string;
   image_url: string;
+  segments?: string[];
 }
 
 export function useClientLogos() {
@@ -68,7 +69,7 @@ export function useClientLogos() {
       .from('client-logos')
       .getPublicUrl(fileName);
 
-    return { id: crypto.randomUUID(), name, image_url: publicUrl };
+    return { id: crypto.randomUUID(), name, image_url: publicUrl, segments: [] };
   };
 
   const deleteLogo = async (logo: ClientLogo, currentLogos: ClientLogo[]) => {
