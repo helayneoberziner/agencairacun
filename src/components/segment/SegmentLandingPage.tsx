@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
 import {
   ArrowRight, Play, X, ChevronDown,
   Target, MapPin, Users, Repeat, MessageSquare, LineChart,
