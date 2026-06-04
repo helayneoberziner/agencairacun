@@ -13,7 +13,6 @@ import SegmentLeadForm from '@/components/segment/SegmentLeadForm';
 import { useSegmentPage } from '@/hooks/useSegmentPage';
 import { useSiteSettings } from '@/hooks/useSiteSettings';
 import { useTestimonials } from '@/hooks/useTestimonials';
-import { supabase } from '@/integrations/supabase/client';
 import SegmentPortfolioGallery from './SegmentPortfolioGallery';
 import SegmentClientsStrip from './SegmentClientsStrip';
 import GlobalCTA from '@/components/cta/GlobalCTA';
