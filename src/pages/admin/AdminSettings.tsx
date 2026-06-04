@@ -10,6 +10,7 @@ import { useSiteSettings } from '@/hooks/useSiteSettings';
 import { Lock, User, Shield, Globe, Phone, MapPin, Instagram, Youtube, Mail, MessageCircle, Image, Trash2, Upload, ExternalLink } from 'lucide-react';
 import { useClientLogos, ClientLogo } from '@/hooks/useClientLogos';
 import ImageUpload from '@/components/admin/ImageUpload';
+import { SEGMENTS } from '@/lib/segments';
 
 const AdminSettings = () => {
   const { user } = useAuth();
@@ -25,6 +26,7 @@ const AdminSettings = () => {
   const [logoName, setLogoName] = useState('');
   const [logoFile, setLogoFile] = useState<File | null>(null);
   const [isUploading, setIsUploading] = useState(false);
+  const [logoSegments, setLogoSegments] = useState<string[]>([]);
 
   useEffect(() => {
     setSiteData(settings);
