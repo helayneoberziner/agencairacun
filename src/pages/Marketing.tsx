@@ -15,6 +15,7 @@ import {
 } from 'lucide-react';
 import { useState } from 'react';
 import { useMarketingContent } from '@/hooks/useMarketingContent';
+import GlobalCTA from '@/components/cta/GlobalCTA';
 
 const serviceIcons = [Megaphone, Target, Palette, BarChart3];
 
@@ -196,24 +197,13 @@ const Marketing = () => {
           </div>
         </section>
 
-        {/* CTA */}
-        <section className="section-padding">
-          <div className="container-custom">
-            <div className="glass-card p-12 text-center relative overflow-hidden">
-              <div className="absolute inset-0 gradient-mesh opacity-50" />
-              <div className="relative z-10">
-                <h2 className="text-3xl md:text-4xl font-display font-bold mb-6">
-                  {content.cta.title} <span className="text-gradient-neon">{content.cta.titleHighlight}</span>
-                </h2>
-                <p className="text-muted-foreground text-lg mb-8 max-w-2xl mx-auto">{content.cta.subtitle}</p>
-                <Link to="/contato" className="btn-primary inline-flex items-center gap-2">
-                  {content.cta.ctaText}
-                  <ArrowRight className="w-4 h-4" />
-                </Link>
-              </div>
-            </div>
-          </div>
-        </section>
+        {/* CTA Premium */}
+        <GlobalCTA
+          context="Marketing"
+          defaultService="Marketing Digital"
+          title={<>{content.cta.title} <span className="text-gradient-neon italic">{content.cta.titleHighlight}</span></>}
+          subtitle={content.cta.subtitle || 'Vamos escalar os seus resultados com estratégia, dados e criatividade.'}
+        />
       </main>
 
       <Footer />
