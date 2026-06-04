@@ -15,6 +15,10 @@ import { useSegmentPage } from '@/hooks/useSegmentPage';
 import { useSiteSettings } from '@/hooks/useSiteSettings';
 import { useTestimonials } from '@/hooks/useTestimonials';
 import { supabase } from '@/integrations/supabase/client';
+import SegmentPortfolioGallery from './SegmentPortfolioGallery';
+import SegmentClientsStrip from './SegmentClientsStrip';
+import GlobalCTA from '@/components/cta/GlobalCTA';
+import { normalizeSegment } from '@/lib/segments';
 
 const iconMap: Record<string, any> = {
   Target, MapPin, Users, Repeat, MessageSquare, LineChart,
@@ -38,28 +42,7 @@ const SegmentLandingPage = ({ slug }: Props) => {
   const [videoOpen, setVideoOpen] = useState(false);
   const [photoModal, setPhotoModal] = useState<string | null>(null);
 
-  const { data: portfolioProjects = [] } = useQuery({
-    queryKey: ['segment-portfolio', page?.id, page?.name, page?.content?.portfolio?.projectIds],
-    enabled: !!page,
-    queryFn: async () => {
-      const ids = page?.content?.portfolio?.projectIds ?? [];
-      const { data } = await supabase
-        .from('projects')
-        .select('id,title,subcategory,image_url,video_url')
-        .order('display_order', { ascending: true });
-      const all = data ?? [];
-      // Manual selection wins
-      if (ids.length > 0) {
-        const set = new Set(ids);
-        return all.filter((p: any) => set.has(p.id));
-      }
-      // Auto filter by subcategory matching the segment (name or slug)
-      const norm = (s: string) =>
-        (s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim();
-      const targets = [norm(page?.name || ''), norm(slug)];
-      return all.filter((p: any) => p.subcategory && targets.includes(norm(p.subcategory)));
-    },
-  });
+  // Portfolio gallery now reads from cases/case_media via SegmentPortfolioGallery
 
   // SEO
   useEffect(() => {
@@ -133,7 +116,11 @@ const SegmentLandingPage = ({ slug }: Props) => {
   const heroYouTubeId = c.hero.mediaType === 'video' ? extractYoutubeId(c.hero.mediaUrl) : null;
   const featuredYouTubeId = extractYoutubeId(c.videoFeatured?.youtubeId || '');
   const whatsappLink = `https://wa.me/${settings.whatsapp}?text=${encodeURIComponent(c.finalCta.whatsappMessage || `Olá! Quero falar sobre ${page.name}.`)}`;
-  const segmentTestimonials = testimonials.filter(t => c.testimonialIds?.includes(t.id));
+  const segNorm = normalizeSegment(slug);
+  const segmentTestimonials = testimonials.filter(t => {
+    if ((t.segments || []).map(normalizeSegment).includes(segNorm)) return true;
+    return c.testimonialIds?.includes(t.id);
+  });
 
   const renderServiceCard = (item: any, i: number) => {
     const Icon = iconMap[item.icon] || Sparkles;
