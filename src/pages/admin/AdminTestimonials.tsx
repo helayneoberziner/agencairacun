@@ -7,15 +7,16 @@ import { Label } from '@/components/ui/label';
 import { toast } from 'sonner';
 import { useTestimonials, Testimonial } from '@/hooks/useTestimonials';
 import { Plus, Trash2, Edit2, Quote, Save, X } from 'lucide-react';
+import { SEGMENTS } from '@/lib/segments';
 
 const AdminTestimonials = () => {
   const { testimonials, isLoading, isUpdating, addTestimonial, deleteTestimonial, editTestimonial } = useTestimonials();
   const [showForm, setShowForm] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
-  const [form, setForm] = useState({ quote: '', name: '', role: '' });
+  const [form, setForm] = useState<{ quote: string; name: string; role: string; segments: string[] }>({ quote: '', name: '', role: '', segments: [] });
 
   const resetForm = () => {
-    setForm({ quote: '', name: '', role: '' });
+    setForm({ quote: '', name: '', role: '', segments: [] });
     setShowForm(false);
     setEditingId(null);
   };
@@ -41,7 +42,7 @@ const AdminTestimonials = () => {
   };
 
   const startEdit = (t: Testimonial) => {
-    setForm({ quote: t.quote, name: t.name, role: t.role });
+    setForm({ quote: t.quote, name: t.name, role: t.role, segments: t.segments || [] });
     setEditingId(t.id);
     setShowForm(true);
   };
@@ -106,6 +107,22 @@ const AdminTestimonials = () => {
                   placeholder="Ex: E-commerce"
                   required
                 />
+              </div>
+            </div>
+            <div className="space-y-2">
+              <Label>Aparecer nos segmentos</Label>
+              <div className="flex flex-wrap gap-2">
+                {SEGMENTS.map(s => {
+                  const active = form.segments.includes(s.slug);
+                  return (
+                    <button type="button" key={s.slug}
+                      onClick={() => setForm(p => ({ ...p, segments: active ? p.segments.filter(x => x !== s.slug) : [...p.segments, s.slug] }))}
+                      className={`px-3 py-1.5 rounded-full text-xs font-medium border transition ${active ? 'bg-primary text-primary-foreground border-primary' : 'bg-white/5 text-muted-foreground border-white/10 hover:border-primary/40'}`}
+                    >
+                      {s.label}
+                    </button>
+                  );
+                })}
               </div>
             </div>
             <div className="flex gap-2">
