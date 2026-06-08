@@ -97,7 +97,7 @@ const Footer = () => {
         </div>
 
         {/* Bottom */}
-        <div className="mt-6 pt-4 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-2">
+        <div className="mt-6 pt-4 pb-20 sm:pb-4 sm:pr-24 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-2">
           <p className="text-muted-foreground text-xs">
             © {currentYear} Agência Racun. Todos os direitos reservados.
           </p>
