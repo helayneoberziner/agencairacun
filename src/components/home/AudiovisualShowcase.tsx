@@ -1,5 +1,6 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Film } from 'lucide-react';
+import { ArrowRight, Film, Play, X } from 'lucide-react';
 import VideoPlayer from '@/components/media/VideoPlayer';
 import { useHomeContent } from '@/hooks/useHomeContent';
 import { parseYouTubeId, getYouTubeThumb } from '@/lib/videoUtils';
@@ -11,6 +12,7 @@ import { parseYouTubeId, getYouTubeThumb } from '@/lib/videoUtils';
 const AudiovisualShowcase = () => {
   const { content } = useHomeContent();
   const a = content.audiovisual;
+  const [playing, setPlaying] = useState<string | null>(null);
 
   const featured = a.featuredYoutubeId?.trim();
   const items = a.items.filter(i => i.youtubeId?.trim() || i.imageUrl?.trim());
@@ -56,6 +58,13 @@ const AudiovisualShowcase = () => {
                     <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-accent/20" />
                   )}
                   <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
+                  {ytId && (
+                    <div className="absolute inset-0 flex items-center justify-center opacity-90 group-hover:opacity-100 transition-opacity">
+                      <div className="w-14 h-14 md:w-16 md:h-16 rounded-full bg-primary/90 flex items-center justify-center backdrop-blur shadow-[0_10px_40px_-10px_hsl(var(--primary)/0.8)] group-hover:scale-110 transition-transform duration-500">
+                        <Play className="w-5 h-5 md:w-6 md:h-6 text-primary-foreground ml-0.5" />
+                      </div>
+                    </div>
+                  )}
                   <div className="absolute inset-x-0 bottom-0 p-5">
                     {item.category && (
                       <span className="inline-block text-[10px] uppercase tracking-[0.2em] text-primary mb-2 font-medium">
@@ -72,6 +81,13 @@ const AudiovisualShowcase = () => {
                   />
                 </div>
               );
+              if (ytId) {
+                return (
+                  <button key={i} type="button" onClick={() => setPlaying(ytId)} className="text-left">
+                    {inner}
+                  </button>
+                );
+              }
               return item.link ? (
                 <Link key={i} to={item.link}>{inner}</Link>
               ) : (
@@ -88,6 +104,32 @@ const AudiovisualShowcase = () => {
           </Link>
         </div>
       </div>
+
+      {playing && (
+        <div
+          className="fixed inset-0 z-[100] bg-background/95 backdrop-blur-md flex items-center justify-center p-4"
+          onClick={() => setPlaying(null)}
+        >
+          <div className="relative w-full max-w-5xl" onClick={e => e.stopPropagation()}>
+            <button
+              onClick={() => setPlaying(null)}
+              className="absolute -top-12 right-0 w-10 h-10 rounded-full bg-background/70 flex items-center justify-center text-foreground hover:bg-background"
+              aria-label="Fechar"
+            >
+              <X className="w-5 h-5" />
+            </button>
+            <div className="aspect-video rounded-2xl overflow-hidden bg-black border border-white/10">
+              <iframe
+                src={`https://www.youtube.com/embed/${playing}?autoplay=1&rel=0&modestbranding=1`}
+                className="w-full h-full"
+                allow="autoplay; encrypted-media; fullscreen"
+                allowFullScreen
+                title="Vídeo"
+              />
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 };
