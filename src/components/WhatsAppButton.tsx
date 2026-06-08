@@ -1,8 +1,11 @@
 import { MessageCircle } from 'lucide-react';
 import { useSiteSettings } from '@/hooks/useSiteSettings';
+import { useLocation } from 'react-router-dom';
 
 const WhatsAppButton = () => {
   const { settings } = useSiteSettings();
+  const location = useLocation();
+  if (location.pathname.startsWith('/admin')) return null;
   const whatsappLink = `https://wa.me/${settings.whatsapp}?text=${encodeURIComponent('Olá! Gostaria de saber mais sobre os serviços da Racun.')}`;
 
   return (
