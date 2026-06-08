@@ -9,7 +9,7 @@ import ImageUpload from '@/components/admin/ImageUpload';
 import VideoInput from '@/components/admin/VideoInput';
 import CaseMediaEditor from '@/components/admin/CaseMediaEditor';
 import { toast } from 'sonner';
-import { Plus, Pencil, Trash2, X, Eye, EyeOff, Star } from 'lucide-react';
+import { Plus, Pencil, Trash2, X, Eye, Star, Film, Image as ImageIcon } from 'lucide-react';
 import { parseYouTubeId, resolveVideoCover } from '@/lib/videoUtils';
 import { Link } from 'react-router-dom';
 import { SEGMENTS, APPEARS_OPTIONS } from '@/lib/segments';
@@ -213,23 +213,29 @@ const AdminCases = () => {
                     </div>
                   </div>
                   <div className="p-4">
-                    <div className="flex items-center justify-between gap-2">
-                      <div>
+                    <div className="flex items-start justify-between gap-2">
+                      <div className="min-w-0">
                         <span className="text-xs text-primary uppercase tracking-wider">{c.client_name}</span>
-                        <h3 className="font-semibold">{c.title}</h3>
-                        <p className="text-xs text-muted-foreground">/cases/{c.slug}</p>
+                        <h3 className="font-semibold truncate">{c.title}</h3>
+                        <p className="text-xs text-muted-foreground truncate">/cases/{c.slug}</p>
                       </div>
-                      <button onClick={() => toggleField(c.id, 'is_featured', c.is_featured)} title="Destaque" className={`p-1.5 rounded-lg ${c.is_featured ? 'text-yellow-500 bg-yellow-500/10' : 'text-muted-foreground'}`}>
-                        <Star className={`w-4 h-4 ${c.is_featured && 'fill-current'}`} />
+                      <button
+                        onClick={() => toggleField(c.id, 'show_on_home', c.show_on_home)}
+                        title={c.show_on_home ? 'Aparece na página inicial' : 'Adicionar à página inicial'}
+                        className={`shrink-0 p-2 rounded-lg transition ${c.show_on_home ? 'text-yellow-400 bg-yellow-400/10' : 'text-muted-foreground hover:text-yellow-400/70'}`}
+                      >
+                        <Star className={`w-5 h-5 ${c.show_on_home ? 'fill-current' : ''}`} />
                       </button>
                     </div>
-                    <div className="flex flex-wrap gap-2 mt-3 text-xs">
-                      <button onClick={() => toggleField(c.id, 'show_on_home', c.show_on_home)} className={`inline-flex items-center gap-1 px-2 py-1 rounded ${c.show_on_home ? 'bg-primary/10 text-primary' : 'bg-muted/40 text-muted-foreground'}`}>
-                        {c.show_on_home ? <Eye className="w-3 h-3" /> : <EyeOff className="w-3 h-3" />} Home
-                      </button>
-                      <button onClick={() => toggleField(c.id, 'is_active', c.is_active)} className={`inline-flex items-center gap-1 px-2 py-1 rounded ${c.is_active ? 'bg-emerald-500/10 text-emerald-400' : 'bg-muted/40 text-muted-foreground'}`}>
+                    <div className="flex flex-wrap gap-1.5 mt-3 text-[10px] uppercase tracking-wider">
+                      <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded ${c.is_active ? 'bg-emerald-500/10 text-emerald-400' : 'bg-muted/40 text-muted-foreground'}`}>
                         {c.is_active ? 'Ativo' : 'Inativo'}
-                      </button>
+                      </span>
+                      {c.is_featured && <span className="px-2 py-0.5 rounded bg-primary/10 text-primary">Destaque</span>}
+                      {c.show_on_home && <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-yellow-400/10 text-yellow-400"><Star className="w-3 h-3 fill-current" /> Home</span>}
+                      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-white/5 text-muted-foreground">
+                        {c.hero_kind === 'video' ? <><Film className="w-3 h-3" /> Vídeo</> : <><ImageIcon className="w-3 h-3" /> Imagem</>}
+                      </span>
                     </div>
                   </div>
                 </div>

@@ -4,6 +4,7 @@ import { ArrowRight, Film, Play, X } from 'lucide-react';
 import VideoPlayer from '@/components/media/VideoPlayer';
 import { useHomeContent } from '@/hooks/useHomeContent';
 import { parseYouTubeId, getYouTubeThumb } from '@/lib/videoUtils';
+import { useCases } from '@/hooks/useCases';
 
 /**
  * Cinematic audiovisual showcase. Lead section after the hero/clients
@@ -13,9 +14,28 @@ const AudiovisualShowcase = () => {
   const { content } = useHomeContent();
   const a = content.audiovisual;
   const [playing, setPlaying] = useState<string | null>(null);
+  const { data: cases = [] } = useCases({ homeOnly: true });
+
+  // Cases marked with the star (show_on_home) become the cinematic grid.
+  const caseItems = cases
+    .map(c => {
+      const ytId = c.hero_youtube_id || parseYouTubeId(c.hero_media_url || '');
+      const cover = c.hero_image_url || (ytId ? getYouTubeThumb(ytId) : '');
+      if (!ytId && !cover) return null;
+      return {
+        slug: c.slug,
+        title: c.title,
+        category: c.client_name,
+        youtubeId: ytId,
+        cover,
+      };
+    })
+    .filter(Boolean) as Array<{ slug: string; title: string; category: string; youtubeId: string | null; cover: string }>;
 
   const featured = a.featuredYoutubeId?.trim();
-  const items = a.items.filter(i => i.youtubeId?.trim() || i.imageUrl?.trim());
+  // Fallback to legacy CMS items if no case is marked yet
+  const legacyItems = a.items.filter(i => i.youtubeId?.trim() || i.imageUrl?.trim());
+  const useCaseItems = caseItems.length > 0;
 
   return (
     <section className="section-padding relative overflow-hidden">
@@ -40,9 +60,52 @@ const AudiovisualShowcase = () => {
           </div>
         )}
 
-        {items.length > 0 && (
+        {useCaseItems ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
-            {items.map((item, i) => {
+            {caseItems.map((item) => {
+              const inner = (
+                <div className="group relative aspect-[4/5] overflow-hidden rounded-xl border border-white/10 bg-secondary/30">
+                  {item.cover ? (
+                    <img
+                      src={item.cover}
+                      alt={item.title}
+                      loading="lazy"
+                      className="absolute inset-0 w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-[1.03]"
+                    />
+                  ) : (
+                    <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-accent/20" />
+                  )}
+                  <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
+                  {item.youtubeId && (
+                    <div className="absolute inset-0 flex items-center justify-center opacity-90 group-hover:opacity-100 transition-opacity">
+                      <div className="w-14 h-14 md:w-16 md:h-16 rounded-full bg-primary/90 flex items-center justify-center backdrop-blur shadow-[0_10px_40px_-10px_hsl(var(--primary)/0.8)] group-hover:scale-110 transition-transform duration-500">
+                        <Play className="w-5 h-5 md:w-6 md:h-6 text-primary-foreground ml-0.5" />
+                      </div>
+                    </div>
+                  )}
+                  <div className="absolute inset-x-0 bottom-0 p-5">
+                    <span className="inline-block text-[10px] uppercase tracking-[0.2em] text-primary mb-2 font-medium">
+                      {item.category}
+                    </span>
+                    <h3 className="font-display text-lg md:text-xl text-foreground group-hover:text-primary transition-colors duration-500">
+                      {item.title}
+                    </h3>
+                  </div>
+                </div>
+              );
+              if (item.youtubeId) {
+                return (
+                  <button key={item.slug} type="button" onClick={() => setPlaying(item.youtubeId!)} className="text-left">
+                    {inner}
+                  </button>
+                );
+              }
+              return <Link key={item.slug} to={`/cases/${item.slug}`}>{inner}</Link>;
+            })}
+          </div>
+        ) : legacyItems.length > 0 && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
+            {legacyItems.map((item, i) => {
               const ytId = item.youtubeId ? parseYouTubeId(`https://www.youtube.com/watch?v=${item.youtubeId}`) : null;
               const cover = item.imageUrl || (ytId ? getYouTubeThumb(ytId) : '');
               const inner = (
