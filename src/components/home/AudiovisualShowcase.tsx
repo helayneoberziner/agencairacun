@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { ArrowRight, Film } from 'lucide-react';
+import VideoPlayer from '@/components/media/VideoPlayer';
 import { useHomeContent } from '@/hooks/useHomeContent';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
@@ -32,9 +33,6 @@ const AudiovisualShowcase = () => {
 
   const featured = a.featuredYoutubeId?.trim();
 
-  const cleanEmbed = (id: string) =>
-    `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&mute=1&loop=1&playlist=${id}&controls=0&modestbranding=1&rel=0&showinfo=0&iv_load_policy=3&disablekb=1&fs=0&playsinline=1`;
-
   return (
     <section className="section-padding relative overflow-hidden">
       <div className="absolute top-0 left-1/3 w-[500px] h-[500px] bg-primary/10 rounded-full blur-[160px]" aria-hidden />
@@ -53,36 +51,16 @@ const AudiovisualShowcase = () => {
         </div>
 
         {featured && (
-          <div className="mb-8 md:mb-10 rounded-2xl overflow-hidden border border-white/10 shadow-[0_30px_80px_-30px_hsl(var(--primary)/0.4)] max-w-md mx-auto">
-            <div className="relative aspect-[9/16] bg-black">
-              <iframe
-                src={cleanEmbed(featured)}
-                title="Vídeo em destaque"
-                className="absolute inset-0 w-full h-full pointer-events-none scale-[2.8]"
-                allow="autoplay; encrypted-media; picture-in-picture"
-                allowFullScreen
-              />
-            </div>
+          <div className="mb-8 md:mb-10 rounded-2xl overflow-hidden border border-white/10 shadow-[0_30px_80px_-30px_hsl(var(--primary)/0.4)]">
+            <VideoPlayer url={`https://www.youtube.com/watch?v=${featured}`} aspect="aspect-video" />
           </div>
         )}
 
         {projects.length > 0 && (
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-5">
-            {projects.map((p: any) => {
-              const ytId = parseYouTubeId(p.video_url);
-              return (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
+            {projects.map((p: any) => (
               <div key={p.id} className="group rounded-xl overflow-hidden border border-white/10 bg-secondary/30">
-                <div className="relative aspect-[9/16] bg-black overflow-hidden">
-                  {ytId && (
-                    <iframe
-                      src={cleanEmbed(ytId)}
-                      title={p.title}
-                      className="absolute inset-0 w-full h-full pointer-events-none scale-[2.8]"
-                      allow="autoplay; encrypted-media; picture-in-picture"
-                      allowFullScreen
-                    />
-                  )}
-                </div>
+                <VideoPlayer url={p.video_url} poster={p.image_url} title={p.title} aspect="aspect-video" />
                 <div className="p-4">
                   {(p.subcategory || p.category) && (
                     <span className="inline-block text-[10px] uppercase tracking-[0.2em] text-primary mb-1 font-medium">
@@ -94,8 +72,7 @@ const AudiovisualShowcase = () => {
                   </h3>
                 </div>
               </div>
-            );
-            })}
+            ))}
           </div>
         )}
 
