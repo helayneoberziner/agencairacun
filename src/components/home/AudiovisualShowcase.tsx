@@ -53,12 +53,12 @@ const AudiovisualShowcase = () => {
         </div>
 
         {featured && (
-          <div className="mb-8 md:mb-10 rounded-2xl overflow-hidden border border-white/10 shadow-[0_30px_80px_-30px_hsl(var(--primary)/0.4)]">
-            <div className="relative aspect-video bg-black">
+          <div className="mb-8 md:mb-10 rounded-2xl overflow-hidden border border-white/10 shadow-[0_30px_80px_-30px_hsl(var(--primary)/0.4)] max-w-md mx-auto">
+            <div className="relative aspect-[9/16] bg-black">
               <iframe
                 src={cleanEmbed(featured)}
                 title="Vídeo em destaque"
-                className="absolute inset-0 w-full h-full pointer-events-none"
+                className="absolute inset-0 w-full h-full pointer-events-none scale-[2.8]"
                 allow="autoplay; encrypted-media; picture-in-picture"
                 allowFullScreen
               />
