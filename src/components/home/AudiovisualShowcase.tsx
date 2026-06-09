@@ -53,12 +53,12 @@ const AudiovisualShowcase = () => {
         </div>
 
         {featured && (
-          <div className="mb-8 md:mb-10 rounded-2xl overflow-hidden border border-white/10 shadow-[0_30px_80px_-30px_hsl(var(--primary)/0.4)]">
-            <div className="relative aspect-video bg-black">
+          <div className="mb-8 md:mb-10 rounded-2xl overflow-hidden border border-white/10 shadow-[0_30px_80px_-30px_hsl(var(--primary)/0.4)] max-w-md mx-auto">
+            <div className="relative aspect-[9/16] bg-black">
               <iframe
                 src={cleanEmbed(featured)}
                 title="Vídeo em destaque"
-                className="absolute inset-0 w-full h-full pointer-events-none"
+                className="absolute inset-0 w-full h-full pointer-events-none scale-[2.8]"
                 allow="autoplay; encrypted-media; picture-in-picture"
                 allowFullScreen
               />
@@ -67,17 +67,17 @@ const AudiovisualShowcase = () => {
         )}
 
         {projects.length > 0 && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-5">
             {projects.map((p: any) => {
               const ytId = parseYouTubeId(p.video_url);
               return (
               <div key={p.id} className="group rounded-xl overflow-hidden border border-white/10 bg-secondary/30">
-                <div className="relative aspect-video bg-black overflow-hidden">
+                <div className="relative aspect-[9/16] bg-black overflow-hidden">
                   {ytId && (
                     <iframe
                       src={cleanEmbed(ytId)}
                       title={p.title}
-                      className="absolute inset-0 w-full h-full pointer-events-none scale-[1.35]"
+                      className="absolute inset-0 w-full h-full pointer-events-none scale-[2.8]"
                       allow="autoplay; encrypted-media; picture-in-picture"
                       allowFullScreen
                     />
