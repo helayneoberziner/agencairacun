@@ -12,3 +12,9 @@ Allow: /
 
 User-agent: *
 Allow: /
+Disallow: /admin
+Disallow: /admin/
+Disallow: /proposta
+Disallow: /proposta/
+
+Sitemap: https://agenciaracun.com.br/sitemap.xml
