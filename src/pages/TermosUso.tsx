@@ -69,6 +69,7 @@ const TermosUso = () => (
       <p>Estes Termos são regidos pela legislação brasileira. Fica eleito o foro da comarca de Blumenau/SC para dirimir eventuais controvérsias.</p>
     </section>
   </LegalLayout>
+  </>
 );
 
 export default TermosUso;
