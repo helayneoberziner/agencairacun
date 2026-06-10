@@ -6,6 +6,7 @@ import { ArrowRight, Target, Heart, Zap, Users } from 'lucide-react';
 import { useSobreContent } from '@/hooks/useSobreContent';
 import GlobalCTA from '@/components/cta/GlobalCTA';
 import TeamSection from '@/components/TeamSection';
+import SEO from '@/components/seo/SEO';
 
 const iconMap = [Target, Heart, Zap, Users];
 
@@ -16,6 +17,11 @@ const Sobre = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO
+        title="Sobre a Racun · Agência e Produtora Audiovisual"
+        description="Quem somos: agência de marketing e produtora audiovisual movida por estratégia, criatividade e resultado."
+        path="/sobre"
+      />
       <Header />
       
       <main>

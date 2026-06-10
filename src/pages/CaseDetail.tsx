@@ -8,6 +8,7 @@ import VideoPlayer from '@/components/media/VideoPlayer';
 import { useCaseBySlug, CaseMediaRow } from '@/hooks/useCases';
 import { Loader2, ArrowLeft, Quote } from 'lucide-react';
 import { resolveVideoCover } from '@/lib/videoUtils';
+import SEO from '@/components/seo/SEO';
 
 const SectionGroup = ({ title, items }: { title: string; items: CaseMediaRow[] }) => {
   if (items.length === 0) return null;

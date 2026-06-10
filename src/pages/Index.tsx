@@ -1,5 +1,6 @@
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import SEO from '@/components/seo/SEO';
 import WhatsAppButton from '@/components/WhatsAppButton';
 import HeroSection from '@/components/home/HeroSection';
 import ClientsStrip from '@/components/home/ClientsStrip';
@@ -14,6 +15,11 @@ import ContactSection from '@/components/home/ContactSection';
 const Index = () => {
   return (
     <div className="min-h-screen bg-background">
+      <SEO
+        title="Racun · Agência de Marketing e Produtora Audiovisual"
+        description="Estratégia, conteúdo e performance para marcas que querem crescer. Marketing digital, tráfego pago, branding e produção audiovisual."
+        path="/"
+      />
       <Header />
       <main>
         <HeroSection />

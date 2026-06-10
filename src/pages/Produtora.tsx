@@ -8,6 +8,7 @@ import { ArrowRight, Play, X, ChevronDown, Camera } from 'lucide-react';
 import { useProdutoraContent } from '@/hooks/useProdutoraContent';
 import { Video, Megaphone, Building2, CalendarDays, Clapperboard, Target } from 'lucide-react';
 import GlobalCTA from '@/components/cta/GlobalCTA';
+import SEO from '@/components/seo/SEO';
 
 const processSteps = ['Briefing', 'Roteiro', 'Captação', 'Direção', 'Pós-produção', 'Entrega'];
 const serviceIcons = [Video, Megaphone, Target, Building2, CalendarDays, Clapperboard];

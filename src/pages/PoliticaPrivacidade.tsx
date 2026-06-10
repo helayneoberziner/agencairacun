@@ -1,5 +1,6 @@
 import LegalLayout from '@/components/legal/LegalLayout';
 import LgpdRequestForm from '@/components/legal/LgpdRequestForm';
+import SEO from '@/components/seo/SEO';
 
 const sections = [
   { id: 'introducao', title: 'Introdução' },
@@ -15,6 +16,12 @@ const sections = [
 ];
 
 const PoliticaPrivacidade = () => (
+  <>
+  <SEO
+    title="Política de Privacidade · Agência Racun"
+    description="Política de privacidade da Agência Racun: como coletamos, usamos, armazenamos e protegemos seus dados conforme a LGPD."
+    path="/politica-de-privacidade"
+  />
   <LegalLayout
     title="Política de Privacidade"
     subtitle="Sua privacidade é prioridade na Agência Racun."

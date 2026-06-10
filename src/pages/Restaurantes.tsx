@@ -14,6 +14,7 @@ import {
   CheckCircle2
 } from 'lucide-react';
 import { useRestaurantesContent } from '@/hooks/useRestaurantesContent';
+import SEO from '@/components/seo/SEO';
 
 const deliverableIcons = [Camera, Megaphone, Calendar, MapPin];
 

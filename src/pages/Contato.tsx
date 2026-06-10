@@ -5,6 +5,7 @@ import WhatsAppButton from '@/components/WhatsAppButton';
 import { Send, MessageCircle, CheckCircle, Mail, Phone, MapPin } from 'lucide-react';
 import { useContactForm } from '@/hooks/useContactForm';
 import { useSiteSettings } from '@/hooks/useSiteSettings';
+import SEO from '@/components/seo/SEO';
 
 const Contato = () => {
   const { settings } = useSiteSettings();
