@@ -663,6 +663,37 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      get_proposal_by_slug: {
+        Args: { _slug: string }
+        Returns: {
+          audiovisual_bonus: string[]
+          audiovisual_differentials: string[]
+          audiovisual_includes: string[]
+          audiovisual_price: string
+          client_name: string
+          complete_bonus: string[]
+          complete_differentials: string[]
+          complete_includes: string[]
+          complete_price: string
+          created_at: string
+          id: string
+          is_active: boolean
+          marketing_bonus: string[]
+          marketing_differentials: string[]
+          marketing_includes: string[]
+          marketing_price: string
+          slug: string
+          updated_at: string
+          validity_days: number
+          whatsapp_number: string
+        }[]
+        SetofOptions: {
+          from: "*"
+          to: "proposals"
+          isOneToOne: false
+          isSetofReturn: true
+        }
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]

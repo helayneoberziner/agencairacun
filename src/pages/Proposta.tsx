@@ -77,39 +77,36 @@ const Proposta = () => {
 
     const fetchProposal = async () => {
       const { data, error } = await supabase
-        .from('proposals')
-        .select('*')
-        .eq('slug', slug)
-        .eq('is_active', true)
-        .maybeSingle();
+        .rpc('get_proposal_by_slug', { _slug: slug });
 
-      if (error || !data) {
+      const row = Array.isArray(data) ? data[0] : data;
+      if (error || !row) {
         setNotFound(true);
         setLoading(false);
         return;
       }
 
       setConfig({
-        clientName: data.client_name,
-        validityDays: data.validity_days,
-        whatsappNumber: data.whatsapp_number,
+        clientName: row.client_name,
+        validityDays: row.validity_days,
+        whatsappNumber: row.whatsapp_number,
         marketing: {
-          price: data.marketing_price,
-          includes: data.marketing_includes,
-          differentials: data.marketing_differentials,
-          bonus: data.marketing_bonus,
+          price: row.marketing_price,
+          includes: row.marketing_includes,
+          differentials: row.marketing_differentials,
+          bonus: row.marketing_bonus,
         },
         audiovisual: {
-          price: data.audiovisual_price,
-          includes: data.audiovisual_includes,
-          differentials: data.audiovisual_differentials,
-          bonus: data.audiovisual_bonus,
+          price: row.audiovisual_price,
+          includes: row.audiovisual_includes,
+          differentials: row.audiovisual_differentials,
+          bonus: row.audiovisual_bonus,
         },
         complete: {
-          price: data.complete_price,
-          includes: data.complete_includes,
-          differentials: data.complete_differentials,
-          bonus: data.complete_bonus,
+          price: row.complete_price,
+          includes: row.complete_includes,
+          differentials: row.complete_differentials,
+          bonus: row.complete_bonus,
         },
       });
       setLoading(false);

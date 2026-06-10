@@ -17,6 +17,15 @@ import SegmentPortfolioGallery from './SegmentPortfolioGallery';
 import SegmentClientsStrip from './SegmentClientsStrip';
 import GlobalCTA from '@/components/cta/GlobalCTA';
 import { normalizeSegment } from '@/lib/segments';
+import SEO from '@/components/seo/SEO';
+
+const SEGMENT_META: Record<string, { title: string; description: string }> = {
+  imobiliario: { title: 'Marketing para o Mercado Imobiliário · Racun', description: 'Marketing e audiovisual para corretores, imobiliárias e construtoras. Conteúdo, tráfego pago e captação que vendem imóveis.' },
+  empresas: { title: 'Marketing para Empresas · Racun', description: 'Estratégia, conteúdo e tráfego pago para empresas que querem crescer com previsibilidade.' },
+  eventos: { title: 'Marketing e Cobertura para Eventos · Racun', description: 'Cobertura audiovisual e divulgação completa de eventos: fotos, vídeos, reels e campanhas pagas.' },
+  marcas: { title: 'Branding e Marketing para Marcas · Racun', description: 'Posicionamento, identidade visual e performance para marcas que querem se destacar.' },
+  politica: { title: 'Marketing Político e Eleitoral · Racun', description: 'Comunicação, conteúdo e captação para campanhas políticas e pré-campanhas.' },
+};
 
 const iconMap: Record<string, any> = {
   Target, MapPin, Users, Repeat, MessageSquare, LineChart,
@@ -135,6 +144,11 @@ const SegmentLandingPage = ({ slug }: Props) => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO
+        title={SEGMENT_META[slug]?.title || 'Racun'}
+        description={SEGMENT_META[slug]?.description || 'Marketing e produção audiovisual da Agência Racun.'}
+        path={`/${slug}`}
+      />
       <Header />
       <main>
         {/* HERO */}

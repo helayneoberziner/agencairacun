@@ -9,6 +9,7 @@ import { ExternalLink, Loader2 } from 'lucide-react';
 import GlobalCTA from '@/components/cta/GlobalCTA';
 import { useCases } from '@/hooks/useCases';
 import { resolveVideoCover } from '@/lib/videoUtils';
+import SEO from '@/components/seo/SEO';
 
 const Cases = () => {
   const [filter, setFilter] = useState<string>('Todos');
@@ -20,6 +21,11 @@ const Cases = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO
+        title="Cases · Projetos e Resultados · Racun"
+        description="Conheça os cases da Agência Racun: projetos de marketing e produções audiovisuais que entregaram resultado real para marcas."
+        path="/cases"
+      />
       <Header />
       
       <main>

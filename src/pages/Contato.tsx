@@ -5,6 +5,7 @@ import WhatsAppButton from '@/components/WhatsAppButton';
 import { Send, MessageCircle, CheckCircle, Mail, Phone, MapPin } from 'lucide-react';
 import { useContactForm } from '@/hooks/useContactForm';
 import { useSiteSettings } from '@/hooks/useSiteSettings';
+import SEO from '@/components/seo/SEO';
 
 const Contato = () => {
   const { settings } = useSiteSettings();
@@ -52,6 +53,11 @@ const Contato = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO
+        title="Contato · Agência Racun"
+        description="Fale com a Agência Racun. Envie sua mensagem ou converse direto pelo WhatsApp. Resposta em até 24h úteis."
+        path="/contato"
+      />
       <Header />
       
       <main>

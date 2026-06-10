@@ -8,6 +8,7 @@ import VideoPlayer from '@/components/media/VideoPlayer';
 import { useCaseBySlug, CaseMediaRow } from '@/hooks/useCases';
 import { Loader2, ArrowLeft, Quote } from 'lucide-react';
 import { resolveVideoCover } from '@/lib/videoUtils';
+import SEO from '@/components/seo/SEO';
 
 const SectionGroup = ({ title, items }: { title: string; items: CaseMediaRow[] }) => {
   if (items.length === 0) return null;
@@ -82,6 +83,11 @@ const CaseDetail = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO
+        title={c.seo_title || `${c.title} · Case Racun`}
+        description={c.seo_description || c.subtitle || `Case ${c.title} da Agência Racun.`}
+        path={`/cases/${c.slug}`}
+      />
       <Header />
       <main>
         {/* Hero cinematográfico */}

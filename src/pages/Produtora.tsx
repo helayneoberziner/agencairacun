@@ -8,6 +8,7 @@ import { ArrowRight, Play, X, ChevronDown, Camera } from 'lucide-react';
 import { useProdutoraContent } from '@/hooks/useProdutoraContent';
 import { Video, Megaphone, Building2, CalendarDays, Clapperboard, Target } from 'lucide-react';
 import GlobalCTA from '@/components/cta/GlobalCTA';
+import SEO from '@/components/seo/SEO';
 
 const processSteps = ['Briefing', 'Roteiro', 'Captação', 'Direção', 'Pós-produção', 'Entrega'];
 const serviceIcons = [Video, Megaphone, Target, Building2, CalendarDays, Clapperboard];
@@ -24,6 +25,11 @@ const Produtora = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO
+        title="Produtora Audiovisual · Filmes, Reels e Campanhas · Racun"
+        description="Produtora audiovisual da Racun: filmes institucionais, reels premium, campanhas, drone e cobertura completa com estética cinematográfica."
+        path="/produtora"
+      />
       <Header />
 
       <main>
