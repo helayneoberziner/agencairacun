@@ -53,6 +53,11 @@ const Contato = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO
+        title="Contato · Agência Racun"
+        description="Fale com a Agência Racun. Envie sua mensagem ou converse direto pelo WhatsApp. Resposta em até 24h úteis."
+        path="/contato"
+      />
       <Header />
       
       <main>

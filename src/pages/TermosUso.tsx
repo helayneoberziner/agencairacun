@@ -1,4 +1,5 @@
 import LegalLayout from '@/components/legal/LegalLayout';
+import SEO from '@/components/seo/SEO';
 
 const sections = [
   { id: 'aceitacao', title: 'Aceitação dos termos' },
@@ -12,6 +13,12 @@ const sections = [
 ];
 
 const TermosUso = () => (
+  <>
+  <SEO
+    title="Termos de Uso · Agência Racun"
+    description="Termos de uso do site e dos serviços da Agência Racun."
+    path="/termos-de-uso"
+  />
   <LegalLayout
     title="Termos de Uso"
     subtitle="Regras para utilização do site e dos serviços da Agência Racun."

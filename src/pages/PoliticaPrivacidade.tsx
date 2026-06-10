@@ -105,6 +105,7 @@ const PoliticaPrivacidade = () => (
 
     <LgpdRequestForm />
   </LegalLayout>
+  </>
 );
 
 export default PoliticaPrivacidade;

@@ -83,6 +83,11 @@ const CaseDetail = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO
+        title={c.seo_title || `${c.title} · Case Racun`}
+        description={c.seo_description || c.subtitle || `Case ${c.title} da Agência Racun.`}
+        path={`/cases/${c.slug}`}
+      />
       <Header />
       <main>
         {/* Hero cinematográfico */}

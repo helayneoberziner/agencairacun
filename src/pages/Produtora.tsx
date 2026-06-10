@@ -25,6 +25,11 @@ const Produtora = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO
+        title="Produtora Audiovisual · Filmes, Reels e Campanhas · Racun"
+        description="Produtora audiovisual da Racun: filmes institucionais, reels premium, campanhas, drone e cobertura completa com estética cinematográfica."
+        path="/produtora"
+      />
       <Header />
 
       <main>

@@ -23,6 +23,11 @@ const Restaurantes = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO
+        title="Marketing para Restaurantes · Conteúdo e Tráfego · Racun"
+        description="Marketing especializado para restaurantes: conteúdo que dá fome, anúncios para lotar a casa e campanhas para vender mais delivery."
+        path="/restaurantes"
+      />
       <Header />
       
       <main>

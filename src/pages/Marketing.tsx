@@ -24,19 +24,16 @@ const Marketing = () => {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const { content, isLoading } = useMarketingContent();
 
-  const seo = (
-    <SEO
-      title="Marketing Digital · Tráfego Pago e Conteúdo · Racun"
-      description="Marketing digital de alta performance: estratégia, tráfego pago, criação de conteúdo e funis que convertem. Conheça a Racun."
-      path="/marketing"
-    />
-  );
-  void seo;
 
   if (isLoading) return <div className="min-h-screen bg-background"><Header /><div className="flex items-center justify-center h-96"><p className="text-muted-foreground">Carregando...</p></div><Footer /></div>;
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO
+        title="Marketing Digital · Tráfego Pago e Conteúdo · Racun"
+        description="Marketing digital de alta performance: estratégia, tráfego pago, criação de conteúdo e funis que convertem. Conheça a Racun."
+        path="/marketing"
+      />
       <Header />
       
       <main>

@@ -144,6 +144,11 @@ const SegmentLandingPage = ({ slug }: Props) => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO
+        title={SEGMENT_META[slug]?.title || 'Racun'}
+        description={SEGMENT_META[slug]?.description || 'Marketing e produção audiovisual da Agência Racun.'}
+        path={`/${slug}`}
+      />
       <Header />
       <main>
         {/* HERO */}
