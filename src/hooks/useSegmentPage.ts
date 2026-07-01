@@ -92,3 +92,45 @@ export const useUpdateSegmentPage = () => {
     },
   });
 };
+
+const emptyContent = () => ({
+  hero: { title: 'Novo segmento', highlight: '', subtitle: '', ctaText: 'Falar com a Racun', mediaType: 'image' as const, mediaUrl: '' },
+  intro: { title: '', description: '' },
+  marketing: { title: 'Marketing Digital', subtitle: '', items: [] },
+  audiovisual: { title: 'Audiovisual', subtitle: '', items: [] },
+  portfolio: { title: 'Portfólio', projectIds: [] },
+  gallery: { title: 'Galeria', images: [] },
+  videoFeatured: { title: 'Vídeo em destaque', youtubeId: '' },
+  testimonialIds: [],
+  faq: { title: 'Perguntas frequentes', items: [] },
+  finalCta: { title: 'Vamos conversar?', subtitle: '', buttonText: 'Falar agora', whatsappMessage: 'Olá! Quero conhecer os serviços da Racun.' },
+});
+
+export const useCreateSegmentPage = () => {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (input: { slug: string; name: string }) => {
+      const { data, error } = await supabase.from('segment_pages').insert({
+        slug: input.slug,
+        name: input.name,
+        is_active: true,
+        display_order: 999,
+        content: emptyContent() as any,
+      }).select().single();
+      if (error) throw error;
+      return data as unknown as SegmentPage;
+    },
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['segment-pages'] }),
+  });
+};
+
+export const useDeleteSegmentPage = () => {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (id: string) => {
+      const { error } = await supabase.from('segment_pages').delete().eq('id', id);
+      if (error) throw error;
+    },
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['segment-pages'] }),
+  });
+};
