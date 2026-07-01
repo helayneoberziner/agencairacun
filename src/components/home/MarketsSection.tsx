@@ -33,7 +33,7 @@ const MarketsSection = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-5">
           {segments.items.map((seg, i) => {
             const Icon = iconMap[i % iconMap.length];
             const path = slugMap[seg.title] || '/';
@@ -41,15 +41,15 @@ const MarketsSection = () => {
               <Link
                 key={i}
                 to={path}
-                className="glass-card p-6 text-left hover:border-primary/40 transition-all duration-300 group flex flex-col"
+                className="glass-card p-4 md:p-6 text-left hover:border-primary/40 transition-all duration-300 group flex flex-col"
               >
-                <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4 group-hover:neon-glow transition-all duration-500">
-                  <Icon className="w-6 h-6 text-primary" />
+                <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-3 md:mb-4 group-hover:neon-glow transition-all duration-500">
+                  <Icon className="w-5 h-5 md:w-6 md:h-6 text-primary" />
                 </div>
-                <h4 className="font-display font-semibold text-lg mb-2">{seg.title}</h4>
-                <p className="text-sm text-muted-foreground mb-5 flex-1">{seg.description}</p>
-                <span className="inline-flex items-center gap-1.5 text-sm text-primary font-medium group-hover:gap-2.5 transition-all">
-                  Saiba mais <ArrowRight className="w-4 h-4" />
+                <h4 className="font-display font-semibold text-sm md:text-lg mb-1 md:mb-2">{seg.title}</h4>
+                <p className="text-xs md:text-sm text-muted-foreground mb-3 md:mb-5 flex-1 line-clamp-2 md:line-clamp-none">{seg.description}</p>
+                <span className="inline-flex items-center gap-1 text-xs md:text-sm text-primary font-medium group-hover:gap-2 transition-all">
+                  Saiba mais <ArrowRight className="w-3.5 h-3.5" />
                 </span>
               </Link>
             );
