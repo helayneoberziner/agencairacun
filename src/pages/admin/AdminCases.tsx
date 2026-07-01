@@ -295,7 +295,7 @@ const AdminCases = () => {
                 <button onClick={closeEditor} className="p-2 hover:bg-muted rounded-lg"><X className="w-5 h-5" /></button>
               </div>
             </div>
-            <form onSubmit={save} className="p-6 space-y-8">
+            <form id="case-edit-form" onSubmit={save} className="p-6 space-y-8">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label>Cliente *</Label>
