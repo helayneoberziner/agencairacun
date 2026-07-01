@@ -17,11 +17,12 @@ import {
   Home,
   FileText,
   Shield,
-  ChevronDown,
-  Layers
-  , Briefcase
-  , Tags
-  , Users
+   ChevronDown,
+   Layers,
+   Briefcase,
+   Tags,
+   Users,
+   Wand2
 } from 'lucide-react';
  import { useState } from 'react';
  
@@ -41,16 +42,15 @@ import {
         label: 'Principal',
         items: [
           { name: 'Dashboard', path: '/admin', icon: LayoutDashboard },
-          { name: 'Página Inicial', path: '/admin/home', icon: Home },
+           { name: 'Editor de Site', path: '/admin/editor', icon: Wand2 },
         ],
       },
       {
         label: 'Negócio',
         items: [
-          { name: 'Marketing', path: '/admin/marketing', icon: Megaphone },
           { name: 'Cases', path: '/admin/cases', icon: Briefcase },
           { name: 'Categorias', path: '/admin/categories', icon: Tags },
-          { name: 'Projetos', path: '/admin/projects', icon: FolderOpen },
+           { name: 'Projetos (legado)', path: '/admin/projects', icon: FolderOpen },
           { name: 'Propostas', path: '/admin/proposals', icon: FileText },
           { name: 'Mensagens', path: '/admin/messages', icon: Mail },
         ],
@@ -58,23 +58,15 @@ import {
       {
         label: 'Conteúdo',
         items: [
-          { name: 'Produtora', path: '/admin/produtora', icon: Film },
-          { name: 'Segmentos', path: '/admin/segments', icon: Layers },
+           { name: 'Segmentos', path: '/admin/segments', icon: Layers },
           { name: 'Mídia', path: '/admin/media', icon: Image },
           { name: 'Depoimentos', path: '/admin/testimonials', icon: Quote },
           { name: 'Equipe', path: '/admin/team', icon: Users },
         ],
       },
       {
-        label: 'Nicho',
-        items: [
-          { name: 'Restaurantes', path: '/admin/restaurantes', icon: UtensilsCrossed },
-        ],
-      },
-      {
         label: 'Sistema',
         items: [
-          { name: 'Sobre', path: '/admin/sobre', icon: Info },
           { name: 'Solicitações LGPD', path: '/admin/lgpd', icon: Shield },
           { name: 'Configurações', path: '/admin/settings', icon: Settings },
         ],
