@@ -157,6 +157,13 @@
     @apply max-w-7xl mx-auto;
   }
 
+  /* Reserve space for mobile bottom nav (56px + safe area) */
+  @media (max-width: 1023px) {
+    body:not(:has([data-admin-layout])) {
+      padding-bottom: calc(3.5rem + env(safe-area-inset-bottom));
+    }
+  }
+
   /* Animated border */
   .animated-border {
     position: relative;
