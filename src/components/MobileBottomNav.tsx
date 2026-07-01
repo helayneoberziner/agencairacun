@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Home, Briefcase, Grid3x3, User, MessageCircle, Megaphone, Film, Layers, ExternalLink, X } from 'lucide-react';
 import { useSiteSettings } from '@/hooks/useSiteSettings';
@@ -12,7 +12,15 @@ const MobileBottomNav = () => {
   const { settings } = useSiteSettings();
   const [sheetOpen, setSheetOpen] = useState(false);
 
-  if (location.pathname.startsWith('/admin')) return null;
+  const isAdmin = location.pathname.startsWith('/admin');
+
+  useEffect(() => {
+    if (isAdmin) document.body.classList.remove('has-bottom-nav');
+    else document.body.classList.add('has-bottom-nav');
+    return () => { document.body.classList.remove('has-bottom-nav'); };
+  }, [isAdmin]);
+
+  if (isAdmin) return null;
 
   const whatsappLink = `https://wa.me/${settings.whatsapp}?text=${encodeURIComponent('Olá! Gostaria de saber mais sobre os serviços da Racun.')}`;
   const isActive = (p: string) => location.pathname === p;

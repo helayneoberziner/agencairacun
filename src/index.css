@@ -157,9 +157,9 @@
     @apply max-w-7xl mx-auto;
   }
 
-  /* Reserve space for mobile bottom nav (56px + safe area) */
+  /* Reserve space for mobile bottom nav (toggled by MobileBottomNav) */
   @media (max-width: 1023px) {
-    body:not(:has([data-admin-layout])) {
+    body.has-bottom-nav {
       padding-bottom: calc(3.5rem + env(safe-area-inset-bottom));
     }
   }
