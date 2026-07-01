@@ -27,14 +27,14 @@ const ServicesSection = () => {
           {s.items.map((service, index) => {
             const Icon = iconMap[index % iconMap.length];
             return (
-              <div key={index} className="glass-card-hover p-8 group">
-                <div className="flex items-start gap-6">
-                  <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0 group-hover:neon-glow transition-all duration-500">
-                    <Icon className="w-7 h-7 text-primary" />
+              <div key={index} className="glass-card-hover p-5 md:p-8 group">
+                <div className="flex items-start gap-4 md:gap-6">
+                  <div className="w-11 h-11 md:w-14 md:h-14 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0 group-hover:neon-glow transition-all duration-500">
+                    <Icon className="w-5 h-5 md:w-7 md:h-7 text-primary" />
                   </div>
                   <div className="flex-1">
-                    <h3 className="font-display font-semibold text-xl mb-3">{service.title}</h3>
-                    <p className="text-muted-foreground mb-4">{service.description}</p>
+                    <h3 className="font-display font-semibold text-base md:text-xl mb-2 md:mb-3">{service.title}</h3>
+                    <p className="text-sm md:text-base text-muted-foreground mb-3 md:mb-4">{service.description}</p>
                     <div className="flex flex-wrap gap-2 mb-4">
                       {service.features.map((feature) => (
                         <span key={feature} className="px-3 py-1 text-xs rounded-full bg-white/5 text-muted-foreground border border-white/10">

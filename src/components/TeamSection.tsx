@@ -14,9 +14,9 @@ const TeamSection = () => {
           </h2>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <div className="flex flex-wrap justify-center gap-6">
           {team.map(m => (
-            <div key={m.id} className="group">
+            <div key={m.id} className="group w-[calc(50%-0.75rem)] sm:w-56 md:w-60 lg:w-64">
               <div className="aspect-[3/4] rounded-2xl overflow-hidden bg-secondary border border-white/5 mb-4">
                 {m.photo_url ? (
                   <img

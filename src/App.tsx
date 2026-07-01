@@ -38,10 +38,19 @@ import AdminSegments from "./pages/admin/AdminSegments";
 import AdminCases from "./pages/admin/AdminCases";
 import AdminCategories from "./pages/admin/AdminCategories";
 import AdminTeam from "./pages/admin/AdminTeam";
+import AdminEditor from "./pages/admin/AdminEditor";
 import CaseDetail from "./pages/CaseDetail";
 import ProtectedRoute from "./components/admin/ProtectedRoute";
 import CookieBanner from "./components/CookieBanner";
 import ScrollToTop from "./components/ScrollToTop";
+import MobileBottomNav from "./components/MobileBottomNav";
+import SegmentLandingPage from "./components/segment/SegmentLandingPage";
+import { useParams } from "react-router-dom";
+
+const DynamicSegment = () => {
+  const { slug = '' } = useParams();
+  return <SegmentLandingPage slug={slug} />;
+};
 
 const queryClient = new QueryClient();
 
@@ -74,6 +83,7 @@ const App = () => (
             <Route path="/eventos" element={<SegmentEventos />} />
             <Route path="/marcas" element={<SegmentMarcas />} />
             <Route path="/politica" element={<SegmentPolitica />} />
+            <Route path="/s/:slug" element={<DynamicSegment />} />
 
             {/* Admin Routes */}
             <Route path="/admin/login" element={<AdminLogin />} />
@@ -94,10 +104,12 @@ const App = () => (
             <Route path="/admin/cases" element={<ProtectedRoute><AdminCases /></ProtectedRoute>} />
             <Route path="/admin/categories" element={<ProtectedRoute><AdminCategories /></ProtectedRoute>} />
             <Route path="/admin/team" element={<ProtectedRoute><AdminTeam /></ProtectedRoute>} />
+            <Route path="/admin/editor" element={<ProtectedRoute><AdminEditor /></ProtectedRoute>} />
             
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
+          <MobileBottomNav />
         </AuthProvider>
       </BrowserRouter>
     </TooltipProvider>

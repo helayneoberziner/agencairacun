@@ -5,10 +5,10 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
 import { toast } from 'sonner';
-import { Save, ExternalLink } from 'lucide-react';
+import { Save, ExternalLink, Plus, Trash2 } from 'lucide-react';
 import { Field, ListEditor, SectionCard, StringListEditor } from '@/components/admin/ContentEditorFields';
 import ImageUpload from '@/components/admin/ImageUpload';
-import { useSegmentsList, useUpdateSegmentPage, SegmentPage } from '@/hooks/useSegmentPage';
+import { useSegmentsList, useUpdateSegmentPage, useCreateSegmentPage, useDeleteSegmentPage, SegmentPage } from '@/hooks/useSegmentPage';
 import { useTestimonials } from '@/hooks/useTestimonials';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
@@ -18,6 +18,8 @@ const ICONS = ['Target','MapPin','Users','Repeat','MessageSquare','LineChart','S
 const AdminSegments = () => {
   const { data: segments = [], isLoading } = useSegmentsList();
   const { mutateAsync: updatePage, isPending } = useUpdateSegmentPage();
+  const { mutateAsync: createPage } = useCreateSegmentPage();
+  const { mutateAsync: deletePage } = useDeleteSegmentPage();
   const { testimonials } = useTestimonials();
   const [activeSlug, setActiveSlug] = useState<string>('');
   const [draft, setDraft] = useState<SegmentPage | null>(null);
@@ -58,11 +60,38 @@ const AdminSegments = () => {
     }
   };
 
+  const handleCreate = async () => {
+    const name = window.prompt('Nome do novo segmento (ex.: Saúde, Educação):');
+    if (!name?.trim()) return;
+    const slug = name.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+    if (!slug) return toast.error('Slug inválido.');
+    if (segments.some(s => s.slug === slug)) return toast.error('Já existe um segmento com esse slug.');
+    try {
+      const created = await createPage({ slug, name: name.trim() });
+      toast.success('Segmento criado. URL: /s/' + slug);
+      setActiveSlug(created.slug);
+    } catch (e: any) {
+      toast.error('Erro ao criar: ' + (e.message || ''));
+    }
+  };
+
+  const handleDelete = async () => {
+    if (!draft) return;
+    if (!window.confirm(`Excluir o segmento "${draft.name}"? Essa ação é permanente.`)) return;
+    try {
+      await deletePage(draft.id);
+      toast.success('Segmento excluído.');
+      setActiveSlug(segments.find(s => s.id !== draft.id)?.slug || '');
+    } catch (e: any) {
+      toast.error('Erro ao excluir: ' + (e.message || ''));
+    }
+  };
+
   return (
     <AdminLayout title="Segmentos">
       <div className="max-w-5xl space-y-6">
-        {/* Switcher de segmento */}
-        <div className="flex flex-wrap gap-2">
+        {/* Switcher de segmento + criar */}
+        <div className="flex flex-wrap items-center gap-2">
           {segments.map(s => (
             <button
               key={s.slug}
@@ -76,22 +105,33 @@ const AdminSegments = () => {
               {s.name}
             </button>
           ))}
+          <button
+            onClick={handleCreate}
+            className="px-4 py-2 rounded-full text-sm border border-dashed border-primary/50 text-primary hover:bg-primary/10 inline-flex items-center gap-1.5"
+          >
+            <Plus className="w-4 h-4" /> Novo segmento
+          </button>
         </div>
 
         <div className="flex items-center justify-between glass-card p-4">
           <div className="flex items-center gap-6">
             <div>
               <Label className="text-xs text-muted-foreground">Slug (URL)</Label>
-              <div className="font-mono text-sm">/{draft.slug}</div>
+              <div className="font-mono text-sm">/{draft.slug} ou /s/{draft.slug}</div>
             </div>
             <div className="flex items-center gap-2">
               <Switch checked={draft.is_active} onCheckedChange={v => setDraft({ ...draft, is_active: v })} />
               <Label>Ativo</Label>
             </div>
           </div>
-          <a href={`/${draft.slug}`} target="_blank" rel="noopener noreferrer" className="text-sm text-primary inline-flex items-center gap-1">
-            Ver página <ExternalLink className="w-3 h-3" />
-          </a>
+          <div className="flex items-center gap-3">
+            <a href={`/s/${draft.slug}`} target="_blank" rel="noopener noreferrer" className="text-sm text-primary inline-flex items-center gap-1">
+              Ver página <ExternalLink className="w-3 h-3" />
+            </a>
+            <button onClick={handleDelete} className="text-sm text-destructive hover:underline inline-flex items-center gap-1">
+              <Trash2 className="w-3.5 h-3.5" /> Excluir
+            </button>
+          </div>
         </div>
 
         <Tabs defaultValue="hero" className="w-full">

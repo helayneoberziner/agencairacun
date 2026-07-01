@@ -9,7 +9,7 @@ import ImageUpload from '@/components/admin/ImageUpload';
 import VideoInput from '@/components/admin/VideoInput';
 import CaseMediaEditor from '@/components/admin/CaseMediaEditor';
 import { toast } from 'sonner';
-import { Plus, Pencil, Trash2, X, Eye, Star, Film, Image as ImageIcon } from 'lucide-react';
+import { Plus, Pencil, Trash2, X, Eye, Star, Film, Image as ImageIcon, Save } from 'lucide-react';
 import { parseYouTubeId, resolveVideoCover } from '@/lib/videoUtils';
 import { Link } from 'react-router-dom';
 import { SEGMENTS, APPEARS_OPTIONS } from '@/lib/segments';
@@ -77,6 +77,16 @@ const AdminCases = () => {
   const [editing, setEditing] = useState<CaseRow | null>(null);
   const [isOpen, setIsOpen] = useState(false);
   const [form, setForm] = useState(emptyForm);
+  const [isSaving, setIsSaving] = useState(false);
+  const [isDirty, setIsDirty] = useState(false);
+  const isDirtyRef = { current: isDirty };
+  isDirtyRef.current = isDirty;
+
+  // Wrap setForm to track dirty state
+  const updateForm = (updater: any) => {
+    setIsDirty(true);
+    setForm(updater);
+  };
 
   const fetchAll = async () => {
     setLoading(true);
@@ -117,6 +127,10 @@ const AdminCases = () => {
 
   const save = async (e: React.FormEvent) => {
     e.preventDefault();
+    await performSave();
+  };
+
+  const performSave = async (options: { silent?: boolean; asDraft?: boolean } = {}) => {
     const metrics = form.metricsRaw.split('\n').map(l => l.trim()).filter(Boolean).map(l => {
       const [label, ...rest] = l.split('|');
       return { label: (label || '').trim(), value: rest.join('|').trim() };
@@ -144,7 +158,7 @@ const AdminCases = () => {
       category: form.category || null,
       subcategory: form.subcategory || null,
       home_featured: form.home_featured,
-      is_active: form.is_active,
+      is_active: options.asDraft ? false : form.is_active,
       is_featured: form.is_featured,
       show_on_home: form.show_on_home,
       seo_title: form.seo_title || null,
@@ -153,23 +167,47 @@ const AdminCases = () => {
     };
 
     try {
+      setIsSaving(true);
       if (editing) {
         const { error } = await supabase.from('cases' as any).update(payload).eq('id', editing.id);
         if (error) throw error;
-        toast.success('Case atualizado');
+        if (!options.silent) toast.success('Case atualizado');
       } else {
         payload.display_order = list.length;
-        const { error } = await supabase.from('cases' as any).insert(payload);
+        const { data, error } = await supabase.from('cases' as any).insert(payload).select().single();
         if (error) throw error;
-        toast.success('Case criado');
+        if (!options.silent) toast.success('Case criado');
+        if (data && options.asDraft) setEditing(data as any);
       }
-      setIsOpen(false);
+      setIsDirty(false);
+      if (!options.asDraft) setIsOpen(false);
       fetchAll();
     } catch (err: any) {
       console.error(err);
-      toast.error('Erro: ' + (err.message || ''));
+      if (!options.silent) toast.error('Erro: ' + (err.message || ''));
+    } finally {
+      setIsSaving(false);
     }
   };
+
+  // Auto-save as draft when closing without explicit save
+  const closeEditor = async () => {
+    if (isDirty && (form.client_name || form.title)) {
+      await performSave({ silent: true, asDraft: !editing });
+      toast.info('Rascunho salvo automaticamente');
+    }
+    setIsOpen(false);
+    setIsDirty(false);
+  };
+
+  // Warn on unload if dirty
+  useEffect(() => {
+    const handler = (e: BeforeUnloadEvent) => {
+      if (isDirty) { e.preventDefault(); e.returnValue = ''; }
+    };
+    window.addEventListener('beforeunload', handler);
+    return () => window.removeEventListener('beforeunload', handler);
+  }, [isDirty]);
 
   const remove = async (id: string) => {
     if (!confirm('Excluir este case?')) return;
@@ -246,13 +284,18 @@ const AdminCases = () => {
       </div>
 
       {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-background/80 backdrop-blur-sm" onClick={() => setIsOpen(false)}>
-          <div className="glass-card w-full max-w-4xl max-h-[92vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
-            <div className="sticky top-0 bg-card/95 backdrop-blur-sm p-6 border-b border-border flex items-center justify-between z-10">
-              <h2 className="text-xl font-display font-semibold">{editing ? 'Editar case' : 'Novo case'}</h2>
-              <button onClick={() => setIsOpen(false)} className="p-2 hover:bg-muted rounded-lg"><X className="w-5 h-5" /></button>
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-2 md:p-4 bg-background/80 backdrop-blur-sm" onClick={closeEditor}>
+          <div className="glass-card w-full max-w-4xl max-h-[95vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+            <div className="sticky top-0 bg-card/95 backdrop-blur-sm p-4 md:p-6 border-b border-border flex items-center justify-between z-20 gap-3">
+              <h2 className="text-lg md:text-xl font-display font-semibold truncate">{editing ? 'Editar case' : 'Novo case'} {isDirty && <span className="text-xs text-yellow-400 font-normal">• não salvo</span>}</h2>
+              <div className="flex items-center gap-2 shrink-0">
+                <Button type="submit" form="case-edit-form" disabled={isSaving} size="sm" className="shadow-lg shadow-primary/20">
+                  <Save className="w-4 h-4 mr-1.5" /> {isSaving ? 'Salvando...' : 'Salvar'}
+                </Button>
+                <button onClick={closeEditor} className="p-2 hover:bg-muted rounded-lg"><X className="w-5 h-5" /></button>
+              </div>
             </div>
-            <form onSubmit={save} className="p-6 space-y-8">
+            <form id="case-edit-form" onSubmit={save} className="p-6 space-y-8">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label>Cliente *</Label>
