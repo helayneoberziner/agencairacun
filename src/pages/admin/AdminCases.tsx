@@ -157,7 +157,7 @@ const AdminCases = () => {
       categories: form.categoriesRaw.split(',').map(s => s.trim()).filter(Boolean),
       segments: form.segments,
       appears_in: [
-        ...(form.show_on_home ? ['home_audio'] : []),
+        ...(form.show_on_home ? ['home_cases'] : []),
         ...(form.home_featured ? ['produtora'] : []),
         ...(form.is_featured ? ['cases'] : []),
         ...form.segments.map(s => `seg:${s}`),
@@ -441,7 +441,7 @@ const AdminCases = () => {
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                     <label className={`flex items-center gap-2 px-3 py-2 rounded-lg border text-sm cursor-pointer transition ${form.show_on_home ? 'bg-primary/10 border-primary/40' : 'bg-white/5 border-white/10 hover:border-primary/30'}`}>
                       <input type="checkbox" checked={form.show_on_home} onChange={e => setForm({ ...form, show_on_home: e.target.checked })} />
-                      Home (Audiovisual em destaque)
+                      Home (seção de Cases)
                     </label>
                     <label className={`flex items-center gap-2 px-3 py-2 rounded-lg border text-sm cursor-pointer transition ${form.is_featured ? 'bg-primary/10 border-primary/40' : 'bg-white/5 border-white/10 hover:border-primary/30'}`}>
                       <input type="checkbox" checked={form.is_featured} onChange={e => setForm({ ...form, is_featured: e.target.checked })} />
