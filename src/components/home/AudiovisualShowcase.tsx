@@ -4,7 +4,7 @@ import VideoPlayer from '@/components/media/VideoPlayer';
 import { useHomeContent } from '@/hooks/useHomeContent';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
-import { parseYouTubeId, resolveVideoCover, getYouTubeThumb } from '@/lib/videoUtils';
+import { resolveVideoCover } from '@/lib/videoUtils';
 
 /**
  * Cinematic audiovisual showcase. Lead section after the hero/clients
@@ -14,58 +14,18 @@ const AudiovisualShowcase = () => {
   const { content } = useHomeContent();
   const a = content.audiovisual;
 
-  // Featured cases marked to appear on "Home audiovisual".
-  // Pulls both the case hero (if it's a video) and any videos from the
-  // case's evolving media library so newly added footage shows up
-  // automatically without an extra manual toggle.
+  // Featured video portfolio pulled from the `projects` table.
+  // Marked in Admin → Projetos with the ⭐ star (is_featured).
+  // Independent from the Cases section on the home.
   const { data: projects = [] } = useQuery({
-    queryKey: ['home-audiovisual-cases'],
+    queryKey: ['home-audiovisual-projects'],
     queryFn: async () => {
-      const { data: cases } = await supabase
-        .from('cases' as any)
-        .select('id,slug,client_name,title,subtitle,subcategory,category,hero_kind,hero_media_url,hero_youtube_id,hero_image_url,appears_in,show_on_home,display_order')
-        .eq('is_active', true)
+      const { data } = await supabase
+        .from('projects')
+        .select('id,title,category,subcategory,image_url,video_url,is_featured,display_order')
+        .eq('is_featured', true)
         .order('display_order', { ascending: true });
-      const list = ((cases ?? []) as any[]).filter(c =>
-        (c.appears_in || []).includes('home_audio') || c.show_on_home
-      );
-      if (list.length === 0) return [] as any[];
-
-      const ids = list.map(c => c.id);
-      const { data: mediaRows } = await supabase
-        .from('case_media' as any)
-        .select('*')
-        .in('case_id', ids)
-        .eq('section', 'audiovisual')
-        .order('display_order', { ascending: true });
-      const media = (mediaRows ?? []) as any[];
-
-      const tiles: any[] = [];
-      for (const c of list) {
-        const heroVideo = c.hero_kind === 'video' && (c.hero_youtube_id || c.hero_media_url);
-        if (heroVideo) {
-          tiles.push({
-            id: `hero-${c.id}`,
-            title: c.title,
-            subcategory: c.subcategory,
-            category: c.category,
-            image_url: c.hero_image_url || resolveVideoCover({ videoUrl: c.hero_media_url, youtubeId: c.hero_youtube_id }),
-            video_url: c.hero_youtube_id ? `https://www.youtube.com/watch?v=${c.hero_youtube_id}` : c.hero_media_url,
-          });
-        }
-        for (const m of media.filter(x => x.case_id === c.id && x.kind !== 'image')) {
-          const yid = m.youtube_id as string | null;
-          tiles.push({
-            id: `m-${m.id}`,
-            title: m.caption || c.title,
-            subcategory: c.subcategory,
-            category: c.category,
-            image_url: yid ? getYouTubeThumb(yid, 'hq') : resolveVideoCover({ videoUrl: m.url, youtubeId: yid }),
-            video_url: yid ? `https://www.youtube.com/watch?v=${yid}` : m.url,
-          });
-        }
-      }
-      return tiles;
+      return ((data ?? []) as any[]).filter(p => !!p.video_url);
     },
   });
 
@@ -98,7 +58,12 @@ const AudiovisualShowcase = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
             {projects.map((p: any) => (
               <div key={p.id} className="group rounded-xl overflow-hidden border border-white/10 bg-secondary/30">
-                <VideoPlayer url={p.video_url} poster={p.image_url} title={p.title} aspect="aspect-video" />
+                <VideoPlayer
+                  url={p.video_url}
+                  poster={p.image_url || resolveVideoCover({ videoUrl: p.video_url })}
+                  title={p.title}
+                  aspect="aspect-video"
+                />
                 <div className="p-4">
                   {(p.subcategory || p.category) && (
                     <span className="inline-block text-[10px] uppercase tracking-[0.2em] text-primary mb-1 font-medium">
