@@ -12,7 +12,8 @@ import { toast } from 'sonner';
 import { Plus, Pencil, Trash2, X, Eye, Star, Film, Image as ImageIcon, Save } from 'lucide-react';
 import { parseYouTubeId, resolveVideoCover } from '@/lib/videoUtils';
 import { Link } from 'react-router-dom';
-import { SEGMENTS, APPEARS_OPTIONS } from '@/lib/segments';
+import { SEGMENTS } from '@/lib/segments';
+import { useSegmentsList } from '@/hooks/useSegmentPage';
 
 interface CaseRow {
   id: string;
@@ -73,6 +74,7 @@ const CATEGORY_OPTIONS = ['Vídeo', 'Fotografia', 'Marketing', 'Branding', 'Film
 
 const AdminCases = () => {
   const [list, setList] = useState<CaseRow[]>([]);
+  const { data: dynamicSegments = [] } = useSegmentsList();
   const [loading, setLoading] = useState(true);
   const [editing, setEditing] = useState<CaseRow | null>(null);
   const [isOpen, setIsOpen] = useState(false);
@@ -154,7 +156,12 @@ const AdminCases = () => {
       testimonial_author: form.testimonial_author || null,
       categories: form.categoriesRaw.split(',').map(s => s.trim()).filter(Boolean),
       segments: form.segments,
-      appears_in: form.appears_in,
+      appears_in: [
+        ...(form.show_on_home ? ['home_audio'] : []),
+        ...(form.home_featured ? ['produtora'] : []),
+        ...(form.is_featured ? ['cases'] : []),
+        ...form.segments.map(s => `seg:${s}`),
+      ],
       category: form.category || null,
       subcategory: form.subcategory || null,
       home_featured: form.home_featured,
@@ -401,7 +408,15 @@ const AdminCases = () => {
                 <div className="space-y-2 pt-2">
                   <Label>Segmentos relacionados</Label>
                   <div className="flex flex-wrap gap-2">
-                    {SEGMENTS.map(s => {
+                    {(() => {
+                      const merged = [
+                        ...SEGMENTS.map(s => ({ slug: s.slug, label: s.label })),
+                        ...dynamicSegments
+                          .filter(d => !SEGMENTS.some(s => s.slug === d.slug))
+                          .map(d => ({ slug: d.slug, label: d.name })),
+                      ];
+                      return merged;
+                    })().map(s => {
                       const active = form.segments.includes(s.slug);
                       return (
                         <button
@@ -418,35 +433,29 @@ const AdminCases = () => {
                       );
                     })}
                   </div>
+                  <p className="text-xs text-muted-foreground">Ao marcar um segmento, o case aparece automaticamente nessa página.</p>
                 </div>
 
-                <div className="space-y-2 pt-2">
-                  <Label>Onde esse projeto deve aparecer</Label>
+                <div className="space-y-2 pt-4 border-t border-border">
+                  <Label>Onde exibir este case</Label>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                    {APPEARS_OPTIONS.map(opt => {
-                      const active = form.appears_in.includes(opt.value);
-                      return (
-                        <label key={opt.value} className={`flex items-center gap-2 px-3 py-2 rounded-lg border text-sm cursor-pointer transition ${active ? 'bg-primary/10 border-primary/40' : 'bg-white/5 border-white/10 hover:border-primary/30'}`}>
-                          <input
-                            type="checkbox"
-                            checked={active}
-                            onChange={() => setForm({
-                              ...form,
-                              appears_in: active ? form.appears_in.filter(x => x !== opt.value) : [...form.appears_in, opt.value],
-                            })}
-                          />
-                          {opt.label}
-                        </label>
-                      );
-                    })}
+                    <label className={`flex items-center gap-2 px-3 py-2 rounded-lg border text-sm cursor-pointer transition ${form.show_on_home ? 'bg-primary/10 border-primary/40' : 'bg-white/5 border-white/10 hover:border-primary/30'}`}>
+                      <input type="checkbox" checked={form.show_on_home} onChange={e => setForm({ ...form, show_on_home: e.target.checked })} />
+                      Home (Audiovisual em destaque)
+                    </label>
+                    <label className={`flex items-center gap-2 px-3 py-2 rounded-lg border text-sm cursor-pointer transition ${form.is_featured ? 'bg-primary/10 border-primary/40' : 'bg-white/5 border-white/10 hover:border-primary/30'}`}>
+                      <input type="checkbox" checked={form.is_featured} onChange={e => setForm({ ...form, is_featured: e.target.checked })} />
+                      Destacar na página de Cases
+                    </label>
+                    <label className={`flex items-center gap-2 px-3 py-2 rounded-lg border text-sm cursor-pointer transition ${form.home_featured ? 'bg-primary/10 border-primary/40' : 'bg-white/5 border-white/10 hover:border-primary/30'}`}>
+                      <input type="checkbox" checked={form.home_featured} onChange={e => setForm({ ...form, home_featured: e.target.checked })} />
+                      Destaque na página Produtora
+                    </label>
+                    <label className={`flex items-center gap-2 px-3 py-2 rounded-lg border text-sm cursor-pointer transition ${form.is_active ? 'bg-emerald-500/10 border-emerald-500/40' : 'bg-white/5 border-white/10 hover:border-primary/30'}`}>
+                      <input type="checkbox" checked={form.is_active} onChange={e => setForm({ ...form, is_active: e.target.checked })} />
+                      Ativo (visível no site)
+                    </label>
                   </div>
-                </div>
-
-                <div className="flex flex-wrap gap-4 pt-2">
-                  <label className="inline-flex items-center gap-2 text-sm"><input type="checkbox" checked={form.show_on_home} onChange={e => setForm({ ...form, show_on_home: e.target.checked })} /> Exibir na Home</label>
-                  <label className="inline-flex items-center gap-2 text-sm"><input type="checkbox" checked={form.is_featured} onChange={e => setForm({ ...form, is_featured: e.target.checked })} /> Destacar em Cases</label>
-                  <label className="inline-flex items-center gap-2 text-sm"><input type="checkbox" checked={form.home_featured} onChange={e => setForm({ ...form, home_featured: e.target.checked })} /> Destaque na Home Produtora</label>
-                  <label className="inline-flex items-center gap-2 text-sm"><input type="checkbox" checked={form.is_active} onChange={e => setForm({ ...form, is_active: e.target.checked })} /> Ativo</label>
                 </div>
               </div>
 
