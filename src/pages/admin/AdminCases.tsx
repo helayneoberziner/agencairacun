@@ -12,7 +12,8 @@ import { toast } from 'sonner';
 import { Plus, Pencil, Trash2, X, Eye, Star, Film, Image as ImageIcon, Save } from 'lucide-react';
 import { parseYouTubeId, resolveVideoCover } from '@/lib/videoUtils';
 import { Link } from 'react-router-dom';
-import { SEGMENTS, APPEARS_OPTIONS } from '@/lib/segments';
+import { SEGMENTS } from '@/lib/segments';
+import { useSegmentsList } from '@/hooks/useSegmentPage';
 
 interface CaseRow {
   id: string;
