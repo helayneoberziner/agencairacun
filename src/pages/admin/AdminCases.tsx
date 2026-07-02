@@ -74,6 +74,7 @@ const CATEGORY_OPTIONS = ['Vídeo', 'Fotografia', 'Marketing', 'Branding', 'Film
 
 const AdminCases = () => {
   const [list, setList] = useState<CaseRow[]>([]);
+  const { data: dynamicSegments = [] } = useSegmentsList();
   const [loading, setLoading] = useState(true);
   const [editing, setEditing] = useState<CaseRow | null>(null);
   const [isOpen, setIsOpen] = useState(false);
@@ -155,7 +156,12 @@ const AdminCases = () => {
       testimonial_author: form.testimonial_author || null,
       categories: form.categoriesRaw.split(',').map(s => s.trim()).filter(Boolean),
       segments: form.segments,
-      appears_in: form.appears_in,
+      appears_in: [
+        ...(form.show_on_home ? ['home_audio'] : []),
+        ...(form.home_featured ? ['produtora'] : []),
+        ...(form.is_featured ? ['cases'] : []),
+        ...form.segments.map(s => `seg:${s}`),
+      ],
       category: form.category || null,
       subcategory: form.subcategory || null,
       home_featured: form.home_featured,
