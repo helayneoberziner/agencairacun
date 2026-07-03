@@ -1,22 +1,26 @@
-import { Building2, Utensils, CalendarDays, Tag, Camera, Landmark, Vote, ArrowRight } from 'lucide-react';
+import { Building2, Utensils, CalendarDays, Tag, Camera, Landmark, Vote, ArrowRight, Briefcase, Sparkles } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useProdutoraContent } from '@/hooks/useProdutoraContent';
+import { useSegmentsList } from '@/hooks/useSegmentPage';
 
-const iconMap = [Landmark, Building2, Utensils, CalendarDays, Tag, Vote, Camera];
+const iconMap = [Landmark, Building2, Utensils, CalendarDays, Tag, Vote, Camera, Briefcase, Sparkles];
 
-const slugMap: Record<string, string> = {
-  'Imobiliário': '/imobiliario',
-  'Empresas': '/empresas',
-  'Restaurantes': '/restaurantes',
-  'Eventos': '/eventos',
-  'Marcas': '/marcas',
-  'Política e Eleição': '/politica',
-  'Política': '/politica',
-};
+const staticSlugs = ['imobiliario', 'empresas', 'restaurantes', 'eventos', 'marcas', 'politica'];
 
 const MarketsSection = () => {
   const { content } = useProdutoraContent();
   const { segments } = content;
+  const { data: dbSegments = [] } = useSegmentsList();
+
+  // Build dynamic list from active segment_pages; fallback description from produtora content items by title
+  const items = dbSegments
+    .filter(s => s.is_active)
+    .map(s => {
+      const match = segments.items.find(it => it.title.toLowerCase() === s.name.toLowerCase());
+      const description = match?.description || s.content?.intro?.description || s.content?.hero?.subtitle || '';
+      const path = staticSlugs.includes(s.slug) ? `/${s.slug}` : `/s/${s.slug}`;
+      return { title: s.name, description, path };
+    });
 
   return (
     <section className="section-padding">
@@ -34,9 +38,9 @@ const MarketsSection = () => {
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-5">
-          {segments.items.map((seg, i) => {
+          {items.map((seg, i) => {
             const Icon = iconMap[i % iconMap.length];
-            const path = slugMap[seg.title] || '/';
+            const path = seg.path;
             return (
               <Link
                 key={i}
