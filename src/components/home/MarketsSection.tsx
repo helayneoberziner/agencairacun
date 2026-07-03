@@ -1,34 +1,22 @@
-import { Building2, Utensils, CalendarDays, Tag, Camera, Landmark, Vote, Briefcase, ArrowRight } from 'lucide-react';
+import { Building2, Utensils, CalendarDays, Tag, Camera, Landmark, Vote, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useProdutoraContent } from '@/hooks/useProdutoraContent';
-import { useSegmentsList } from '@/hooks/useSegmentPage';
-import { SEGMENTS } from '@/lib/segments';
 
-const iconMap = [Landmark, Building2, Utensils, CalendarDays, Tag, Vote, Camera, Briefcase];
+const iconMap = [Landmark, Building2, Utensils, CalendarDays, Tag, Vote, Camera];
 
-const legacyPathBySlug: Record<string, string> = Object.fromEntries(
-  SEGMENTS.map(s => [s.slug, s.path])
-);
+const slugMap: Record<string, string> = {
+  'Imobiliário': '/imobiliario',
+  'Empresas': '/empresas',
+  'Restaurantes': '/restaurantes',
+  'Eventos': '/eventos',
+  'Marcas': '/marcas',
+  'Política e Eleição': '/politica',
+  'Política': '/politica',
+};
 
 const MarketsSection = () => {
   const { content } = useProdutoraContent();
-  const { data: segmentPages = [] } = useSegmentsList();
-
-  const dynamic = segmentPages
-    .filter(s => s.is_active)
-    .map(s => ({
-      title: s.name,
-      description: s.content?.intro?.description || s.content?.hero?.subtitle || 'Estratégia e produção sob medida para o segmento.',
-      path: legacyPathBySlug[s.slug] || `/s/${s.slug}`,
-    }));
-
-  const items = dynamic.length > 0
-    ? dynamic
-    : content.segments.items.map(seg => ({
-        title: seg.title,
-        description: seg.description,
-        path: '/',
-      }));
+  const { segments } = content;
 
   return (
     <section className="section-padding">
@@ -38,7 +26,7 @@ const MarketsSection = () => {
             Mercados
           </span>
           <h2 className="text-3xl md:text-5xl font-display font-bold mb-4">
-            {content.segments.sectionTitle} <span className="text-gradient-neon">{content.segments.sectionTitleHighlight}</span>
+            {segments.sectionTitle} <span className="text-gradient-neon">{segments.sectionTitleHighlight}</span>
           </h2>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
             Experiência em diferentes segmentos com entendimento das necessidades de cada mercado.
@@ -46,12 +34,13 @@ const MarketsSection = () => {
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-5">
-          {items.map((seg, i) => {
+          {segments.items.map((seg, i) => {
             const Icon = iconMap[i % iconMap.length];
+            const path = slugMap[seg.title] || '/';
             return (
               <Link
                 key={i}
-                to={seg.path}
+                to={path}
                 className="glass-card p-4 md:p-6 text-left hover:border-primary/40 transition-all duration-300 group flex flex-col"
               >
                 <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-3 md:mb-4 group-hover:neon-glow transition-all duration-500">
