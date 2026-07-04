@@ -2,6 +2,8 @@ import { useState, useMemo } from 'react';
 import { Play, X, Camera } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
+import { useSegmentsList } from '@/hooks/useSegmentPage';
+import { normalizeSegment } from '@/lib/segments';
 
 interface Project {
   id: string;
@@ -24,6 +26,8 @@ interface PortfolioGridProps {
   limit?: number;
   /** Show subcategory filter tabs */
   showFilters?: boolean;
+  /** Use dynamic segment list from admin (segment_pages) as filters */
+  segmentFilters?: boolean;
   /** Section title */
   title?: string;
   titleHighlight?: string;
@@ -41,6 +45,7 @@ const PortfolioGrid = ({
   featuredOnly = false,
   limit,
   showFilters = true,
+  segmentFilters = false,
   title = 'Nossos melhores',
   titleHighlight = 'trabalhos',
   subtitle = 'Projetos selecionados que demonstram nosso padrão de qualidade.',
@@ -49,6 +54,7 @@ const PortfolioGrid = ({
   const [activeFilter, setActiveFilter] = useState('Todos');
   const [videoModal, setVideoModal] = useState<string | null>(null);
   const [photoModal, setPhotoModal] = useState<{ src: string; title: string } | null>(null);
+  const { data: dbSegments = [] } = useSegmentsList();
 
   const { data: projects = [] } = useQuery({
     queryKey: ['portfolio-projects', filterCategory, featuredOnly],
@@ -77,16 +83,25 @@ const PortfolioGrid = ({
   });
 
   const subcategories = useMemo(() => {
+    if (segmentFilters) {
+      const present = new Set(projects.map(p => normalizeSegment(p.subcategory || '')).filter(Boolean));
+      const active = dbSegments.filter(s => s.is_active && present.has(s.slug));
+      return ['Todos', ...active.map(s => s.name)];
+    }
     const subs = projects
       .map(p => p.subcategory)
       .filter((s): s is string => !!s);
     return ['Todos', ...Array.from(new Set(subs))];
-  }, [projects]);
+  }, [projects, segmentFilters, dbSegments]);
 
   const filtered = useMemo(() => {
     if (activeFilter === 'Todos') return projects;
+    if (segmentFilters) {
+      const target = normalizeSegment(activeFilter);
+      return projects.filter(p => normalizeSegment(p.subcategory || '') === target);
+    }
     return projects.filter(p => p.subcategory === activeFilter);
-  }, [projects, activeFilter]);
+  }, [projects, activeFilter, segmentFilters]);
 
   if (projects.length === 0) return null;
 

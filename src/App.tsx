@@ -46,6 +46,7 @@ import ScrollToTop from "./components/ScrollToTop";
 import MobileBottomNav from "./components/MobileBottomNav";
 import SegmentLandingPage from "./components/segment/SegmentLandingPage";
 import { useParams } from "react-router-dom";
+import RealtimeSyncProvider from "./hooks/useRealtimeSync";
 
 const DynamicSegment = () => {
   const { slug = '' } = useParams();
@@ -61,6 +62,7 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <AuthProvider>
+          <RealtimeSyncProvider>
           <ScrollToTop />
           <CookieBanner />
           <Routes>
@@ -110,6 +112,7 @@ const App = () => (
             <Route path="*" element={<NotFound />} />
           </Routes>
           <MobileBottomNav />
+          </RealtimeSyncProvider>
         </AuthProvider>
       </BrowserRouter>
     </TooltipProvider>
