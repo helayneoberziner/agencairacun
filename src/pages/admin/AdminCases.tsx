@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import AdminLayout from '@/components/admin/AdminLayout';
 import { supabase } from '@/integrations/supabase/client';
+import { useQueryClient } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -75,6 +76,7 @@ const CATEGORY_OPTIONS = ['Vídeo', 'Fotografia', 'Marketing', 'Branding', 'Film
 const AdminCases = () => {
   const [list, setList] = useState<CaseRow[]>([]);
   const { data: dynamicSegments = [] } = useSegmentsList();
+  const queryClient = useQueryClient();
   const [loading, setLoading] = useState(true);
   const [editing, setEditing] = useState<CaseRow | null>(null);
   const [isOpen, setIsOpen] = useState(false);
@@ -189,6 +191,12 @@ const AdminCases = () => {
       setIsDirty(false);
       if (!options.asDraft) setIsOpen(false);
       fetchAll();
+      // Refresh public-facing caches so cases show up immediately on segment
+      // pages, cases page, home cases block, and portfolio galleries.
+      queryClient.invalidateQueries({ queryKey: ['cases'] });
+      queryClient.invalidateQueries({ queryKey: ['case'] });
+      queryClient.invalidateQueries({ queryKey: ['segment-gallery'] });
+      queryClient.invalidateQueries({ queryKey: ['segment-clients'] });
     } catch (err: any) {
       console.error(err);
       if (!options.silent) toast.error('Erro: ' + (err.message || ''));
@@ -221,6 +229,8 @@ const AdminCases = () => {
     await supabase.from('cases' as any).delete().eq('id', id);
     toast.success('Excluído');
     fetchAll();
+    queryClient.invalidateQueries({ queryKey: ['cases'] });
+    queryClient.invalidateQueries({ queryKey: ['segment-gallery'] });
   };
 
   const toggleField = async (id: string, field: 'show_on_home' | 'is_featured' | 'is_active', current: boolean) => {
