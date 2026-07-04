@@ -1,7 +1,5 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom'; 
-import { useQuery } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase/client';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import WhatsAppButton from '@/components/WhatsAppButton';
@@ -10,14 +8,27 @@ import GlobalCTA from '@/components/cta/GlobalCTA';
 import { useCases } from '@/hooks/useCases';
 import { resolveVideoCover } from '@/lib/videoUtils';
 import SEO from '@/components/seo/SEO';
+import { useSegmentsList } from '@/hooks/useSegmentPage';
+import { normalizeSegment } from '@/lib/segments';
 
 const Cases = () => {
-  const [filter, setFilter] = useState<string>('Todos');
+  const [filter, setFilter] = useState<string>('todos');
   const { data: cases = [], isLoading } = useCases();
+  const { data: dbSegments = [] } = useSegmentsList();
 
-  const allCats = Array.from(new Set(cases.flatMap(c => c.categories || [])));
-  const categories = ['Todos', ...allCats];
-  const filtered = filter === 'Todos' ? cases : cases.filter(c => (c.categories || []).includes(filter));
+  // Build filter list dynamically from active segments in the admin panel.
+  // Only shows segments that actually have at least one case linked to them,
+  // so the UI stays clean while remaining fully dynamic.
+  const usedSegs = new Set(cases.flatMap(c => (c.segments || []).map(normalizeSegment)));
+  const filterOptions = [
+    { slug: 'todos', label: 'Todos' },
+    ...dbSegments
+      .filter(s => s.is_active && usedSegs.has(s.slug))
+      .map(s => ({ slug: s.slug, label: s.name })),
+  ];
+  const filtered = filter === 'todos'
+    ? cases
+    : cases.filter(c => (c.segments || []).map(normalizeSegment).includes(filter));
 
   return (
     <div className="min-h-screen bg-background">
@@ -40,21 +51,21 @@ const Cases = () => {
           </div>
         </section>
 
-        {categories.length > 1 && (
+        {filterOptions.length > 1 && (
           <section className="pb-8">
             <div className="container-custom">
               <div className="flex flex-wrap justify-center gap-3">
-                {categories.map((category) => (
+                {filterOptions.map(opt => (
                   <button
-                    key={category}
-                    onClick={() => setFilter(category)}
+                    key={opt.slug}
+                    onClick={() => setFilter(opt.slug)}
                     className={`px-6 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
-                      filter === category
+                      filter === opt.slug
                         ? 'bg-primary text-primary-foreground neon-glow'
                         : 'bg-white/5 text-muted-foreground hover:bg-white/10'
                     }`}
                   >
-                    {category}
+                    {opt.label}
                   </button>
                 ))}
               </div>
