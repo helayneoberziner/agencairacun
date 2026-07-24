@@ -88,7 +88,7 @@ const GalleryPublic = () => {
   if (needsPassword) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background px-4">
-        <SEO title={`${meta.name} — Galeria`} description="Galeria de entrega" />
+        <SEO title={`${meta.name} — Galeria`} description="Galeria de entrega" path={`/galeria/${meta.slug}`} />
         <div className="max-w-sm w-full text-center space-y-6">
           <Lock className="w-8 h-8 mx-auto text-primary" />
           <div>
@@ -106,7 +106,7 @@ const GalleryPublic = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <SEO title={`${meta.name} — Galeria`} description={`Galeria de entrega para ${meta.client_name || meta.name}`} />
+      <SEO title={`${meta.name} — Galeria`} description={`Galeria de entrega para ${meta.client_name || meta.name}`} path={`/galeria/${meta.slug}`} />
       <header className="relative h-[52vh] min-h-[320px] w-full overflow-hidden">
         {meta.cover_url && (
           <img src={meta.cover_url} alt="" className="absolute inset-0 w-full h-full object-cover" />
