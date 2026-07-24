@@ -39,6 +39,9 @@ import AdminCases from "./pages/admin/AdminCases";
 import AdminCategories from "./pages/admin/AdminCategories";
 import AdminTeam from "./pages/admin/AdminTeam";
 import AdminEditor from "./pages/admin/AdminEditor";
+import AdminGalleries from "./pages/admin/AdminGalleries";
+import AdminGalleryEdit from "./pages/admin/AdminGalleryEdit";
+import GalleryPublic from "./pages/GalleryPublic";
 import CaseDetail from "./pages/CaseDetail";
 import ProtectedRoute from "./components/admin/ProtectedRoute";
 import CookieBanner from "./components/CookieBanner";
@@ -79,6 +82,9 @@ const App = () => (
             <Route path="/politica-de-privacidade" element={<PoliticaPrivacidade />} />
             <Route path="/termos-de-uso" element={<TermosUso />} />
 
+            {/* Galerias de entrega (público) */}
+            <Route path="/galeria/:slug" element={<GalleryPublic />} />
+
             {/* Segment landing pages */}
             <Route path="/imobiliario" element={<SegmentImobiliario />} />
             <Route path="/empresas" element={<SegmentEmpresas />} />
@@ -107,6 +113,8 @@ const App = () => (
             <Route path="/admin/categories" element={<ProtectedRoute><AdminCategories /></ProtectedRoute>} />
             <Route path="/admin/team" element={<ProtectedRoute><AdminTeam /></ProtectedRoute>} />
             <Route path="/admin/editor" element={<ProtectedRoute><AdminEditor /></ProtectedRoute>} />
+            <Route path="/admin/galleries" element={<ProtectedRoute><AdminGalleries /></ProtectedRoute>} />
+            <Route path="/admin/galleries/:id" element={<ProtectedRoute><AdminGalleryEdit /></ProtectedRoute>} />
             
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
