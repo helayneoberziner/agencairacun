@@ -22,7 +22,8 @@ import {
    Briefcase,
    Tags,
    Users,
-   Wand2
+   Wand2,
+   Camera
 } from 'lucide-react';
  import { useState } from 'react';
  
@@ -52,6 +53,7 @@ import {
           { name: 'Categorias', path: '/admin/categories', icon: Tags },
            { name: 'Projetos (legado)', path: '/admin/projects', icon: FolderOpen },
           { name: 'Propostas', path: '/admin/proposals', icon: FileText },
+          { name: 'Galerias', path: '/admin/galleries', icon: Camera },
           { name: 'Mensagens', path: '/admin/messages', icon: Mail },
         ],
       },

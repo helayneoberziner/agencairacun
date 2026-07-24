@@ -1,43 +1,84 @@
-# Plano de Implementação
+# Módulo "Galerias de Entrega" — plano de implementação
 
-Mudanças amplas em navegação, admin e mobile. Vou dividir em blocos.
+Módulo novo e isolado. Nenhuma rota, componente, estilo ou tabela existente será alterado. Só adiciono: novas rotas, novo item no menu admin, novas tabelas com prefixo `gallery_`, novo bucket de storage.
 
-## 1. Navegação e páginas
-- Unificar **Sobre + Contato** em uma única página `/sobre` (com seção de contato ao final). Remover rota `/contato` (redirecionar para `/sobre#contato`).
-- Remover submenu **Serviços** do Header. Colocar `Marketing` e `Produtora` como itens diretos, lado a lado no menu desktop.
-- Centralizar sempre a seção **Equipe** (`TeamSection`) — hoje alinha à esquerda quando poucos membros.
+## Entrega em 3 fases
 
-## 2. Admin — Segmentos dinâmicos
-- Hoje `SEGMENTS` é hardcoded em `src/lib/segments.ts` e páginas são rotas fixas.
-- Adicionar em `AdminSegments`: criar novo segmento (slug, nome) e excluir. Refletir no site público via rota dinâmica `/:segmentSlug` que consulta `segment_pages`.
-- Manter as 6 atuais funcionando; novas passam a ser servidas pela rota dinâmica.
-- Menu público de segmentos passa a ler de `segment_pages` (ativos).
+Priorizando o que você pediu ao final: primeiro versão simples funcional; depois venda; depois extras.
 
-## 3. Admin — "Editor de Site" unificado
-- Criar página `/admin/editor` com layout de duas colunas: à esquerda abas (Home, Marketing, Produtora, Sobre, Restaurantes, Segmentos, Cases, Configurações, etc.), à direita `iframe` de preview do site na rota correspondente com refresh automático.
-- Sidebar do admin: substituir os múltiplos itens de "editar X" por um único **Editor de Site**. Manter apart: Cases, Projetos, Depoimentos, Equipe, Mensagens, Mídia, LGPD, Configurações.
+### Fase 1 — MVP funcional (acesso total liberado)
+Meta: eu consigo criar galeria, subir fotos/vídeos em lote, gerar link, cliente abre pelo link (com senha opcional), visualiza em lightbox e baixa em alta.
 
-## 4. Cases — botão salvar fixo + auto-rascunho
-- No editor de case (`AdminCases`), tornar botão **Salvar** fixo no topo direito (`sticky top-4 right-4 z-50`), sempre visível ao rolar.
-- Ao desmontar/sair da edição sem salvar, gravar automaticamente o estado atual como **rascunho** (`is_active=false` ou campo `is_draft`). Usar `beforeunload` + cleanup do effect.
+Inclui:
+- Menu admin novo "Galerias" (sem mexer nos outros itens).
+- CRUD de galeria: nome, cliente, data do evento, capa, fonte/cor do título, layout (grade / mosaico / carrossel), senha opcional, data de expiração, tipo de acesso = "livre".
+- Upload em lote com barra de progresso e deduplicação por hash (reaproveita `mediaLibrary.ts`).
+- Bucket privado `gallery-originals` para o arquivo em alta; bucket público `gallery-preview` para a versão de exibição (imagem redimensionada no cliente antes do upload; vídeo mantém o mesmo arquivo por enquanto — sem transcodificação server-side no MVP).
+- Marca d'água opcional (canvas no cliente ao gerar preview).
+- Rota pública `/galeria/:slug` com senha opcional, lightbox, download individual e "baixar tudo (zip)".
+- Limite de downloads e expiração aplicados por edge function que assina URL do arquivo original (signed URL curta).
+- E-mail para o cliente ao publicar (via Resend, já configurado no projeto).
 
-## 5. Adicionar todos os projetos aos Cases
-- Script one-shot: para cada linha em `projects` sem case correspondente, criar um `case` com dados básicos (slug, título, cliente, hero_youtube_id). Rodar como migration SQL.
+### Fase 2 — Venda avulsa com desconto progressivo
+- Tipo de acesso "venda avulsa" com faixas de preço configuráveis (ex.: 1–5 → R$X, 6–10 → R$Y, 11+ → R$Z).
+- Carrinho no cliente, cálculo em tempo real do valor com desconto.
+- Checkout via **Mercado Pago** (Pix + cartão, mais simples no Brasil).
+- Edge function de webhook confirma pagamento e libera downloads em alta apenas dos itens comprados.
+- Notificação por e-mail para você quando houver compra ou seleção finalizada.
+- Cupons de desconto (opcional, se sobrar espaço).
 
-## 6. Home
-- Aumentar logo no header desktop (h-10 → h-14/h-16).
-- Mobile: ajustar padding do container para não cortar (`px-4` mínimo) e reduzir logo se necessário.
+### Fase 3 — Extras
+- Álbuns dentro da galeria (Cerimônia / Festa / Making of).
+- Modo apresentação (slideshow fullscreen).
+- Painel de estatísticas por galeria: visitas, favoritos, vendas.
+- Estrutura preparada para upsell de produtos físicos (tabela pronta, UI depois).
 
-## 7. Mobile — app-like
-- Substituir menu hambúrguer por **bottom navigation bar** fixa estilo Instagram, com ícones: Home, Cases, Serviços (abre sheet com Marketing/Produtora/Segmentos), Sobre, WhatsApp.
-- Remover botão flutuante de WhatsApp no mobile (fica na bottom bar).
-- Reduzir padding/tamanho dos cards de serviços/segmentos no mobile (imagem anexa mostra cards ocupando altura excessiva): menor padding, ícone menor, layout mais denso — sensação de feed.
-- Padding-bottom global no mobile para não sobrepor conteúdo com a bottom bar.
-- **Nenhuma alteração no layout desktop.**
+## Detalhes técnicos
 
-## Notas técnicas
-- Rota dinâmica de segmentos: novo `<Route path="/s/:slug" element={<SegmentDynamic/>}>` para novos; manter rotas legadas.
-- Auto-draft: usar `useRef` do form + `useEffect` cleanup chamando upsert com `is_active=false` se `isDirty`.
-- Bottom nav: novo componente `MobileBottomNav.tsx`, renderizado em `App.tsx` fora do admin, escondido em `lg:hidden`.
-- WhatsAppButton: retornar `null` também em mobile (`useIsMobile`).
-- Preview no editor admin: `iframe src={previewUrl}` + botão "Recarregar preview" após salvar.
+### Banco (novas tabelas, todas com RLS + GRANT)
+- `gallery_galleries` — slug, client_name, client_email, event_date, cover_url, title_font, title_color, layout, access_type ('free'|'paid'), password_hash, expires_at, download_limit, watermark_enabled, status, price_tiers jsonb, created_by.
+- `gallery_albums` — gallery_id, name, display_order.
+- `gallery_items` — gallery_id, album_id, kind ('image'|'video'), original_path (bucket privado), preview_url (bucket público), width, height, size, hash, display_order.
+- `gallery_orders` — gallery_id, client_email, status, subtotal, discount, total, mp_payment_id, paid_at.
+- `gallery_order_items` — order_id, item_id, unit_price.
+- `gallery_downloads` — item_id, order_id (nullable no modo livre), ip, downloaded_at (para limite/estatística).
+- `gallery_visits` — gallery_id, visited_at, ip (estatísticas).
+
+Políticas: admin gerencia tudo; público faz `SELECT` em galleries/items/albums só quando `status='active'` e não expirada; downloads e ordens acessados via edge function com service role.
+
+### Storage
+- Bucket privado `gallery-originals` — arquivos em alta. Download só por signed URL emitida por edge function que valida acesso (senha/pagamento/expiração).
+- Bucket público `gallery-preview` — versões comprimidas com marca d'água opcional.
+
+### Edge functions
+- `gallery-access` — valida senha, gera cookie/token curto.
+- `gallery-download` — recebe token + item_id, valida direito, retorna signed URL de 5 min.
+- `gallery-zip` — gera zip on-the-fly (só no modo livre).
+- `gallery-mp-webhook` — recebe webhook do Mercado Pago, libera pedido.
+- `gallery-publish-email` — envia link ao cliente via Resend.
+
+### Rotas front-end novas
+- Admin: `/admin/galleries`, `/admin/galleries/new`, `/admin/galleries/:id`.
+- Público: `/galeria/:slug` (com etapa de senha se houver), `/galeria/:slug/checkout`, `/galeria/:slug/pago`.
+
+### Isolamento
+- Todos os arquivos novos ficam em `src/pages/admin/galleries/`, `src/pages/galleries/`, `src/components/galleries/`, `src/hooks/galleries/`, `supabase/functions/gallery-*`.
+- Item de menu adicionado no `AdminLayout` sem remover nenhum item existente.
+- Nenhuma tabela ou rota existente é tocada.
+
+## Ponto de atenção — custo de storage
+Vídeos em alta resolução consomem muito espaço no Supabase Storage. Para fotos e vídeos curtos o Supabase resolve bem no início. Se o volume de vídeo passar de ~50–100 GB por mês, recomendo migrar `gallery-originals` para **Cloudflare R2** (egress zero) ou **Bunny.net Storage** (barato + CDN). O código já vai abstrair o caminho do arquivo para essa migração ser fácil no futuro.
+
+## Segredos necessários
+- Fase 2: `MERCADO_PAGO_ACCESS_TOKEN` (você cria no painel do Mercado Pago) e `MERCADO_PAGO_WEBHOOK_SECRET`.
+- Resend já está no projeto.
+
+## Ordem de execução após aprovação
+1. Migration com tabelas + buckets + policies (Fase 1).
+2. Item de menu + páginas admin de listagem e criação.
+3. Upload em lote + geração de preview + marca d'água.
+4. Página pública `/galeria/:slug` + lightbox + senha + download em alta via edge function.
+5. Zip + limite de downloads + e-mail de publicação.
+6. Ao terminar Fase 1, você testa, e só então começo a Fase 2 (venda + Mercado Pago).
+
+Posso começar pela Fase 1?

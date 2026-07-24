@@ -235,6 +235,355 @@ export type Database = {
         }
         Relationships: []
       }
+      gallery_albums: {
+        Row: {
+          created_at: string
+          display_order: number
+          gallery_id: string
+          id: string
+          name: string
+        }
+        Insert: {
+          created_at?: string
+          display_order?: number
+          gallery_id: string
+          id?: string
+          name: string
+        }
+        Update: {
+          created_at?: string
+          display_order?: number
+          gallery_id?: string
+          id?: string
+          name?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "gallery_albums_gallery_id_fkey"
+            columns: ["gallery_id"]
+            isOneToOne: false
+            referencedRelation: "gallery_galleries"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      gallery_downloads: {
+        Row: {
+          downloaded_at: string
+          gallery_id: string
+          id: string
+          ip: string | null
+          item_id: string | null
+          order_id: string | null
+        }
+        Insert: {
+          downloaded_at?: string
+          gallery_id: string
+          id?: string
+          ip?: string | null
+          item_id?: string | null
+          order_id?: string | null
+        }
+        Update: {
+          downloaded_at?: string
+          gallery_id?: string
+          id?: string
+          ip?: string | null
+          item_id?: string | null
+          order_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "gallery_downloads_gallery_id_fkey"
+            columns: ["gallery_id"]
+            isOneToOne: false
+            referencedRelation: "gallery_galleries"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "gallery_downloads_item_id_fkey"
+            columns: ["item_id"]
+            isOneToOne: false
+            referencedRelation: "gallery_items"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "gallery_downloads_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "gallery_orders"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      gallery_galleries: {
+        Row: {
+          access_type: string
+          client_email: string | null
+          client_name: string
+          cover_url: string | null
+          created_at: string
+          created_by: string | null
+          download_limit: number | null
+          event_date: string | null
+          expires_at: string | null
+          id: string
+          layout: string
+          name: string
+          password_hash: string | null
+          price_tiers: Json
+          slug: string
+          status: string
+          title_color: string
+          title_font: string
+          total_sold: number
+          updated_at: string
+          visit_count: number
+          watermark_enabled: boolean
+          watermark_text: string | null
+        }
+        Insert: {
+          access_type?: string
+          client_email?: string | null
+          client_name?: string
+          cover_url?: string | null
+          created_at?: string
+          created_by?: string | null
+          download_limit?: number | null
+          event_date?: string | null
+          expires_at?: string | null
+          id?: string
+          layout?: string
+          name: string
+          password_hash?: string | null
+          price_tiers?: Json
+          slug: string
+          status?: string
+          title_color?: string
+          title_font?: string
+          total_sold?: number
+          updated_at?: string
+          visit_count?: number
+          watermark_enabled?: boolean
+          watermark_text?: string | null
+        }
+        Update: {
+          access_type?: string
+          client_email?: string | null
+          client_name?: string
+          cover_url?: string | null
+          created_at?: string
+          created_by?: string | null
+          download_limit?: number | null
+          event_date?: string | null
+          expires_at?: string | null
+          id?: string
+          layout?: string
+          name?: string
+          password_hash?: string | null
+          price_tiers?: Json
+          slug?: string
+          status?: string
+          title_color?: string
+          title_font?: string
+          total_sold?: number
+          updated_at?: string
+          visit_count?: number
+          watermark_enabled?: boolean
+          watermark_text?: string | null
+        }
+        Relationships: []
+      }
+      gallery_items: {
+        Row: {
+          album_id: string | null
+          created_at: string
+          display_order: number
+          favorite_count: number
+          file_name: string | null
+          gallery_id: string
+          hash: string | null
+          height: number | null
+          id: string
+          kind: string
+          mime_type: string | null
+          original_path: string
+          preview_url: string | null
+          size: number | null
+          width: number | null
+        }
+        Insert: {
+          album_id?: string | null
+          created_at?: string
+          display_order?: number
+          favorite_count?: number
+          file_name?: string | null
+          gallery_id: string
+          hash?: string | null
+          height?: number | null
+          id?: string
+          kind?: string
+          mime_type?: string | null
+          original_path: string
+          preview_url?: string | null
+          size?: number | null
+          width?: number | null
+        }
+        Update: {
+          album_id?: string | null
+          created_at?: string
+          display_order?: number
+          favorite_count?: number
+          file_name?: string | null
+          gallery_id?: string
+          hash?: string | null
+          height?: number | null
+          id?: string
+          kind?: string
+          mime_type?: string | null
+          original_path?: string
+          preview_url?: string | null
+          size?: number | null
+          width?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "gallery_items_album_id_fkey"
+            columns: ["album_id"]
+            isOneToOne: false
+            referencedRelation: "gallery_albums"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "gallery_items_gallery_id_fkey"
+            columns: ["gallery_id"]
+            isOneToOne: false
+            referencedRelation: "gallery_galleries"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      gallery_order_items: {
+        Row: {
+          id: string
+          item_id: string
+          order_id: string
+          unit_price: number
+        }
+        Insert: {
+          id?: string
+          item_id: string
+          order_id: string
+          unit_price?: number
+        }
+        Update: {
+          id?: string
+          item_id?: string
+          order_id?: string
+          unit_price?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "gallery_order_items_item_id_fkey"
+            columns: ["item_id"]
+            isOneToOne: false
+            referencedRelation: "gallery_items"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "gallery_order_items_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "gallery_orders"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      gallery_orders: {
+        Row: {
+          client_email: string
+          client_name: string | null
+          created_at: string
+          discount: number
+          gallery_id: string
+          id: string
+          paid_at: string | null
+          provider: string | null
+          provider_payment_id: string | null
+          status: string
+          subtotal: number
+          total: number
+          updated_at: string
+        }
+        Insert: {
+          client_email: string
+          client_name?: string | null
+          created_at?: string
+          discount?: number
+          gallery_id: string
+          id?: string
+          paid_at?: string | null
+          provider?: string | null
+          provider_payment_id?: string | null
+          status?: string
+          subtotal?: number
+          total?: number
+          updated_at?: string
+        }
+        Update: {
+          client_email?: string
+          client_name?: string | null
+          created_at?: string
+          discount?: number
+          gallery_id?: string
+          id?: string
+          paid_at?: string | null
+          provider?: string | null
+          provider_payment_id?: string | null
+          status?: string
+          subtotal?: number
+          total?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "gallery_orders_gallery_id_fkey"
+            columns: ["gallery_id"]
+            isOneToOne: false
+            referencedRelation: "gallery_galleries"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      gallery_visits: {
+        Row: {
+          gallery_id: string
+          id: string
+          ip: string | null
+          visited_at: string
+        }
+        Insert: {
+          gallery_id: string
+          id?: string
+          ip?: string | null
+          visited_at?: string
+        }
+        Update: {
+          gallery_id?: string
+          id?: string
+          ip?: string | null
+          visited_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "gallery_visits_gallery_id_fkey"
+            columns: ["gallery_id"]
+            isOneToOne: false
+            referencedRelation: "gallery_galleries"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       lgpd_requests: {
         Row: {
           created_at: string
@@ -663,6 +1012,27 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      get_gallery_by_slug: {
+        Args: { _slug: string }
+        Returns: {
+          access_type: string
+          client_name: string
+          cover_url: string
+          event_date: string
+          expires_at: string
+          has_password: boolean
+          id: string
+          layout: string
+          name: string
+          price_tiers: Json
+          slug: string
+          status: string
+          title_color: string
+          title_font: string
+          watermark_enabled: boolean
+          watermark_text: string
+        }[]
+      }
       get_proposal_by_slug: {
         Args: { _slug: string }
         Returns: {
