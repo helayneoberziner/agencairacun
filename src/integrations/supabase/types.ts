@@ -316,6 +316,45 @@ export type Database = {
           },
         ]
       }
+      gallery_favorites: {
+        Row: {
+          client_key: string
+          created_at: string
+          gallery_id: string
+          id: string
+          item_id: string
+        }
+        Insert: {
+          client_key: string
+          created_at?: string
+          gallery_id: string
+          id?: string
+          item_id: string
+        }
+        Update: {
+          client_key?: string
+          created_at?: string
+          gallery_id?: string
+          id?: string
+          item_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "gallery_favorites_gallery_id_fkey"
+            columns: ["gallery_id"]
+            isOneToOne: false
+            referencedRelation: "gallery_galleries"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "gallery_favorites_item_id_fkey"
+            columns: ["item_id"]
+            isOneToOne: false
+            referencedRelation: "gallery_items"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       gallery_galleries: {
         Row: {
           access_type: string
