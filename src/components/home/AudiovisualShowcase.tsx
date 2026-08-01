@@ -49,13 +49,13 @@ const AudiovisualShowcase = () => {
         </div>
 
         {featured && (
-          <div className="mb-8 md:mb-10 rounded-2xl overflow-hidden border border-white/10 shadow-[0_30px_80px_-30px_hsl(var(--primary)/0.4)]">
+          <div className="mb-6 md:mb-10 rounded-2xl overflow-hidden border border-white/10 shadow-[0_30px_80px_-30px_hsl(var(--primary)/0.4)]">
             <VideoPlayer url={`https://www.youtube.com/watch?v=${featured}`} aspect="aspect-video" />
           </div>
         )}
 
         {projects.length > 0 && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
+          <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6">
             {projects.map((p: any) => (
               <div key={p.id} className="group rounded-xl overflow-hidden border border-white/10 bg-secondary/30">
                 <VideoPlayer
@@ -64,13 +64,13 @@ const AudiovisualShowcase = () => {
                   title={p.title}
                   aspect="aspect-video"
                 />
-                <div className="p-4">
+                <div className="p-3 md:p-4">
                   {(p.subcategory || p.category) && (
                     <span className="inline-block text-[10px] uppercase tracking-[0.2em] text-primary mb-1 font-medium">
                       {p.subcategory || p.category}
                     </span>
                   )}
-                  <h3 className="font-display text-lg md:text-xl text-foreground">
+                  <h3 className="font-display text-sm md:text-xl text-foreground leading-snug">
                     {p.title}
                   </h3>
                 </div>
