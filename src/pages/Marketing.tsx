@@ -38,11 +38,11 @@ const Marketing = () => {
       
       <main>
         {/* Hero */}
-        <section className="relative min-h-[70vh] flex items-center justify-center overflow-hidden pt-20">
+        <section className="relative min-h-[60vh] md:min-h-[70vh] flex items-center justify-center overflow-hidden pt-20">
           <div className="absolute inset-0 gradient-mesh" />
           <ParticlesBackground />
           
-          <div className="container-custom relative z-10 text-center py-20">
+          <div className="container-custom relative z-10 text-center py-12 md:py-20">
             
             <h1 className="text-4xl md:text-6xl font-display font-bold mb-6 max-w-4xl mx-auto">
               {content.hero.title}{' '}
