@@ -43,10 +43,6 @@ const Marketing = () => {
           <ParticlesBackground />
           
           <div className="container-custom relative z-10 text-center py-20">
-            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm mb-8">
-              <Megaphone className="w-4 h-4" />
-              {content.hero.badge}
-            </span>
             
             <h1 className="text-4xl md:text-6xl font-display font-bold mb-6 max-w-4xl mx-auto">
               {content.hero.title}{' '}

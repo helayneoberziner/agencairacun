@@ -39,10 +39,6 @@ const Restaurantes = () => {
           <div className="container-custom relative z-10 py-20">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               <div>
-                <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm mb-8">
-                  <UtensilsCrossed className="w-4 h-4" />
-                  {content.hero.badge}
-                </span>
                 
                 <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-6">
                   {content.hero.title}{' '}
