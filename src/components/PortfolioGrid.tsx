@@ -116,7 +116,7 @@ const PortfolioGrid = ({
                 {badge}
               </span>
             )}
-            <h2 className="text-[1.6rem] md:text-5xl font-display font-bold mb-4">
+            <h2 className="text-3xl md:text-5xl font-display font-bold mb-4">
               {title} <span className="text-gradient-neon">{titleHighlight}</span>
             </h2>
             {subtitle && <p className="text-muted-foreground text-lg max-w-2xl mx-auto">{subtitle}</p>}

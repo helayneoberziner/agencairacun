@@ -9,7 +9,7 @@ const TeamSection = () => {
       <div className="container-custom">
         <div className="text-center mb-14 max-w-2xl mx-auto">
           <span className="text-primary text-xs md:text-sm font-medium uppercase tracking-[0.25em] mb-4 block">Equipe</span>
-          <h2 className="text-[1.6rem] md:text-5xl font-display font-bold">
+          <h2 className="text-3xl md:text-5xl font-display font-bold">
             Pessoas por trás da <span className="text-gradient-neon italic">Racun.</span>
           </h2>
         </div>

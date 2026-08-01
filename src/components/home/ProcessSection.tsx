@@ -12,12 +12,12 @@ const ProcessSection = () => {
       <div className="absolute inset-0 grid-overlay opacity-20" />
       
       <div className="container-custom relative z-10">
-        <div className="text-center max-w-3xl mx-auto mb-8 md:mb-16">
+        <div className="text-center max-w-3xl mx-auto mb-16">
           <span className="text-primary text-sm font-medium uppercase tracking-wider mb-4 block">{p.badge}</span>
-          <h2 className="text-[1.6rem] md:text-5xl font-display font-bold mb-6">
+          <h2 className="text-3xl md:text-5xl font-display font-bold mb-6">
             {p.title} <span className="text-gradient-neon">{p.titleHighlight}</span>
           </h2>
-          <p className="text-muted-foreground text-sm md:text-lg">{p.subtitle}</p>
+          <p className="text-muted-foreground text-lg">{p.subtitle}</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">

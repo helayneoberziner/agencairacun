@@ -13,12 +13,12 @@ const CasesPreview = () => {
   return (
     <section className="section-padding relative overflow-hidden">
       <div className="container-custom">
-        <div className="text-center max-w-3xl mx-auto mb-8 md:mb-16">
+        <div className="text-center max-w-3xl mx-auto mb-16">
           <span className="text-primary text-sm font-medium uppercase tracking-wider mb-4 block">{c.badge}</span>
-          <h2 className="text-[1.6rem] md:text-5xl font-display font-bold mb-6">
+          <h2 className="text-3xl md:text-5xl font-display font-bold mb-6">
             {c.title} <span className="text-gradient-neon">{c.titleHighlight}</span>
           </h2>
-          <p className="text-muted-foreground text-sm md:text-lg">{c.subtitle}</p>
+          <p className="text-muted-foreground text-lg">{c.subtitle}</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
