@@ -22,7 +22,7 @@ const ProdutoraTeaser = () => {
               Racun Filmes
             </span>
             
-            <h2 className="text-3xl md:text-4xl font-display font-bold mb-6">
+            <h2 className="text-[1.6rem] md:text-4xl font-display font-bold mb-6">
               Histórias com estética de <span className="text-gradient-neon">cinema.</span>
             </h2>
             

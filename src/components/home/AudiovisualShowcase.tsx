@@ -42,7 +42,7 @@ const AudiovisualShowcase = () => {
             <Film className="w-4 h-4" />
             {a.badge}
           </span>
-          <h2 className="text-3xl md:text-5xl lg:text-6xl font-display font-bold mb-5 leading-tight">
+          <h2 className="text-[1.6rem] md:text-5xl lg:text-6xl font-display font-bold mb-5 leading-tight">
             {a.title} <span className="text-gradient-neon italic">{a.titleHighlight}</span>
           </h2>
           <p className="text-muted-foreground text-base md:text-lg">{a.subtitle}</p>

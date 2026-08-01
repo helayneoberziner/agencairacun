@@ -13,14 +13,14 @@ const ServicesSection = () => {
       <div className="absolute top-0 right-0 w-96 h-96 bg-primary/10 rounded-full blur-[128px]" />
       
       <div className="container-custom relative z-10">
-        <div className="text-center max-w-3xl mx-auto mb-16">
+        <div className="text-center max-w-3xl mx-auto mb-8 md:mb-16">
           <span className="text-primary text-sm font-medium uppercase tracking-wider mb-4 block">
             {s.badge}
           </span>
-          <h2 className="text-3xl md:text-5xl font-display font-bold mb-6">
+          <h2 className="text-[1.6rem] md:text-5xl font-display font-bold mb-6">
             {s.title} <span className="text-gradient-neon">{s.titleHighlight}</span>
           </h2>
-          <p className="text-muted-foreground text-lg">{s.subtitle}</p>
+          <p className="text-muted-foreground text-sm md:text-lg">{s.subtitle}</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
