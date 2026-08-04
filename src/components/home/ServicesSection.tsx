@@ -11,9 +11,9 @@ const ServicesSection = () => {
   return (
     <section className="section-padding relative overflow-hidden">
       <div className="absolute top-0 right-0 w-96 h-96 bg-primary/10 rounded-full blur-[128px]" />
-
+      
       <div className="container-custom relative z-10">
-        <div className="text-center max-w-3xl mx-auto mb-12 md:mb-16">
+        <div className="text-center max-w-3xl mx-auto mb-16">
           <span className="text-primary text-sm font-medium uppercase tracking-wider mb-4 block">
             {s.badge}
           </span>
@@ -23,24 +23,28 @@ const ServicesSection = () => {
           <p className="text-muted-foreground text-lg">{s.subtitle}</p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {s.items.map((service, index) => {
             const Icon = iconMap[index % iconMap.length];
             return (
-              <Link
-                key={index}
-                to="/marketing"
-                className="glass-card p-4 md:p-5 text-left hover:border-primary/40 transition-all duration-300 group flex flex-col"
-              >
-                <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-3 md:mb-4 group-hover:neon-glow transition-all duration-500">
-                  <Icon className="w-5 h-5 md:w-6 md:h-6 text-primary" />
+              <div key={index} className="glass-card-hover p-5 md:p-8 group">
+                <div className="flex items-start gap-4 md:gap-6">
+                  <div className="w-11 h-11 md:w-14 md:h-14 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0 group-hover:neon-glow transition-all duration-500">
+                    <Icon className="w-5 h-5 md:w-7 md:h-7 text-primary" />
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="font-display font-semibold text-base md:text-xl mb-2 md:mb-3">{service.title}</h3>
+                    <p className="text-sm md:text-base text-muted-foreground mb-3 md:mb-4">{service.description}</p>
+                    <div className="flex flex-wrap gap-2 mb-4">
+                      {service.features.map((feature) => (
+                        <span key={feature} className="px-3 py-1 text-xs rounded-full bg-white/5 text-muted-foreground border border-white/10">
+                          {feature}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
                 </div>
-                <h3 className="font-display font-semibold text-sm md:text-lg mb-2">{service.title}</h3>
-                <p className="text-xs md:text-sm text-muted-foreground mb-3 md:mb-4 flex-1">{service.description}</p>
-                <span className="inline-flex items-center gap-1 text-xs md:text-sm text-primary font-medium group-hover:gap-2 transition-all">
-                  Saiba mais <ArrowRight className="w-3.5 h-3.5" />
-                </span>
-              </Link>
+              </div>
             );
           })}
         </div>

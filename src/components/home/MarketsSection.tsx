@@ -12,12 +12,16 @@ const MarketsSection = () => {
   const { segments } = content;
   const { data: dbSegments = [] } = useSegmentsList();
 
+  const shortDescriptions: Record<string, string> = {
+    Institucional: 'Vídeos que fortalecem a autoridade da sua empresa.',
+  };
+
   // Build dynamic list from active segment_pages; fallback description from produtora content items by title
   const items = dbSegments
     .filter(s => s.is_active)
     .map(s => {
       const match = segments.items.find(it => it.title.toLowerCase() === s.name.toLowerCase());
-      const description = match?.description || s.content?.intro?.description || s.content?.hero?.subtitle || '';
+      const description = shortDescriptions[s.name] || match?.description || s.content?.intro?.description || s.content?.hero?.subtitle || '';
       const path = staticSlugs.includes(s.slug) ? `/${s.slug}` : `/s/${s.slug}`;
       return { title: s.name, description, path };
     });
