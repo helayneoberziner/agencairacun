@@ -594,6 +594,38 @@ export type Database = {
           },
         ]
       }
+      gallery_sessions: {
+        Row: {
+          created_at: string
+          expires_at: string
+          gallery_id: string
+          id: string
+          token: string
+        }
+        Insert: {
+          created_at?: string
+          expires_at: string
+          gallery_id: string
+          id?: string
+          token: string
+        }
+        Update: {
+          created_at?: string
+          expires_at?: string
+          gallery_id?: string
+          id?: string
+          token?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "gallery_sessions_gallery_id_fkey"
+            columns: ["gallery_id"]
+            isOneToOne: false
+            referencedRelation: "gallery_galleries"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       gallery_visits: {
         Row: {
           gallery_id: string
@@ -1051,6 +1083,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      gallery_session_valid: {
+        Args: { _gallery_id: string; _token: string }
+        Returns: boolean
+      }
       get_gallery_by_slug: {
         Args: { _slug: string }
         Returns: {
@@ -1071,6 +1107,10 @@ export type Database = {
           watermark_enabled: boolean
           watermark_text: string
         }[]
+      }
+      get_gallery_content: {
+        Args: { _client_key?: string; _gallery_id: string; _token: string }
+        Returns: Json
       }
       get_proposal_by_slug: {
         Args: { _slug: string }
@@ -1107,6 +1147,19 @@ export type Database = {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
           _user_id: string
+        }
+        Returns: boolean
+      }
+      log_gallery_visit: {
+        Args: { _gallery_id: string; _token: string }
+        Returns: undefined
+      }
+      toggle_gallery_favorite: {
+        Args: {
+          _client_key: string
+          _gallery_id: string
+          _item_id: string
+          _token: string
         }
         Returns: boolean
       }
