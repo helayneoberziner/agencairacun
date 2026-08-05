@@ -146,9 +146,10 @@
            ) : (
              <div className="space-y-4">
                {stats.recentMessages.map((message) => (
-                 <div
-                   key={message.id}
-                   className={`p-4 rounded-lg border ${
+                <Link
+                  key={message.id}
+                  to={`/admin/messages?id=${message.id}`}
+                  className={`block p-4 rounded-lg border transition-colors hover:border-primary/50 ${
                      message.is_read 
                        ? 'bg-muted/30 border-border' 
                        : 'bg-primary/5 border-primary/20'
@@ -178,7 +179,7 @@
                        {formatDate(message.created_at)}
                      </div>
                    </div>
-                 </div>
+                </Link>
                ))}
              </div>
            )}
