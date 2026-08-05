@@ -136,6 +136,7 @@ const STATUS_OPTIONS = [
  
    const handleSelectMessage = (message: Message) => {
      setSelectedMessage(message);
+    setSearchParams({ id: message.id }, { replace: true });
      if (!message.is_read) {
        markAsRead(message.id);
      }
