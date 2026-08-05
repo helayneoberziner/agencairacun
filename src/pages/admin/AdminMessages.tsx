@@ -311,8 +311,8 @@ const STATUS_OPTIONS = [
                </div>
  
                {/* Message */}
-               <div className="p-4 rounded-lg bg-muted/30">
-                 <p className="whitespace-pre-wrap">{selectedMessage.message}</p>
+              <div className="p-4 rounded-lg bg-muted/30">
+                <p className="whitespace-pre-wrap break-words">{selectedMessage.message}</p>
                </div>
  
                {/* Actions */}
@@ -336,7 +336,7 @@ const STATUS_OPTIONS = [
                </div>
              </div>
            ) : (
-             <div className="flex flex-col items-center justify-center h-full text-muted-foreground">
+            <div className="flex flex-col items-center justify-center h-full min-h-[320px] text-muted-foreground">
                <Mail className="w-12 h-12 mb-4 opacity-50" />
                <p>Selecione uma mensagem para visualizar</p>
              </div>
