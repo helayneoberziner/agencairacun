@@ -164,9 +164,9 @@ const STATUS_OPTIONS = [
 
    return (
      <AdminLayout title="Mensagens">
-       <div className="flex flex-col lg:flex-row gap-6 h-[calc(100vh-180px)]">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:h-[calc(100vh-180px)]">
          {/* Message List */}
-         <div className="lg:w-1/3 glass-card p-4 overflow-y-auto">
+        <div className="lg:col-span-1 min-w-0 glass-card p-4 overflow-y-auto max-h-[60vh] lg:max-h-none">
            <div className="flex items-center justify-between mb-4">
              <h2 className="font-semibold">
               Leads
@@ -207,10 +207,10 @@ const STATUS_OPTIONS = [
            ) : (
              <div className="space-y-2">
               {filteredMessages.map((message) => (
-                 <button
+                <button
                    key={message.id}
                    onClick={() => handleSelectMessage(message)}
-                   className={`w-full text-left p-4 rounded-lg transition-colors ${
+                  className={`w-full min-w-0 text-left p-4 rounded-lg transition-colors ${
                      selectedMessage?.id === message.id
                        ? 'bg-primary/10 border border-primary/30'
                        : message.is_read
@@ -243,7 +243,7 @@ const STATUS_OPTIONS = [
          </div>
  
          {/* Message Detail */}
-         <div className="lg:w-2/3 glass-card p-6 overflow-y-auto">
+        <div className="lg:col-span-2 min-w-0 glass-card p-6 overflow-y-auto">
            {selectedMessage ? (
              <div className="space-y-6">
                {/* Header */}
