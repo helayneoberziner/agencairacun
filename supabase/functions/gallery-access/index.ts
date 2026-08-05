@@ -45,6 +45,14 @@ Deno.serve(async (req) => {
     const sig = await sha256(payload + ':' + secret)
     const token = btoa(`${payload}:${sig}`)
 
+    // Register a server-side session so RLS-protected content can be released
+    // only to callers that proved gallery access (password when required).
+    await supabase.from('gallery_sessions').insert({
+      gallery_id: gallery.id,
+      token,
+      expires_at: new Date(exp).toISOString(),
+    })
+
     return new Response(JSON.stringify({ token, gallery_id: gallery.id }), { headers: { ...corsHeaders, 'Content-Type': 'application/json' } })
   } catch (e) {
     return new Response(JSON.stringify({ error: (e as Error).message }), { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } })

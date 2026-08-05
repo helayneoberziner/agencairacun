@@ -42,17 +42,16 @@ const GalleryPublic = () => {
   const tiers = useMemo(() => parseTiers(meta?.price_tiers), [meta?.price_tiers]);
   const sellEnabled = tiers.length > 0;
 
-  const loadContent = useCallback(async (m: GalleryMeta) => {
+  const loadContent = useCallback(async (m: GalleryMeta, accessToken: string) => {
     const clientKey = galleryClientKey();
-    const [its, albs, favs] = await Promise.all([
-      supabase.from('gallery_items').select('*').eq('gallery_id', m.id)
-        .order('display_order', { ascending: true }).order('created_at', { ascending: true }),
-      supabase.from('gallery_albums').select('*').eq('gallery_id', m.id).order('display_order', { ascending: true }),
-      supabase.from('gallery_favorites').select('item_id').eq('gallery_id', m.id).eq('client_key', clientKey),
-    ]);
-    setItems(its.data ?? []);
-    setAlbums(albs.data ?? []);
-    setFavorites(new Set((favs.data ?? []).map((f: any) => f.item_id)));
+    const { data, error } = await supabase.rpc('get_gallery_content', {
+      _gallery_id: m.id, _token: accessToken, _client_key: clientKey,
+    });
+    if (error) throw new Error('access_denied');
+    const payload = (data ?? {}) as { items?: any[]; albums?: any[]; favorites?: string[] };
+    setItems(payload.items ?? []);
+    setAlbums(payload.albums ?? []);
+    setFavorites(new Set(payload.favorites ?? []));
   }, []);
 
   const requestAccess = useCallback(async (m: GalleryMeta, pw: string) => {
@@ -61,14 +60,15 @@ const GalleryPublic = () => {
       const { data, error } = await supabase.functions.invoke('gallery-access', { body: { slug: m.slug, password: pw || undefined } });
       if (error) throw error;
       if ((data as any)?.error) throw new Error((data as any).error);
-      setToken((data as any).token);
+      const accessToken = (data as any).token as string;
+      setToken(accessToken);
       setNeedsPassword(false);
       const visitFlag = `racun_gallery_visit_${m.id}`;
       if (!sessionStorage.getItem(visitFlag)) {
         sessionStorage.setItem(visitFlag, '1');
-        await supabase.from('gallery_visits').insert({ gallery_id: m.id });
+        await supabase.rpc('log_gallery_visit', { _gallery_id: m.id, _token: accessToken });
       }
-      await loadContent(m);
+      await loadContent(m, accessToken);
     } catch (e: any) {
       const msg = e?.message === 'invalid_password' ? 'Senha incorreta' : e?.message ?? 'Falha ao acessar';
       toast.error(msg);
@@ -99,7 +99,7 @@ const GalleryPublic = () => {
   }, [items, albumId, onlyFavorites, favorites]);
 
   const toggleFavorite = async (itemId: string) => {
-    if (!meta) return;
+    if (!meta || !token) return;
     const clientKey = galleryClientKey();
     const isFav = favorites.has(itemId);
     setFavorites(prev => {
@@ -107,11 +107,16 @@ const GalleryPublic = () => {
       isFav ? n.delete(itemId) : n.add(itemId);
       return n;
     });
-    if (isFav) {
-      await supabase.from('gallery_favorites').delete().eq('item_id', itemId).eq('client_key', clientKey);
-    } else {
-      const { error } = await supabase.from('gallery_favorites').insert({ gallery_id: meta.id, item_id: itemId, client_key: clientKey });
-      if (error) toast.error('Não foi possível favoritar');
+    const { error } = await supabase.rpc('toggle_gallery_favorite', {
+      _gallery_id: meta.id, _item_id: itemId, _token: token, _client_key: clientKey,
+    });
+    if (error) {
+      toast.error('Não foi possível favoritar');
+      setFavorites(prev => {
+        const n = new Set(prev);
+        isFav ? n.add(itemId) : n.delete(itemId);
+        return n;
+      });
     }
   };
 
