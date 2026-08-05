@@ -1,5 +1,6 @@
  import { useEffect, useState } from 'react';
  import AdminLayout from '@/components/admin/AdminLayout';
+import { useSearchParams } from 'react-router-dom';
  import { supabase } from '@/integrations/supabase/client';
  import { Button } from '@/components/ui/button';
  import { toast } from 'sonner';
@@ -32,10 +33,22 @@ const STATUS_OPTIONS = [
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('all');
   const [segmentFilter, setSegmentFilter] = useState<string>('all');
+  const [searchParams, setSearchParams] = useSearchParams();
  
    useEffect(() => {
      fetchMessages();
    }, []);
+
+  // Abre direto a mensagem indicada na URL (ex.: vindo do Dashboard)
+  useEffect(() => {
+    const id = searchParams.get('id');
+    if (!id || messages.length === 0) return;
+    const found = messages.find(m => m.id === id);
+    if (found && selectedMessage?.id !== id) {
+      setSelectedMessage(found);
+      if (!found.is_read) markAsRead(found.id);
+    }
+  }, [searchParams, messages]);
  
    const fetchMessages = async () => {
      try {
