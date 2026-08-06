@@ -96,7 +96,7 @@ const Restaurantes = () => {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-2 md:grid-cols-2 gap-6">
               {content.deliverables.items.map((item, index) => {
                 const Icon = deliverableIcons[index % deliverableIcons.length];
                 return (
@@ -127,7 +127,7 @@ const Restaurantes = () => {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {content.monthFlow.items.map((step, index) => (
                 <div key={index} className="glass-card p-6 relative">
                   <span className="text-xs text-primary font-medium uppercase tracking-wider">

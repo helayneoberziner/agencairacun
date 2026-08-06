@@ -109,7 +109,7 @@ const Sobre = () => {
               <p className="text-muted-foreground text-lg">{content.values.subtitle}</p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-2 md:grid-cols-2 gap-6">
               {content.values.items.map((value, i) => {
                 const Icon = iconMap[i % iconMap.length];
                 return (

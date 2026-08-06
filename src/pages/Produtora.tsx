@@ -78,7 +78,7 @@ const Produtora = () => {
               </h2>
               <p className="text-muted-foreground text-lg max-w-2xl mx-auto">{services.sectionSubtitle}</p>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {services.items.map((s, i) => {
                 const Icon = serviceIcons[i % serviceIcons.length];
                 return (
@@ -110,7 +110,7 @@ const Produtora = () => {
                 {segments.sectionTitle} <span className="text-gradient-neon">{segments.sectionTitleHighlight}</span>
               </h2>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-5">
               {segments.items.map((seg, i) => {
                 const slugMap: Record<string, string> = {
                   'Imobiliário': '/imobiliario','Empresas': '/empresas','Restaurantes': '/restaurantes',
@@ -141,7 +141,7 @@ const Produtora = () => {
               </h2>
               <p className="text-muted-foreground text-lg max-w-2xl mx-auto">{fotos.sectionSubtitle}</p>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {fotos.items.filter(item => item.image).map((item, i) => (
                 <div key={i} onClick={() => setFotoModal(i)} className="group cursor-pointer rounded-xl overflow-hidden aspect-[4/3] relative">
                   <img

@@ -23,7 +23,7 @@ const ServicesSection = () => {
           <p className="text-muted-foreground text-lg">{s.subtitle}</p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-2 gap-6">
           {s.items.map((service, index) => {
             const Icon = iconMap[index % iconMap.length];
             return (

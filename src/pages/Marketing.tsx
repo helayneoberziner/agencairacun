@@ -79,7 +79,7 @@ const Marketing = () => {
               <p className="text-muted-foreground text-lg">{content.services.sectionSubtitle}</p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="grid grid-cols-2 md:grid-cols-2 gap-8">
               {content.services.items.map((service, i) => {
                 const Icon = serviceIcons[i % serviceIcons.length];
                 return (
@@ -159,7 +159,7 @@ const Marketing = () => {
               <p className="text-muted-foreground text-lg">{content.modalities.sectionSubtitle}</p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
               {content.modalities.items.map((modality, i) => (
                 <div key={i} className="glass-card-hover p-8 text-center">
                   <h3 className="font-display font-semibold text-xl mb-4">{modality.title}</h3>

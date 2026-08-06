@@ -21,7 +21,7 @@ const CasesPreview = () => {
           <p className="text-muted-foreground text-lg">{c.subtitle}</p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-2 gap-6">
           {cases.slice(0, 4).map((caseItem) => {
             const cover = caseItem.hero_image_url || resolveVideoCover({ videoUrl: caseItem.hero_media_url, youtubeId: caseItem.hero_youtube_id });
             return (
