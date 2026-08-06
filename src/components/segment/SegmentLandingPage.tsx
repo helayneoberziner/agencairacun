@@ -132,7 +132,7 @@ const SegmentLandingPage = ({ slug }: Props) => {
   const renderServiceCard = (item: any, i: number) => {
     const Icon = iconMap[item.icon] || Sparkles;
     return (
-      <div key={i} className="glass-card p-6 hover:border-primary/30 transition-all duration-300 group">
+      <div key={i} className="glass-card p-3 md:p-6 hover:border-primary/30 transition-all duration-300 group">
         <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4 group-hover:neon-glow transition-all duration-500">
           <Icon className="w-6 h-6 text-primary" />
         </div>
@@ -295,7 +295,7 @@ const SegmentLandingPage = ({ slug }: Props) => {
               </div>
               <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6">
                 {segmentTestimonials.map(t => (
-                  <div key={t.id} className="glass-card p-6">
+                  <div key={t.id} className="glass-card p-3 md:p-6">
                     <p className="text-muted-foreground italic mb-4">"{t.quote}"</p>
                     <div className="border-t border-white/10 pt-4">
                       <div className="font-display font-semibold">{t.name}</div>

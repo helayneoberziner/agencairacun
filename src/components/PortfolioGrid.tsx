@@ -174,8 +174,8 @@ const PortfolioGrid = ({
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
 
                   {/* Title */}
-                  <div className="absolute bottom-4 left-4 right-14">
-                    <h3 className="font-display font-bold text-lg text-white leading-tight uppercase">
+                  <div className="absolute bottom-2 left-2 right-10 md:bottom-4 md:left-4 md:right-14">
+                    <h3 className="font-display font-bold text-xs md:text-lg text-white leading-tight uppercase">
                       {project.title}
                     </h3>
                     {project.subcategory && (
