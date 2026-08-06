@@ -127,19 +127,19 @@ const CaseDetail = () => {
               </h2>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-6">
                 {c.challenge && (
-                  <div className="glass-card p-3 md:p-6 md:p-8">
+                  <div className="glass-card p-4 md:p-8">
                     <h3 className="text-sm font-semibold text-primary uppercase tracking-wider mb-3">Desafio</h3>
                     <p className="text-muted-foreground whitespace-pre-wrap">{c.challenge}</p>
                   </div>
                 )}
                 {c.strategy && (
-                  <div className="glass-card p-3 md:p-6 md:p-8">
+                  <div className="glass-card p-4 md:p-8">
                     <h3 className="text-sm font-semibold text-primary uppercase tracking-wider mb-3">Estratégia</h3>
                     <p className="text-muted-foreground whitespace-pre-wrap">{c.strategy}</p>
                   </div>
                 )}
                 {c.solution && (
-                  <div className="glass-card p-3 md:p-6 md:p-8">
+                  <div className="glass-card p-4 md:p-8">
                     <h3 className="text-sm font-semibold text-primary uppercase tracking-wider mb-3">Solução</h3>
                     <p className="text-muted-foreground whitespace-pre-wrap">{c.solution}</p>
                   </div>

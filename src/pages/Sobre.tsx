@@ -113,7 +113,7 @@ const Sobre = () => {
               {content.values.items.map((value, i) => {
                 const Icon = iconMap[i % iconMap.length];
                 return (
-                  <div key={i} className="glass-card-hover p-4 md:p-8 flex items-start gap-6">
+                  <div key={i} className="glass-card-hover p-4 md:p-8 flex flex-col md:flex-row items-start gap-2.5 md:gap-6">
                     <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
                       <Icon className="w-7 h-7 text-primary" />
                     </div>
@@ -160,7 +160,7 @@ const Sobre = () => {
                 </a>
               </div>
 
-              <div className="glass-card p-3 md:p-6 md:p-8">
+              <div className="glass-card p-4 md:p-8">
                 {isSubmitted ? (
                   <div className="h-full flex flex-col items-center justify-center text-center py-12">
                     <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center mb-6 neon-glow"><CheckCircle className="w-10 h-10 text-primary" /></div>

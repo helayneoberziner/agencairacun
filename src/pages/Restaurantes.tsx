@@ -100,7 +100,7 @@ const Restaurantes = () => {
               {content.deliverables.items.map((item, index) => {
                 const Icon = deliverableIcons[index % deliverableIcons.length];
                 return (
-                  <div key={index} className="glass-card-hover p-4 md:p-8 flex items-start gap-6">
+                  <div key={index} className="glass-card-hover p-4 md:p-8 flex flex-col md:flex-row items-start gap-2.5 md:gap-6">
                     <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
                       <Icon className="w-7 h-7 text-primary" />
                     </div>
