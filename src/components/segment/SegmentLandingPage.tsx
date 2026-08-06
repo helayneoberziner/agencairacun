@@ -132,7 +132,7 @@ const SegmentLandingPage = ({ slug }: Props) => {
   const renderServiceCard = (item: any, i: number) => {
     const Icon = iconMap[item.icon] || Sparkles;
     return (
-      <div key={i} className="glass-card p-6 hover:border-primary/30 transition-all duration-300 group">
+      <div key={i} className="glass-card p-3 md:p-6 hover:border-primary/30 transition-all duration-300 group">
         <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4 group-hover:neon-glow transition-all duration-500">
           <Icon className="w-6 h-6 text-primary" />
         </div>
@@ -211,7 +211,7 @@ const SegmentLandingPage = ({ slug }: Props) => {
                   <h3 className="text-2xl md:text-3xl font-display font-bold mb-2">{c.marketing.title}</h3>
                   <p className="text-muted-foreground">{c.marketing.subtitle}</p>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6">
                   {c.marketing.items.map(renderServiceCard)}
                 </div>
               </div>
@@ -224,7 +224,7 @@ const SegmentLandingPage = ({ slug }: Props) => {
                   <h3 className="text-2xl md:text-3xl font-display font-bold mb-2">{c.audiovisual.title}</h3>
                   <p className="text-muted-foreground">{c.audiovisual.subtitle}</p>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6">
                   {c.audiovisual.items.map(renderServiceCard)}
                 </div>
               </div>
@@ -293,9 +293,9 @@ const SegmentLandingPage = ({ slug }: Props) => {
                   Quem já <span className="text-gradient-neon italic">confiou.</span>
                 </h2>
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6">
                 {segmentTestimonials.map(t => (
-                  <div key={t.id} className="glass-card p-6">
+                  <div key={t.id} className="glass-card p-3 md:p-6">
                     <p className="text-muted-foreground italic mb-4">"{t.quote}"</p>
                     <div className="border-t border-white/10 pt-4">
                       <div className="font-display font-semibold">{t.name}</div>

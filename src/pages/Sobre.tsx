@@ -82,10 +82,10 @@ const Sobre = () => {
                 </div>
               </div>
 
-              <div className="glass-card p-8 relative overflow-hidden">
+              <div className="glass-card p-4 md:p-8 relative overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-accent/5 to-transparent" />
                 <div className="relative z-10">
-                  <div className="grid grid-cols-2 gap-6">
+                  <div className="grid grid-cols-2 gap-3 md:gap-6">
                     {content.story.stats.map((stat, i) => (
                       <div key={i} className="text-center p-6 rounded-xl bg-white/5">
                         <div className="text-4xl font-display font-bold text-primary">{stat.value}</div>
@@ -109,11 +109,11 @@ const Sobre = () => {
               <p className="text-muted-foreground text-lg">{content.values.subtitle}</p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-2 md:grid-cols-2 gap-3 md:gap-6">
               {content.values.items.map((value, i) => {
                 const Icon = iconMap[i % iconMap.length];
                 return (
-                  <div key={i} className="glass-card-hover p-8 flex items-start gap-6">
+                  <div key={i} className="glass-card-hover p-4 md:p-8 flex flex-col md:flex-row items-start gap-2.5 md:gap-6">
                     <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
                       <Icon className="w-7 h-7 text-primary" />
                     </div>
@@ -160,7 +160,7 @@ const Sobre = () => {
                 </a>
               </div>
 
-              <div className="glass-card p-6 md:p-8">
+              <div className="glass-card p-4 md:p-8">
                 {isSubmitted ? (
                   <div className="h-full flex flex-col items-center justify-center text-center py-12">
                     <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center mb-6 neon-glow"><CheckCircle className="w-10 h-10 text-primary" /></div>

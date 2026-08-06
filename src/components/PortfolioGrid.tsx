@@ -142,7 +142,7 @@ const PortfolioGrid = ({
           )}
 
           {/* Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6">
             {filtered.map(project => {
               const youtubeId = project.video_url ? extractYoutubeId(project.video_url) : null;
               const isVideo = !!youtubeId;
@@ -174,8 +174,8 @@ const PortfolioGrid = ({
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
 
                   {/* Title */}
-                  <div className="absolute bottom-4 left-4 right-14">
-                    <h3 className="font-display font-bold text-lg text-white leading-tight uppercase">
+                  <div className="absolute bottom-2 left-2 right-10 md:bottom-4 md:left-4 md:right-14">
+                    <h3 className="font-display font-bold text-xs md:text-lg text-white leading-tight uppercase">
                       {project.title}
                     </h3>
                     {project.subcategory && (

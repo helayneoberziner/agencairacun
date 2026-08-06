@@ -96,11 +96,11 @@ const Restaurantes = () => {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-2 md:grid-cols-2 gap-3 md:gap-6">
               {content.deliverables.items.map((item, index) => {
                 const Icon = deliverableIcons[index % deliverableIcons.length];
                 return (
-                  <div key={index} className="glass-card-hover p-8 flex items-start gap-6">
+                  <div key={index} className="glass-card-hover p-4 md:p-8 flex flex-col md:flex-row items-start gap-2.5 md:gap-6">
                     <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
                       <Icon className="w-7 h-7 text-primary" />
                     </div>
@@ -127,9 +127,9 @@ const Restaurantes = () => {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6">
               {content.monthFlow.items.map((step, index) => (
-                <div key={index} className="glass-card p-6 relative">
+                <div key={index} className="glass-card p-3 md:p-6 relative">
                   <span className="text-xs text-primary font-medium uppercase tracking-wider">
                     {step.week}
                   </span>

@@ -88,7 +88,7 @@ const Cases = () => {
                 </p>
               </div>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6">
                 {filtered.map((c) => {
                   const cover = c.hero_image_url || resolveVideoCover({ videoUrl: c.hero_media_url, youtubeId: c.hero_youtube_id });
                   return (
@@ -110,10 +110,10 @@ const Cases = () => {
                           </span>
                         </div>
                       </div>
-                      <div className="p-6">
-                        <span className="text-xs text-primary font-medium uppercase tracking-wider">{c.client_name}</span>
-                        <h3 className="font-display font-semibold text-xl mt-2 mb-2 group-hover:text-primary transition-colors">{c.title}</h3>
-                        {c.subtitle && <p className="text-muted-foreground text-sm line-clamp-2">{c.subtitle}</p>}
+                      <div className="p-3 md:p-6">
+                        <span className="text-[10px] md:text-xs text-primary font-medium uppercase tracking-wider">{c.client_name}</span>
+                        <h3 className="font-display font-semibold text-sm md:text-xl mt-1 md:mt-2 mb-1 md:mb-2 group-hover:text-primary transition-colors line-clamp-2">{c.title}</h3>
+                        {c.subtitle && <p className="text-muted-foreground text-xs md:text-sm line-clamp-2">{c.subtitle}</p>}
                       </div>
                     </Link>
                   );

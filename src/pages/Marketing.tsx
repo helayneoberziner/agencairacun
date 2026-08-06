@@ -79,11 +79,11 @@ const Marketing = () => {
               <p className="text-muted-foreground text-lg">{content.services.sectionSubtitle}</p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="grid grid-cols-2 md:grid-cols-2 gap-3 md:gap-8">
               {content.services.items.map((service, i) => {
                 const Icon = serviceIcons[i % serviceIcons.length];
                 return (
-                  <div key={i} className="glass-card-hover p-8">
+                  <div key={i} className="glass-card-hover p-4 md:p-8">
                     <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center mb-6">
                       <Icon className="w-7 h-7 text-primary" />
                     </div>
@@ -127,7 +127,7 @@ const Marketing = () => {
                 </ul>
               </div>
 
-              <div className="glass-card p-8">
+              <div className="glass-card p-4 md:p-8">
                 <div className="flex items-center gap-4 mb-6">
                   <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
                     <LineChart className="w-6 h-6 text-primary" />
@@ -159,9 +159,9 @@ const Marketing = () => {
               <p className="text-muted-foreground text-lg">{content.modalities.sectionSubtitle}</p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-6">
               {content.modalities.items.map((modality, i) => (
-                <div key={i} className="glass-card-hover p-8 text-center">
+                <div key={i} className="glass-card-hover p-4 md:p-8 text-center">
                   <h3 className="font-display font-semibold text-xl mb-4">{modality.title}</h3>
                   <p className="text-muted-foreground">{modality.description}</p>
                 </div>

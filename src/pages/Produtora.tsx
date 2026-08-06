@@ -78,11 +78,11 @@ const Produtora = () => {
               </h2>
               <p className="text-muted-foreground text-lg max-w-2xl mx-auto">{services.sectionSubtitle}</p>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6">
               {services.items.map((s, i) => {
                 const Icon = serviceIcons[i % serviceIcons.length];
                 return (
-                  <div key={i} className="glass-card p-6 hover:border-primary/30 transition-all duration-300 group">
+                  <div key={i} className="glass-card p-3 md:p-6 hover:border-primary/30 transition-all duration-300 group">
                     <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4 group-hover:neon-glow transition-all duration-500">
                       <Icon className="w-6 h-6 text-primary" />
                     </div>
@@ -110,7 +110,7 @@ const Produtora = () => {
                 {segments.sectionTitle} <span className="text-gradient-neon">{segments.sectionTitleHighlight}</span>
               </h2>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-5">
               {segments.items.map((seg, i) => {
                 const slugMap: Record<string, string> = {
                   'Imobiliário': '/imobiliario','Empresas': '/empresas','Restaurantes': '/restaurantes',
@@ -118,7 +118,7 @@ const Produtora = () => {
                 };
                 const path = slugMap[seg.title] || '/';
                 return (
-                  <Link key={i} to={path} className="glass-card p-6 text-left hover:border-primary/40 transition-all duration-300 group flex flex-col">
+                  <Link key={i} to={path} className="glass-card p-3 md:p-6 text-left hover:border-primary/40 transition-all duration-300 group flex flex-col">
                     <h4 className="font-display font-semibold text-lg mb-2">{seg.title}</h4>
                     <p className="text-sm text-muted-foreground mb-5 flex-1">{seg.description}</p>
                     <span className="inline-flex items-center gap-1.5 text-sm text-primary font-medium group-hover:gap-2.5 transition-all">
@@ -141,7 +141,7 @@ const Produtora = () => {
               </h2>
               <p className="text-muted-foreground text-lg max-w-2xl mx-auto">{fotos.sectionSubtitle}</p>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6">
               {fotos.items.filter(item => item.image).map((item, i) => (
                 <div key={i} onClick={() => setFotoModal(i)} className="group cursor-pointer rounded-xl overflow-hidden aspect-[4/3] relative">
                   <img
@@ -168,7 +168,7 @@ const Produtora = () => {
             </h2>
             <div className="relative">
               <div className="hidden md:block absolute top-6 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8">
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 md:gap-8">
                 {processSteps.map((step, i) => (
                   <div key={i} className="flex flex-col items-center text-center">
                     <div className="w-12 h-12 rounded-full bg-primary/10 border-2 border-primary flex items-center justify-center mb-4 relative z-10">

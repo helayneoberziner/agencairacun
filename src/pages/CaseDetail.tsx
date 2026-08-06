@@ -18,7 +18,7 @@ const SectionGroup = ({ title, items }: { title: string; items: CaseMediaRow[] }
         <h2 className="text-2xl md:text-4xl font-display font-bold mb-8">
           {title}
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-2 gap-3 md:gap-6">
           {items.map(m => (
             <div key={m.id} className="glass-card overflow-hidden">
               {m.kind === 'image' ? (
@@ -125,21 +125,21 @@ const CaseDetail = () => {
               <h2 className="text-2xl md:text-4xl font-display font-bold mb-10">
                 O que <span className="text-gradient-neon italic">fizemos</span>
               </h2>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-6">
                 {c.challenge && (
-                  <div className="glass-card p-6 md:p-8">
+                  <div className="glass-card p-4 md:p-8">
                     <h3 className="text-sm font-semibold text-primary uppercase tracking-wider mb-3">Desafio</h3>
                     <p className="text-muted-foreground whitespace-pre-wrap">{c.challenge}</p>
                   </div>
                 )}
                 {c.strategy && (
-                  <div className="glass-card p-6 md:p-8">
+                  <div className="glass-card p-4 md:p-8">
                     <h3 className="text-sm font-semibold text-primary uppercase tracking-wider mb-3">Estratégia</h3>
                     <p className="text-muted-foreground whitespace-pre-wrap">{c.strategy}</p>
                   </div>
                 )}
                 {c.solution && (
-                  <div className="glass-card p-6 md:p-8">
+                  <div className="glass-card p-4 md:p-8">
                     <h3 className="text-sm font-semibold text-primary uppercase tracking-wider mb-3">Solução</h3>
                     <p className="text-muted-foreground whitespace-pre-wrap">{c.solution}</p>
                   </div>
@@ -162,7 +162,7 @@ const CaseDetail = () => {
               {c.metrics && c.metrics.length > 0 && (
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
                   {c.metrics.map((m, i) => (
-                    <div key={i} className="glass-card p-6 text-center">
+                    <div key={i} className="glass-card p-3 md:p-6 text-center">
                       <div className="text-3xl md:text-4xl font-display font-bold text-gradient-neon mb-2">{m.value}</div>
                       <div className="text-sm text-muted-foreground uppercase tracking-wider">{m.label}</div>
                     </div>
@@ -182,7 +182,7 @@ const CaseDetail = () => {
         {c.testimonial_text && (
           <section className="section-padding">
             <div className="container-custom max-w-4xl">
-              <div className="glass-card p-8 md:p-12 relative">
+              <div className="glass-card p-4 md:p-8 md:p-12 relative">
                 <Quote className="w-12 h-12 text-primary/30 mb-6" />
                 <p className="text-xl md:text-2xl font-display leading-relaxed mb-6">"{c.testimonial_text}"</p>
                 {c.testimonial_author && (

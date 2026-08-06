@@ -21,7 +21,7 @@ const CasesPreview = () => {
           <p className="text-muted-foreground text-lg">{c.subtitle}</p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-2 gap-3 md:gap-6">
           {cases.slice(0, 4).map((caseItem) => {
             const cover = caseItem.hero_image_url || resolveVideoCover({ videoUrl: caseItem.hero_media_url, youtubeId: caseItem.hero_youtube_id });
             return (
@@ -37,10 +37,10 @@ const CasesPreview = () => {
                     <span className="btn-primary flex items-center gap-2">Ver case <ExternalLink className="w-4 h-4" /></span>
                   </div>
                 </div>
-                <div className="p-6">
-                  <span className="text-xs text-primary font-medium uppercase tracking-wider">{caseItem.client_name}</span>
-                  <h3 className="font-display font-semibold text-xl mt-2 mb-2 group-hover:text-primary transition-colors">{caseItem.title}</h3>
-                  {caseItem.subtitle && <p className="text-muted-foreground text-sm">{caseItem.subtitle}</p>}
+                <div className="p-3 md:p-6">
+                  <span className="text-[10px] md:text-xs text-primary font-medium uppercase tracking-wider">{caseItem.client_name}</span>
+                  <h3 className="font-display font-semibold text-sm md:text-xl mt-1 md:mt-2 mb-1 md:mb-2 group-hover:text-primary transition-colors line-clamp-2">{caseItem.title}</h3>
+                  {caseItem.subtitle && <p className="text-muted-foreground text-xs md:text-sm line-clamp-2">{caseItem.subtitle}</p>}
                 </div>
               </Link>
             );
