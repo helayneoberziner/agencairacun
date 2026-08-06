@@ -83,11 +83,11 @@ const Produtora = () => {
                 const Icon = serviceIcons[i % serviceIcons.length];
                 return (
                   <div key={i} className="glass-card p-3 md:p-6 hover:border-primary/30 transition-all duration-300 group">
-                    <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4 group-hover:neon-glow transition-all duration-500">
+                    <div className="w-9 h-9 md:w-12 md:h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-3 md:mb-4 group-hover:neon-glow transition-all duration-500">
                       <Icon className="w-6 h-6 text-primary" />
                     </div>
-                    <h3 className="font-display font-semibold text-lg mb-2">{s.title}</h3>
-                    <p className="text-sm text-muted-foreground">{s.description}</p>
+                    <h3 className="font-display font-semibold text-sm md:text-lg mb-1 md:mb-2">{s.title}</h3>
+                    <p className="text-xs md:text-sm text-muted-foreground">{s.description}</p>
                   </div>
                 );
               })}
@@ -110,7 +110,7 @@ const Produtora = () => {
                 {segments.sectionTitle} <span className="text-gradient-neon">{segments.sectionTitleHighlight}</span>
               </h2>
             </div>
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-5">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-6">
               {segments.items.map((seg, i) => {
                 const slugMap: Record<string, string> = {
                   'Imobiliário': '/imobiliario','Empresas': '/empresas','Restaurantes': '/restaurantes',
@@ -119,8 +119,8 @@ const Produtora = () => {
                 const path = slugMap[seg.title] || '/';
                 return (
                   <Link key={i} to={path} className="glass-card p-3 md:p-6 text-left hover:border-primary/40 transition-all duration-300 group flex flex-col">
-                    <h4 className="font-display font-semibold text-lg mb-2">{seg.title}</h4>
-                    <p className="text-sm text-muted-foreground mb-5 flex-1">{seg.description}</p>
+                    <h4 className="font-display font-semibold text-sm md:text-lg mb-1 md:mb-2">{seg.title}</h4>
+                    <p className="text-xs md:text-sm text-muted-foreground mb-3 md:mb-5 flex-1">{seg.description}</p>
                     <span className="inline-flex items-center gap-1.5 text-sm text-primary font-medium group-hover:gap-2.5 transition-all">
                       Saiba mais <ArrowRight className="w-4 h-4" />
                     </span>
@@ -188,7 +188,7 @@ const Produtora = () => {
             <h2 className="text-3xl md:text-5xl font-display font-bold mb-12 text-center">
               <span className="text-gradient-neon">{bastidores.sectionTitle}</span>
             </h2>
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-6">
               {bastidores.images.filter(Boolean).map((src, i) => (
                 <div key={i} className="aspect-square rounded-xl overflow-hidden border border-white/5 grayscale hover:grayscale-0 transition-all duration-500">
                   <img src={src} alt={`Bastidores ${i + 1}`} className="w-full h-full object-cover" loading="lazy" />
