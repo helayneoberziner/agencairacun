@@ -110,7 +110,7 @@ const Produtora = () => {
                 {segments.sectionTitle} <span className="text-gradient-neon">{segments.sectionTitleHighlight}</span>
               </h2>
             </div>
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-5">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-6">
               {segments.items.map((seg, i) => {
                 const slugMap: Record<string, string> = {
                   'Imobiliário': '/imobiliario','Empresas': '/empresas','Restaurantes': '/restaurantes',
@@ -188,7 +188,7 @@ const Produtora = () => {
             <h2 className="text-3xl md:text-5xl font-display font-bold mb-12 text-center">
               <span className="text-gradient-neon">{bastidores.sectionTitle}</span>
             </h2>
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-6">
               {bastidores.images.filter(Boolean).map((src, i) => (
                 <div key={i} className="aspect-square rounded-xl overflow-hidden border border-white/5 grayscale hover:grayscale-0 transition-all duration-500">
                   <img src={src} alt={`Bastidores ${i + 1}`} className="w-full h-full object-cover" loading="lazy" />
