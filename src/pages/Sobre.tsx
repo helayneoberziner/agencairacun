@@ -85,7 +85,7 @@ const Sobre = () => {
               <div className="glass-card p-8 relative overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-accent/5 to-transparent" />
                 <div className="relative z-10">
-                  <div className="grid grid-cols-2 gap-6">
+                  <div className="grid grid-cols-2 gap-3 md:gap-6">
                     {content.story.stats.map((stat, i) => (
                       <div key={i} className="text-center p-6 rounded-xl bg-white/5">
                         <div className="text-4xl font-display font-bold text-primary">{stat.value}</div>
@@ -109,7 +109,7 @@ const Sobre = () => {
               <p className="text-muted-foreground text-lg">{content.values.subtitle}</p>
             </div>
 
-            <div className="grid grid-cols-2 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-2 md:grid-cols-2 gap-3 md:gap-6">
               {content.values.items.map((value, i) => {
                 const Icon = iconMap[i % iconMap.length];
                 return (

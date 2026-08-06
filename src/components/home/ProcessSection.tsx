@@ -20,7 +20,7 @@ const ProcessSection = () => {
           <p className="text-muted-foreground text-lg">{p.subtitle}</p>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6">
           {p.steps.map((step, index) => {
             const Icon = stepIcons[index % stepIcons.length];
             return (
