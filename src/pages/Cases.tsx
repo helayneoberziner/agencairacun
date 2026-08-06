@@ -110,10 +110,10 @@ const Cases = () => {
                           </span>
                         </div>
                       </div>
-                      <div className="p-6">
-                        <span className="text-xs text-primary font-medium uppercase tracking-wider">{c.client_name}</span>
-                        <h3 className="font-display font-semibold text-xl mt-2 mb-2 group-hover:text-primary transition-colors">{c.title}</h3>
-                        {c.subtitle && <p className="text-muted-foreground text-sm line-clamp-2">{c.subtitle}</p>}
+                      <div className="p-3 md:p-6">
+                        <span className="text-[10px] md:text-xs text-primary font-medium uppercase tracking-wider">{c.client_name}</span>
+                        <h3 className="font-display font-semibold text-sm md:text-xl mt-1 md:mt-2 mb-1 md:mb-2 group-hover:text-primary transition-colors line-clamp-2">{c.title}</h3>
+                        {c.subtitle && <p className="text-muted-foreground text-xs md:text-sm line-clamp-2">{c.subtitle}</p>}
                       </div>
                     </Link>
                   );
