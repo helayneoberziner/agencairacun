@@ -68,7 +68,7 @@ const HeroSection = () => {
         )}
 
         {/* Pillars */}
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-6 mt-10 md:mt-16 animate-fade-in delay-400">
+        <div className="grid-cards-3 mt-10 md:mt-16 animate-fade-in delay-400">
           {h.pillars.map((pillar, index) => {
             const Icon = iconMap[index % iconMap.length];
             return (

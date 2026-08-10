@@ -78,7 +78,7 @@ const Produtora = () => {
               </h2>
               <p className="text-muted-foreground text-lg max-w-2xl mx-auto">{services.sectionSubtitle}</p>
             </div>
-            <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6">
+            <div className="grid-cards-3">
               {services.items.map((s, i) => {
                 const Icon = serviceIcons[i % serviceIcons.length];
                 return (
@@ -110,7 +110,7 @@ const Produtora = () => {
                 {segments.sectionTitle} <span className="text-gradient-neon">{segments.sectionTitleHighlight}</span>
               </h2>
             </div>
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-6">
+            <div className="grid-cards-3">
               {segments.items.map((seg, i) => {
                 const slugMap: Record<string, string> = {
                   'Imobiliário': '/imobiliario','Empresas': '/empresas','Restaurantes': '/restaurantes',
@@ -141,7 +141,7 @@ const Produtora = () => {
               </h2>
               <p className="text-muted-foreground text-lg max-w-2xl mx-auto">{fotos.sectionSubtitle}</p>
             </div>
-            <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6">
+            <div className="grid-cards-3">
               {fotos.items.filter(item => item.image).map((item, i) => (
                 <div key={i} onClick={() => setFotoModal(i)} className="group cursor-pointer rounded-xl overflow-hidden aspect-[4/3] relative">
                   <img
@@ -168,7 +168,7 @@ const Produtora = () => {
             </h2>
             <div className="relative">
               <div className="hidden md:block absolute top-6 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 md:gap-8">
+              <div className="grid-cards-6">
                 {processSteps.map((step, i) => (
                   <div key={i} className="flex flex-col items-center text-center">
                     <div className="w-12 h-12 rounded-full bg-primary/10 border-2 border-primary flex items-center justify-center mb-4 relative z-10">
@@ -188,7 +188,7 @@ const Produtora = () => {
             <h2 className="text-3xl md:text-5xl font-display font-bold mb-12 text-center">
               <span className="text-gradient-neon">{bastidores.sectionTitle}</span>
             </h2>
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-6">
+            <div className="grid-cards-3">
               {bastidores.images.filter(Boolean).map((src, i) => (
                 <div key={i} className="aspect-square rounded-xl overflow-hidden border border-white/5 grayscale hover:grayscale-0 transition-all duration-500">
                   <img src={src} alt={`Bastidores ${i + 1}`} className="w-full h-full object-cover" loading="lazy" />

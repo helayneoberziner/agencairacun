@@ -66,7 +66,7 @@ const Sobre = () => {
         {/* Story */}
         <section className="section-padding">
           <div className="container-custom">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <div className="grid-split items-center">
               <div>
                 <span className="text-primary text-sm font-medium uppercase tracking-wider mb-4 block">
                   {content.story.label}
@@ -85,7 +85,7 @@ const Sobre = () => {
               <div className="glass-card p-4 md:p-8 relative overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-accent/5 to-transparent" />
                 <div className="relative z-10">
-                  <div className="grid grid-cols-2 gap-3 md:gap-6">
+                  <div className="grid-cards-2">
                     {content.story.stats.map((stat, i) => (
                       <div key={i} className="text-center p-6 rounded-xl bg-white/5">
                         <div className="text-4xl font-display font-bold text-primary">{stat.value}</div>
@@ -109,7 +109,7 @@ const Sobre = () => {
               <p className="text-muted-foreground text-lg">{content.values.subtitle}</p>
             </div>
 
-            <div className="grid grid-cols-2 md:grid-cols-2 gap-3 md:gap-6">
+            <div className="grid-cards-2">
               {content.values.items.map((value, i) => {
                 const Icon = iconMap[i % iconMap.length];
                 return (
@@ -140,7 +140,7 @@ const Sobre = () => {
               <p className="text-muted-foreground mt-4">Preencha o formulário abaixo ou chame no WhatsApp. Retornamos em até 24h úteis.</p>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16">
+            <div className="grid-split">
               <div className="space-y-4">
                 <a href={`mailto:${settings.email}`} className="flex items-center gap-4 p-4 rounded-xl bg-white/5 border border-white/10 hover:border-primary/30 transition-colors">
                   <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center"><Mail className="w-6 h-6 text-primary" /></div>

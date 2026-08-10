@@ -18,7 +18,7 @@ const SectionGroup = ({ title, items }: { title: string; items: CaseMediaRow[] }
         <h2 className="text-2xl md:text-4xl font-display font-bold mb-8">
           {title}
         </h2>
-        <div className="grid grid-cols-2 md:grid-cols-2 gap-3 md:gap-6">
+        <div className="grid-cards-2">
           {items.map(m => (
             <div key={m.id} className="glass-card overflow-hidden">
               {m.kind === 'image' ? (
@@ -125,7 +125,7 @@ const CaseDetail = () => {
               <h2 className="text-2xl md:text-4xl font-display font-bold mb-10">
                 O que <span className="text-gradient-neon italic">fizemos</span>
               </h2>
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-6">
+              <div className="grid-cards-3">
                 {c.challenge && (
                   <div className="glass-card p-4 md:p-8">
                     <h3 className="text-sm font-semibold text-primary uppercase tracking-wider mb-3">Desafio</h3>

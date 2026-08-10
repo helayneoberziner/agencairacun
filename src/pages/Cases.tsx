@@ -88,7 +88,7 @@ const Cases = () => {
                 </p>
               </div>
             ) : (
-              <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6">
+              <div className="grid-cards-3">
                 {filtered.map((c) => {
                   const cover = c.hero_image_url || resolveVideoCover({ videoUrl: c.hero_media_url, youtubeId: c.hero_youtube_id });
                   return (
