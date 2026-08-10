@@ -48,7 +48,7 @@ const ContactSection = () => {
       <div className="absolute top-1/4 right-0 w-96 h-96 bg-primary/10 rounded-full blur-[128px]" />
       
       <div className="container-custom relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16">
+        <div className="grid-split">
           <div>
             <span className="text-primary text-sm font-medium uppercase tracking-wider mb-4 block">{ct.badge}</span>
             <h2 className="text-2xl md:text-5xl font-display font-bold mb-4 md:mb-6">

@@ -211,7 +211,7 @@ const SegmentLandingPage = ({ slug }: Props) => {
                   <h3 className="text-2xl md:text-3xl font-display font-bold mb-2">{c.marketing.title}</h3>
                   <p className="text-muted-foreground">{c.marketing.subtitle}</p>
                 </div>
-                <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6">
+                <div className="grid-cards-3">
                   {c.marketing.items.map(renderServiceCard)}
                 </div>
               </div>
@@ -224,7 +224,7 @@ const SegmentLandingPage = ({ slug }: Props) => {
                   <h3 className="text-2xl md:text-3xl font-display font-bold mb-2">{c.audiovisual.title}</h3>
                   <p className="text-muted-foreground">{c.audiovisual.subtitle}</p>
                 </div>
-                <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6">
+                <div className="grid-cards-3">
                   {c.audiovisual.items.map(renderServiceCard)}
                 </div>
               </div>
@@ -272,7 +272,7 @@ const SegmentLandingPage = ({ slug }: Props) => {
               <h2 className="text-3xl md:text-5xl font-display font-bold mb-12 text-center">
                 <span className="text-gradient-neon italic">{c.gallery.title}</span>
               </h2>
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+              <div className="grid-cards-3">
                 {c.gallery.images.filter(Boolean).map((src, i) => (
                   <div key={i} onClick={() => setPhotoModal(src)} className="aspect-square rounded-xl overflow-hidden border border-white/5 cursor-pointer grayscale hover:grayscale-0 transition-all duration-500">
                     <img src={src} alt={`Galeria ${i + 1}`} className="w-full h-full object-cover transition-transform duration-500 hover:scale-[1.03]" loading="lazy" />
@@ -293,7 +293,7 @@ const SegmentLandingPage = ({ slug }: Props) => {
                   Quem já <span className="text-gradient-neon italic">confiou.</span>
                 </h2>
               </div>
-              <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6">
+              <div className="grid-cards-3">
                 {segmentTestimonials.map(t => (
                   <div key={t.id} className="glass-card p-3 md:p-6">
                     <p className="text-muted-foreground italic mb-4">"{t.quote}"</p>

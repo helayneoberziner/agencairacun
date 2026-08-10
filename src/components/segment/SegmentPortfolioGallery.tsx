@@ -140,7 +140,7 @@ const SegmentPortfolioGallery = ({ slug, segmentLabel, title = 'Portfólio do se
           </p>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4">
+        <div className="grid-cards-4">
           {grid.map((t, i) => {
             const tall = i % 7 === 0 || i % 11 === 0;
             return (

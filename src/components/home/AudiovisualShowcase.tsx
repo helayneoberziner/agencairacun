@@ -55,7 +55,7 @@ const AudiovisualShowcase = () => {
         )}
 
         {projects.length > 0 && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+          <div className="grid-cards-wide">
             {projects.map((p: any) => (
               <div key={p.id} className="group rounded-xl overflow-hidden border border-white/10 bg-secondary/30">
                 <VideoPlayer

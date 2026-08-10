@@ -79,7 +79,7 @@ const Marketing = () => {
               <p className="text-muted-foreground text-lg">{content.services.sectionSubtitle}</p>
             </div>
 
-            <div className="grid grid-cols-2 md:grid-cols-2 gap-3 md:gap-8">
+            <div className="grid-cards-2">
               {content.services.items.map((service, i) => {
                 const Icon = serviceIcons[i % serviceIcons.length];
                 return (
@@ -107,7 +107,7 @@ const Marketing = () => {
         {/* How we measure */}
         <section className="section-padding bg-secondary/20">
           <div className="container-custom">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <div className="grid-split items-center">
               <div>
                 <span className="text-primary text-sm font-medium uppercase tracking-wider mb-4 block">
                   {content.results.label}
@@ -159,7 +159,7 @@ const Marketing = () => {
               <p className="text-muted-foreground text-lg">{content.modalities.sectionSubtitle}</p>
             </div>
 
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-6">
+            <div className="grid-cards-3">
               {content.modalities.items.map((modality, i) => (
                 <div key={i} className="glass-card-hover p-4 md:p-8 text-center">
                   <h3 className="font-display font-semibold text-xl mb-4">{modality.title}</h3>

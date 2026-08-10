@@ -37,7 +37,7 @@ const Restaurantes = () => {
           <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-orange-500/10 rounded-full blur-[128px]" />
           
           <div className="container-custom relative z-10 py-20">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div className="grid-split items-center">
               <div>
                 <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm mb-8">
                   <UtensilsCrossed className="w-4 h-4" />
@@ -96,7 +96,7 @@ const Restaurantes = () => {
               </p>
             </div>
 
-            <div className="grid grid-cols-2 md:grid-cols-2 gap-3 md:gap-6">
+            <div className="grid-cards-2">
               {content.deliverables.items.map((item, index) => {
                 const Icon = deliverableIcons[index % deliverableIcons.length];
                 return (
@@ -127,7 +127,7 @@ const Restaurantes = () => {
               </p>
             </div>
 
-            <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6">
+            <div className="grid-cards-4">
               {content.monthFlow.items.map((step, index) => (
                 <div key={index} className="glass-card p-3 md:p-6 relative">
                   <span className="text-xs text-primary font-medium uppercase tracking-wider">
@@ -148,7 +148,7 @@ const Restaurantes = () => {
         {/* Content Pillars & Traffic */}
         <section className="section-padding">
           <div className="container-custom">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <div className="grid-split items-center">
               <div>
                 <h2 className="text-3xl md:text-4xl font-display font-bold mb-6">
                   {content.contentPillars.title} <span className="text-gradient-neon">{content.contentPillars.titleHighlight}</span>
