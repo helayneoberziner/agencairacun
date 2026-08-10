@@ -91,6 +91,35 @@
 }
 
 @layer components {
+  /* ===== Unified responsive card grids =====
+     Default: 2 columns on mobile. Use .grid-cards-wide only when a card
+     needs full width on mobile (large video/media players). */
+  .grid-cards-2 {
+    @apply grid grid-cols-2 gap-3 md:gap-6;
+  }
+
+  .grid-cards-3 {
+    @apply grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-6;
+  }
+
+  .grid-cards-4 {
+    @apply grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-6;
+  }
+
+  .grid-cards-6 {
+    @apply grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 md:gap-6;
+  }
+
+  /* Full width on mobile: video players and other media that need space */
+  .grid-cards-wide {
+    @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6;
+  }
+
+  /* Two-up editorial split (text + media): stacks on mobile by design */
+  .grid-split {
+    @apply grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16;
+  }
+
   /* Glass morphism card */
   .glass-card {
     @apply bg-secondary/60 backdrop-blur-xl border border-white/10 rounded-2xl;
