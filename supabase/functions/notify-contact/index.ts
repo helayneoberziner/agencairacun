@@ -75,6 +75,47 @@ Deno.serve(async (req) => {
       return json({ error: 'send_failed', status: res.status, details }, res.status)
     }
 
+    // Confirmação automática para o cliente (não bloqueia a notificação interna)
+    const firstName = name.split(' ')[0]
+    const confirmationHtml = `
+      <div style="font-family:Arial,Helvetica,sans-serif;background:#040d28;color:#ffffff;padding:32px">
+        <div style="max-width:600px;margin:0 auto">
+          <h2 style="color:#FF00CC;margin:0 0 16px;font-size:24px">Recebemos o seu contato, ${esc(firstName)}!</h2>
+          <p style="line-height:1.7;color:#dfe4f2;margin:0 0 16px">
+            Obrigado por falar com a Racun. Sua mensagem chegou ao nosso time e um especialista
+            responde em breve com os próximos passos para a sua marca.
+          </p>
+          ${String(body?.service ?? '').trim() ? `<p style="line-height:1.7;color:#9aa4c2;margin:0 0 16px">Interesse registrado: <strong style="color:#ffffff">${esc(body?.service)}</strong></p>` : ''}
+          <p style="line-height:1.7;color:#9aa4c2;margin:0 0 24px">
+            Se preferir agilizar, responda este e‑mail ou fale com a gente pelo WhatsApp.
+          </p>
+          <p style="margin:0;color:#FF00CC;font-weight:bold">Racun Agência</p>
+          <p style="margin:4px 0 0;color:#9aa4c2;font-size:13px">agenciaracun.com</p>
+        </div>
+      </div>`
+
+    try {
+      const confirmRes = await fetch('https://api.resend.com/emails', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${RESEND_API_KEY}`,
+        },
+        body: JSON.stringify({
+          from: `Racun Agência <${senderEmail}>`,
+          to: [email],
+          reply_to: notifyTo,
+          subject: 'Recebemos o seu contato | Racun Agência',
+          html: confirmationHtml,
+        }),
+      })
+      if (!confirmRes.ok) {
+        console.error(`Confirmation email failed [${confirmRes.status}]: ${await confirmRes.text()}`)
+      }
+    } catch (confirmError) {
+      console.error('confirmation email error', confirmError)
+    }
+
     return json({ ok: true })
   } catch (e) {
     console.error('notify-contact error', e)
