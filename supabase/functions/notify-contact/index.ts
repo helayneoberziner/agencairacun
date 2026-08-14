@@ -51,7 +51,8 @@ Deno.serve(async (req) => {
         </table>
       </div>`
 
-    const notifyTo = Deno.env.get('CONTACT_NOTIFY_EMAIL') ?? 'lucasgustavoamorim@gmail.com'
+    const notifyTo = Deno.env.get('CONTACT_NOTIFY_EMAIL') ?? 'racunagencia@gmail.com'
+    const senderEmail = Deno.env.get('SENDER_EMAIL') ?? 'contato@agenciaracun.com'
 
     const res = await fetch('https://api.resend.com/emails', {
       method: 'POST',
@@ -60,7 +61,7 @@ Deno.serve(async (req) => {
         Authorization: `Bearer ${RESEND_API_KEY}`,
       },
       body: JSON.stringify({
-        from: 'Site Racun <onboarding@resend.dev>',
+        from: `Racun Agência <${senderEmail}>`,
         to: [notifyTo],
         reply_to: email,
         subject: `Novo contato: ${name}`,
