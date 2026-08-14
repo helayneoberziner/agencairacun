@@ -53,6 +53,13 @@ export function useContactForm(options?: UseContactFormOptions) {
 
       if (error) throw error;
 
+      // Notifica a equipe por e-mail (não bloqueia o sucesso do envio)
+      try {
+        await supabase.functions.invoke('notify-contact', { body: result.data });
+      } catch (notifyError) {
+        console.error('Error sending contact notification:', notifyError);
+      }
+
       setIsSubmitted(true);
       toast.success('Mensagem enviada com sucesso!');
       options?.onSuccess?.();
