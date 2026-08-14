@@ -101,7 +101,11 @@ export function useGalleryStats(galleryId: string | undefined) {
   });
 }
 
-/** Live refresh of gallery stats (visits, favorites, orders). */
+/**
+ * Live refresh of gallery stats (visits, favorites, orders).
+ * These tables hold client PII (emails, IP addresses) and are no longer part of
+ * the realtime publication, so the admin panel polls instead of subscribing.
+ */
 export function useGalleryStatsRealtime(galleryId: string | undefined) {
   const qc = useQueryClient();
   useEffect(() => {
@@ -110,12 +114,7 @@ export function useGalleryStatsRealtime(galleryId: string | undefined) {
       qc.invalidateQueries({ queryKey: ['gallery-stats', galleryId] });
       qc.invalidateQueries({ queryKey: ['gallery-items', galleryId] });
     };
-    const channel = supabase
-      .channel(`gallery-stats-${galleryId}`)
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'gallery_visits', filter: `gallery_id=eq.${galleryId}` }, invalidate)
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'gallery_favorites', filter: `gallery_id=eq.${galleryId}` }, invalidate)
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'gallery_orders', filter: `gallery_id=eq.${galleryId}` }, invalidate)
-      .subscribe();
-    return () => { supabase.removeChannel(channel); };
+    const timer = window.setInterval(invalidate, 15000);
+    return () => window.clearInterval(timer);
   }, [galleryId, qc]);
 }
