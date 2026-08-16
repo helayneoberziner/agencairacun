@@ -1,3 +1,6 @@
 project_id = "reienfywglnjzqgsaulx"
 [functions.notify-contact]
 verify_jwt = false
+[functions.resend-webhook]
+verify_jwt = false
+

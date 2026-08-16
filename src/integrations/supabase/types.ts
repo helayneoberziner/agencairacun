@@ -203,6 +203,7 @@ export type Database = {
           message: string
           name: string
           phone: string | null
+          resend_email_id: string | null
           segment: string | null
           service: string | null
           status: string
@@ -216,6 +217,7 @@ export type Database = {
           message: string
           name: string
           phone?: string | null
+          resend_email_id?: string | null
           segment?: string | null
           service?: string | null
           status?: string
@@ -229,6 +231,7 @@ export type Database = {
           message?: string
           name?: string
           phone?: string | null
+          resend_email_id?: string | null
           segment?: string | null
           service?: string | null
           status?: string
@@ -952,6 +955,30 @@ export type Database = {
           updated_at?: string
           validity_days?: number
           whatsapp_number?: string
+        }
+        Relationships: []
+      }
+      resend_events: {
+        Row: {
+          created_at: string
+          email_id: string | null
+          event_type: string
+          id: string
+          payload: Json
+        }
+        Insert: {
+          created_at?: string
+          email_id?: string | null
+          event_type: string
+          id?: string
+          payload?: Json
+        }
+        Update: {
+          created_at?: string
+          email_id?: string | null
+          event_type?: string
+          id?: string
+          payload?: Json
         }
         Relationships: []
       }
