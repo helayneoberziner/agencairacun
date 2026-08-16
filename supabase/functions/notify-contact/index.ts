@@ -1,3 +1,5 @@
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
+
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
@@ -13,6 +15,7 @@ const esc = (v: unknown) =>
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
 
+
 Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') return new Response(null, { headers: corsHeaders })
 
@@ -21,11 +24,13 @@ Deno.serve(async (req) => {
     if (!RESEND_API_KEY) return json({ error: 'resend_not_configured' }, 500)
 
     const body = await req.json()
+    const contactMessageId = body?.contact_message_id ?? null
     const name = String(body?.name ?? '').trim().slice(0, 100)
     const email = String(body?.email ?? '').trim().slice(0, 255)
     if (!name || !email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       return json({ error: 'invalid_input' }, 400)
     }
+
 
     const rows: [string, unknown][] = [
       ['Nome', name],
@@ -74,6 +79,24 @@ Deno.serve(async (req) => {
       console.error(`Resend failed [${res.status}]: ${details}`)
       return json({ error: 'send_failed', status: res.status, details }, res.status)
     }
+
+    const resendData = await res.json().catch(() => null)
+    if (contactMessageId && resendData?.id) {
+      try {
+        const supabase = createClient(
+          Deno.env.get('SUPABASE_URL') ?? '',
+          Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? '',
+          { auth: { autoRefreshToken: false, persistSession: false } },
+        )
+        await supabase
+          .from('contact_messages')
+          .update({ resend_email_id: String(resendData.id) })
+          .eq('id', String(contactMessageId))
+      } catch (storeErr) {
+        console.error('Failed to store resend_email_id:', storeErr)
+      }
+    }
+
 
     // Confirmação automática para o cliente (não bloqueia a notificação interna)
     const firstName = name.split(' ')[0]

@@ -41,24 +41,31 @@ export function useContactForm(options?: UseContactFormOptions) {
     setIsSubmitting(true);
 
     try {
-      const { error } = await supabase.from('contact_messages').insert({
-        name: result.data.name,
-        email: result.data.email,
-        phone: result.data.phone || null,
-        company: result.data.company || null,
-        service: result.data.service || null,
-        segment: result.data.segment || null,
-        message: result.data.message,
-      } as any);
+      const { data: inserted, error } = await supabase
+        .from('contact_messages')
+        .insert({
+          name: result.data.name,
+          email: result.data.email,
+          phone: result.data.phone || null,
+          company: result.data.company || null,
+          service: result.data.service || null,
+          segment: result.data.segment || null,
+          message: result.data.message,
+        } as any)
+        .select('id')
+        .single();
 
       if (error) throw error;
 
       // Notifica a equipe por e-mail (não bloqueia o sucesso do envio)
       try {
-        await supabase.functions.invoke('notify-contact', { body: result.data });
+        await supabase.functions.invoke('notify-contact', {
+          body: { ...result.data, contact_message_id: inserted?.id },
+        });
       } catch (notifyError) {
         console.error('Error sending contact notification:', notifyError);
       }
+
 
       setIsSubmitted(true);
       toast.success('Mensagem enviada com sucesso!');
