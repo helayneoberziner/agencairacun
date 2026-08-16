@@ -24,11 +24,13 @@ Deno.serve(async (req) => {
     if (!RESEND_API_KEY) return json({ error: 'resend_not_configured' }, 500)
 
     const body = await req.json()
+    const contactMessageId = body?.contact_message_id ?? null
     const name = String(body?.name ?? '').trim().slice(0, 100)
     const email = String(body?.email ?? '').trim().slice(0, 255)
     if (!name || !email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       return json({ error: 'invalid_input' }, 400)
     }
+
 
     const rows: [string, unknown][] = [
       ['Nome', name],
