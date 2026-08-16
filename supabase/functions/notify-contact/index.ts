@@ -80,6 +80,24 @@ Deno.serve(async (req) => {
       return json({ error: 'send_failed', status: res.status, details }, res.status)
     }
 
+    const resendData = await res.json().catch(() => null)
+    if (contactMessageId && resendData?.id) {
+      try {
+        const supabase = createClient(
+          Deno.env.get('SUPABASE_URL') ?? '',
+          Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? '',
+          { auth: { autoRefreshToken: false, persistSession: false } },
+        )
+        await supabase
+          .from('contact_messages')
+          .update({ resend_email_id: String(resendData.id) })
+          .eq('id', String(contactMessageId))
+      } catch (storeErr) {
+        console.error('Failed to store resend_email_id:', storeErr)
+      }
+    }
+
+
     // Confirmação automática para o cliente (não bloqueia a notificação interna)
     const firstName = name.split(' ')[0]
     const confirmationHtml = `
