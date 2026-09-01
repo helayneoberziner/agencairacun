@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { ArrowRight, Target, Sparkles, TrendingUp, Play } from 'lucide-react';
-import ParticlesBackground from '../ParticlesBackground';
+
 import VideoPlayer from '@/components/media/VideoPlayer';
 import { useHomeContent } from '@/hooks/useHomeContent';
 
