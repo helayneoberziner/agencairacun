@@ -31,7 +31,7 @@ const CasesPreview = () => {
                     <img src={cover} alt={caseItem.title} loading="lazy"
                       className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-[1.03]" />
                   ) : (
-                    <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-accent/10 to-secondary" />
+                    <div className="absolute inset-0 bg-secondary" />
                   )}
                   <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-background/50 backdrop-blur-sm">
                     <span className="btn-primary flex items-center gap-2">Ver case <ExternalLink className="w-4 h-4" /></span>

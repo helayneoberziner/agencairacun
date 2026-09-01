@@ -2,72 +2,70 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Racun Agency - Futuristic Premium Design System */
+/* Racun — Editorial Dark Design System
+   Restricted palette: deep charcoal surfaces, off-white type, single sober accent. */
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap');
 
 @layer base {
   :root {
-    /* Dark futuristic palette */
-    --background: 222 47% 6%;
-    --foreground: 210 40% 98%;
+    /* Neutral charcoal base */
+    --background: 220 9% 7%;
+    --foreground: 40 12% 93%;
 
-    --card: 222 47% 8%;
-    --card-foreground: 210 40% 98%;
+    --card: 220 8% 9%;
+    --card-foreground: 40 12% 93%;
 
-    --popover: 222 47% 8%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 220 8% 10%;
+    --popover-foreground: 40 12% 93%;
 
-    /* Magenta primary - cor principal da Racun */
-    --primary: 312 100% 60%;
-    --primary-foreground: 0 0% 100%;
+    /* Single sober accent: muted ember */
+    --primary: 12 62% 52%;
+    --primary-foreground: 40 20% 97%;
 
-    /* Glass/muted surfaces */
-    --secondary: 220 30% 12%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 220 7% 12%;
+    --secondary-foreground: 40 12% 93%;
 
-    --muted: 220 20% 15%;
-    --muted-foreground: 215 20% 65%;
+    --muted: 220 6% 15%;
+    --muted-foreground: 220 6% 62%;
 
-    /* Roxo intenso Racun #1800ad → hsl(253 100% 34%) */
-    --accent: 253 100% 34%;
-    --accent-foreground: 0 0% 100%;
+    --accent: 12 40% 40%;
+    --accent-foreground: 40 20% 97%;
 
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 4 62% 48%;
+    --destructive-foreground: 40 20% 97%;
 
-    --border: 220 20% 18%;
-    --input: 220 20% 18%;
-    --ring: 312 100% 60%;
+    --border: 220 6% 17%;
+    --input: 220 6% 17%;
+    --ring: 12 62% 52%;
 
-    --radius: 0.75rem;
+    --radius: 0.5rem;
 
-    /* Custom tokens */
-    --neon-cyan: 312 100% 60%;
-    --neon-magenta: 253 100% 34%;
-    --neon-purple: 253 100% 45%;
-    --glass-bg: 220 30% 12%;
-    --glass-border: 220 20% 25%;
-    
-    /* Gradients */
-    --gradient-neon: linear-gradient(135deg, hsl(312 100% 60%) 0%, hsl(253 100% 34%) 100%);
-    --gradient-dark: linear-gradient(180deg, hsl(222 47% 6%) 0%, hsl(250 40% 4%) 100%);
-    --gradient-glass: linear-gradient(135deg, hsl(220 30% 15% / 0.8) 0%, hsl(253 30% 10% / 0.6) 100%);
-    --gradient-glow: radial-gradient(ellipse at center, hsl(312 100% 60% / 0.15) 0%, transparent 70%);
+    /* Legacy token aliases kept neutral (no neon) */
+    --neon-cyan: 12 62% 52%;
+    --neon-magenta: 12 40% 40%;
+    --neon-purple: 220 6% 62%;
+    --glass-bg: 220 7% 12%;
+    --glass-border: 220 6% 20%;
 
-    /* Shadows */
-    --shadow-neon: 0 0 30px hsl(312 100% 60% / 0.3);
-    --shadow-neon-strong: 0 0 50px hsl(312 100% 60% / 0.5);
-    --shadow-card: 0 8px 32px hsl(0 0% 0% / 0.3);
+    --gradient-neon: none;
+    --gradient-dark: linear-gradient(180deg, hsl(220 9% 7%) 0%, hsl(220 10% 5%) 100%);
+    --gradient-glass: none;
+    --gradient-glow: none;
 
-    --sidebar-background: 220 30% 8%;
-    --sidebar-foreground: 210 40% 98%;
-    --sidebar-primary: 312 100% 60%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 220 30% 15%;
-    --sidebar-accent-foreground: 210 40% 98%;
-    --sidebar-border: 220 20% 18%;
-    --sidebar-ring: 312 100% 60%;
+    /* Restrained elevation */
+    --shadow-neon: 0 1px 0 hsl(40 12% 93% / 0.04) inset;
+    --shadow-neon-strong: 0 1px 0 hsl(40 12% 93% / 0.06) inset;
+    --shadow-card: 0 1px 2px hsl(0 0% 0% / 0.4);
+
+    --sidebar-background: 220 9% 8%;
+    --sidebar-foreground: 40 12% 93%;
+    --sidebar-primary: 12 62% 52%;
+    --sidebar-primary-foreground: 40 20% 97%;
+    --sidebar-accent: 220 7% 13%;
+    --sidebar-accent-foreground: 40 12% 93%;
+    --sidebar-border: 220 6% 17%;
+    --sidebar-ring: 12 62% 52%;
   }
 }
 
@@ -82,11 +80,21 @@
 
   body {
     @apply bg-background text-foreground font-sans antialiased;
-    font-family: 'Inter', sans-serif;
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-weight: 400;
+    letter-spacing: -0.005em;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Space Grotesk', sans-serif;
+    font-family: 'Archivo', sans-serif;
+    font-weight: 600;
+    letter-spacing: -0.028em;
+  }
+
+  h1 { letter-spacing: -0.038em; }
+
+  ::selection {
+    background: hsl(var(--primary) / 0.25);
   }
 }
 
@@ -120,70 +128,72 @@
     @apply grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16;
   }
 
-  /* Glass morphism card */
+  /* Surface card: hairline border, no heavy shadow */
   .glass-card {
-    @apply bg-secondary/60 backdrop-blur-xl border border-white/10 rounded-2xl;
-    box-shadow: 0 8px 32px hsl(0 0% 0% / 0.3);
+    @apply bg-card border border-border rounded-lg;
   }
 
   .glass-card-hover {
-    @apply glass-card transition-all duration-500;
+    @apply glass-card transition-colors duration-200;
   }
 
   .glass-card-hover:hover {
-    @apply border-primary/30;
-    box-shadow: 0 8px 32px hsl(312 100% 60% / 0.15);
-    transform: translateY(-4px);
+    border-color: hsl(var(--foreground) / 0.18);
+    background-color: hsl(var(--secondary));
   }
 
-  /* Neon text gradient */
+  /* Accent emphasis (previously a neon gradient) */
   .text-gradient-neon {
-    @apply bg-clip-text text-transparent;
-    background-image: linear-gradient(135deg, hsl(312 100% 60%) 0%, hsl(253 100% 34%) 100%);
+    @apply text-primary;
+    background-image: none;
   }
 
-  /* Neon glow effect */
+  /* Subtle focus ring instead of glow */
   .neon-glow {
-    box-shadow: 0 0 20px hsl(312 100% 60% / 0.4), 0 0 40px hsl(312 100% 60% / 0.2);
+    box-shadow: 0 0 0 1px hsl(var(--primary) / 0.35);
   }
 
   .neon-glow-strong {
-    box-shadow: 0 0 30px hsl(312 100% 60% / 0.5), 0 0 60px hsl(312 100% 60% / 0.3), 0 0 90px hsl(312 100% 60% / 0.1);
+    box-shadow: 0 0 0 1px hsl(var(--primary) / 0.5);
   }
 
   /* Button variants */
   .btn-primary {
-    @apply bg-primary text-primary-foreground font-semibold px-6 py-3 rounded-xl transition-all duration-300;
+    @apply bg-primary text-primary-foreground text-sm font-medium px-5 py-2.5 rounded-md transition-colors duration-150;
   }
 
   .btn-primary:hover {
-    @apply neon-glow;
-    transform: translateY(-2px);
+    background-color: hsl(var(--primary) / 0.88);
+  }
+
+  .btn-primary:active {
+    transform: translateY(0.5px);
   }
 
   .btn-outline {
-    @apply border border-primary/50 text-primary font-semibold px-6 py-3 rounded-xl transition-all duration-300 bg-transparent;
+    @apply border border-border text-foreground text-sm font-medium px-5 py-2.5 rounded-md transition-colors duration-150 bg-transparent;
   }
 
   .btn-outline:hover {
-    @apply bg-primary/10 border-primary;
+    @apply bg-secondary;
+    border-color: hsl(var(--foreground) / 0.2);
   }
 
   .btn-ghost {
-    @apply text-foreground font-medium px-4 py-2 rounded-lg transition-all duration-300;
+    @apply text-muted-foreground text-sm font-medium px-3 py-2 rounded-md transition-colors duration-150;
   }
 
   .btn-ghost:hover {
-    @apply bg-white/5 text-primary;
+    @apply bg-secondary text-foreground;
   }
 
-  /* Section styling */
+  /* Section styling: generous, intentional rhythm */
   .section-padding {
-    @apply py-10 md:py-32 px-4 md:px-8;
+    @apply py-16 md:py-28 px-5 md:px-10;
   }
 
   .container-custom {
-    @apply max-w-7xl mx-auto;
+    @apply max-w-6xl mx-auto;
   }
 
   /* Reserve space for mobile bottom nav (toggled by MobileBottomNav) */
@@ -193,7 +203,7 @@
     }
   }
 
-  /* Animated border */
+  /* Hairline highlight on hover */
   .animated-border {
     position: relative;
   }
@@ -203,56 +213,42 @@
     position: absolute;
     inset: 0;
     border-radius: inherit;
-    padding: 1px;
-    background: linear-gradient(135deg, hsl(312 100% 60%), hsl(253 100% 34%));
-    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
+    box-shadow: 0 0 0 1px hsl(var(--foreground) / 0.16) inset;
     opacity: 0;
-    transition: opacity 0.5s;
+    transition: opacity 0.2s ease;
+    pointer-events: none;
   }
 
   .animated-border:hover::before {
     opacity: 1;
   }
 
-  /* Floating animation */
   .float-animation {
-    animation: float 6s ease-in-out infinite;
+    animation: float 10s ease-in-out infinite;
   }
 
   @keyframes float {
     0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-20px); }
+    50% { transform: translateY(-6px); }
   }
 
-  /* Pulse glow animation */
   .pulse-glow {
-    animation: pulseGlow 3s ease-in-out infinite;
+    animation: none;
   }
 
-  @keyframes pulseGlow {
-    0%, 100% { box-shadow: 0 0 20px hsl(312 100% 60% / 0.3); }
-    50% { box-shadow: 0 0 40px hsl(312 100% 60% / 0.5); }
-  }
-
-  /* Gradient background mesh */
+  /* Quiet vertical wash instead of colorful mesh */
   .gradient-mesh {
-    background-image: 
-      radial-gradient(at 40% 20%, hsl(312 100% 60% / 0.15) 0px, transparent 50%),
-      radial-gradient(at 80% 0%, hsl(253 100% 34% / 0.12) 0px, transparent 50%),
-      radial-gradient(at 0% 50%, hsl(253 100% 45% / 0.1) 0px, transparent 50%),
-      radial-gradient(at 80% 50%, hsl(312 100% 60% / 0.1) 0px, transparent 50%),
-      radial-gradient(at 0% 100%, hsl(253 100% 34% / 0.15) 0px, transparent 50%);
+    background-image:
+      radial-gradient(at 50% 0%, hsl(var(--foreground) / 0.05) 0px, transparent 55%),
+      linear-gradient(180deg, hsl(var(--secondary) / 0.6) 0%, transparent 70%);
   }
 
   /* Grid lines overlay */
   .grid-overlay {
-    background-image: 
-      linear-gradient(hsl(220 20% 18% / 0.3) 1px, transparent 1px),
-      linear-gradient(90deg, hsl(220 20% 18% / 0.3) 1px, transparent 1px);
-    background-size: 60px 60px;
+    background-image:
+      linear-gradient(hsl(var(--border) / 0.5) 1px, transparent 1px),
+      linear-gradient(90deg, hsl(var(--border) / 0.5) 1px, transparent 1px);
+    background-size: 88px 88px;
   }
 }
 

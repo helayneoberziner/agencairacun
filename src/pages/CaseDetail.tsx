@@ -112,7 +112,7 @@ const CaseDetail = () => {
               ) : heroCover ? (
                 <img src={heroCover} alt={c.title} className="w-full aspect-[16/9] object-cover rounded-2xl" />
               ) : (
-                <div className="w-full aspect-[16/9] bg-gradient-to-br from-primary/20 via-accent/10 to-secondary rounded-2xl" />
+                <div className="w-full aspect-[16/9] bg-secondary rounded-2xl" />
               )}
             </div>
           </div>

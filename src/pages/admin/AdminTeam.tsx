@@ -69,7 +69,7 @@ const AdminTeam = () => {
             {team.map(m => (
               <div key={m.id} className="glass-card overflow-hidden">
                 <div className="aspect-[3/4] bg-muted">
-                  {m.photo_url ? <img src={m.photo_url} alt={m.name} className="w-full h-full object-cover" /> : <div className="w-full h-full bg-gradient-to-br from-primary/10 to-accent/10" />}
+                  {m.photo_url ? <img src={m.photo_url} alt={m.name} className="w-full h-full object-cover" /> : <div className="w-full h-full bg-secondary" />}
                 </div>
                 <div className="p-4">
                   <h3 className="font-display font-semibold">{m.name}</h3>

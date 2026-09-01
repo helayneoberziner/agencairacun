@@ -58,7 +58,7 @@ const RestaurantesTeaser = () => {
                 {r.image && <img src={r.image} alt="Restaurantes" className="absolute inset-0 w-full h-full object-cover" />}
                 {!r.image && (
                   <>
-                    <div className="absolute inset-0 bg-gradient-to-br from-orange-500/20 via-red-500/10 to-yellow-500/10" />
+                    <div className="absolute inset-0 bg-secondary" />
                     <div className="absolute inset-0 flex items-center justify-center">
                       <UtensilsCrossed className="w-24 h-24 text-white/10" />
                     </div>

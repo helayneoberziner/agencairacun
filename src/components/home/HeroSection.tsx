@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { ArrowRight, Target, Sparkles, TrendingUp, Play } from 'lucide-react';
-import ParticlesBackground from '../ParticlesBackground';
+
 import VideoPlayer from '@/components/media/VideoPlayer';
 import { useHomeContent } from '@/hooks/useHomeContent';
 
@@ -25,11 +25,7 @@ const HeroSection = () => {
           <div className="absolute inset-0 grid-overlay opacity-30" />
         </>
       )}
-      <ParticlesBackground />
-
-      {/* Glow orbs */}
-      <div className="hidden md:block absolute top-1/4 left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-[128px] animate-float" />
-      <div className="hidden md:block absolute bottom-1/4 right-1/4 w-80 h-80 bg-accent/20 rounded-full blur-[128px] animate-float delay-300" />
+      <div className="absolute inset-x-0 top-0 h-px bg-border" />
 
       <div className="container-custom relative z-10 pt-24 md:pt-32 pb-12 md:pb-20">
         <div className="text-center max-w-5xl mx-auto mb-16">

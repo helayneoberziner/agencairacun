@@ -12,7 +12,7 @@ const ProdutoraTeaser = () => {
           <div className="lg:col-span-2 relative group">
             <div className="aspect-[4/3] rounded-2xl overflow-hidden bg-secondary/50 border border-white/10 relative">
               {/* Placeholder: substitua por <img> ou <video> da produtora */}
-              <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-accent/10 to-transparent" />
+              <div className="absolute inset-0 bg-secondary" />
             </div>
           </div>
 

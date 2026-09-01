@@ -165,7 +165,7 @@ const SegmentLandingPage = ({ slug }: Props) => {
             ) : c.hero.mediaUrl ? (
               <img src={c.hero.mediaUrl} alt={page.name} className="w-full h-full object-cover" loading="eager" />
             ) : (
-              <div className="w-full h-full bg-gradient-to-br from-accent/20 via-background to-primary/10" />
+              <div className="w-full h-full bg-secondary/50" />
             )}
           </div>
           <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/60 to-background" />
