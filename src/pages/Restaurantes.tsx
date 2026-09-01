@@ -34,7 +34,6 @@ const Restaurantes = () => {
         {/* Hero */}
         <section className="relative min-h-[70vh] flex items-center justify-center overflow-hidden pt-20">
           <div className="absolute inset-0 bg-secondary/30" />
-          <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-orange-500/10 rounded-full blur-[128px]" />
           
           <div className="container-custom relative z-10 py-20">
             <div className="grid-split items-center">
