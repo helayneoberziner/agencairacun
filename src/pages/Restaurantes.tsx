@@ -33,7 +33,7 @@ const Restaurantes = () => {
       <main>
         {/* Hero */}
         <section className="relative min-h-[70vh] flex items-center justify-center overflow-hidden pt-20">
-          <div className="absolute inset-0 bg-gradient-to-br from-orange-500/10 via-background to-background" />
+          <div className="absolute inset-0 bg-secondary/30" />
           <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-orange-500/10 rounded-full blur-[128px]" />
           
           <div className="container-custom relative z-10 py-20">
@@ -61,7 +61,7 @@ const Restaurantes = () => {
 
               <div className="relative">
                 <div className="aspect-square rounded-2xl overflow-hidden bg-secondary/50 border border-white/10 relative">
-                  <div className="absolute inset-0 bg-gradient-to-br from-orange-500/20 via-red-500/10 to-yellow-500/10" />
+                  <div className="absolute inset-0 bg-secondary" />
                   <div className="absolute inset-0 flex items-center justify-center">
                     <UtensilsCrossed className="w-32 h-32 text-white/10" />
                   </div>
@@ -192,7 +192,7 @@ const Restaurantes = () => {
         <section className="section-padding bg-secondary/20">
           <div className="container-custom">
             <div className="glass-card p-12 text-center relative overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-r from-orange-500/10 via-primary/10 to-orange-500/10" />
+              <div className="absolute inset-0 bg-secondary/40" />
               <div className="relative z-10">
                 <h2 className="text-3xl md:text-4xl font-display font-bold mb-6">
                   {content.cta.title} <span className="text-gradient-neon">{content.cta.titleHighlight}</span>

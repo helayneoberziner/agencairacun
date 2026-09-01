@@ -260,7 +260,7 @@ const AdminCases = () => {
               return (
                 <div key={c.id} className="glass-card overflow-hidden group">
                   <div className="aspect-video relative bg-muted">
-                    {cover ? <img src={cover} alt={c.title} className="w-full h-full object-cover" loading="lazy" /> : <div className="w-full h-full bg-gradient-to-br from-primary/20 to-secondary" />}
+                    {cover ? <img src={cover} alt={c.title} className="w-full h-full object-cover" loading="lazy" /> : <div className="w-full h-full bg-secondary" />}
                     <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
                       <Link to={`/cases/${c.slug}`} target="_blank"><Button size="sm" variant="secondary"><Eye className="w-4 h-4" /></Button></Link>
                       <Button size="sm" variant="secondary" onClick={() => open(c)}><Pencil className="w-4 h-4" /></Button>

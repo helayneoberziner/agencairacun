@@ -26,7 +26,7 @@ const TeamSection = () => {
                     className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500 group-hover:scale-[1.03]"
                   />
                 ) : (
-                  <div className="w-full h-full bg-gradient-to-br from-primary/20 to-accent/10" />
+                  <div className="w-full h-full bg-secondary" />
                 )}
               </div>
               <h3 className="font-display font-semibold text-lg">{m.name}</h3>

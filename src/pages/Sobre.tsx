@@ -83,7 +83,7 @@ const Sobre = () => {
               </div>
 
               <div className="glass-card p-4 md:p-8 relative overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-accent/5 to-transparent" />
+                <div className="absolute inset-0 bg-secondary/60" />
                 <div className="relative z-10">
                   <div className="grid-cards-2">
                     {content.story.stats.map((stat, i) => (

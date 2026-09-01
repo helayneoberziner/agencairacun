@@ -157,7 +157,7 @@ const SegmentPortfolioGallery = ({ slug, segmentLabel, title = 'Portfólio do se
                     className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500 group-hover:scale-[1.03]"
                   />
                 ) : (
-                  <div className="w-full h-full bg-gradient-to-br from-primary/20 to-accent/10" />
+                  <div className="w-full h-full bg-secondary" />
                 )}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent opacity-90" />
                 {t.isVideo && (

@@ -43,7 +43,7 @@ const TestimonialCard = ({ t }: { t: Testimonial }) => {
             className="w-11 h-11 rounded-full object-cover border border-white/10"
           />
         ) : (
-          <div className="w-11 h-11 rounded-full bg-gradient-to-br from-primary/30 to-accent/30 border border-white/10 flex items-center justify-center text-sm font-medium text-foreground">
+          <div className="w-11 h-11 rounded-full bg-secondary border border-white/10 flex items-center justify-center text-sm font-medium text-foreground">
             {initials}
           </div>
         )}
