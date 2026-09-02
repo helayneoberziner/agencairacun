@@ -240,8 +240,9 @@
   /* Quiet vertical wash instead of colorful mesh */
   .gradient-mesh {
     background-image:
-      radial-gradient(at 50% 0%, hsl(var(--foreground) / 0.05) 0px, transparent 55%),
-      linear-gradient(180deg, hsl(var(--secondary) / 0.6) 0%, transparent 70%);
+      radial-gradient(at 12% 8%, hsl(var(--primary) / 0.14) 0px, transparent 45%),
+      radial-gradient(at 88% 82%, hsl(var(--accent) / 0.18) 0px, transparent 50%),
+      linear-gradient(180deg, hsl(var(--secondary) / 0.5) 0%, transparent 70%);
   }
 
   /* Grid lines overlay */

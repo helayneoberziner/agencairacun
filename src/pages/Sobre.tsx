@@ -10,6 +10,7 @@ import TeamSection from '@/components/TeamSection';
 import SEO from '@/components/seo/SEO';
 import { useContactForm } from '@/hooks/useContactForm';
 import { useSiteSettings as useSiteSettingsForContact } from '@/hooks/useSiteSettings';
+import SiteBackdrop from '@/components/SiteBackdrop';
 
 const iconMap = [Target, Heart, Zap, Users];
 
@@ -52,7 +53,7 @@ const Sobre = () => {
       <main>
         {/* Hero */}
         <section className="pt-32 pb-20 relative overflow-hidden">
-          <div className="absolute inset-0 gradient-mesh opacity-30" />
+          <SiteBackdrop intensity={30} />
           <div className="container-custom relative z-10">
             <div className="max-w-4xl mx-auto text-center">
               <h1 className="text-4xl md:text-6xl font-display font-bold mb-6">

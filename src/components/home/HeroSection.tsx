@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, Target, Sparkles, TrendingUp, Play } from 'lucide-react';
 
 import VideoPlayer from '@/components/media/VideoPlayer';
+import SiteBackdrop from '@/components/SiteBackdrop';
 import { useHomeContent } from '@/hooks/useHomeContent';
 
 const iconMap = [Target, Sparkles, TrendingUp];
@@ -13,18 +14,9 @@ const HeroSection = () => {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Background Effects */}
-      {h.backgroundImage ? (
-        <>
-          <img src={h.backgroundImage} alt="" className="absolute inset-0 w-full h-full object-cover opacity-30" />
-          <div className="absolute inset-0 bg-background/60" />
-        </>
-      ) : (
-        <>
-          <div className="absolute inset-0 gradient-mesh" />
-          <div className="absolute inset-0 grid-overlay opacity-30" />
-        </>
-      )}
+      {/* Background */}
+      <SiteBackdrop image={h.backgroundImage} intensity={45} />
+      <div className="absolute inset-0 grid-overlay opacity-20 pointer-events-none" />
       <div className="absolute inset-x-0 top-0 h-px bg-border" />
 
       <div className="container-custom relative z-10 pt-24 md:pt-32 pb-12 md:pb-20">

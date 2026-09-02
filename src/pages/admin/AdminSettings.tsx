@@ -90,6 +90,12 @@ const AdminSettings = () => {
               onChange={(url) => handleSiteChange('logoUrl', url)}
               folder="branding"
             />
+            <ImageUpload
+              label="Imagem de fundo do site (usada em todas as seções escuras)"
+              value={siteData.backgroundImage}
+              onChange={(url) => handleSiteChange('backgroundImage', url)}
+              folder="branding/background"
+            />
             <div className="space-y-2">
               <Label htmlFor="email" className="flex items-center gap-2">
                 <Mail className="w-4 h-4 text-muted-foreground" /> E-mail

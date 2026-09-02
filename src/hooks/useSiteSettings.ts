@@ -10,6 +10,7 @@ export interface SiteSettings {
   youtube: string;
   logoUrl: string;
   clientAreaUrl: string;
+  backgroundImage: string;
 }
 
 const defaultSettings: SiteSettings = {
@@ -21,6 +22,7 @@ const defaultSettings: SiteSettings = {
   youtube: 'https://youtube.com/@agenciaracun',
   logoUrl: '',
   clientAreaUrl: 'https://app.racun.com.br',
+  backgroundImage: '',
 };
 
 export function useSiteSettings() {

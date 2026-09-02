@@ -17,6 +17,7 @@ import { useState } from 'react';
 import { useMarketingContent } from '@/hooks/useMarketingContent';
 import GlobalCTA from '@/components/cta/GlobalCTA';
 import SEO from '@/components/seo/SEO';
+import SiteBackdrop from '@/components/SiteBackdrop';
 
 const serviceIcons = [Megaphone, Target, Palette, BarChart3];
 
@@ -39,7 +40,7 @@ const Marketing = () => {
       <main>
         {/* Hero */}
         <section className="relative min-h-[70vh] flex items-center justify-center overflow-hidden pt-20">
-          <div className="absolute inset-0 gradient-mesh" />
+          <SiteBackdrop intensity={40} />
           <ParticlesBackground />
           
           <div className="container-custom relative z-10 text-center py-20">
