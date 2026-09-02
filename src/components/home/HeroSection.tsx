@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, Target, Sparkles, TrendingUp, Play } from 'lucide-react';
 
 import VideoPlayer from '@/components/media/VideoPlayer';
+import SiteBackdrop from '@/components/SiteBackdrop';
 import { useHomeContent } from '@/hooks/useHomeContent';
 
 const iconMap = [Target, Sparkles, TrendingUp];

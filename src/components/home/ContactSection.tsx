@@ -3,6 +3,7 @@ import { Send, MessageCircle, CheckCircle, MapPin, ExternalLink } from 'lucide-r
 import { useContactForm } from '@/hooks/useContactForm';
 import { useSiteSettings } from '@/hooks/useSiteSettings';
 import { useHomeContent } from '@/hooks/useHomeContent';
+import SiteBackdrop from '@/components/SiteBackdrop';
 
 const ContactSection = () => {
   const { settings } = useSiteSettings();
@@ -44,7 +45,7 @@ const ContactSection = () => {
 
   return (
     <section id="contato" className="section-padding relative overflow-hidden">
-      <div className="absolute inset-0 gradient-mesh opacity-30" />
+      <SiteBackdrop intensity={25} />
       <div className="absolute top-1/4 right-0 w-96 h-96 bg-primary/10 rounded-full blur-[128px]" />
       
       <div className="container-custom relative z-10">

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Send, MessageCircle, CheckCircle, Loader2 } from 'lucide-react';
 import { useContactForm } from '@/hooks/useContactForm';
 import { useSiteSettings } from '@/hooks/useSiteSettings';
+import SiteBackdrop from '@/components/SiteBackdrop';
 
 interface Props {
   title?: React.ReactNode;
@@ -46,7 +47,7 @@ const GlobalCTA = ({ title, subtitle, context, defaultService }: Props) => {
 
   return (
     <section className="section-padding relative overflow-hidden">
-      <div className="absolute inset-0 gradient-mesh opacity-30" />
+      <SiteBackdrop intensity={25} />
       <div className="absolute top-0 right-0 w-96 h-96 bg-primary/10 rounded-full blur-[140px]" />
       <div className="absolute bottom-0 left-0 w-96 h-96 bg-accent/10 rounded-full blur-[140px]" />
 
