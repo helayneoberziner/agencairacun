@@ -13,14 +13,16 @@ const HeroSection = () => {
   const showreel = h.showreelYoutubeId?.trim();
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+    <section className="relative min-h-[100svh] flex items-center justify-center overflow-hidden">
       {/* Background */}
       <SiteBackdrop image={h.backgroundImage} intensity={45} />
-      <div className="absolute inset-0 grid-overlay opacity-20 pointer-events-none" />
+      <div className="absolute inset-0 hero-aurora pointer-events-none" aria-hidden="true" />
+      <div className="absolute inset-0 grid-overlay opacity-20 pointer-events-none hero-grid-drift" />
+      <div className="absolute inset-0 bg-background/45 pointer-events-none" />
       <div className="absolute inset-x-0 top-0 h-px bg-border" />
 
       <div className="container-custom relative z-10 pt-24 md:pt-32 pb-12 md:pb-20">
-        <div className="text-center max-w-5xl mx-auto mb-16">
+        <div className="text-center max-w-5xl mx-auto mb-10 md:mb-16">
           {/* Main headline */}
           <h1 className="text-3xl md:text-6xl lg:text-7xl font-display font-bold leading-tight mb-4 md:mb-6 animate-fade-in delay-100">
             {h.headline1}{' '}
