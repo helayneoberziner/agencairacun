@@ -30,6 +30,16 @@ export const useRealtimeSync = () => {
       .on('postgres_changes', { event: '*', schema: 'public', table: 'cases' }, invalidateCases)
       .on('postgres_changes', { event: '*', schema: 'public', table: 'case_media' }, invalidateCases)
       .on('postgres_changes', { event: '*', schema: 'public', table: 'segment_pages' }, invalidateSegments)
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'site_content' }, () => {
+        qc.invalidateQueries({ queryKey: ['site-settings'] });
+        qc.invalidateQueries({ queryKey: ['home-content'] });
+        qc.invalidateQueries({ queryKey: ['sobre-content'] });
+        qc.invalidateQueries({ queryKey: ['produtora-content'] });
+        qc.invalidateQueries({ queryKey: ['marketing-content'] });
+        qc.invalidateQueries({ queryKey: ['restaurantes-content'] });
+        qc.invalidateQueries({ queryKey: ['client-logos'] });
+        qc.invalidateQueries({ queryKey: ['testimonials'] });
+      })
       .on('postgres_changes', { event: '*', schema: 'public', table: 'projects' }, () => {
         qc.invalidateQueries({ queryKey: ['home-audiovisual-projects'] });
         qc.invalidateQueries({ queryKey: ['portfolio-projects'] });

@@ -5,7 +5,7 @@ import SiteBackdrop from '@/components/SiteBackdrop';
 const ProdutoraTeaser = () => {
   return (
     <section className="section-padding relative overflow-hidden">
-      <SiteBackdrop intensity={35} />
+      <SiteBackdrop section="produtora" intensity={35} />
       
       <div className="container-custom relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 items-center">

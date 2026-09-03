@@ -1,6 +1,25 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 
+export type BackdropSection =
+  | 'hero'
+  | 'sobre'
+  | 'contato'
+  | 'cta'
+  | 'produtora'
+  | 'marketing'
+  | 'segmentos';
+
+export const BACKDROP_SECTIONS: { key: BackdropSection; label: string }[] = [
+  { key: 'hero', label: 'Hero da home' },
+  { key: 'sobre', label: 'Página Sobre' },
+  { key: 'contato', label: 'Área de contato' },
+  { key: 'cta', label: 'Blocos de CTA' },
+  { key: 'produtora', label: 'Produtora / audiovisual' },
+  { key: 'marketing', label: 'Página Marketing' },
+  { key: 'segmentos', label: 'Formulário dos segmentos' },
+];
+
 export interface SiteSettings {
   phone: string;
   whatsapp: string;
@@ -11,6 +30,7 @@ export interface SiteSettings {
   logoUrl: string;
   clientAreaUrl: string;
   backgroundImage: string;
+  sectionBackgrounds: Partial<Record<BackdropSection, string>>;
 }
 
 const defaultSettings: SiteSettings = {
@@ -23,6 +43,7 @@ const defaultSettings: SiteSettings = {
   logoUrl: '',
   clientAreaUrl: 'https://app.racun.com.br',
   backgroundImage: '',
+  sectionBackgrounds: {},
 };
 
 export function useSiteSettings() {
@@ -56,7 +77,9 @@ export function useSiteSettings() {
 
       if (error) throw error;
     },
-    onSuccess: () => {
+    onSuccess: (_data, newSettings) => {
+      // Atualiza o cache na hora (sem recarregar) e revalida em seguida
+      queryClient.setQueryData(['site-settings'], newSettings);
       queryClient.invalidateQueries({ queryKey: ['site-settings'] });
     },
   });
