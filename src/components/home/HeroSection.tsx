@@ -14,11 +14,12 @@ const HeroSection = () => {
 
   return (
     <section className="relative min-h-[100svh] flex items-center justify-center overflow-hidden">
-      {/* Background */}
-      <SiteBackdrop image={h.backgroundImage} intensity={45} />
-      <div className="absolute inset-0 hero-aurora pointer-events-none" aria-hidden="true" />
-      <div className="absolute inset-0 grid-overlay opacity-20 pointer-events-none hero-grid-drift" />
-      <div className="absolute inset-0 bg-background/45 pointer-events-none" />
+      {/* Background: foto real da agência / dos nossos trabalhos */}
+      <SiteBackdrop image={h.backgroundImage} section="hero" intensity={80} priority />
+      <div
+        className="absolute inset-0 pointer-events-none bg-[linear-gradient(to_bottom,hsl(var(--background)/0.92),hsl(var(--background)/0.62)_45%,hsl(var(--background)/0.95))]"
+        aria-hidden="true"
+      />
       <div className="absolute inset-x-0 top-0 h-px bg-border" />
 
       <div className="container-custom relative z-10 pt-24 md:pt-32 pb-12 md:pb-20">
