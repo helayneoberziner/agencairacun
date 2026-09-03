@@ -98,6 +98,7 @@ const defaultContent: HomeContent = {
       { title: 'Estratégia e posicionamento', description: 'Posicionamos sua marca para dominar o mercado' },
       { title: 'Conteúdo que conecta', description: 'Criamos narrativas que engajam e convertem' },
       { title: 'Tráfego pago que escala', description: 'Campanhas otimizadas para máximo retorno' },
+      { title: 'Audiovisual sob medida', description: 'Filmes e fotos com estética de cinema' },
     ],
     backgroundImage: '',
   },
