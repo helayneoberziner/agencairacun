@@ -50,7 +50,7 @@ const SegmentLeadForm = ({ segmentName, title, subtitle }: Props) => {
 
   return (
     <section className="section-padding relative overflow-hidden">
-      <SiteBackdrop intensity={25} />
+      <SiteBackdrop section="segmentos" intensity={25} />
       <div className="absolute top-0 right-0 w-96 h-96 bg-primary/10 rounded-full blur-[140px]" />
       <div className="absolute bottom-0 left-0 w-96 h-96 bg-accent/10 rounded-full blur-[140px]" />
 

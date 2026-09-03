@@ -40,7 +40,7 @@ const Marketing = () => {
       <main>
         {/* Hero */}
         <section className="relative min-h-[70vh] flex items-center justify-center overflow-hidden pt-20">
-          <SiteBackdrop intensity={40} />
+          <SiteBackdrop section="marketing" intensity={40} />
           <ParticlesBackground />
           
           <div className="container-custom relative z-10 text-center py-20">

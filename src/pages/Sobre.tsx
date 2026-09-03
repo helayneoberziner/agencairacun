@@ -53,7 +53,7 @@ const Sobre = () => {
       <main>
         {/* Hero */}
         <section className="pt-32 pb-20 relative overflow-hidden">
-          <SiteBackdrop intensity={30} />
+          <SiteBackdrop section="sobre" intensity={30} />
           <div className="container-custom relative z-10">
             <div className="max-w-4xl mx-auto text-center">
               <h1 className="text-4xl md:text-6xl font-display font-bold mb-6">
