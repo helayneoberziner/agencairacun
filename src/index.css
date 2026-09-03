@@ -245,6 +245,34 @@
       linear-gradient(180deg, hsl(var(--secondary) / 0.5) 0%, transparent 70%);
   }
 
+  /* Hero: aurora sutil em movimento (leitura sempre preservada) */
+  .hero-aurora {
+    background-image:
+      radial-gradient(38% 32% at 18% 22%, hsl(var(--primary) / 0.22) 0%, transparent 70%),
+      radial-gradient(42% 36% at 82% 72%, hsl(var(--accent) / 0.26) 0%, transparent 72%);
+    filter: blur(10px);
+    animation: heroAurora 22s ease-in-out infinite alternate;
+  }
+
+  @keyframes heroAurora {
+    0% { transform: translate3d(-2%, -1%, 0) scale(1); opacity: 0.85; }
+    50% { transform: translate3d(2%, 2%, 0) scale(1.08); opacity: 1; }
+    100% { transform: translate3d(-1%, 1%, 0) scale(1.03); opacity: 0.9; }
+  }
+
+  .hero-grid-drift {
+    animation: heroGridDrift 40s linear infinite;
+  }
+
+  @keyframes heroGridDrift {
+    from { background-position: 0 0; }
+    to { background-position: 88px 88px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-aurora, .hero-grid-drift { animation: none; }
+  }
+
   /* Grid lines overlay */
   .grid-overlay {
     background-image:
