@@ -77,7 +77,9 @@ export function useSiteSettings() {
 
       if (error) throw error;
     },
-    onSuccess: () => {
+    onSuccess: (_data, newSettings) => {
+      // Atualiza o cache na hora (sem recarregar) e revalida em seguida
+      queryClient.setQueryData(['site-settings'], newSettings);
       queryClient.invalidateQueries({ queryKey: ['site-settings'] });
     },
   });
