@@ -5,7 +5,7 @@ import VideoPlayer from '@/components/media/VideoPlayer';
 import SiteBackdrop from '@/components/SiteBackdrop';
 import { useHomeContent } from '@/hooks/useHomeContent';
 
-const iconMap = [Target, Sparkles, TrendingUp];
+const iconMap = [Target, Sparkles, TrendingUp, Film];
 
 const HeroSection = () => {
   const { content } = useHomeContent();
