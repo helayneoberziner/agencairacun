@@ -6,7 +6,7 @@ import { Label } from '@/components/ui/label';
 import { toast } from 'sonner';
 import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/integrations/supabase/client';
-import { useSiteSettings } from '@/hooks/useSiteSettings';
+import { useSiteSettings, BACKDROP_SECTIONS, BackdropSection } from '@/hooks/useSiteSettings';
 import { Lock, User, Shield, Globe, Phone, MapPin, Instagram, Youtube, Mail, MessageCircle, Image, Trash2, Upload, ExternalLink } from 'lucide-react';
 import { useClientLogos, ClientLogo } from '@/hooks/useClientLogos';
 import ImageUpload from '@/components/admin/ImageUpload';
@@ -69,6 +69,22 @@ const AdminSettings = () => {
 
   const handleSiteChange = (field: string, value: string) => {
     setSiteData(prev => ({ ...prev, [field]: value }));
+  };
+
+  const handleBackdropChange = async (section: BackdropSection, url: string) => {
+    const next = {
+      ...siteData,
+      sectionBackgrounds: { ...(siteData.sectionBackgrounds || {}), [section]: url },
+    };
+    setSiteData(next);
+    try {
+      // Salva na hora: o site reflete a troca sem recarregar
+      await updateSettings(next);
+      toast.success(url ? 'Fundo atualizado!' : 'Fundo removido!');
+    } catch (error) {
+      console.error('Error updating backdrop:', error);
+      toast.error('Erro ao salvar o fundo');
+    }
   };
 
   return (
@@ -251,6 +267,30 @@ const AdminSettings = () => {
               <Upload className="w-4 h-4 mr-2" />
               {isUploading ? 'Enviando...' : 'Adicionar logo'}
             </Button>
+          </div>
+        </div>
+
+        {/* Fundos das seções */}
+        <div className="glass-card p-6">
+          <div className="flex items-center gap-3 mb-2">
+            <div className="p-2 rounded-lg bg-primary/10">
+              <Image className="w-5 h-5 text-primary" />
+            </div>
+            <h2 className="text-lg font-display font-semibold">Fundos das seções</h2>
+          </div>
+          <p className="text-sm text-muted-foreground mb-6">
+            Escolha fotos da biblioteca ou envie novas. A troca é salva na hora e aparece no site sem recarregar.
+          </p>
+          <div className="space-y-6">
+            {BACKDROP_SECTIONS.map(section => (
+              <ImageUpload
+                key={section.key}
+                label={section.label}
+                value={siteData.sectionBackgrounds?.[section.key] || ''}
+                onChange={(url) => handleBackdropChange(section.key, url)}
+                folder={`branding/background/${section.key}`}
+              />
+            ))}
           </div>
         </div>
 
