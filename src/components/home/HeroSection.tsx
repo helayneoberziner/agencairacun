@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { ArrowRight, Target, Sparkles, TrendingUp, Play } from 'lucide-react';
+import { ArrowRight, Target, Sparkles, TrendingUp, Film, Play } from 'lucide-react';
 
 import VideoPlayer from '@/components/media/VideoPlayer';
 import SiteBackdrop from '@/components/SiteBackdrop';
