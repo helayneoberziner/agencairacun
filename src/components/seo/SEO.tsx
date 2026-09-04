@@ -9,7 +9,7 @@ interface SEOProps {
   noindex?: boolean;
 }
 
-const SITE_URL = 'https://agenciaracun.com.br';
+const SITE_URL = 'https://agenciaracun.com';
 const DEFAULT_IMAGE =
   'https://storage.googleapis.com/gpt-engineer-file-uploads/826kJMydi0aEjiHRsP2wIyRlxSi1/uploads/1770766619976-Weddings_(Foto_de_perfil_para_Instagram).png';
 

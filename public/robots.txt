@@ -17,4 +17,4 @@ Disallow: /admin/
 Disallow: /proposta
 Disallow: /proposta/
 
-Sitemap: https://agenciaracun.com.br/sitemap.xml
+Sitemap: https://agenciaracun.com/sitemap.xml
