@@ -215,7 +215,14 @@ export function useHomeContent() {
 
       const saved = data.content as unknown as Partial<HomeContent>;
       return {
-        hero: { ...defaultContent.hero, ...saved.hero },
+        hero: {
+          ...defaultContent.hero,
+          ...saved.hero,
+          pillars:
+            saved.hero?.pillars && saved.hero.pillars.length >= 4
+              ? saved.hero.pillars
+              : defaultContent.hero.pillars,
+        },
         services: { ...defaultContent.services, ...saved.services },
         socialProof: { ...defaultContent.socialProof, ...saved.socialProof },
         produtoraTeaser: { ...defaultContent.produtoraTeaser, ...saved.produtoraTeaser },
