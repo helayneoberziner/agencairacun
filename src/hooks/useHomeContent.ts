@@ -13,6 +13,7 @@ export interface HomeContent {
     pillars: { title: string; description: string }[];
     backgroundImage: string;
     showreelYoutubeId?: string;
+    backgroundVideoYoutubeId?: string;
   };
   services: {
     badge: string;
@@ -101,6 +102,7 @@ const defaultContent: HomeContent = {
       { title: 'Audiovisual sob medida', description: 'Filmes e fotos com estética de cinema' },
     ],
     backgroundImage: '',
+    backgroundVideoYoutubeId: '',
   },
   services: {
     badge: 'O que fazemos',
