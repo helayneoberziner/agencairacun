@@ -22,28 +22,28 @@ const HeroSection = () => {
       />
       <div className="absolute inset-x-0 top-0 h-px bg-border" />
 
-      <div className="container-custom relative z-10 pt-24 md:pt-32 pb-12 md:pb-20">
-        <div className="text-center max-w-5xl mx-auto mb-10 md:mb-16">
+      <div className="container-custom relative z-10 pt-20 md:pt-32 pb-8 md:pb-20">
+        <div className="text-center max-w-5xl mx-auto mb-6 md:mb-16">
           {/* Main headline */}
-          <h1 className="text-3xl md:text-6xl lg:text-7xl font-display font-bold leading-tight mb-4 md:mb-6 animate-fade-in delay-100">
+          <h1 className="text-2xl sm:text-3xl md:text-6xl lg:text-7xl font-display font-bold leading-tight mb-2.5 md:mb-6 animate-fade-in delay-100">
             {h.headline1}{' '}
             <span className="text-gradient-neon">{h.headlineHighlight}</span>
             {' '}{h.headline2}
           </h1>
 
           {/* Subtitle */}
-          <p className="text-base md:text-2xl text-muted-foreground max-w-3xl mx-auto mb-8 md:mb-10 animate-fade-in delay-200">
+          <p className="text-sm sm:text-base md:text-2xl text-muted-foreground max-w-3xl mx-auto mb-5 md:mb-10 animate-fade-in delay-200">
             {h.subtitle}
           </p>
 
           {/* CTAs */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 md:gap-4 animate-fade-in delay-300">
-            <Link to="/contato" className="btn-primary flex items-center gap-2 text-base md:text-lg px-6 md:px-8 py-3 md:py-4 w-full sm:w-auto justify-center group">
+          <div className="flex flex-row items-center justify-center gap-2.5 md:gap-4 animate-fade-in delay-300">
+            <Link to="/contato" className="btn-primary inline-flex items-center gap-1.5 md:gap-2 text-xs sm:text-base md:text-lg px-3.5 py-2.5 sm:px-7 sm:py-3.5 md:px-8 md:py-4 justify-center group">
               {h.ctaPrimary}
-              <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
+              <ArrowRight className="w-3.5 h-3.5 md:w-5 md:h-5 transition-transform group-hover:translate-x-1" />
             </Link>
-            <Link to="/cases" className="btn-outline flex items-center gap-2 text-base md:text-lg px-6 md:px-8 py-3 md:py-4 w-full sm:w-auto justify-center group">
-              <Play className="w-4 h-4 fill-current" />
+            <Link to="/cases" className="btn-outline inline-flex items-center gap-1.5 md:gap-2 text-xs sm:text-base md:text-lg px-3.5 py-2.5 sm:px-7 sm:py-3.5 md:px-8 md:py-4 justify-center group">
+              <Play className="w-3 h-3 md:w-4 md:h-4 fill-current" />
               {h.ctaSecondary}
             </Link>
           </div>
