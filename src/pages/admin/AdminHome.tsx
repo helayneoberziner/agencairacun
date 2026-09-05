@@ -48,6 +48,7 @@ const AdminHome = () => {
           <Field label="CTA Primário" value={form.hero.ctaPrimary} onChange={v => setForm({ ...form, hero: { ...form.hero, ctaPrimary: v } })} />
           <Field label="CTA Secundário" value={form.hero.ctaSecondary} onChange={v => setForm({ ...form, hero: { ...form.hero, ctaSecondary: v } })} />
           <ImageUpload label="Imagem de fundo (Hero)" value={form.hero.backgroundImage} onChange={v => setForm({ ...form, hero: { ...form.hero, backgroundImage: v } })} folder="home/hero" />
+          <Field label="Vídeo de fundo do Hero (YouTube ID, opcional)" value={form.hero.backgroundVideoYoutubeId || ''} onChange={v => setForm({ ...form, hero: { ...form.hero, backgroundVideoYoutubeId: v } })} placeholder="ex: _CSZ1RSVa-0" />
           <Field label="Showreel YouTube ID (opcional)" value={form.hero.showreelYoutubeId || ''} onChange={v => setForm({ ...form, hero: { ...form.hero, showreelYoutubeId: v } })} />
           <ListEditor
             label="Pilares"
