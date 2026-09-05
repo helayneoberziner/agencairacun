@@ -59,20 +59,20 @@ const HeroSection = () => {
         )}
 
         {/* Pillars */}
-        <div className="grid-cards-3 mt-10 md:mt-16 animate-fade-in delay-400">
+        <div className="grid-cards-3 mt-6 md:mt-16 animate-fade-in delay-400">
           {h.pillars.map((pillar, index) => {
             const Icon = iconMap[index % iconMap.length];
             return (
               <div
                 key={index}
-                className="glass-card-hover p-3 md:p-8 text-center group"
+                className="glass-card-hover p-2.5 md:p-8 text-center group"
                 style={{ animationDelay: `${(index + 4) * 100}ms` }}
               >
-                <div className="w-10 h-10 md:w-16 md:h-16 mx-auto mb-3 md:mb-6 rounded-xl md:rounded-2xl bg-primary/10 flex items-center justify-center group-hover:neon-glow transition-all duration-500">
-                  <Icon className="w-5 h-5 md:w-8 md:h-8 text-primary" />
+                <div className="w-8 h-8 md:w-16 md:h-16 mx-auto mb-1.5 md:mb-6 rounded-lg md:rounded-2xl bg-primary/10 flex items-center justify-center group-hover:neon-glow transition-all duration-500">
+                  <Icon className="w-4 h-4 md:w-8 md:h-8 text-primary" />
                 </div>
-                <h3 className="font-display font-semibold text-sm md:text-xl mb-1 md:mb-3">{pillar.title}</h3>
-                <p className="text-xs md:text-base text-muted-foreground line-clamp-3 md:line-clamp-none">{pillar.description}</p>
+                <h3 className="font-display font-semibold text-[11px] md:text-xl mb-0.5 md:mb-3">{pillar.title}</h3>
+                <p className="text-[10px] md:text-base text-muted-foreground line-clamp-2 md:line-clamp-none hero-pillar-desc">{pillar.description}</p>
               </div>
             );
           })}

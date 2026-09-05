@@ -273,6 +273,11 @@
     .hero-aurora, .hero-grid-drift { animation: none; }
   }
 
+  /* Telas baixas: esconde descrições dos pilares para o hero caber em 1 tela */
+  @media (max-height: 660px) {
+    .hero-pillar-desc { display: none; }
+  }
+
   /* Grid lines overlay */
   .grid-overlay {
     background-image:
