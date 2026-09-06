@@ -29,10 +29,10 @@ const ServicesSection = () => {
           {s.items.map((service, index) => {
             const Icon = iconMap[index % iconMap.length];
             return (
-              <div key={index} className="glass-card-hover p-3 md:p-8 group">
+              <div key={index} className="rounded-xl border border-border bg-secondary/10 p-3 md:p-8 group transition-colors hover:border-primary/40">
                 <div className="flex flex-col md:flex-row items-start gap-2.5 md:gap-6">
-                  <div className="w-9 h-9 md:w-14 md:h-14 rounded-lg md:rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0 group-hover:neon-glow transition-all duration-500">
-                    <Icon className="w-4 h-4 md:w-7 md:h-7 text-primary" />
+                  <div className="w-9 h-9 md:w-12 md:h-12 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+                    <Icon className="w-4 h-4 md:w-6 md:h-6 text-primary" strokeWidth={1.5} />
                   </div>
                   <div className="flex-1 min-w-0">
                     <h3 className="font-display font-semibold text-sm md:text-xl mb-1 md:mb-3">{service.title}</h3>
