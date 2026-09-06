@@ -53,8 +53,8 @@ const CasesPreview = () => {
           })}
         </div>
 
-        <div className="text-center mt-12">
-          <Link to="/cases" className="btn-outline inline-flex items-center gap-2">
+        <div className="mt-10 md:hidden">
+          <Link to="/cases" className="btn-outline inline-flex items-center gap-2 text-sm">
             {c.cta}
             <ArrowRight className="w-4 h-4" />
           </Link>
