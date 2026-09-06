@@ -1,5 +1,6 @@
 import { Building2, Utensils, CalendarDays, Tag, Camera, Landmark, Vote, ArrowRight, Briefcase, Sparkles } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import SectionHeading from '@/components/SectionHeading';
 import { useProdutoraContent } from '@/hooks/useProdutoraContent';
 import { useSegmentsList } from '@/hooks/useSegmentPage';
 
@@ -27,19 +28,14 @@ const MarketsSection = () => {
     });
 
   return (
-    <section className="section-padding">
+    <section className="section-padding border-t border-border">
       <div className="container-custom">
-        <div className="text-center mb-12">
-          <span className="text-primary text-sm font-medium uppercase tracking-wider mb-4 block">
-            Mercados
-          </span>
-          <h2 className="text-3xl md:text-5xl font-display font-bold mb-4">
-            {segments.sectionTitle} <span className="text-gradient-neon">{segments.sectionTitleHighlight}</span>
-          </h2>
-          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            Experiência em diferentes segmentos com entendimento das necessidades de cada mercado.
-          </p>
-        </div>
+        <SectionHeading
+          eyebrow="Mercados"
+          title={segments.sectionTitle}
+          highlight={segments.sectionTitleHighlight}
+          subtitle="Experiência em diferentes segmentos com entendimento das necessidades de cada mercado."
+        />
 
         <div className="grid-cards-3">
           {items.map((seg, i) => {
@@ -49,11 +45,9 @@ const MarketsSection = () => {
               <Link
                 key={i}
                 to={path}
-                className="glass-card p-4 md:p-6 text-left hover:border-primary/40 transition-all duration-300 group flex flex-col"
+                className="border border-border rounded-xl p-4 md:p-6 text-left hover:border-primary/40 transition-colors duration-300 group flex flex-col"
               >
-                <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-3 md:mb-4 group-hover:neon-glow transition-all duration-500">
-                  <Icon className="w-5 h-5 md:w-6 md:h-6 text-primary" />
-                </div>
+                <Icon className="w-5 h-5 md:w-6 md:h-6 text-primary mb-3 md:mb-4" strokeWidth={1.5} />
                 <h4 className="font-display font-semibold text-sm md:text-lg mb-1 md:mb-2">{seg.title}</h4>
                 <p className="text-xs md:text-sm text-muted-foreground mb-3 md:mb-5 flex-1 line-clamp-2 md:line-clamp-none">{seg.description}</p>
                 <span className="inline-flex items-center gap-1 text-xs md:text-sm text-primary font-medium group-hover:gap-2 transition-all">

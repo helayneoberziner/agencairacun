@@ -54,7 +54,7 @@ const ContactSection = () => {
             <span className="text-primary text-sm font-medium uppercase tracking-wider mb-4 block">{ct.badge}</span>
             <h2 className="text-2xl md:text-5xl font-display font-bold mb-4 md:mb-6">
               {ct.title}{' '}
-              <span className="text-gradient-neon">{ct.titleHighlight}</span>
+              <span className="text-primary">{ct.titleHighlight}</span>
             </h2>
             <p className="text-muted-foreground text-lg mb-8">{ct.subtitle}</p>
 
@@ -94,7 +94,7 @@ const ContactSection = () => {
           <div className="glass-card p-5 md:p-8">
             {isSubmitted ? (
               <div className="h-full flex flex-col items-center justify-center text-center py-12">
-                <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mb-6 neon-glow">
+                <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mb-6">
                   <CheckCircle className="w-8 h-8 text-primary" />
                 </div>
                 <h3 className="font-display font-semibold text-2xl mb-2">Mensagem enviada!</h3>

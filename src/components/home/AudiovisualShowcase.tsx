@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
-import { ArrowRight, Film } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import VideoPlayer from '@/components/media/VideoPlayer';
+import SectionHeading from '@/components/SectionHeading';
 import { useHomeContent } from '@/hooks/useHomeContent';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
@@ -33,23 +34,22 @@ const AudiovisualShowcase = () => {
 
   return (
     <section className="section-padding relative overflow-hidden">
-      <div className="absolute top-0 left-1/3 w-[500px] h-[500px] bg-primary/10 rounded-full blur-[160px]" aria-hidden />
-      <div className="absolute bottom-0 right-0 w-96 h-96 bg-accent/10 rounded-full blur-[140px]" aria-hidden />
-
       <div className="container-custom relative z-10">
-        <div className="text-center max-w-3xl mx-auto mb-12 md:mb-16">
-          <span className="inline-flex items-center gap-2 text-primary text-sm font-medium uppercase tracking-wider mb-4">
-            <Film className="w-4 h-4" />
-            {a.badge}
-          </span>
-          <h2 className="text-3xl md:text-5xl lg:text-6xl font-display font-bold mb-5 leading-tight">
-            {a.title} <span className="text-gradient-neon italic">{a.titleHighlight}</span>
-          </h2>
-          <p className="text-muted-foreground text-base md:text-lg">{a.subtitle}</p>
-        </div>
+        <SectionHeading
+          eyebrow={a.badge}
+          title={a.title}
+          highlight={a.titleHighlight}
+          subtitle={a.subtitle}
+          action={
+            <Link to={a.ctaLink || '/produtora'} className="hidden md:inline-flex items-center gap-2 text-sm text-foreground/80 hover:text-primary transition-colors group">
+              {a.cta}
+              <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+            </Link>
+          }
+        />
 
         {featured && (
-          <div className="mb-8 md:mb-10 rounded-2xl overflow-hidden border border-white/10 shadow-[0_30px_80px_-30px_hsl(var(--primary)/0.4)]">
+          <div className="mb-8 md:mb-10 rounded-xl overflow-hidden border border-border">
             <VideoPlayer url={`https://www.youtube.com/watch?v=${featured}`} aspect="aspect-video" />
           </div>
         )}
@@ -57,7 +57,7 @@ const AudiovisualShowcase = () => {
         {projects.length > 0 && (
           <div className="grid-cards-wide">
             {projects.map((p: any) => (
-              <div key={p.id} className="group rounded-xl overflow-hidden border border-white/10 bg-secondary/30">
+              <div key={p.id} className="group rounded-xl overflow-hidden border border-border bg-secondary/20 transition-colors hover:border-primary/40">
                 <VideoPlayer
                   url={p.video_url}
                   poster={p.image_url || resolveVideoCover({ videoUrl: p.video_url })}
@@ -79,8 +79,8 @@ const AudiovisualShowcase = () => {
           </div>
         )}
 
-        <div className="text-center mt-12">
-          <Link to={a.ctaLink || '/produtora'} className="btn-primary inline-flex items-center gap-2">
+        <div className="mt-10 md:hidden">
+          <Link to={a.ctaLink || '/produtora'} className="btn-primary inline-flex items-center gap-2 text-sm">
             {a.cta}
             <ArrowRight className="w-4 h-4" />
           </Link>

@@ -21,11 +21,14 @@ const ClientsStrip = () => {
   const { trackRef, handlers } = useInfiniteMarquee(45);
 
   return (
-    <section className="relative py-12 md:py-16 border-y border-white/5 bg-secondary/10">
-      <div className="container-custom mb-6 md:mb-8">
-        <p className="text-center text-xs md:text-sm text-muted-foreground uppercase tracking-[0.25em]">
-          Empresas que confiam na <span className="text-foreground">Racun</span>
-        </p>
+    <section className="relative py-12 md:py-20 border-y border-border bg-secondary/10">
+      <div className="container-custom mb-8 md:mb-12">
+        <span className="block text-[11px] md:text-xs font-medium uppercase tracking-[0.28em] text-primary mb-3 md:mb-4">
+          Clientes
+        </span>
+        <h2 className="font-display font-bold tracking-tight text-[1.5rem] leading-[1.15] sm:text-3xl md:text-4xl max-w-2xl">
+          Empresas que confiam na <span className="text-primary">Racun</span>
+        </h2>
       </div>
 
       <div className="relative">
