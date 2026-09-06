@@ -31,7 +31,7 @@ const CasesPreview = () => {
           {cases.slice(0, 4).map((caseItem) => {
             const cover = caseItem.hero_image_url || resolveVideoCover({ videoUrl: caseItem.hero_media_url, youtubeId: caseItem.hero_youtube_id });
             return (
-              <Link key={caseItem.id} to={`/cases/${caseItem.slug}`} className="group glass-card overflow-hidden">
+              <Link key={caseItem.id} to={`/cases/${caseItem.slug}`} className="group rounded-xl border border-border overflow-hidden transition-colors hover:border-primary/40">
                 <div className="aspect-video relative overflow-hidden bg-muted">
                   {cover ? (
                     <img src={cover} alt={caseItem.title} loading="lazy"
