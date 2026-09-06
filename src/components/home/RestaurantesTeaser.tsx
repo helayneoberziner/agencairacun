@@ -23,7 +23,7 @@ const RestaurantesTeaser = () => {
             
             <h2 className="text-3xl md:text-4xl font-display font-bold mb-6">
               {r.title}{' '}
-              <span className="text-gradient-neon">{r.titleHighlight}</span>
+              <span className="text-primary">{r.titleHighlight}</span>
             </h2>
             
             <p className="text-muted-foreground text-lg mb-8 leading-relaxed">{r.description}</p>

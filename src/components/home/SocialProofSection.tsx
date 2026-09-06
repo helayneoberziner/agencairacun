@@ -93,7 +93,7 @@ const SocialProofSection = () => {
             {sp.badge}
           </span>
           <h2 className="text-3xl md:text-5xl font-display font-bold mb-5">
-            {sp.title} <span className="text-gradient-neon italic">{sp.titleHighlight}</span>
+            {sp.title} <span className="text-primary italic">{sp.titleHighlight}</span>
           </h2>
           <p className="text-muted-foreground text-lg">
             Marcas que confiam na Racun para crescer com estratégia, conteúdo e performance.

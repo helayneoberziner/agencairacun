@@ -24,7 +24,7 @@ const ProdutoraTeaser = () => {
             </span>
             
             <h2 className="text-3xl md:text-4xl font-display font-bold mb-6">
-              Histórias com estética de <span className="text-gradient-neon">cinema.</span>
+              Histórias com estética de <span className="text-primary">cinema.</span>
             </h2>
             
             <p className="text-muted-foreground text-lg mb-8 leading-relaxed">

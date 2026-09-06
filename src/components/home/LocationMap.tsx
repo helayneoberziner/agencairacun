@@ -17,7 +17,7 @@ const LocationMap = () => {
                 Onde estamos
               </span>
               <h3 className="text-2xl md:text-4xl font-display font-bold mb-4 leading-tight">
-                Venha nos <span className="text-gradient-neon italic">visitar.</span>
+                Venha nos <span className="text-primary italic">visitar.</span>
               </h3>
               <div className="flex items-start gap-3 mb-6">
                 <MapPin className="w-5 h-5 text-primary mt-1 flex-shrink-0" />
