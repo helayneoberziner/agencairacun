@@ -1,5 +1,6 @@
 import { Building2, Utensils, CalendarDays, Tag, Camera, Landmark, Vote, ArrowRight, Briefcase, Sparkles } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import SectionHeading from '@/components/SectionHeading';
 import { useProdutoraContent } from '@/hooks/useProdutoraContent';
 import { useSegmentsList } from '@/hooks/useSegmentPage';
 
