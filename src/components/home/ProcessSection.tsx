@@ -23,13 +23,10 @@ const ProcessSection = () => {
             const Icon = stepIcons[index % stepIcons.length];
             return (
               <div key={index} className="relative group">
-                {index < p.steps.length - 1 && (
-                  <div className="hidden lg:block absolute top-12 left-[calc(50%+40px)] w-[calc(100%-80px)] h-[2px] bg-gradient-to-r from-primary/50 to-transparent" />
-                )}
-                <div className="glass-card-hover p-4 md:p-8 text-center h-full">
-                  <span className="text-2xl md:text-5xl font-display font-bold text-primary/20 absolute top-2 right-3 md:top-4 md:right-4">{step.number}</span>
-                  <div className="w-10 h-10 md:w-16 md:h-16 mx-auto mb-3 md:mb-6 rounded-xl md:rounded-2xl bg-primary/10 flex items-center justify-center group-hover:neon-glow transition-all duration-500">
-                    <Icon className="w-5 h-5 md:w-8 md:h-8 text-primary" />
+                <div className="border-t border-border pt-4 md:pt-6 h-full">
+                  <div className="flex items-center justify-between mb-3 md:mb-5">
+                    <Icon className="w-5 h-5 md:w-6 md:h-6 text-primary" strokeWidth={1.5} />
+                    <span className="text-[11px] md:text-xs font-medium tracking-[0.2em] text-muted-foreground">{step.number}</span>
                   </div>
                   <h3 className="font-display font-semibold text-sm md:text-xl mb-1.5 md:mb-3">{step.title}</h3>
                   <p className="text-muted-foreground text-xs md:text-sm">{step.description}</p>
