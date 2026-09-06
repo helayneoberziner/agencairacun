@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { ArrowRight, ExternalLink } from 'lucide-react';
+import SectionHeading from '@/components/SectionHeading';
 import { useHomeContent } from '@/hooks/useHomeContent';
 import { useCases } from '@/hooks/useCases';
 import { resolveVideoCover } from '@/lib/videoUtils';
@@ -11,15 +12,20 @@ const CasesPreview = () => {
   if (cases.length === 0) return null;
 
   return (
-    <section className="section-padding relative overflow-hidden">
+    <section className="section-padding relative overflow-hidden border-t border-border">
       <div className="container-custom">
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <span className="text-primary text-sm font-medium uppercase tracking-wider mb-4 block">{c.badge}</span>
-          <h2 className="text-3xl md:text-5xl font-display font-bold mb-6">
-            {c.title} <span className="text-gradient-neon">{c.titleHighlight}</span>
-          </h2>
-          <p className="text-muted-foreground text-lg">{c.subtitle}</p>
-        </div>
+        <SectionHeading
+          eyebrow={c.badge}
+          title={c.title}
+          highlight={c.titleHighlight}
+          subtitle={c.subtitle}
+          action={
+            <Link to="/cases" className="hidden md:inline-flex items-center gap-2 text-sm text-foreground/80 hover:text-primary transition-colors group">
+              {c.cta}
+              <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+            </Link>
+          }
+        />
 
         <div className="grid-cards-2">
           {cases.slice(0, 4).map((caseItem) => {
