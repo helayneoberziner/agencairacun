@@ -1,4 +1,5 @@
 import { Search, Lightbulb, Rocket, TrendingUp } from 'lucide-react';
+import SectionHeading from '@/components/SectionHeading';
 import { useHomeContent } from '@/hooks/useHomeContent';
 
 const stepIcons = [Search, Lightbulb, Rocket, TrendingUp];
@@ -8,17 +9,14 @@ const ProcessSection = () => {
   const p = content.process;
 
   return (
-    <section className="section-padding relative overflow-hidden bg-secondary/20">
-      <div className="absolute inset-0 grid-overlay opacity-20" />
-      
+    <section className="section-padding relative overflow-hidden border-t border-border bg-secondary/10">
       <div className="container-custom relative z-10">
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <span className="text-primary text-sm font-medium uppercase tracking-wider mb-4 block">{p.badge}</span>
-          <h2 className="text-3xl md:text-5xl font-display font-bold mb-6">
-            {p.title} <span className="text-gradient-neon">{p.titleHighlight}</span>
-          </h2>
-          <p className="text-muted-foreground text-lg">{p.subtitle}</p>
-        </div>
+        <SectionHeading
+          eyebrow={p.badge}
+          title={p.title}
+          highlight={p.titleHighlight}
+          subtitle={p.subtitle}
+        />
 
         <div className="grid-cards-4">
           {p.steps.map((step, index) => {
