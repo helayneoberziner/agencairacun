@@ -27,19 +27,14 @@ const MarketsSection = () => {
     });
 
   return (
-    <section className="section-padding">
+    <section className="section-padding border-t border-border">
       <div className="container-custom">
-        <div className="text-center mb-12">
-          <span className="text-primary text-sm font-medium uppercase tracking-wider mb-4 block">
-            Mercados
-          </span>
-          <h2 className="text-3xl md:text-5xl font-display font-bold mb-4">
-            {segments.sectionTitle} <span className="text-gradient-neon">{segments.sectionTitleHighlight}</span>
-          </h2>
-          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            Experiência em diferentes segmentos com entendimento das necessidades de cada mercado.
-          </p>
-        </div>
+        <SectionHeading
+          eyebrow="Mercados"
+          title={segments.sectionTitle}
+          highlight={segments.sectionTitleHighlight}
+          subtitle="Experiência em diferentes segmentos com entendimento das necessidades de cada mercado."
+        />
 
         <div className="grid-cards-3">
           {items.map((seg, i) => {
