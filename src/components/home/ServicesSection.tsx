@@ -51,8 +51,8 @@ const ServicesSection = () => {
           })}
         </div>
 
-        <div className="text-center mt-12">
-          <Link to="/marketing" className="btn-outline inline-flex items-center gap-2">
+        <div className="mt-10 md:hidden">
+          <Link to="/marketing" className="btn-outline inline-flex items-center gap-2 text-sm">
             {s.cta}
             <ArrowRight className="w-4 h-4" />
           </Link>
