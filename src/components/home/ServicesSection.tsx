@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Megaphone, Video, Palette, BarChart3, ArrowRight } from 'lucide-react';
+import SectionHeading from '@/components/SectionHeading';
 import { useHomeContent } from '@/hooks/useHomeContent';
 
 const iconMap = [Megaphone, Video, BarChart3, Palette];
@@ -9,19 +10,20 @@ const ServicesSection = () => {
   const s = content.services;
 
   return (
-    <section className="section-padding relative overflow-hidden">
-      <div className="absolute top-0 right-0 w-96 h-96 bg-primary/10 rounded-full blur-[128px]" />
-      
+    <section className="section-padding relative overflow-hidden border-t border-border">
       <div className="container-custom relative z-10">
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <span className="text-primary text-sm font-medium uppercase tracking-wider mb-4 block">
-            {s.badge}
-          </span>
-          <h2 className="text-3xl md:text-5xl font-display font-bold mb-6">
-            {s.title} <span className="text-gradient-neon">{s.titleHighlight}</span>
-          </h2>
-          <p className="text-muted-foreground text-lg">{s.subtitle}</p>
-        </div>
+        <SectionHeading
+          eyebrow={s.badge}
+          title={s.title}
+          highlight={s.titleHighlight}
+          subtitle={s.subtitle}
+          action={
+            <Link to="/marketing" className="hidden md:inline-flex items-center gap-2 text-sm text-foreground/80 hover:text-primary transition-colors group">
+              {s.cta}
+              <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+            </Link>
+          }
+        />
 
         <div className="grid-cards-2">
           {s.items.map((service, index) => {
