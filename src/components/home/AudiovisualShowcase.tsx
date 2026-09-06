@@ -49,7 +49,7 @@ const AudiovisualShowcase = () => {
         />
 
         {featured && (
-          <div className="mb-8 md:mb-10 rounded-2xl overflow-hidden border border-white/10 shadow-[0_30px_80px_-30px_hsl(var(--primary)/0.4)]">
+          <div className="mb-8 md:mb-10 rounded-xl overflow-hidden border border-border">
             <VideoPlayer url={`https://www.youtube.com/watch?v=${featured}`} aspect="aspect-video" />
           </div>
         )}
@@ -57,7 +57,7 @@ const AudiovisualShowcase = () => {
         {projects.length > 0 && (
           <div className="grid-cards-wide">
             {projects.map((p: any) => (
-              <div key={p.id} className="group rounded-xl overflow-hidden border border-white/10 bg-secondary/30">
+              <div key={p.id} className="group rounded-xl overflow-hidden border border-border bg-secondary/20 transition-colors hover:border-primary/40">
                 <VideoPlayer
                   url={p.video_url}
                   poster={p.image_url || resolveVideoCover({ videoUrl: p.video_url })}
@@ -79,8 +79,8 @@ const AudiovisualShowcase = () => {
           </div>
         )}
 
-        <div className="text-center mt-12">
-          <Link to={a.ctaLink || '/produtora'} className="btn-primary inline-flex items-center gap-2">
+        <div className="mt-10 md:hidden">
+          <Link to={a.ctaLink || '/produtora'} className="btn-primary inline-flex items-center gap-2 text-sm">
             {a.cta}
             <ArrowRight className="w-4 h-4" />
           </Link>
