@@ -77,25 +77,22 @@ const SocialProofSection = () => {
   const logosMarquee = useInfiniteMarquee(50);
 
   return (
-    <section className="section-padding relative overflow-hidden bg-secondary/20">
-      <div className="absolute top-0 right-0 w-96 h-96 bg-primary/10 rounded-full blur-[140px]" aria-hidden />
-      <div className="absolute bottom-0 left-0 w-80 h-80 bg-accent/10 rounded-full blur-[128px]" aria-hidden />
-
+    <section className="section-padding relative overflow-hidden border-t border-border bg-secondary/10">
       <div className="container-custom relative z-10">
-        <div className="text-center max-w-3xl mx-auto mb-14">
-          <span className="text-primary text-sm font-medium uppercase tracking-wider mb-4 block">
+        <div className="max-w-2xl mb-8 md:mb-14">
+          <span className="block text-[10px] md:text-xs font-medium uppercase tracking-[0.28em] text-primary mb-2.5 md:mb-5">
             {sp.badge}
           </span>
-          <h2 className="text-3xl md:text-5xl font-display font-bold mb-5">
-            {sp.title} <span className="text-primary italic">{sp.titleHighlight}</span>
+          <h2 className="font-display font-bold tracking-tight text-[1.5rem] leading-[1.1] sm:text-4xl md:text-5xl mb-3 md:mb-5">
+            {sp.title} <span className="text-primary">{sp.titleHighlight}</span>
           </h2>
-          <p className="text-muted-foreground text-lg">
+          <p className="text-muted-foreground text-sm md:text-lg">
             Marcas que confiam na Racun para crescer com estratégia, conteúdo e performance.
           </p>
         </div>
 
-        {/* DEPOIMENTOS — carrossel infinito premium */}
-        <div className="relative mb-16">
+        {/* DEPOIMENTOS — carrossel infinito */}
+        <div className="relative mb-10 md:mb-16">
           <div className="pointer-events-none absolute inset-y-0 left-0 w-24 md:w-40 z-10 bg-gradient-to-r from-background to-transparent" aria-hidden />
           <div className="pointer-events-none absolute inset-y-0 right-0 w-24 md:w-40 z-10 bg-gradient-to-l from-background to-transparent" aria-hidden />
 
