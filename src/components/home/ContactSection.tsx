@@ -44,32 +44,43 @@ const ContactSection = () => {
   const mapOpen = `https://www.google.com/maps/search/?api=1&query=${mapQuery}`;
 
   return (
-    <section id="contato" className="section-padding relative overflow-hidden">
+    <section id="contato" className="section-padding relative overflow-hidden border-t border-border">
       <SiteBackdrop section="contato" intensity={25} />
-      <div className="absolute top-1/4 right-0 w-96 h-96 bg-primary/10 rounded-full blur-[128px]" />
-      
+
       <div className="container-custom relative z-10">
         <div className="grid-split">
           <div>
-            <span className="text-primary text-sm font-medium uppercase tracking-wider mb-4 block">{ct.badge}</span>
-            <h2 className="text-2xl md:text-5xl font-display font-bold mb-4 md:mb-6">
+            <span className="block text-[11px] md:text-xs font-medium uppercase tracking-[0.28em] text-primary mb-3 md:mb-5">{ct.badge}</span>
+            <h2 className="font-display font-bold tracking-tight text-[1.75rem] leading-[1.1] sm:text-4xl md:text-5xl mb-3 md:mb-6">
               {ct.title}{' '}
               <span className="text-primary">{ct.titleHighlight}</span>
             </h2>
-            <p className="text-muted-foreground text-lg mb-8">{ct.subtitle}</p>
+            <p className="text-muted-foreground text-sm md:text-lg mb-6 md:mb-8 max-w-xl">{ct.subtitle}</p>
 
-            <a href={whatsappGenericLink} target="_blank" rel="noopener noreferrer"
-              className="inline-flex items-center gap-3 p-4 rounded-xl bg-[#25D366]/10 border border-[#25D366]/20 text-[#25D366] hover:bg-[#25D366]/20 transition-colors">
-              <MessageCircle className="w-6 h-6" />
-              <div>
-                <p className="font-medium">Falar pelo WhatsApp</p>
-                <p className="text-sm opacity-80">{settings.phone}</p>
-              </div>
-            </a>
+            <div className="flex flex-col gap-3">
+              <a href={whatsappGenericLink} target="_blank" rel="noopener noreferrer"
+                className="flex items-center gap-3 p-3.5 md:p-4 rounded-xl border border-border hover:border-primary/40 transition-colors">
+                <MessageCircle className="w-5 h-5 text-primary shrink-0" strokeWidth={1.5} />
+                <div className="min-w-0">
+                  <p className="font-medium text-sm md:text-base">Falar pelo WhatsApp</p>
+                  <p className="text-xs md:text-sm text-muted-foreground truncate">{settings.phone}</p>
+                </div>
+              </a>
+              {settings.email && (
+                <a href={`mailto:${settings.email}`}
+                  className="flex items-center gap-3 p-3.5 md:p-4 rounded-xl border border-border hover:border-primary/40 transition-colors">
+                  <Mail className="w-5 h-5 text-primary shrink-0" strokeWidth={1.5} />
+                  <div className="min-w-0">
+                    <p className="font-medium text-sm md:text-base">Enviar e-mail</p>
+                    <p className="text-xs md:text-sm text-muted-foreground truncate">{settings.email}</p>
+                  </div>
+                </a>
+              )}
+            </div>
 
-            {/* Mapa integrado abaixo do WhatsApp */}
-            <div className="mt-8 glass-card overflow-hidden">
-              <div className="relative h-56 md:h-72">
+            {/* Mapa integrado abaixo dos contatos */}
+            <div className="mt-6 md:mt-8 rounded-xl border border-border overflow-hidden">
+              <div className="relative h-40 md:h-72">
                 <iframe
                   src={mapEmbed}
                   title="Localização Agência Racun"
@@ -79,19 +90,19 @@ const ContactSection = () => {
                   style={{ filter: 'invert(0.92) hue-rotate(180deg) grayscale(0.4) contrast(0.95)' }}
                 />
               </div>
-              <div className="p-4 md:p-5 flex flex-col sm:flex-row sm:items-center gap-3 justify-between border-t border-white/5">
-                <div className="flex items-start gap-2 text-sm text-muted-foreground">
-                  <MapPin className="w-4 h-4 text-primary mt-0.5 shrink-0" />
+              <div className="p-3.5 md:p-5 flex flex-col sm:flex-row sm:items-center gap-3 justify-between border-t border-border">
+                <div className="flex items-start gap-2 text-xs md:text-sm text-muted-foreground">
+                  <MapPin className="w-4 h-4 text-primary mt-0.5 shrink-0" strokeWidth={1.5} />
                   <span>{settings.address}</span>
                 </div>
-                <a href={mapOpen} target="_blank" rel="noopener noreferrer" className="btn-outline text-sm inline-flex items-center gap-2 self-start">
+                <a href={mapOpen} target="_blank" rel="noopener noreferrer" className="btn-outline text-xs md:text-sm inline-flex items-center gap-2 self-start">
                   Abrir no Google Maps <ExternalLink className="w-3.5 h-3.5" />
                 </a>
               </div>
             </div>
           </div>
 
-          <div className="glass-card p-5 md:p-8">
+          <div className="rounded-xl border border-border p-4 md:p-8">
             {isSubmitted ? (
               <div className="h-full flex flex-col items-center justify-center text-center py-12">
                 <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mb-6">
