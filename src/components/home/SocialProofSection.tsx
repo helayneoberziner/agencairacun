@@ -9,32 +9,26 @@ const TestimonialCard = ({ t }: { t: Testimonial }) => {
   const initials = t.name?.split(' ').map(p => p[0]).slice(0, 2).join('').toUpperCase() || '•';
   return (
     <article
-      className="group relative w-[320px] sm:w-[380px] md:w-[420px] shrink-0 rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-md p-7 transition-all duration-500 hover:border-primary/40 hover:bg-white/[0.05] hover:-translate-y-1"
-      style={{ boxShadow: '0 10px 40px -20px hsl(var(--primary) / 0.15)' }}
+      className="group relative flex flex-col w-[280px] sm:w-[360px] md:w-[420px] shrink-0 rounded-2xl border border-border p-5 md:p-7 transition-colors duration-300 hover:border-primary/40"
     >
-      <div
-        className="pointer-events-none absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-        style={{ boxShadow: '0 0 60px -10px hsl(var(--primary) / 0.35)' }}
-        aria-hidden
-      />
-      <Quote className="absolute top-5 right-5 w-7 h-7 text-primary/25" aria-hidden />
+      <Quote className="absolute top-4 right-4 w-5 h-5 md:w-7 md:h-7 text-primary/25" strokeWidth={1.5} aria-hidden />
 
       {typeof t.rating === 'number' && t.rating > 0 && (
-        <div className="flex gap-1 mb-4">
+        <div className="flex gap-1 mb-3 md:mb-4">
           {Array.from({ length: 5 }).map((_, i) => (
             <Star
               key={i}
-              className={`w-4 h-4 ${i < (t.rating ?? 0) ? 'fill-primary text-primary' : 'text-white/15'}`}
+              className={`w-3.5 h-3.5 md:w-4 md:h-4 ${i < (t.rating ?? 0) ? 'fill-primary text-primary' : 'text-muted-foreground/30'}`}
             />
           ))}
         </div>
       )}
 
-      <p className="text-foreground/90 leading-relaxed mb-6 line-clamp-6 min-h-[120px]">
+      <p className="text-sm md:text-base text-foreground/90 leading-relaxed mb-5 md:mb-6 line-clamp-6 pr-6">
         "{t.quote}"
       </p>
 
-      <div className="flex items-center gap-3 pt-4 border-t border-white/5">
+      <div className="mt-auto flex items-center gap-3 pt-4 border-t border-border">
         {t.image_url ? (
           <img
             src={t.image_url}
@@ -83,25 +77,22 @@ const SocialProofSection = () => {
   const logosMarquee = useInfiniteMarquee(50);
 
   return (
-    <section className="section-padding relative overflow-hidden bg-secondary/20">
-      <div className="absolute top-0 right-0 w-96 h-96 bg-primary/10 rounded-full blur-[140px]" aria-hidden />
-      <div className="absolute bottom-0 left-0 w-80 h-80 bg-accent/10 rounded-full blur-[128px]" aria-hidden />
-
+    <section className="section-padding relative overflow-hidden border-t border-border bg-secondary/10">
       <div className="container-custom relative z-10">
-        <div className="text-center max-w-3xl mx-auto mb-14">
-          <span className="text-primary text-sm font-medium uppercase tracking-wider mb-4 block">
+        <div className="max-w-2xl mb-8 md:mb-14">
+          <span className="block text-[10px] md:text-xs font-medium uppercase tracking-[0.28em] text-primary mb-2.5 md:mb-5">
             {sp.badge}
           </span>
-          <h2 className="text-3xl md:text-5xl font-display font-bold mb-5">
-            {sp.title} <span className="text-primary italic">{sp.titleHighlight}</span>
+          <h2 className="font-display font-bold tracking-tight text-[1.5rem] leading-[1.1] sm:text-4xl md:text-5xl mb-3 md:mb-5">
+            {sp.title} <span className="text-primary">{sp.titleHighlight}</span>
           </h2>
-          <p className="text-muted-foreground text-lg">
+          <p className="text-muted-foreground text-sm md:text-lg">
             Marcas que confiam na Racun para crescer com estratégia, conteúdo e performance.
           </p>
         </div>
 
-        {/* DEPOIMENTOS — carrossel infinito premium */}
-        <div className="relative mb-16">
+        {/* DEPOIMENTOS — carrossel infinito */}
+        <div className="relative mb-10 md:mb-16">
           <div className="pointer-events-none absolute inset-y-0 left-0 w-24 md:w-40 z-10 bg-gradient-to-r from-background to-transparent" aria-hidden />
           <div className="pointer-events-none absolute inset-y-0 right-0 w-24 md:w-40 z-10 bg-gradient-to-l from-background to-transparent" aria-hidden />
 
