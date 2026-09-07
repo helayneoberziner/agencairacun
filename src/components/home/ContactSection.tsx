@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Send, MessageCircle, CheckCircle, MapPin, ExternalLink } from 'lucide-react';
+import { Send, MessageCircle, CheckCircle, MapPin, ExternalLink, Mail } from 'lucide-react';
 import { useContactForm } from '@/hooks/useContactForm';
 import { useSiteSettings } from '@/hooks/useSiteSettings';
 import { useHomeContent } from '@/hooks/useHomeContent';
