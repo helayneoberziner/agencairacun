@@ -112,31 +112,31 @@ const ContactSection = () => {
                 <p className="text-muted-foreground">Recebemos seu contato e retornaremos em breve.</p>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="space-y-6">
+              <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
                 <div>
                   <label htmlFor="home-name" className="block text-sm font-medium mb-2">Nome *</label>
                   <input type="text" id="home-name" name="name" value={formData.name} onChange={handleChange} required
-                    className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/50 transition-colors"
+                    className="w-full px-3.5 py-2.5 md:px-4 md:py-3 rounded-xl bg-white/5 border border-white/10 text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/50 transition-colors"
                     placeholder="Seu nome completo" />
                   {errors.name && <p className="text-destructive text-sm mt-1">{errors.name}</p>}
                 </div>
                 <div>
                   <label htmlFor="home-email" className="block text-sm font-medium mb-2">E-mail *</label>
                   <input type="email" id="home-email" name="email" value={formData.email} onChange={handleChange} required
-                    className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/50 transition-colors"
+                    className="w-full px-3.5 py-2.5 md:px-4 md:py-3 rounded-xl bg-white/5 border border-white/10 text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/50 transition-colors"
                     placeholder="seu@email.com" />
                   {errors.email && <p className="text-destructive text-sm mt-1">{errors.email}</p>}
                 </div>
                 <div>
                   <label htmlFor="home-whatsapp" className="block text-sm font-medium mb-2">WhatsApp</label>
                   <input type="tel" id="home-whatsapp" name="whatsapp" value={formData.whatsapp} onChange={handleChange}
-                    className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/50 transition-colors"
+                    className="w-full px-3.5 py-2.5 md:px-4 md:py-3 rounded-xl bg-white/5 border border-white/10 text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/50 transition-colors"
                     placeholder="(11) 99999 9999" />
                 </div>
                 <div>
                   <label htmlFor="home-service" className="block text-sm font-medium mb-2">Qual serviço tem interesse? *</label>
                   <select id="home-service" name="service" value={formData.service} onChange={handleChange} required
-                    className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-foreground focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/50 transition-colors">
+                    className="w-full px-3.5 py-2.5 md:px-4 md:py-3 rounded-xl bg-white/5 border border-white/10 text-foreground focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/50 transition-colors">
                     <option value="" className="bg-background">Selecione um serviço</option>
                     {services.map((service) => (
                       <option key={service} value={service} className="bg-background">{service}</option>
@@ -146,7 +146,7 @@ const ContactSection = () => {
                 <div>
                   <label htmlFor="home-message" className="block text-sm font-medium mb-2">Mensagem *</label>
                   <textarea id="home-message" name="message" value={formData.message} onChange={handleChange} required rows={4}
-                    className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/50 transition-colors resize-none"
+                    className="w-full px-3.5 py-2.5 md:px-4 md:py-3 rounded-xl bg-white/5 border border-white/10 text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/50 transition-colors resize-none"
                     placeholder="Conte um pouco sobre seu projeto..." />
                   {errors.message && <p className="text-destructive text-sm mt-1">{errors.message}</p>}
                 </div>
