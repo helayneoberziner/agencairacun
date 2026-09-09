@@ -865,6 +865,56 @@ export type Database = {
         }
         Relationships: []
       }
+      proposal_sends: {
+        Row: {
+          client_email: string
+          client_name: string
+          error: string | null
+          id: string
+          link: string
+          message: string | null
+          proposal_id: string | null
+          resend_email_id: string | null
+          sent_at: string
+          status: string
+          subject: string | null
+        }
+        Insert: {
+          client_email: string
+          client_name: string
+          error?: string | null
+          id?: string
+          link: string
+          message?: string | null
+          proposal_id?: string | null
+          resend_email_id?: string | null
+          sent_at?: string
+          status?: string
+          subject?: string | null
+        }
+        Update: {
+          client_email?: string
+          client_name?: string
+          error?: string | null
+          id?: string
+          link?: string
+          message?: string | null
+          proposal_id?: string | null
+          resend_email_id?: string | null
+          sent_at?: string
+          status?: string
+          subject?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "proposal_sends_proposal_id_fkey"
+            columns: ["proposal_id"]
+            isOneToOne: false
+            referencedRelation: "proposals"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       proposal_suggestions: {
         Row: {
           category: string
@@ -895,6 +945,7 @@ export type Database = {
           audiovisual_differentials: string[]
           audiovisual_includes: string[]
           audiovisual_price: string
+          client_email: string | null
           client_name: string
           complete_bonus: string[]
           complete_differentials: string[]
@@ -917,6 +968,7 @@ export type Database = {
           audiovisual_differentials?: string[]
           audiovisual_includes?: string[]
           audiovisual_price?: string
+          client_email?: string | null
           client_name?: string
           complete_bonus?: string[]
           complete_differentials?: string[]
@@ -939,6 +991,7 @@ export type Database = {
           audiovisual_differentials?: string[]
           audiovisual_includes?: string[]
           audiovisual_price?: string
+          client_email?: string | null
           client_name?: string
           complete_bonus?: string[]
           complete_differentials?: string[]
@@ -1146,6 +1199,7 @@ export type Database = {
           audiovisual_differentials: string[]
           audiovisual_includes: string[]
           audiovisual_price: string
+          client_email: string | null
           client_name: string
           complete_bonus: string[]
           complete_differentials: string[]
