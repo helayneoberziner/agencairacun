@@ -33,6 +33,7 @@ import AdminSobre from "./pages/admin/AdminSobre";
 import AdminMarketing from "./pages/admin/AdminMarketing";
 import AdminHome from "./pages/admin/AdminHome";
 import AdminProposals from "./pages/admin/AdminProposals";
+import AdminProposalSend from "./pages/admin/AdminProposalSend";
 import AdminLgpd from "./pages/admin/AdminLgpd";
 import AdminSegments from "./pages/admin/AdminSegments";
 import AdminCases from "./pages/admin/AdminCases";
@@ -79,6 +80,7 @@ const App = () => (
             <Route path="/restaurantes" element={<Restaurantes />} />
             <Route path="/proposta" element={<Proposta />} />
             <Route path="/proposta/:slug" element={<Proposta />} />
+            <Route path="/orcamento/:slug" element={<Proposta />} />
             <Route path="/politica-de-privacidade" element={<PoliticaPrivacidade />} />
             <Route path="/termos-de-uso" element={<TermosUso />} />
 
@@ -107,6 +109,7 @@ const App = () => (
             <Route path="/admin/marketing" element={<ProtectedRoute><AdminMarketing /></ProtectedRoute>} />
             <Route path="/admin/home" element={<ProtectedRoute><AdminHome /></ProtectedRoute>} />
             <Route path="/admin/proposals" element={<ProtectedRoute><AdminProposals /></ProtectedRoute>} />
+            <Route path="/admin/proposals/send" element={<ProtectedRoute><AdminProposalSend /></ProtectedRoute>} />
             <Route path="/admin/lgpd" element={<ProtectedRoute><AdminLgpd /></ProtectedRoute>} />
             <Route path="/admin/segments" element={<ProtectedRoute><AdminSegments /></ProtectedRoute>} />
             <Route path="/admin/cases" element={<ProtectedRoute><AdminCases /></ProtectedRoute>} />

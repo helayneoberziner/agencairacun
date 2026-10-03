@@ -53,6 +53,7 @@ import {
           { name: 'Categorias', path: '/admin/categories', icon: Tags },
            { name: 'Projetos (legado)', path: '/admin/projects', icon: FolderOpen },
           { name: 'Propostas', path: '/admin/proposals', icon: FileText },
+          { name: 'Enviar Propostas', path: '/admin/proposals/send', icon: Mail },
           { name: 'Galerias', path: '/admin/galleries', icon: Camera },
           { name: 'Mensagens', path: '/admin/messages', icon: Mail },
         ],
