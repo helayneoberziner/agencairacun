@@ -9,6 +9,7 @@ import { Textarea } from '@/components/ui/textarea';
 import ImageUpload from '@/components/admin/ImageUpload';
 import VideoInput from '@/components/admin/VideoInput';
 import CaseMediaEditor from '@/components/admin/CaseMediaEditor';
+import CaseAiAssistant from '@/components/admin/CaseAiAssistant';
 import { toast } from 'sonner';
 import { Plus, Pencil, Trash2, X, Eye, Star, Film, Image as ImageIcon, Save } from 'lucide-react';
 import { parseYouTubeId, resolveVideoCover } from '@/lib/videoUtils';
@@ -317,6 +318,29 @@ const AdminCases = () => {
               </div>
             </div>
             <form id="case-edit-form" onSubmit={save} className="p-6 space-y-8">
+              <CaseAiAssistant
+                clientName={form.client_name}
+                segments={[
+                  ...SEGMENTS.map(s => ({ slug: s.slug, label: s.label })),
+                  ...dynamicSegments.filter(d => !SEGMENTS.some(s => s.slug === d.slug)).map(d => ({ slug: d.slug, label: d.name })),
+                ]}
+                onApply={(s) => setForm({
+                  ...form,
+                  title: s.title || form.title,
+                  subtitle: s.subtitle || form.subtitle,
+                  solution: s.presentation || form.solution,
+                  category: s.category || form.category,
+                  subcategory: s.subcategory || form.subcategory,
+                  show_on_home: s.placements.includes('home_cases'),
+                  is_featured: s.placements.includes('cases'),
+                  home_featured: s.placements.includes('produtora'),
+                  segments: s.placements.filter(p => p.startsWith('seg:')).map(p => p.slice(4)),
+                  appears_in: Array.from(new Set([
+                    ...(form.appears_in || []).filter((a: string) => a !== 'home_audio'),
+                    ...(s.placements.includes('home_audio') ? ['home_audio'] : []),
+                  ])),
+                })}
+              />
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label>Cliente *</Label>
@@ -456,6 +480,10 @@ const AdminCases = () => {
                     <label className={`flex items-center gap-2 px-3 py-2 rounded-lg border text-sm cursor-pointer transition ${form.show_on_home ? 'bg-primary/10 border-primary/40' : 'bg-white/5 border-white/10 hover:border-primary/30'}`}>
                       <input type="checkbox" checked={form.show_on_home} onChange={e => setForm({ ...form, show_on_home: e.target.checked })} />
                       Home (seção de Cases)
+                    </label>
+                    <label className={`flex items-center gap-2 px-3 py-2 rounded-lg border text-sm cursor-pointer transition ${(form.appears_in || []).includes('home_audio') ? 'bg-primary/10 border-primary/40' : 'bg-white/5 border-white/10 hover:border-primary/30'}`}>
+                      <input type="checkbox" checked={(form.appears_in || []).includes('home_audio')} onChange={e => setForm({ ...form, appears_in: e.target.checked ? [...(form.appears_in || []), 'home_audio'] : (form.appears_in || []).filter((a: string) => a !== 'home_audio') })} />
+                      Home (bloco de vídeos audiovisual)
                     </label>
                     <label className={`flex items-center gap-2 px-3 py-2 rounded-lg border text-sm cursor-pointer transition ${form.is_featured ? 'bg-primary/10 border-primary/40' : 'bg-white/5 border-white/10 hover:border-primary/30'}`}>
                       <input type="checkbox" checked={form.is_featured} onChange={e => setForm({ ...form, is_featured: e.target.checked })} />
