@@ -13,7 +13,7 @@ import { toast } from 'sonner';
 import { Plus, Pencil, Trash2, X, Eye, Star, Film, Image as ImageIcon, Save } from 'lucide-react';
 import { parseYouTubeId, resolveVideoCover } from '@/lib/videoUtils';
 import { Link } from 'react-router-dom';
-import { SEGMENTS } from '@/lib/segments';
+import { SEGMENTS, normalizeSegment } from '@/lib/segments';
 import { useSegmentsList } from '@/hooks/useSegmentPage';
 
 interface CaseRow {
@@ -113,7 +113,10 @@ const AdminCases = () => {
         metricsRaw: (c.metrics || []).map(m => `${m.label}|${m.value}`).join('\n'),
         testimonial_text: c.testimonial_text ?? '', testimonial_author: c.testimonial_author ?? '',
         categoriesRaw: (c.categories || []).join(', '),
-        segments: c.segments || [],
+        segments: Array.from(new Set([
+          ...(c.segments || []).map(normalizeSegment),
+          ...((c.appears_in || []) as string[]).filter(a => a.startsWith('seg:')).map(a => normalizeSegment(a.slice(4))),
+        ])),
         appears_in: c.appears_in || [],
         category: c.category || '',
         subcategory: c.subcategory || '',
@@ -158,12 +161,13 @@ const AdminCases = () => {
       testimonial_author: form.testimonial_author || null,
       categories: form.categoriesRaw.split(',').map(s => s.trim()).filter(Boolean),
       segments: form.segments,
-      appears_in: [
+      appears_in: Array.from(new Set([
+        ...(form.appears_in || []).filter((a: string) => !a.startsWith('seg:') && !['home_cases', 'produtora', 'cases'].includes(a)),
         ...(form.show_on_home ? ['home_cases'] : []),
         ...(form.home_featured ? ['produtora'] : []),
         ...(form.is_featured ? ['cases'] : []),
         ...form.segments.map(s => `seg:${s}`),
-      ],
+      ])),
       category: form.category || null,
       subcategory: form.subcategory || null,
       home_featured: form.home_featured,
