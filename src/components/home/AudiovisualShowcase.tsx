@@ -21,12 +21,45 @@ const AudiovisualShowcase = () => {
   const { data: projects = [] } = useQuery({
     queryKey: ['home-audiovisual-projects'],
     queryFn: async () => {
-      const { data } = await supabase
-        .from('projects')
-        .select('id,title,category,subcategory,image_url,video_url,is_featured,display_order')
-        .eq('is_featured', true)
-        .order('display_order', { ascending: true });
-      return ((data ?? []) as any[]).filter(p => !!p.video_url);
+      const [{ data }, { data: cases }] = await Promise.all([
+        supabase
+          .from('projects')
+          .select('id,title,category,subcategory,image_url,video_url,is_featured,display_order')
+          .eq('is_featured', true)
+          .order('display_order', { ascending: true }),
+        supabase
+          .from('cases' as any)
+          .select('id,client_name,title,hero_media_url,hero_youtube_id,hero_image_url,appears_in,category,subcategory,display_order')
+          .eq('is_active', true)
+          .contains('appears_in', ['home_audio'])
+          .order('display_order', { ascending: true }),
+      ]);
+      const list = ((data ?? []) as any[]).filter(p => !!p.video_url);
+      const caseList = (cases ?? []) as any[];
+      // Cases marked "Home audiovisual" bring their hero video, or first video in the gallery.
+      const missing = caseList.filter(c => !c.hero_youtube_id && !c.hero_media_url).map(c => c.id);
+      let firstVideo: Record<string, any> = {};
+      if (missing.length) {
+        const { data: media } = await supabase
+          .from('case_media' as any)
+          .select('case_id,kind,url,youtube_id,display_order')
+          .in('case_id', missing)
+          .neq('kind', 'image')
+          .order('display_order', { ascending: true });
+        for (const m of (media ?? []) as any[]) if (!firstVideo[m.case_id]) firstVideo[m.case_id] = m;
+      }
+      const seen = new Set(list.map(p => (p.title || '').trim().toLowerCase()));
+      for (const c of caseList) {
+        const m = firstVideo[c.id];
+        const video = c.hero_youtube_id
+          ? `https://www.youtube.com/watch?v=${c.hero_youtube_id}`
+          : c.hero_media_url || (m ? (m.youtube_id ? `https://www.youtube.com/watch?v=${m.youtube_id}` : m.url) : null);
+        const key = (c.client_name || c.title || '').trim().toLowerCase();
+        if (!video || seen.has(key) || seen.has((c.title || '').trim().toLowerCase())) continue;
+        seen.add(key);
+        list.push({ id: `case-${c.id}`, title: c.client_name || c.title, category: c.category, subcategory: c.subcategory, image_url: c.hero_image_url, video_url: video });
+      }
+      return list;
     },
   });
 
