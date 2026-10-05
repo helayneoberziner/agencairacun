@@ -16,6 +16,7 @@ export type Database = {
     Tables: {
       case_media: {
         Row: {
+          alt_text: string | null
           caption: string | null
           case_id: string
           created_at: string
@@ -24,9 +25,11 @@ export type Database = {
           kind: string
           section: string
           url: string | null
+          visual_description: string | null
           youtube_id: string | null
         }
         Insert: {
+          alt_text?: string | null
           caption?: string | null
           case_id: string
           created_at?: string
@@ -35,9 +38,11 @@ export type Database = {
           kind?: string
           section?: string
           url?: string | null
+          visual_description?: string | null
           youtube_id?: string | null
         }
         Update: {
+          alt_text?: string | null
           caption?: string | null
           case_id?: string
           created_at?: string
@@ -46,6 +51,7 @@ export type Database = {
           kind?: string
           section?: string
           url?: string | null
+          visual_description?: string | null
           youtube_id?: string | null
         }
         Relationships: [
