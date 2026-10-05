@@ -22,7 +22,7 @@ const SectionGroup = ({ title, items }: { title: string; items: CaseMediaRow[] }
           {items.map(m => (
             <div key={m.id} className="glass-card overflow-hidden">
               {m.kind === 'image' ? (
-                <img src={m.url || ''} alt={m.caption || ''} loading="lazy" className="w-full aspect-video object-cover" />
+                <img src={m.url || ''} alt={(m as any).alt_text || m.caption || ''} loading="lazy" className="w-full aspect-video object-cover" />
               ) : (
                 <VideoPlayer url={m.url || (m.youtube_id ? `https://youtu.be/${m.youtube_id}` : '')} title={m.caption || undefined} />
               )}

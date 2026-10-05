@@ -10,6 +10,7 @@ import ImageUpload from '@/components/admin/ImageUpload';
 import VideoInput from '@/components/admin/VideoInput';
 import CaseMediaEditor from '@/components/admin/CaseMediaEditor';
 import CaseAiAssistant from '@/components/admin/CaseAiAssistant';
+import CasePlacementPreview from '@/components/admin/CasePlacementPreview';
 import { toast } from 'sonner';
 import { Plus, Pencil, Trash2, X, Eye, Star, Film, Image as ImageIcon, Save } from 'lucide-react';
 import { parseYouTubeId, resolveVideoCover } from '@/lib/videoUtils';
@@ -500,6 +501,20 @@ const AdminCases = () => {
                   </div>
                 </div>
               </div>
+
+              <CasePlacementPreview
+                slug={form.slug}
+                isActive={form.is_active}
+                showOnHome={form.show_on_home}
+                homeAudio={(form.appears_in || []).includes('home_audio')}
+                isFeatured={form.is_featured}
+                produtora={form.home_featured}
+                segments={form.segments}
+                segmentList={[
+                  ...SEGMENTS.map(s => ({ slug: s.slug, label: s.label, path: s.path })),
+                  ...dynamicSegments.filter(d => !SEGMENTS.some(s => s.slug === d.slug)).map(d => ({ slug: d.slug, label: d.name, path: `/s/${d.slug}` })),
+                ]}
+              />
 
               {/* SEO */}
               <div className="space-y-3 border-t border-border pt-6">

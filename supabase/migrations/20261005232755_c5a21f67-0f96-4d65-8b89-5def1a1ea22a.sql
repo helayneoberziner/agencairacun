@@ -1,0 +1,1 @@
+ALTER TABLE public.case_media ADD COLUMN IF NOT EXISTS alt_text text, ADD COLUMN IF NOT EXISTS visual_description text;
