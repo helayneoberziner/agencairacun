@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Trash2, ChevronUp, ChevronDown, Image as ImgIcon, Video, Star } from 'lucide-react';
+import { Trash2, ChevronUp, ChevronDown, Image as ImgIcon, Video, Star, Sparkles, Loader2 } from 'lucide-react';
+import { Textarea } from '@/components/ui/textarea';
 import { toast } from 'sonner';
 import VideoInput from './VideoInput';
 import ImageUpload from './ImageUpload';
@@ -15,6 +16,8 @@ interface Item {
   url: string | null;
   youtube_id: string | null;
   caption: string | null;
+  alt_text: string | null;
+  visual_description: string | null;
   section: string;
   display_order: number;
 }
@@ -26,7 +29,8 @@ const SECTIONS: { value: string; label: string }[] = [
   { value: 'bastidores', label: 'Bastidores' },
 ];
 
-const CaseMediaEditor = ({ caseId }: { caseId: string }) => {
+const CaseMediaEditor = ({ caseId, clientName = '', caseTitle = '' }: { caseId: string; clientName?: string; caseTitle?: string }) => {
+  const [busy, setBusy] = useState<Record<string, boolean>>({});
   const [items, setItems] = useState<Item[]>([]);
   const [section, setSection] = useState('audiovisual');
   const [addKind, setAddKind] = useState<'image' | 'video'>('video');
@@ -68,6 +72,40 @@ const CaseMediaEditor = ({ caseId }: { caseId: string }) => {
     load();
   };
 
+  const describe = async (it: Item) => {
+    if (!it.url) return;
+    setBusy(b => ({ ...b, [it.id]: true }));
+    try {
+      const { data, error } = await supabase.functions.invoke('describe-image', {
+        body: { image_url: it.url, client_name: clientName, case_title: caseTitle },
+      });
+      if (error) {
+        let msg = error.message;
+        try { msg = (await (error as any).context?.json())?.error || msg; } catch { /* ignore */ }
+        throw new Error(typeof msg === 'string' ? msg : 'Falha');
+      }
+      if (data?.error) throw new Error(data.error);
+      await supabase.from('case_media' as any).update({ alt_text: data.alt_text, visual_description: data.visual_description }).eq('id', it.id);
+      setItems(prev => prev.map(x => x.id === it.id ? { ...x, alt_text: data.alt_text, visual_description: data.visual_description } : x));
+      return true;
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : 'Falha ao descrever imagem');
+      return false;
+    } finally { setBusy(b => ({ ...b, [it.id]: false })); }
+  };
+
+  const describeMissing = async () => {
+    const targets = items.filter(i => i.kind === 'image' && i.url && !i.alt_text);
+    if (!targets.length) { toast.info('Todas as imagens já têm texto alternativo'); return; }
+    let ok = 0;
+    for (const t of targets) { if (await describe(t)) ok++; else break; }
+    if (ok) toast.success(`${ok} ${ok === 1 ? 'imagem descrita' : 'imagens descritas'}`);
+  };
+
+  const saveText = async (id: string, field: 'alt_text' | 'visual_description', value: string) => {
+    await supabase.from('case_media' as any).update({ [field]: value || null }).eq('id', id);
+  };
+
   const remove = async (id: string) => {
     if (!confirm('Remover?')) return;
     await supabase.from('case_media' as any).delete().eq('id', id);
@@ -98,6 +136,17 @@ const CaseMediaEditor = ({ caseId }: { caseId: string }) => {
           </Button>
         ))}
       </div>
+
+      {items.some(i => i.kind === 'image') && (
+        <div className="flex flex-wrap items-center justify-between gap-2 rounded-xl border border-dashed border-primary/40 p-3">
+          <span className="text-sm text-muted-foreground">
+            {items.filter(i => i.kind === 'image' && !i.alt_text).length} imagens sem texto alternativo
+          </span>
+          <Button type="button" size="sm" variant="outline" onClick={describeMissing} disabled={Object.values(busy).some(Boolean)}>
+            <Sparkles className="w-4 h-4 mr-1.5" /> Gerar descrições com IA
+          </Button>
+        </div>
+      )}
 
       <div className="glass-card p-4 space-y-3">
         <div className="flex gap-2">
@@ -134,7 +183,24 @@ const CaseMediaEditor = ({ caseId }: { caseId: string }) => {
                 )}
               </div>
               <div className="p-2 text-xs">
-                <p className="truncate">{it.caption || '—'}</p>
+                <p className="truncate">{it.caption || 'Sem legenda'}</p>
+                {it.kind === 'image' && (
+                  <div className="space-y-1.5 mt-2">
+                    <Textarea rows={2} className="text-xs min-h-0" placeholder="Texto alternativo"
+                      value={it.alt_text ?? ''}
+                      onChange={e => setItems(prev => prev.map(x => x.id === it.id ? { ...x, alt_text: e.target.value } : x))}
+                      onBlur={e => saveText(it.id, 'alt_text', e.target.value)} />
+                    <Textarea rows={3} className="text-xs min-h-0" placeholder="Descrição visual"
+                      value={it.visual_description ?? ''}
+                      onChange={e => setItems(prev => prev.map(x => x.id === it.id ? { ...x, visual_description: e.target.value } : x))}
+                      onBlur={e => saveText(it.id, 'visual_description', e.target.value)} />
+                    <button type="button" onClick={() => describe(it)} disabled={busy[it.id]}
+                      className="inline-flex items-center gap-1 text-primary hover:underline disabled:opacity-50">
+                      {busy[it.id] ? <Loader2 className="w-3 h-3 animate-spin" /> : <Sparkles className="w-3 h-3" />}
+                      {it.alt_text ? 'Gerar de novo' : 'Gerar com IA'}
+                    </button>
+                  </div>
+                )}
                 <div className="flex justify-between mt-2">
                   <div className="flex gap-1">
                     <button onClick={() => move(it.id, -1)} className="p-1 hover:bg-muted rounded"><ChevronUp className="w-3 h-3" /></button>
