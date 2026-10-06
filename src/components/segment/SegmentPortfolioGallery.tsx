@@ -20,6 +20,7 @@ type Tile = {
   fileVideo: string | null;
   fullImage: string | null;
   caption: string;
+  alt?: string;
   sub: string;
 };
 
@@ -68,6 +69,7 @@ const SegmentPortfolioGallery = ({ slug, segmentLabel, title = 'Portfólio do se
             fileVideo: isVideo && !yid ? m.url : null,
             fullImage: !isVideo ? m.url : null,
             caption: m.caption || c?.title || c?.client_name || '',
+            alt: m.alt_text || m.caption || c?.title || c?.client_name || '',
             sub: c?.client_name || '',
           };
         }).filter(Boolean) as Tile[];
