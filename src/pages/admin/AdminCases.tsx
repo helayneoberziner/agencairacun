@@ -102,6 +102,18 @@ const AdminCases = () => {
   };
   useEffect(() => { fetchAll(); }, []);
 
+  const moveCase = async (index: number, dir: -1 | 1) => {
+    const ni = index + dir;
+    if (ni < 0 || ni >= list.length) return;
+    const next = [...list];
+    [next[index], next[ni]] = [next[ni], next[index]];
+    setList(next);
+    await Promise.all(next.map((c, i) => c.display_order === i ? null :
+      supabase.from('cases' as any).update({ display_order: i }).eq('id', c.id)));
+    setList(next.map((c, i) => ({ ...c, display_order: i })));
+    qc.invalidateQueries({ queryKey: ['cases'] });
+  };
+
   const open = (c?: CaseRow) => {
     if (c) {
       setEditing(c);
@@ -261,7 +273,7 @@ const AdminCases = () => {
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {list.map(c => {
+            {list.map((c, idx) => {
               const cover = c.hero_image_url || resolveVideoCover({ videoUrl: c.hero_media_url, youtubeId: c.hero_youtube_id });
               return (
                 <div key={c.id} className="glass-card overflow-hidden group">
@@ -279,6 +291,10 @@ const AdminCases = () => {
                         <span className="text-xs text-primary uppercase tracking-wider">{c.client_name}</span>
                         <h3 className="font-semibold truncate">{c.title}</h3>
                         <p className="text-xs text-muted-foreground truncate">/cases/{c.slug}</p>
+                      </div>
+                      <div className="flex shrink-0 items-center">
+                        <button onClick={() => moveCase(idx, -1)} disabled={idx === 0} title="Mover para antes" className="p-2 rounded-lg text-muted-foreground hover:text-foreground disabled:opacity-30"><ChevronUp className="w-4 h-4" /></button>
+                        <button onClick={() => moveCase(idx, 1)} disabled={idx === list.length - 1} title="Mover para depois" className="p-2 rounded-lg text-muted-foreground hover:text-foreground disabled:opacity-30"><ChevronDown className="w-4 h-4" /></button>
                       </div>
                       <button
                         onClick={() => toggleField(c.id, 'show_on_home', c.show_on_home)}
