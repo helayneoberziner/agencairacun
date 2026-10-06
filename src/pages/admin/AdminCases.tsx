@@ -111,7 +111,7 @@ const AdminCases = () => {
     await Promise.all(next.map((c, i) => c.display_order === i ? null :
       supabase.from('cases' as any).update({ display_order: i }).eq('id', c.id)));
     setList(next.map((c, i) => ({ ...c, display_order: i })));
-    qc.invalidateQueries({ queryKey: ['cases'] });
+    queryClient.invalidateQueries({ queryKey: ['cases'] });
   };
 
   const open = (c?: CaseRow) => {
