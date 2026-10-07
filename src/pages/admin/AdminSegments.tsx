@@ -8,6 +8,7 @@ import { toast } from 'sonner';
 import { Save, ExternalLink, Plus, Trash2 } from 'lucide-react';
 import { Field, ListEditor, SectionCard, StringListEditor } from '@/components/admin/ContentEditorFields';
 import ImageUpload from '@/components/admin/ImageUpload';
+import SeoAiAssistant from '@/components/admin/SeoAiAssistant';
 import { useSegmentsList, useUpdateSegmentPage, useCreateSegmentPage, useDeleteSegmentPage, SegmentPage } from '@/hooks/useSegmentPage';
 import { useTestimonials } from '@/hooks/useTestimonials';
 import { useQuery } from '@tanstack/react-query';
@@ -364,6 +365,9 @@ const AdminSegments = () => {
               <Field label="Descrição SEO (até 160 chars)" value={draft.seo_description || ''} onChange={v => setDraft({ ...draft, seo_description: v })} multiline />
               <ImageUpload label="Imagem Open Graph (compartilhamento)" value={draft.og_image_url || ''} onChange={url => setDraft({ ...draft, og_image_url: url })} folder={`segments/${draft.slug}/og`} />
             </SectionCard>
+            <div className="mt-4">
+              <SeoAiAssistant key={draft.slug} pageName={draft.name} onApply={o => setDraft({ ...draft, seo_title: o.title, seo_description: o.description })} />
+            </div>
           </TabsContent>
         </Tabs>
 

@@ -1,7 +1,7 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
  import { useAuth } from '@/hooks/useAuth';
 import { 
-  LayoutDashboard, 
+  LayoutDashboard, Sparkles,
   FolderOpen, 
   Mail, 
   Image, 
@@ -62,6 +62,7 @@ import {
         label: 'Conteúdo',
         items: [
            { name: 'Segmentos', path: '/admin/segments', icon: Layers },
+          { name: 'SEO com IA', path: '/admin/seo', icon: Sparkles },
           { name: 'Mídia', path: '/admin/media', icon: Image },
           { name: 'Depoimentos', path: '/admin/testimonials', icon: Quote },
           { name: 'Equipe', path: '/admin/team', icon: Users },
