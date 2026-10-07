@@ -54,32 +54,7 @@ const SegmentLandingPage = ({ slug }: Props) => {
   // SEO
   useEffect(() => {
     if (!page) return;
-    const title = page.seo_title || `${page.name} | Agência Racun`;
-    const desc = page.seo_description || '';
-    document.title = title;
-    const setMeta = (name: string, content: string, attr: 'name' | 'property' = 'name') => {
-      let el = document.querySelector(`meta[${attr}="${name}"]`) as HTMLMetaElement | null;
-      if (!el) {
-        el = document.createElement('meta');
-        el.setAttribute(attr, name);
-        document.head.appendChild(el);
-      }
-      el.setAttribute('content', content);
-    };
-    setMeta('description', desc);
-    setMeta('og:title', title, 'property');
-    setMeta('og:description', desc, 'property');
-    setMeta('og:type', 'website', 'property');
-    setMeta('og:url', `https://agenciaracun.lovable.app/${slug}`, 'property');
-    if (page.og_image_url) setMeta('og:image', page.og_image_url, 'property');
-
-    let canonical = document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
-    if (!canonical) {
-      canonical = document.createElement('link');
-      canonical.rel = 'canonical';
-      document.head.appendChild(canonical);
-    }
-    canonical.href = `https://agenciaracun.lovable.app/${slug}`;
+    const desc = page.seo_description || "";
 
     const schemaId = 'segment-jsonld';
     let schema = document.getElementById(schemaId) as HTMLScriptElement | null;
@@ -145,8 +120,9 @@ const SegmentLandingPage = ({ slug }: Props) => {
   return (
     <div className="min-h-screen bg-background">
       <SEO
-        title={SEGMENT_META[slug]?.title || 'Racun'}
-        description={SEGMENT_META[slug]?.description || 'Marketing e produção audiovisual da Agência Racun.'}
+        title={page?.seo_title || SEGMENT_META[slug]?.title || 'Racun'}
+        description={page?.seo_description || SEGMENT_META[slug]?.description || 'Marketing e produção audiovisual da Agência Racun.'}
+        image={page?.og_image_url || undefined}
         path={`/${slug}`}
       />
       <Header />
