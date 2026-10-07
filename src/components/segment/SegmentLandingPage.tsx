@@ -54,6 +54,7 @@ const SegmentLandingPage = ({ slug }: Props) => {
   // SEO
   useEffect(() => {
     if (!page) return;
+    const desc = page.seo_description || "";
 
     const schemaId = 'segment-jsonld';
     let schema = document.getElementById(schemaId) as HTMLScriptElement | null;
