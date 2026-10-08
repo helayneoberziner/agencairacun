@@ -127,7 +127,7 @@ const AdminCases = () => {
       await fetchAll();
       toast.error('Não foi possível salvar toda a ordem. Confira os cases e tente novamente.');
     } finally {
-      ['cases', 'segment-gallery', 'segment-clients', 'produtora-projects'].forEach(key =>
+      ['cases', 'segment-gallery', 'segment-clients', 'portfolio-projects', 'home-audiovisual-projects'].forEach(key =>
         queryClient.invalidateQueries({ queryKey: [key] }));
       setIsReordering(false);
     }

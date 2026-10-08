@@ -57,9 +57,9 @@ const AudiovisualShowcase = () => {
         const key = (c.client_name || c.title || '').trim().toLowerCase();
         if (!video || seen.has(key) || seen.has((c.title || '').trim().toLowerCase())) continue;
         seen.add(key);
-        list.push({ id: `case-${c.id}`, title: c.client_name || c.title, category: c.category, subcategory: c.subcategory, image_url: c.hero_image_url, video_url: video });
+        list.push({ id: `case-${c.id}`, title: c.client_name || c.title, category: c.category, subcategory: c.subcategory, image_url: c.hero_image_url, video_url: video, display_order: c.display_order });
       }
-      return list;
+      return list.sort((a, b) => (a.display_order ?? 0) - (b.display_order ?? 0) || a.id.localeCompare(b.id));
     },
   });
 

@@ -18,6 +18,7 @@ export const useRealtimeSync = () => {
       qc.invalidateQueries({ queryKey: ['segment-gallery'] });
       qc.invalidateQueries({ queryKey: ['segment-clients'] });
       qc.invalidateQueries({ queryKey: ['home-audiovisual-projects'] });
+      qc.invalidateQueries({ queryKey: ['portfolio-projects'] });
     };
     const invalidateSegments = () => {
       qc.invalidateQueries({ queryKey: ['segment-pages'] });

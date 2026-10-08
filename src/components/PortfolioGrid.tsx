@@ -62,7 +62,7 @@ const PortfolioGrid = ({
       let query = supabase
         .from('projects')
         .select('*')
-        .order('display_order', { ascending: true });
+        .order('display_order', { ascending: true }).order('id');
 
       if (featuredOnly) {
         query = query.eq('is_featured', true);
@@ -73,9 +73,35 @@ const PortfolioGrid = ({
 
       let results = (data ?? []) as unknown as Project[];
 
+      const { data: caseData, error: caseError } = await supabase.from('cases' as any)
+        .select('id,title,client_name,category,subcategory,hero_image_url,hero_media_url,hero_youtube_id,display_order,home_featured,appears_in')
+        .eq('is_active', true).order('display_order').order('id');
+      if (caseError) throw caseError;
+      const caseRows = ((caseData ?? []) as any[]).filter(c => c.home_featured || (c.appears_in || []).includes('produtora'));
+      const missing = caseRows.filter(c => !c.hero_media_url && !c.hero_youtube_id).map(c => c.id);
+      const videos = new Map<string, string>();
+      if (missing.length) {
+        const { data: media, error: mediaError } = await supabase.from('case_media' as any)
+          .select('case_id,url,youtube_id').in('case_id', missing).neq('kind', 'image').order('display_order');
+        if (mediaError) throw mediaError;
+        for (const m of (media ?? []) as any[]) {
+          const video = m.youtube_id ? `https://www.youtube.com/watch?v=${m.youtube_id}` : m.url;
+          if (video && !videos.has(m.case_id)) videos.set(m.case_id, video);
+        }
+      }
+      const caseProjects: Project[] = caseRows.map(c => ({
+        id: `case:${c.id}`, title: c.title, category: c.category || 'Vídeo', subcategory: c.subcategory,
+        description: null, image_url: c.hero_image_url,
+        video_url: c.hero_youtube_id ? `https://www.youtube.com/watch?v=${c.hero_youtube_id}` : c.hero_media_url || videos.get(c.id) || null,
+        is_featured: !!c.home_featured, display_order: c.display_order,
+      }));
+      const caseNames = new Set(caseRows.flatMap(c => [c.title, c.client_name].filter(Boolean).map((s: string) => s.trim().toLowerCase())));
+      results = [...results.filter(p => !caseNames.has(p.title.trim().toLowerCase())), ...caseProjects];
+      results.sort((a, b) => a.display_order - b.display_order || a.id.localeCompare(b.id));
+
       if (filterCategory) {
         const cats = Array.isArray(filterCategory) ? filterCategory : [filterCategory];
-        results = results.filter(p => cats.includes(p.category));
+        results = results.filter(p => cats.includes(p.category) || (p.id.startsWith('case:') && !!p.video_url));
       }
 
       return limit ? results.slice(0, limit) : results;
