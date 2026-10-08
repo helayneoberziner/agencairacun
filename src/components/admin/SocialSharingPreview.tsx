@@ -42,7 +42,11 @@ export default function SocialSharingPreview({ suggestion }: { suggestion?: { ti
     const read = () => {
       const doc = frame.current?.contentDocument;
       if (!doc || doc.location.pathname !== path) return;
-      const meta = (selector: string) => doc.querySelector<HTMLMetaElement>(selector)?.content || '';
+      if (!doc.querySelector('meta[data-rh="true"][property="og:title"]')) return;
+      const meta = (selector: string) => {
+        const elements = doc.querySelectorAll<HTMLMetaElement>(selector);
+        return elements.item(elements.length - 1)?.content || '';
+      };
       const pageTitle = meta('meta[property="og:title"]') || doc.title;
       if (!pageTitle) return;
       setTitle(pageTitle);
