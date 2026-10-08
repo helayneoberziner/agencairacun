@@ -12,7 +12,10 @@ import CaseMediaEditor from '@/components/admin/CaseMediaEditor';
 import CaseAiAssistant from '@/components/admin/CaseAiAssistant';
 import CasePlacementPreview from '@/components/admin/CasePlacementPreview';
 import { toast } from 'sonner';
-import { Plus, Pencil, Trash2, X, Eye, Star, Film, Image as ImageIcon, Save, ChevronUp, ChevronDown } from 'lucide-react';
+import { Plus, Pencil, Trash2, X, Eye, Star, Film, Image as ImageIcon, Save } from 'lucide-react';
+import { DndContext, closestCenter, PointerSensor, KeyboardSensor, useSensor, useSensors, type DragEndEvent } from '@dnd-kit/core';
+import { SortableContext, arrayMove, rectSortingStrategy, sortableKeyboardCoordinates } from '@dnd-kit/sortable';
+import SortableCase from '@/components/admin/SortableCase';
 import { parseYouTubeId, resolveVideoCover } from '@/lib/videoUtils';
 import { Link } from 'react-router-dom';
 import { SEGMENTS, normalizeSegment } from '@/lib/segments';
@@ -80,6 +83,11 @@ const AdminCases = () => {
   const { data: dynamicSegments = [] } = useSegmentsList();
   const queryClient = useQueryClient();
   const [loading, setLoading] = useState(true);
+  const [isReordering, setIsReordering] = useState(false);
+  const sensors = useSensors(
+    useSensor(PointerSensor, { activationConstraint: { distance: 6 } }),
+    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }),
+  );
   const [editing, setEditing] = useState<CaseRow | null>(null);
   const [isOpen, setIsOpen] = useState(false);
   const [form, setForm] = useState(emptyForm);
@@ -102,16 +110,27 @@ const AdminCases = () => {
   };
   useEffect(() => { fetchAll(); }, []);
 
-  const moveCase = async (index: number, dir: -1 | 1) => {
-    const ni = index + dir;
-    if (ni < 0 || ni >= list.length) return;
-    const next = [...list];
-    [next[index], next[ni]] = [next[ni], next[index]];
+  const reorderCases = async ({ active, over }: DragEndEvent) => {
+    if (!over || active.id === over.id || isReordering) return;
+    const from = list.findIndex(c => c.id === active.id);
+    const to = list.findIndex(c => c.id === over.id);
+    if (from < 0 || to < 0) return;
+    const next = arrayMove(list, from, to).map((c, i) => ({ ...c, display_order: i }));
     setList(next);
-    await Promise.all(next.map((c, i) => c.display_order === i ? null :
-      supabase.from('cases' as any).update({ display_order: i }).eq('id', c.id)));
-    setList(next.map((c, i) => ({ ...c, display_order: i })));
-    queryClient.invalidateQueries({ queryKey: ['cases'] });
+    setIsReordering(true);
+    try {
+      const results = await Promise.all(next.map(c =>
+        supabase.from('cases' as any).update({ display_order: c.display_order }).eq('id', c.id)));
+      if (results.some(r => r.error)) throw new Error('Falha ao salvar ordem');
+      toast.success('Ordem dos cases salva');
+    } catch {
+      await fetchAll();
+      toast.error('Não foi possível salvar toda a ordem. Confira os cases e tente novamente.');
+    } finally {
+      ['cases', 'segment-gallery', 'segment-clients', 'produtora-projects'].forEach(key =>
+        queryClient.invalidateQueries({ queryKey: [key] }));
+      setIsReordering(false);
+    }
   };
 
   const open = (c?: CaseRow) => {
@@ -272,11 +291,13 @@ const AdminCases = () => {
             <Button onClick={() => open()}><Plus className="w-4 h-4 mr-2" /> Criar primeiro case</Button>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {list.map((c, idx) => {
+          <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={reorderCases}>
+          <SortableContext items={list.map(c => c.id)} strategy={rectSortingStrategy}>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" aria-busy={isReordering}>
+            {list.map((c) => {
               const cover = c.hero_image_url || resolveVideoCover({ videoUrl: c.hero_media_url, youtubeId: c.hero_youtube_id });
               return (
-                <div key={c.id} className="glass-card overflow-hidden group">
+                <SortableCase key={c.id} id={c.id} title={c.title} disabled={isReordering}>
                   <div className="aspect-video relative bg-muted">
                     {cover ? <img src={cover} alt={c.title} className="w-full h-full object-cover" loading="lazy" /> : <div className="w-full h-full bg-secondary" />}
                     <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
@@ -291,10 +312,6 @@ const AdminCases = () => {
                         <span className="text-xs text-primary uppercase tracking-wider">{c.client_name}</span>
                         <h3 className="font-semibold truncate">{c.title}</h3>
                         <p className="text-xs text-muted-foreground truncate">/cases/{c.slug}</p>
-                      </div>
-                      <div className="flex shrink-0 items-center">
-                        <button onClick={() => moveCase(idx, -1)} disabled={idx === 0} title="Mover para antes" className="p-2 rounded-lg text-muted-foreground hover:text-foreground disabled:opacity-30"><ChevronUp className="w-4 h-4" /></button>
-                        <button onClick={() => moveCase(idx, 1)} disabled={idx === list.length - 1} title="Mover para depois" className="p-2 rounded-lg text-muted-foreground hover:text-foreground disabled:opacity-30"><ChevronDown className="w-4 h-4" /></button>
                       </div>
                       <button
                         onClick={() => toggleField(c.id, 'show_on_home', c.show_on_home)}
@@ -315,10 +332,12 @@ const AdminCases = () => {
                       </span>
                     </div>
                   </div>
-                </div>
+                </SortableCase>
               );
             })}
           </div>
+          </SortableContext>
+          </DndContext>
         )}
       </div>
 
