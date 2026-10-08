@@ -25,7 +25,8 @@ import {
    Wand2,
    Camera
 } from 'lucide-react';
- import { useState } from 'react';
+ import { useContext, useState } from 'react';
+ import { EmbeddedAdminContext } from './EmbeddedAdminContext';
  
  interface AdminLayoutProps {
    children: React.ReactNode;
@@ -33,6 +34,7 @@ import {
  }
  
  const AdminLayout = ({ children, title }: AdminLayoutProps) => {
+   const embedded = useContext(EmbeddedAdminContext);
    const { signOut, user } = useAuth();
    const location = useLocation();
    const navigate = useNavigate();
@@ -89,6 +91,8 @@ import {
      navigate('/admin/login');
    };
  
+   if (embedded) return <div className="min-w-0 p-4">{children}</div>;
+
    return (
      <div className="min-h-screen bg-background flex">
        {/* Mobile overlay */}
