@@ -118,6 +118,28 @@ const CaseDetail = () => {
           </div>
         </section>
 
+        {/* Contexto e serviços */}
+        {(c.context || (c.services && c.services.length > 0)) && (
+          <section className="section-padding">
+            <div className="container-custom grid md:grid-cols-3 gap-10">
+              {c.context && (
+                <div className="md:col-span-2">
+                  <h2 className="text-2xl md:text-4xl font-display font-bold mb-6">Contexto</h2>
+                  <p className="text-muted-foreground text-lg whitespace-pre-wrap">{c.context}</p>
+                </div>
+              )}
+              {c.services && c.services.length > 0 && (
+                <div>
+                  <h3 className="text-sm font-semibold text-primary uppercase tracking-wider mb-4">Serviços realizados</h3>
+                  <ul className="space-y-2 border-t border-border">
+                    {c.services.map(s => <li key={s} className="py-3 border-b border-border">{s}</li>)}
+                  </ul>
+                </div>
+              )}
+            </div>
+          </section>
+        )}
+
         {/* O que fizemos */}
         {(c.challenge || c.strategy || c.solution) && (
           <section className="section-padding">
@@ -197,7 +219,7 @@ const CaseDetail = () => {
         <GlobalCTA
           context={`Case ${c.client_name}`}
           title={<>Quer um case como o da <span className="text-gradient-neon italic">{c.client_name}?</span></>}
-          subtitle="Fale com a Racun e descubra o que podemos construir juntos para a sua marca."
+          subtitle="Solicite uma proposta e descubra o que podemos construir juntos para a sua marca."
         />
       </main>
       <Footer />

@@ -10,6 +10,7 @@ import ImageUpload from '@/components/admin/ImageUpload';
 import VideoInput from '@/components/admin/VideoInput';
 import CaseMediaEditor from '@/components/admin/CaseMediaEditor';
 import CaseAiAssistant from '@/components/admin/CaseAiAssistant';
+import CaseCopyAssistant from '@/components/admin/CaseCopyAssistant';
 import CasePlacementPreview from '@/components/admin/CasePlacementPreview';
 import { toast } from 'sonner';
 import { Plus, Pencil, Trash2, X, Eye, Star, Film, Image as ImageIcon, Save } from 'lucide-react';
@@ -32,6 +33,8 @@ interface CaseRow {
   hero_youtube_id: string | null;
   hero_image_url: string | null;
   challenge: string | null;
+  context?: string | null;
+  services?: string[];
   strategy: string | null;
   solution: string | null;
   results_text: string | null;
@@ -63,6 +66,7 @@ const emptyForm = {
   hero_kind: 'image' as 'image' | 'video',
   hero_media_url: '', hero_image_url: '',
   challenge: '', strategy: '', solution: '',
+  context: '', servicesRaw: '',
   results_text: '',
   metricsRaw: '',
   testimonial_text: '', testimonial_author: '',
@@ -141,6 +145,7 @@ const AdminCases = () => {
         hero_kind: (c.hero_kind === 'video' ? 'video' : 'image'),
         hero_media_url: c.hero_media_url ?? '',
         hero_image_url: c.hero_image_url ?? '',
+        context: c.context ?? '', servicesRaw: (c.services || []).join(', '),
         challenge: c.challenge ?? '', strategy: c.strategy ?? '', solution: c.solution ?? '',
         results_text: c.results_text ?? '',
         metricsRaw: (c.metrics || []).map(m => `${m.label}|${m.value}`).join('\n'),
@@ -185,6 +190,8 @@ const AdminCases = () => {
       hero_media_url: form.hero_media_url || null,
       hero_youtube_id: parseYouTubeId(form.hero_media_url),
       hero_image_url: form.hero_image_url || null,
+      context: form.context || null,
+      services: form.servicesRaw.split(',').map(s => s.trim()).filter(Boolean),
       challenge: form.challenge || null,
       strategy: form.strategy || null,
       solution: form.solution || null,
@@ -407,6 +414,32 @@ const AdminCases = () => {
                   <VideoInput label="Vídeo do hero" value={form.hero_media_url} onChange={(v) => setForm({ ...form, hero_media_url: v })} folder="cases" />
                 ) : null}
                 <ImageUpload label={form.hero_kind === 'video' ? 'Capa (opcional, usa thumb do YouTube se vazia)' : 'Imagem do hero'} value={form.hero_image_url} onChange={(v) => setForm({ ...form, hero_image_url: v })} folder="cases" />
+              </div>
+
+              {/* Contexto e serviços */}
+              <div className="space-y-3 border-t border-border pt-6">
+                <h3 className="font-semibold">Contexto e serviços</h3>
+                <CaseCopyAssistant
+                  clientName={form.client_name}
+                  context={form.context}
+                  services={form.servicesRaw}
+                  results={form.results_text}
+                  onApply={(r) => setForm({
+                    ...form,
+                    subtitle: r.subtitle || form.subtitle,
+                    context: r.context || form.context,
+                    solution: r.presentation || form.solution,
+                    servicesRaw: r.services.length ? r.services.join(', ') : form.servicesRaw,
+                  })}
+                />
+                <div className="space-y-2">
+                  <Label>Contexto</Label>
+                  <Textarea rows={4} value={form.context} onChange={e => setForm({ ...form, context: e.target.value })} placeholder="Quem é o cliente e qual era o cenário." />
+                </div>
+                <div className="space-y-2">
+                  <Label>Serviços realizados (separados por vírgula)</Label>
+                  <Input value={form.servicesRaw} onChange={e => setForm({ ...form, servicesRaw: e.target.value })} placeholder="Vídeo institucional, Fotografia, Gestão de tráfego" />
+                </div>
               </div>
 
               {/* O que fizemos */}

@@ -71,6 +71,7 @@ export type Database = {
           category: string | null
           challenge: string | null
           client_name: string
+          context: string | null
           cover_media_id: string | null
           created_at: string
           display_order: number
@@ -88,6 +89,7 @@ export type Database = {
           segments: string[]
           seo_description: string | null
           seo_title: string | null
+          services: string[]
           show_on_home: boolean
           slug: string
           solution: string | null
@@ -105,6 +107,7 @@ export type Database = {
           category?: string | null
           challenge?: string | null
           client_name: string
+          context?: string | null
           cover_media_id?: string | null
           created_at?: string
           display_order?: number
@@ -122,6 +125,7 @@ export type Database = {
           segments?: string[]
           seo_description?: string | null
           seo_title?: string | null
+          services?: string[]
           show_on_home?: boolean
           slug: string
           solution?: string | null
@@ -139,6 +143,7 @@ export type Database = {
           category?: string | null
           challenge?: string | null
           client_name?: string
+          context?: string | null
           cover_media_id?: string | null
           created_at?: string
           display_order?: number
@@ -156,6 +161,7 @@ export type Database = {
           segments?: string[]
           seo_description?: string | null
           seo_title?: string | null
+          services?: string[]
           show_on_home?: boolean
           slug?: string
           solution?: string | null

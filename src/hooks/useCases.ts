@@ -12,6 +12,8 @@ export interface CaseRow {
   hero_youtube_id: string | null;
   hero_image_url: string | null;
   challenge: string | null;
+  context: string | null;
+  services: string[];
   strategy: string | null;
   solution: string | null;
   results_text: string | null;

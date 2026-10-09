@@ -1,0 +1,1 @@
+ALTER TABLE public.cases ADD COLUMN IF NOT EXISTS context text, ADD COLUMN IF NOT EXISTS services text[] NOT NULL DEFAULT '{}';
